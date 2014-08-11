@@ -1,0 +1,247 @@
+\name{focal.function}
+\alias{focal.function}
+\alias{gapply}
+\alias{local.function}
+\title{Local and Focal Grid Functions}
+\usage{
+  focal.function(in.grid, in.factor.grid, out.grid.prefix,
+    path = NULL, in.path = path, out.path = path, fun,
+    varnames, radius = 0, is.pixel.radius = TRUE,
+    na.strings = "NA", valid.range = c(-Inf, Inf),
+    nodata.values = c(), out.nodata.value,
+    search.mode = c("circle", "square"), digits = 4,
+    hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
+    mw.to.vector = FALSE, mw.na.rm = FALSE, ...)
+
+  gapply(in.grid, fun, varnames, mw.to.vector = TRUE,
+    mw.na.rm = TRUE, ...)
+
+  local.function(...)
+}
+\arguments{
+  \item{in.grid}{file name of input ASCII grid, relative to
+  \code{in.path}}
+
+  \item{in.factor.grid}{optional file name giving a gridded
+  categorical variables defining zones; zone boundaries are
+  used as breaklines for the moving window (see Details)}
+
+  \item{out.grid.prefix}{character string (optional),
+  defining a file name prefix to be used for the output
+  file names; a dash (\code{-}) will separate the prefix
+  and the \code{varnames}}
+
+  \item{path}{path in which to look for \code{in.grid} and
+  write output grid files; see also \code{in.path} and
+  \code{out.path}, which overwrite \code{path} if they are
+  specified}
+
+  \item{in.path}{path in which to look for \code{in.grid}
+  (defaults to \code{path})}
+
+  \item{out.path}{path in which to write output grid files;
+  defaults to \code{path}}
+
+  \item{fun}{a function, or name of a function, to be
+  applied on the moving window; see Details}
+
+  \item{varnames}{character vector specifying the names of
+  the variable(s) returned by \code{fun}; if missing,
+  \code{focal.function} will try to determine the varnames
+  from \code{fun} itself, or from a call to \code{fun} if
+  this is a function (see Details)}
+
+  \item{radius}{numeric value specifying the (circular or
+  square) radius of the moving window; see
+  \code{is.pixel.radius} and \code{search.mode}; note that
+  all data within distance \code{<=radius} will be included
+  in the moving window, not \code{<radius}.}
+
+  \item{is.pixel.radius}{logical: if \code{TRUE} (default),
+  the \code{radius} will be interpreted as a (possibly
+  non-integer) number of pixels; if \code{FALSE}, it is
+  interpreted as a radius measured in the grid (map)
+  units.}
+
+  \item{valid.range}{numeric vector of length 2, specifying
+  minimum and maximum valid values read from input file;
+  all values \code{<valid.range[1]} or
+  \code{>valid.range[1]} will be converted to \code{NA}.}
+
+  \item{nodata.values}{numeric vector: any values from the
+  input grid file that should be converted to \code{NA}, in
+  addition to the nodata value specified in the grid
+  header}
+
+  \item{out.nodata.value}{numeric: value used for storing
+  \code{NA}s in the output file(s); if missing, use the
+  same nodata value as specified in the header of the input
+  grid file}
+
+  \item{na.strings}{passed on to \code{\link{scan}}}
+
+  \item{search.mode}{character, either \code{"circle"}
+  (default) for a circular search window, or
+  \code{"square"} for a squared one.}
+
+  \item{digits}{numeric, specifying the number of digits to
+  be used for output grid file.}
+
+  \item{hdr.digits}{numeric, specifying the number of
+  digits to be used for the header of the output grid file
+  (default: 10; see
+  \code{\link{write.ascii.grid.header}}).}
+
+  \item{dec}{character, specifying the decimal mark to be
+  used for input and output.}
+
+  \item{quiet}{If \code{TRUE}, gives some output
+  (\code{"*"}) after every 10th line of the grid file and
+  when the job is done.}
+
+  \item{nlines}{Number of lines to be processed; useful for
+  testing purposes.}
+
+  \item{mw.to.vector}{logical: Should the content of the
+  moving window be coerced (from a matrix) to a vector?}
+
+  \item{mw.na.rm}{logical: Should \code{NA}s be removed
+  from moving window prior to passing the data to
+  \code{fun}? Only applicable when
+  \code{mw.to.vector=TRUE}.}
+
+  \item{\dots}{Arguments to be passed to \code{fun};
+  \code{local.function}: arguments to be passed to
+  \code{focal.function}.}
+}
+\value{
+  \code{focal.function} and \code{local.function} return
+  the character vector of output file names.
+}
+\description{
+  \code{focal.function} cuts out square or circular moving
+  windows from a grid (matrix) and applies a user-defined
+  matrix function to calculate e.g. a terrain attribute or
+  filter the grid. The function is suitable for large grid
+  files as it can process them row by row.
+  \code{local.function} represents the special case of a
+  moving window of radius 1. Users can define their own
+  functions operating on moving windows, or use simple
+  functions such as \code{median} to define filters.
+}
+\details{
+  \code{focal.function} passes a square matrix of size
+  \code{2*radius+1} to the function \code{fun} if
+  \code{mw.to.vector=FALSE} (default), or a vector of
+  length \code{<=(2*radius+1)^2} if
+  \code{mw.to.vector=TRUE}. This matrix or vector will
+  contain the content of the moving window, which may
+  possibly contain \code{NA}s even if the \code{in.grid}
+  has no nodata values, e.g. due to edge effects. If
+  \code{search.mode="circle"}, values more than
+  \code{radius} units (pixels or grid units, depending on
+  \code{is.pixel.radius}) away from the center pixel /
+  matrix entry will be set to \code{NA}. In addition,
+  \code{valid.range}, \code{nodata.values}, and the nodata
+  values specified in the \code{in.grid} are checked to
+  assign further \code{NA}s to pixels in the moving window.
+  Finally, if \code{in.factor.grid} specifies zones, all
+  pixels in the moving window that belong to a different
+  zone than the center pixel are set to \code{NA}, or, in
+  other words, zone boundaries are used as breaklines.
+
+  The function \code{fun} should return a single numeric
+  value or a numeric vector. As an example, the function
+  \code{\link{resid.minmedmax}} returns the minimum, median
+  and maximum of the difference between the values in the
+  moving window and the value in the center grid cell. In
+  addition to the (first) argument receiving the moving
+  window data, \code{fun} may have additional arguments;
+  the \code{...} argument of \code{focal.function} is
+  passed on to \code{fun}. \code{\link{resid.quantile}} is
+  a function that uses this feature.
+
+  Optionally, \code{fun} should support the following
+  feature: If no argument is passed to it, then it should
+  return a character vector giving variable names to be
+  used for naming the output grids. The call
+  \code{\link{resid.minmedmax}()}, for example, returns
+  \code{c("rmin","rmed","rmax")}; this vector must have the
+  same length as the numeric vector returned when moving
+  window data is passed to the function. This feature is
+  only used if no \code{varnames} argument is provided.
+  Note that the result is currently being
+  \code{\link{abbreviate}}d to a length of 6 characters.
+
+  Input and output file names are built according to the
+  following schemes:
+
+  Input: \code{[<in.path>/]<in.grid>}
+
+  Zones: \code{[<in.path>/]<in.factor.grid>} (if specified)
+
+  Output:
+  \code{[<out.path>/][<out.grid.prefix>-]<varnames>.asc}
+
+  For the input files, \code{.asc} is used as the default
+  file extension, if it is not specified by the user.
+}
+\note{
+  These functions are not very efficient ways of
+  calculating e.g. (focal) terrain attributes compared to
+  for example the SAGA modules, but the idea is that you
+  can easily specify your own functions without starting to
+  mess around with C code. For example try implementing a
+  median filter as a SAGA module... or just use the code
+  shown in the example!
+}
+\examples{
+\dontrun{
+# A simple median filter applied to dem.asc:
+gapply("dem","median",radius=3)
+# Same:
+#focal.function("dem",fun="median",radius=3,mw.to.vector=TRUE,mw.na.rm=TRUE)
+# See how the filter has changed the elevation data:
+d1 = as.vector(read.ascii.grid("dem")$data)
+d2 = as.vector(read.ascii.grid("median")$data)
+hist(d1-d2,br=50)
+}
+# Wind shelter index used by Plattner et al. (2004):
+\dontrun{
+ctrl = wind.shelter.prep(6,-pi/4,pi/12,10)
+focal.function("dem",fun=wind.shelter,control=ctrl,
+    radius=6,search.mode="circle")
+}
+# Or how about this, if "aspect" is local terrain exposure:
+\dontrun{
+gapply("aspect","cos") # how "northerly-exposed" is a pixel?
+gapply("aspect","sin") # how "easterly-exposed" is a pixel?
+# Same result, but faster:
+focal.function("aspect",fun=function(x) c(cos(x),sin(x)), varnames=c("cos","sin"))
+}
+}
+\author{
+  Alexander Brenning
+}
+\references{
+  Brenning, A. (2008): Statistical geocomputing combining R
+  and SAGA: The example of landslide susceptibility
+  analysis with generalized additive models.  In: J.
+  Boehner, T. Blaschke, L. Montanarella (eds.), SAGA -
+  Seconds Out (= Hamburger Beitraege zur Physischen
+  Geographie und Landschaftsoekologie, 19), 23-32.
+  \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+}
+\seealso{
+  \code{\link{multi.focal.function}},
+  \code{\link{multi.local.function}},
+  \code{\link{resid.median}},
+  \code{\link{resid.minmedmax}},
+  \code{\link{relative.position}},
+  \code{\link{resid.quantile}},
+  \code{\link{resid.quartiles}},
+  \code{\link{relative.rank}}, \code{\link{wind.shelter}},
+  \code{\link{create.variable.name}}
+}
+\keyword{spatial}
+

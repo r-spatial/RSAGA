@@ -1,0 +1,110 @@
+\name{rsaga.fill.sinks}
+\alias{rsaga.fill.sinks}
+\title{Fill Sinks}
+\usage{
+  rsaga.fill.sinks(in.dem, out.dem,
+    method = "planchon.darboux.2001", out.flowdir,
+    out.wshed, minslope, ...)
+}
+\arguments{
+  \item{in.dem}{Input: digital elevation model (DEM) as
+  SAGA grid file (default extension: \code{.sgrd}).}
+
+  \item{out.dem}{Output: filled, depression-free DEM (SAGA
+  grid file). Existing files will be overwritten!}
+
+  \item{method}{The depression filling algorithm to be used
+  (character). One of \code{"planchon.darboux.2001"}
+  (default), \code{"wang.liu.2006"}, or
+  \code{"xxl.wang.liu.2006"}.}
+
+  \item{out.flowdir}{(only for \code{"wang.liu.2001"}):
+  Optional output grid file for computed flow directions
+  (see Notes).}
+
+  \item{out.wshed}{(only for \code{"wang.liu.2001"}):
+  Optional output grid file for watershed basins.}
+
+  \item{minslope}{Minimum slope angle (in degree) preserved
+  between adjacent grid cells (default value of \code{0.01}
+  only for \code{method="planchon.darboux.2001"}, otherwise
+  no default).}
+
+  \item{...}{Optional arguments to be passed to
+  \code{\link{rsaga.geoprocessor}}, including the
+  \code{env} RSAGA geoprocessing environment.}
+}
+\value{
+  The type of object returned depends on the \code{intern}
+  argument passed to the \code{\link{rsaga.geoprocessor}}.
+  For \code{intern=FALSE} it is a numerical error code (0:
+  success), or otherwise (default) a character vector with
+  the module's console output.
+
+  The function writes SAGA grid files containing of the
+  depression-free preprocessed DEM, and optionally the flow
+  directions and watershed basins.
+}
+\description{
+  Several methods for filling closed depressions in digital
+  elevation models that would affect hydrological modeling.
+}
+\details{
+  This function bundles three SAGA modules for filling
+  sinks using three different algorithms (\code{method}
+  argument).
+
+  \code{"planchon.darboux.2001"}: The algorithm of Planchon
+  and Darboux (2001) consists of increasing the elevation
+  of pixels in closed depressions until the sink disappears
+  and a mininum slope angle of \code{minslope} (default:
+  \code{0.01} degree) is established.
+
+  \code{"wang.liu.2006"}: This module uses an algorithm
+  proposed by Wang and Liu (2006) to identify and fill
+  surface depressions in DEMs. The method was enhanced to
+  allow the creation of hydrologically sound elevation
+  models, i.e. not only to fill the depressions but also to
+  preserve a downward slope along the flow path.  If
+  desired, this is accomplished by preserving a minimum
+  slope gradient (and thus elevation difference) between
+  cells. This is the fully featured version of the module
+  creating a depression-free DEM, a flow path grid and a
+  grid with watershed basins. If you encounter problems
+  processing large data sets (e.g. LIDAR data) with this
+  module try the basic version (\code{xxl.wang.lui.2006}).
+
+  \code{"xxl.wang.liu.2006"}: This modified algorithm after
+  Wang and Liu (2006) is designed to work on large data
+  sets.
+}
+\note{
+  The flow directions are coded as 0 = north, 1 =
+  northeast, 2 = east, ..., 7 = northwest.
+
+  If \code{minslope=0}, depressions will only be filled
+  until a horizontal surface is established, which may not
+  be helpful for hydrological modeling.
+}
+\author{
+  Alexander Brenning (R interface), Volker Wichmann (SAGA
+  module)
+}
+\references{
+  Planchon, O., and F. Darboux (2001): A fast, simple and
+  versatile algorithm to fill the depressions of digital
+  elevation models. Catena 46: 159-176.
+
+  Wang, L. & H. Liu (2006): An efficient method for
+  identifying and filling surface depressions in digital
+  elevation models for hydrologic analysis and modelling.
+  International Journal of Geographical Information
+  Science, Vol. 20, No. 2: 193-213.
+}
+\seealso{
+  \code{\link{rsaga.sink.removal}},
+  \code{\link{rsaga.sink.route}}.
+}
+\keyword{interface}
+\keyword{spatial}
+

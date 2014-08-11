@@ -1,0 +1,72 @@
+\name{rsaga.close.gaps}
+\alias{rsaga.close.gaps}
+\alias{rsaga.close.one.cell.gaps}
+\title{SAGA Modules Close Gaps and Close One Cell Gaps}
+\usage{
+  rsaga.close.gaps(in.dem, out.dem, threshold = 0.1, ...)
+
+  rsaga.close.one.cell.gaps(in.dem, out.dem, ...)
+}
+\arguments{
+  \item{in.dem}{input: digital elevation model (DEM) as
+  SAGA grid file (default file extension: \code{.sgrd})}
+
+  \item{out.dem}{output: DEM grid file without no-data
+  values (gaps). Existing files will be overwritten!}
+
+  \item{threshold}{tension threshold for adjusting the
+  interpolator (default: 0.1)}
+
+  \item{...}{optional arguments to be passed to
+  \code{\link{rsaga.geoprocessor}}, including the
+  \code{env} RSAGA geoprocessing environment}
+}
+\value{
+  The type of object returned depends on the \code{intern}
+  argument passed to the \code{\link{rsaga.geoprocessor}}.
+  For \code{intern=FALSE} it is a numerical error code (0:
+  success), or otherwise (default) a character vector with
+  the module's console output.
+}
+\description{
+  Close (Interpolate) Gaps
+}
+\details{
+  \code{rsaga.close.one.cell.gaps} only fill gaps whose
+  neighbor grid cells have non-missing data.
+
+  In \code{rsaga.close.gaps}, larger tension thresholds can
+  be used to reduce overshoots and undershoots in the
+  surfaces used to fill (interpolate) the gaps.
+}
+\note{
+  This function uses modules 7 (\code{rsaga.close.gaps} and
+  6 \code{rsaga.close.one.cell.gaps} from the SAGA library
+  \code{grid_tools}.
+
+  SAGA GIS 2.0.5+ has a new additional module \code{Close
+  Gaps with Spline}, which can be accessed using
+  \code{\link{rsaga.geoprocessor}} (currently no R wrapper
+  available). See \code{rsaga.get.usage("grid_tools","Close
+  Gaps with Spline")} or in version 2.1.0+ call
+  \code{rsaga.html.help("grid_tools","Close Gaps with
+  Spline")}.
+}
+\examples{
+\dontrun{
+# using SAGA grids:
+rsaga.close.gaps("rawdem.sgrd","dem.sgrd")
+# using ASCII grids:
+rsaga.esri.wrapper(rsaga.close.gaps,in.dem="rawdem",out.dem="dem")
+}
+}
+\author{
+  Alexander Brenning (R interface), Olaf Conrad (SAGA
+  module)
+}
+\seealso{
+  \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+}
+\keyword{interface}
+\keyword{spatial}
+

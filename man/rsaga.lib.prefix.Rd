@@ -1,0 +1,42 @@
+\name{rsaga.lib.prefix}
+\alias{rsaga.lib.prefix}
+\title{Determine prefix for SAGA GIS library names}
+\usage{
+  rsaga.lib.prefix(env)
+}
+\arguments{
+  \item{env}{list, setting up a SAGA geoprocessing
+  environment as created by \code{\link{rsaga.env}}.}
+}
+\value{
+  A character string, either \code{""} or \code{"lib"}.
+}
+\description{
+  Internal function that determines the possible prefix for
+  SAGA GIS library names - relevant for non-Windows SAGA
+  GIS pre-2.1.0.
+}
+\details{
+  Some non-Windows versions of \code{saga_cmd} require
+  library names with a \code{"lib"} prefix, e.g.
+  \code{libio_grid} instead of \code{io_grid}. This
+  function, which is called by \code{\link{rsaga.env}}
+  tries to guess this behaviour based on the operating
+  system and SAGA GIS version.
+}
+\examples{
+\dontrun{
+env = rsaga.env()
+# obtained by a call to rsaga.lib.prefix:
+env$lib.prefix
+
+# more explicitly:
+rsaga.lib.prefix(env=env)
+}
+}
+\seealso{
+  \code{\link{rsaga.env}}
+}
+\keyword{interface}
+\keyword{spatial}
+

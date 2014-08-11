@@ -1,0 +1,116 @@
+\name{rsaga.wetness.index}
+\alias{rsaga.wetness.index}
+\title{SAGA Modules SAGA Wetness Index}
+\usage{
+  rsaga.wetness.index(in.dem, out.wetness.index, out.carea,
+    out.cslope, out.mod.carea, suction, area.type,
+    slope.type, slope.min, slope.offset, slope.weight,
+    t.param, env = rsaga.env(), ...)
+}
+\arguments{
+  \item{in.dem}{input: digital elevation model (DEM) as
+  SAGA grid file (default file extension: \code{.sgrd})}
+
+  \item{out.wetness.index}{output file (optional): wetness
+  index grid file name. Existing files of the same name
+  will be overwritten!}
+
+  \item{out.carea}{output file (optional): catchment area
+  grid file name}
+
+  \item{out.cslope}{output file (optional): catchment slope
+  grid file name}
+
+  \item{out.mod.carea}{output file (optional): file name of
+  modified catchment area grid}
+
+  \item{suction}{SAGA GIS 2.1.0+: positive numeric value
+  (optional): the lower this value is the stronger is the
+  suction effect; defaults to a value of 10 (more detailed
+  information is currently not available in the SAGA GIS
+  documentation}
+
+  \item{area.type}{character or numeric (optional): type of
+  area: \code{"absolute"} (or numeric code 0): absolute
+  catchment area; \code{"square root"} (code 1; the
+  default): square root of catchment area;
+  \code{"specific"} (code 2): specific catchment area}
+
+  \item{slope.type}{character or numeric (optional): type
+  of slope: \code{"local"} (or numeric code 0): local
+  slope; \code{"catchment"} (or code 1; the default):
+  catchment slope.}
+
+  \item{slope.min}{numeric (optional): minimum slope;
+  default: 0}
+
+  \item{slope.offset}{numeric (optional): offset slope;
+  default: 0.1}
+
+  \item{slope.weight}{numeric (optional): weighting factor
+  for slope in index calculation; default: 1}
+
+  \item{t.param}{SAGA GIS up to version 2.0.8: positive
+  numeric value (optional): undocumented}
+
+  \item{env}{A SAGA geoprocessing environment, see
+  \code{\link{rsaga.env}}.)}
+
+  \item{...}{optional arguments to be passed to
+  \code{\link{rsaga.geoprocessor}}}
+}
+\value{
+  The type of object returned depends on the \code{intern}
+  argument passed to the \code{\link{rsaga.geoprocessor}}.
+  For \code{intern=FALSE} it is a numerical error code (0:
+  success), or otherwise (the default) a character vector
+  with the module's console output.
+}
+\description{
+  Calculate the SAGA Wetness Index (SWI), a modified
+  topographic wetness index (TWI)
+}
+\details{
+  The SAGA Wetness Index is similar to the Topographic
+  Wetness Index (TWI), but it is based on a modified
+  catchment area calculation (\code{out.mod.carea}), which
+  does not treat the flow as a thin film as done in the
+  calculation of catchment areas in conventional
+  algorithms. As a result, the SWI tends to assign a more
+  realistic, higher potential soil wetness than the TWI to
+  grid cells situated in valley floors with a small
+  vertical distance to a channel.
+
+  This module and its arguments changed substantially from
+  SAGA GIS 2.0.8 to version 2.1.0. It appears to me that
+  the new algorithm is similar (but not identical) to the
+  old one when using \code{area.type="absolute"} and
+  \code{slope.type="local"} but I haven't tried out all
+  possible options. This help file will be updated as soon
+  as additional documentation becomes available.
+}
+\examples{
+\dontrun{
+# using SAGA grids:
+rsaga.wetness.index("dem.sgrd","swi.sgrd")
+}
+}
+\author{
+  Alexander Brenning (R interface), Juergen Boehner and
+  Olaf Conrad (SAGA module)
+}
+\references{
+  Boehner, J., Koethe, R. Conrad, O., Gross, J., Ringeler,
+  A., Selige, T. (2002): Soil Regionalisation by Means of
+  Terrain Analysis and Process Parameterisation. In:
+  Micheli, E., Nachtergaele, F., Montanarella, L. (ed.):
+  Soil Classification 2001. European Soil Bureau, Research
+  Report No. 7, EUR 20398 EN, Luxembourg. pp.213-222.
+}
+\seealso{
+  \code{\link{rsaga.parallel.processing}},
+  \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+}
+\keyword{interface}
+\keyword{spatial}
+

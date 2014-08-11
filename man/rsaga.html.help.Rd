@@ -1,0 +1,55 @@
+\name{rsaga.html.help}
+\alias{rsaga.html.help}
+\title{HTML help on a SAGA module or library}
+\usage{
+  rsaga.html.help(lib, module = NULL,
+    use.program.folder = TRUE, env = rsaga.env(), ...)
+}
+\arguments{
+  \item{lib}{name of the SAGA library, or one of the
+  \code{rsaga.} module functions such as
+  \code{\link{rsaga.hillshade}}}
+
+  \item{module}{name or numeric identifier of SAGA module
+  in library \code{lib}; \code{module=NULL} takes you to
+  the main help page of the SAGA library \code{lib}}
+
+  \item{use.program.folder}{logical; if \code{TRUE} (the
+  default), attempt to write SAGA GIS documentation to a
+  \code{"help"} subfolder of \code{env$path}; the
+  \code{"help"} folder is created if it doesn't exist. If
+  \code{FALSE}, create SAGA GIS documentation files in this
+  R session's temporary folder as obtained using
+  \code{tempdir()}}
+
+  \item{env}{a SAGA geoprocessing environment as created by
+  \code{\link{rsaga.env}}}
+
+  \item{...}{additional arguments to
+  \code{\link{browseURL}}}
+}
+\description{
+  This function opens SAGA's HTML documentation for the
+  specified library or module. Works with SAGA GIS
+  2.1.0(+), for earlier versions a web page with the SAGA
+  GIS wiki is displayed.
+}
+\details{
+  Requires SAGA GIS 2.1.0(+), with earlier versions use
+  \code{\link{rsaga.get.usage}}.
+}
+\examples{
+\dontrun{
+# Requires SAGA GIS 2.1.0+:
+rsaga.html.help("io_grid")
+rsaga.html.help("io_grid",0)
+rsaga.html.help("io_grid","Import ESRI Arc/Info Grid")
+}
+}
+\seealso{
+  \code{\link{rsaga.get.usage}},
+  \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+}
+\keyword{interface}
+\keyword{utilities}
+

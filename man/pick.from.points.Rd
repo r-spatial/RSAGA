@@ -1,0 +1,320 @@
+\name{pick.from.shapefile}
+\alias{internal.pick.from.ascii.grid}
+\alias{pick.from.ascii.grid}
+\alias{pick.from.ascii.grids}
+\alias{pick.from.points}
+\alias{pick.from.saga.grid}
+\alias{pick.from.shapefile}
+\title{Pick Variable from Spatial Dataset}
+\usage{
+  pick.from.shapefile(data, shapefile, X.name = "x",
+    Y.name = "y", ...)
+
+  pick.from.points(data, src, pick,
+    method = c("nearest.neighbour", "krige"),
+    set.na = FALSE, radius = 200, nmin = 0, nmax = 100,
+    sill = 1, range = radius, nugget = 0,
+    model = vgm(sill - nugget, "Sph", range = range, nugget = nugget),
+    log = rep(FALSE, length(pick)), X.name = "x",
+    Y.name = "y", cbind = TRUE)
+
+  internal.pick.from.ascii.grid(data, file, path = NULL,
+    varname = NULL, prefix = NULL,
+    method = c("nearest.neighbour", "krige"),
+    nodata.values = c(-9999, -99999), at.once,
+    quiet = TRUE, X.name = "x", Y.name = "y", nlines = Inf,
+    cbind = TRUE, range, radius, na.strings = "NA", ...)
+
+  pick.from.ascii.grids(data, file, path = NULL,
+    varname = NULL, prefix = NULL, cbind = TRUE,
+    quiet = TRUE, ...)
+
+  pick.from.ascii.grid(data, file, path = NULL,
+    varname = NULL, prefix = NULL,
+    method = c("nearest.neighbour", "krige"), cbind = TRUE,
+    parallel = FALSE, nsplit, quiet = TRUE, ...)
+
+  pick.from.saga.grid(data, filename, path, varname,
+    prec = 7, show.output.on.console = FALSE,
+    env = rsaga.env(), ...)
+}
+\arguments{
+  \item{data}{data.frame giving the coordinates (in columns
+  specified by \code{X.name, Y.name}) of point locations at
+  which to interpolate the specified variables or grid
+  values}
+
+  \item{src}{data.frame}
+
+  \item{shapefile}{point shapefile}
+
+  \item{pick}{variables to be picked (interpolated) from
+  \code{src}; if missing, use all available variables,
+  except those specified by \code{X.name} and
+  \code{Y.name}}
+
+  \item{method}{interpolation method to be used; uses a
+  partial match to the alternatives
+  \code{"nearest.neighbor"} (currently the default) and
+  \code{"krige"}}
+
+  \item{set.na}{logical: if a column with a name specified
+  in \code{pick} already exists in \code{data}, how should
+  it be dealt with? \code{set.na=FALSE} (default) only
+  overwrites existing data if the interpolator yields a
+  non-\code{NA} result; \code{set.na=TRUE} passes \code{NA}
+  values returned by the interpolator on to the results
+  data.frame}
+
+  \item{radius}{numeric value specifying the radius of the
+  local neighborhood to be used for interpolation; defaults
+  to 200 map units (presumably meters), or, in the
+  functions for grid files, \code{2.5*cellsize}.}
+
+  \item{nmin}{numeric, for \code{method="krige"} only: see
+  \code{\link[gstat]{krige}} function in package
+  \pkg{gstat}}
+
+  \item{nmax}{numeric, for \code{method="krige"} only: see
+  \code{\link[gstat]{krige}} function in package
+  \pkg{gstat}}
+
+  \item{sill}{numeric, for \code{method="krige"} only: the
+  overall sill parameter to be used for the variogram}
+
+  \item{range}{numeric, for \code{method="krige"} only: the
+  variogram range}
+
+  \item{nugget}{numeric, for \code{method="krige"} only:
+  the nugget effect}
+
+  \item{model}{for \code{method="krige"} only: the
+  variogram model to be used for interpolation; defaults to
+  a spherical variogram with parameters specified by the
+  \code{range}, \code{sill}, and \code{nugget} arguments;
+  see \code{\link[gstat]{vgm}} in package \pkg{gstat} for
+  details}
+
+  \item{log}{logical vector, specifying for each variable
+  in \code{pick} if interpolation should take place on the
+  logarithmic scale (default: \code{FALSE})}
+
+  \item{X.name}{name of the variable containing the x
+  coordinates}
+
+  \item{Y.name}{name of the variable containing the y
+  coordinates}
+
+  \item{cbind}{logical: shoud the new variables be added to
+  the input data.frame (\code{cbind=TRUE}, the default), or
+  should they be returned as a separate vector or
+  data.frame? \code{cbind=FALSE}}
+
+  \item{file}{file name (relative to \code{path}, default
+  file extension \code{.asc}) of an ASCII grid from which
+  to pick a variable, or an open connection to such a file}
+
+  \item{path}{optional path to \code{file}}
+
+  \item{varname}{character string: a variable name for the
+  variable interpolated from grid file \code{file} in
+  \code{pick.from.*.grid}; if missing, variable name will
+  be determined from \code{file}name by a call to
+  \code{\link{create.variable.name}}}
+
+  \item{prefix}{an optional prefix to be added to the
+  \code{varname}}
+
+  \item{nodata.values}{numeric vector specifying grid
+  values that should be converted to \code{NA}; in addition
+  to the values specified here, the nodata value given in
+  the input grid's header will be used}
+
+  \item{at.once}{logical: should the grid be read as a
+  whole or line by line? \code{at.once=FALSE} is useful for
+  processing large grids that do not fit into memory; the
+  argument is currently by default \code{FALSE} for
+  \code{method="nearest.neighbour"}, and it currently MUST
+  be \code{TRUE} for all other methods (in these cases,
+  \code{TRUE} is the default value); piecewise processing
+  with \code{at.once=FALSE} is always faster than
+  processing the whole grid \code{at.once}}
+
+  \item{quiet}{logical: provide information on the progress
+  of grid processing on screen? (only relevant if
+  \code{at.once=FALSE} and
+  \code{method="nearest.neighbour"})}
+
+  \item{nlines}{numeric: stop after processing
+  \code{nlines} lines of the input grid; useful for testing
+  purposes}
+
+  \item{filename}{character: name of a SAGA grid file,
+  default extension \code{.sgrd}}
+
+  \item{prec}{numeric, specifying the number of digits to
+  be used in converting a SAGA grid to an ASCII grid in
+  \code{pick.from.saga.grid}}
+
+  \item{na.strings}{passed on to \code{\link{scan}}}
+
+  \item{env}{list: RSAGA geoprocessing environment created
+  by \code{\link{rsaga.env}}}
+
+  \item{show.output.on.console}{a logical (default:
+  \code{FALSE}), indicates whether to capture the output of
+  the command and show it on the R console (see
+  \code{\link{system}}, \code{\link{rsaga.geoprocessor}}).}
+
+  \item{nsplit}{split the data.frame \code{data} in
+  \code{nsplit} disjoint subsets in order to increase
+  efficiency by using \code{\link[plyr]{ddply}} in package
+  \pkg{plyr}. The default seems to perform well in many
+  situations.}
+
+  \item{parallel}{logical (default: \code{FALSE}): enable
+  parallel processing; requires additional packages such as
+  \pkg{doSNOW} or \pkg{doMC}. See example below and
+  \code{\link[plyr]{ddply}}}
+
+  \item{...}{arguments to be passed to
+  \code{pick.from.points}, and to
+  \code{internal.pick.from.ascii.grid} in the case of
+  \code{pick.from.ascii.grid}}
+}
+\value{
+  If \code{cbind=TRUE}, columns with the new, interpolated
+  variables are added to the input data.frame \code{data}.
+
+  If \code{cbind=FALSE}, a data.frame only containing the
+  new variables is returned (possibly coerced to a vector
+  if only one variable is processed).
+}
+\description{
+  These functions pick (i.e. interpolate without worrying
+  too much about theory) values of a spatial variables from
+  a data stored in a data.frame, a point shapefile, or an
+  ASCII or SAGA grid, using nearest neighbor or kriging
+  interpolation. \code{pick.from.points} and
+  \code{[internal.]pick.from.ascii.grid} are the core
+  functions that are called by the different wrappers.
+}
+\details{
+  \code{pick.from.points} interpolates the variables
+  defined by \code{pick} in the \code{src} data.frame to
+  the locations provided by the \code{data} data.frame.
+  Only nearest neighbour and ordinary kriging interpolation
+  are currently available. This function is intended for
+  'data-rich' situations in which not much thought needs to
+  be put into a geostatistical analysis of the spatial
+  structure of a variable. In particular, this function is
+  supposed to provide a simple, 'quick-and-dirty' interface
+  for situations where the \code{src} data points are very
+  densely distributed compared to the \code{data}
+  locations.
+
+  \code{pick.from.shapefile} is a front-end of
+  \code{pick.from.points} for point shapefiles.
+
+  \code{pick.from.ascii.grid} retrieves data values from an
+  ASCII raster file using either nearest neighbour or
+  ordinary kriging interpolation. The latter may not be
+  possible for large raster data sets because the entire
+  grid needs to be read into an R matrix.
+  Split-apply-combine strategies are used to improve
+  efficiency and allow for parallelization.
+
+  The optional parallelization of
+  \code{pick.from.ascii.grid} computation requires the use
+  of a \emph{parallel backend} package such as \pkg{doSNOW}
+  or \pkg{doMC}, and the parallel backend needs to be
+  registered before calling this function with
+  \code{parallel=TRUE}. The example section provides an
+  example using \pkg{doSNOW} on Windows. I have seen 25-40%
+  reduction in processing time by parallelization in some
+  examples that I ran on a dual core Windows computer.
+
+  \code{pick.from.ascii.grids} performs multiple
+  \code{pick.from.ascii.grid} calls. File \code{path} and
+  \code{prefix} arguments may be specific to each
+  \code{file} (i.e. each may be a character vector), but
+  all interpolation settings will be the same for each
+  \code{file}, limiting the flexibility a bit compared to
+  individual \code{pick.from.ascii.grid} calls by the user.
+  \code{pick.from.ascii.grids} currently processes the
+  files sequentially (i.e. parallelization is limited to
+  the \code{pick.from.ascii.grid} calls within this
+  function).
+
+  \code{pick.from.saga.grid} is the equivalent to
+  \code{pick.from.ascii.grid} for SAGA grid files. It
+  simply converts the SAGA grid \code{file} to a
+  (temporary) ASCII raster file and applies
+  \code{pick.from.ascii.grid}.
+
+  \code{internal.pick.from.ascii.grid} is an internal
+  'workhorse' function that by itself would be very
+  inefficient for large data sets \code{data}. This
+  function is called by \code{pick.from.ascii.grid}, which
+  uses a split-apply-combine strategy implemented in the
+  \pkg{plyr} package.
+}
+\note{
+  \code{method="krige"} requires the \pkg{gstat} package.
+
+  \code{pick.from.shapefile} requires the \pkg{shapefiles}
+  package.
+
+  The nearest neighbour interpolation currently randomly
+  breaks ties if \code{pick.from.points} is used, and in a
+  deterministic fashion (rounding towards greater grid
+  indices, i.e. toward south and east) in the grid
+  functions.
+}
+\examples{
+\dontrun{
+# assume that 'dem' is an ASCII grid and d a data.frame with variables x and y
+pick.from.ascii.grid(d, "dem")
+# parallel processing on Windows using the doSNOW package:
+require(doSNOW)
+registerDoSNOW(cl <- makeCluster(2, type = "SOCK")) # DualCore processor
+pick.from.ascii.grid(d, "dem", parallel = TRUE)
+# produces two (ignorable) warning messages when using doSNOW
+# typically 25-40\% faster than the above on my DualCore notebook
+stopCluster(cl)
+}
+
+\dontrun{
+# use the meuse data for some tests:
+require(gstat)
+data(meuse)
+data(meuse.grid)
+meuse.nn = pick.from.points(data=meuse.grid, src=meuse,
+    pick=c("cadmium","copper","elev"), method="nearest.neighbour")
+meuse.kr = pick.from.points(data=meuse.grid, src=meuse,
+    pick=c("cadmium","copper","elev"), method="krige", radius=100)
+# it does make a difference:
+plot(meuse.kr$cadmium,meuse.nn$cadmium)
+plot(meuse.kr$copper,meuse.nn$copper)
+plot(meuse.kr$elev,meuse.nn$elev)
+}
+}
+\author{
+  Alexander Brenning
+}
+\references{
+  Brenning, A. (2008): Statistical geocomputing combining R
+  and SAGA: The example of landslide susceptibility
+  analysis with generalized additive models. In: J.
+  Boehner, T. Blaschke, L. Montanarella (eds.), SAGA -
+  Seconds Out (= Hamburger Beitraege zur Physischen
+  Geographie und Landschaftsoekologie, 19), 23-32.
+  \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+}
+\seealso{
+  \code{\link{grid.to.xyz}}, %\code{\link{vgm}},
+  \code{\link{krige}}, \code{\link{read.ascii.grid}},
+  \code{\link{write.ascii.grid}}
+}
+\keyword{spatial}
+
