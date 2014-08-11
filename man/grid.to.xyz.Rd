@@ -1,0 +1,46 @@
+\name{grid.to.xyz}
+\alias{grid.to.xyz}
+\title{Convert Grid Matrix to (x,y,z) data.frame}
+\usage{
+  grid.to.xyz(data, header, varname = "z",
+    colnames = c("x", "y", varname))
+}
+\arguments{
+  \item{data}{grid data: either a grid data matrix, or a
+  list with components \code{data} (a matrix with the grid
+  data) and \code{header} (the grid header information);
+  see \code{\link{read.ascii.grid}} for details}
+
+  \item{header}{optional list giving grid header
+  information; see \code{\link{read.ascii.grid}} for
+  details}
+
+  \item{varname}{character: name to be assigned to the
+  column with the z values in the output data.frame}
+
+  \item{colnames}{names to be given to the columns
+  corresponding to the x and y coordinates and the grid
+  variable in the output data.frame}
+}
+\value{
+  a data.frame with three columns (names are specified in
+  the \code{colnames} argument) giving the x and y
+  coordinates and the attribute values at the locations
+  given by the grid \code{data}.
+}
+\description{
+  Convert a grid matrix to a (x,y,z) data.frame.
+}
+\examples{
+\dontrun{
+d = read.ascii.grid("dem")
+xyz = grid.to.xyz(d,varname="elevation")
+str(xyz)
+}
+}
+\seealso{
+  \code{\link{read.ascii.grid}},
+  \code{\link{pick.from.ascii.grid}}
+}
+\keyword{spatial}
+

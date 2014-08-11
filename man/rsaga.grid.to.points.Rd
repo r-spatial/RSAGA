@@ -1,0 +1,78 @@
+\name{rsaga.grid.to.points}
+\alias{rsaga.grid.to.points}
+\alias{rsaga.grid.to.points.randomly}
+\title{Convert SAGA grid file to point shapefile}
+\usage{
+  rsaga.grid.to.points(in.grids, out.shapefile,
+    in.clip.polygons, exclude.nodata = TRUE,
+    type = "nodes", env = rsaga.env(), ...)
+
+  rsaga.grid.to.points.randomly(in.grid, out.shapefile,
+    freq, ...)
+}
+\arguments{
+  \item{in.grids}{Input: names of (possibly several) SAGA
+  GIS grid files to be converted into a point shapefile.}
+
+  \item{in.grid}{Input: SAGA grid file from which to
+  sample.}
+
+  \item{out.shapefile}{Output: point shapefile (default
+  extension: \code{.shp}). Existing files will be
+  overwritten!}
+
+  \item{in.clip.polygons}{optional polygon shapefile to be
+  used for clipping/masking an area}
+
+  \item{exclude.nodata}{logical (default: \code{TRUE}):
+  skip 'nodata' grid cells?}
+
+  \item{type}{character string: \code{"nodes"}: create
+  point shapefile of grid center points; \code{"cells"}
+  (only supported by SAGA GIS 2.0.6+): create polygon
+  shapefile with grid cell boundaries}
+
+  \item{freq}{integer >=1: sampling frequency: on average 1
+  out of 'freq' grid cells are selected}
+
+  \item{env}{RSAGA geoprocessing environment created by
+  \code{\link{rsaga.env}}; required by
+  \code{rsaga.grid.to.points} to determine
+  version-dependent SAGA module name and arguments}
+
+  \item{...}{Optional arguments to be passed to
+  \code{\link{rsaga.geoprocessor}}}
+}
+\description{
+  Convert SAGA grid file to point (or polygon) shapefile -
+  either completely or only a random sample of grid cells.
+}
+\note{
+  These functions use modules \code{Grid Values to Shapes}
+  (pre-2.0.6 name: \code{Grid Values to Points}) and
+  \code{Grid Values to Points (randomly)} in SAGA library
+  \code{shapes_grid}.
+
+  The SAGA 2.0.6+ module \code{Grid Values to Shapes} is
+  more flexible than the earlier versions as it allows to
+  create grid cell polygons instead of center points (see
+  argument \code{type}).
+}
+\examples{
+\dontrun{
+# one point per grid cell, exclude nodata areas:
+rsaga.grid.to.points("dem", "dempoints")
+# take only every 20th point, but to not exclude nodata areas:
+rsaga.grid.to.points.randomly("dem", "dempoints20", freq = 20)
+}
+}
+\author{
+  Alexander Brenning (R interface), Olaf Conrad (SAGA
+  modules)
+}
+\seealso{
+  \code{\link{rsaga.add.grid.values.to.points}}
+}
+\keyword{interface}
+\keyword{spatial}
+

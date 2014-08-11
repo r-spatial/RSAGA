@@ -1,0 +1,290 @@
+\name{multi.focal.function}
+\alias{multi.focal.function}
+\alias{multi.local.function}
+\title{Local and Focal Grid Function with Multiple Grids as Inputs}
+\usage{
+  multi.focal.function(in.grids, in.grid.prefix,
+    in.factor.grid, out.grid.prefix, path = NULL,
+    in.path = path, out.path = path, fun, in.varnames,
+    out.varnames, radius = 0, is.pixel.radius = TRUE,
+    na.strings = "NA", valid.ranges, nodata.values = c(),
+    out.nodata.value, search.mode = c("circle", "square"),
+    digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE,
+    nlines = Inf, mw.to.vector = FALSE, mw.na.rm = FALSE,
+    pass.location = FALSE, ...)
+
+  multi.local.function(in.grids, in.grid.prefix,
+    out.grid.prefix, path = NULL, in.path = path,
+    out.path = path, fun, in.varnames, out.varnames,
+    na.strings = "NA", valid.ranges, nodata.values = c(),
+    out.nodata.value, digits = 4, hdr.digits = 10,
+    dec = ".", quiet = TRUE, nlines = Inf,
+    na.action = na.exclude, pass.location = FALSE, ...)
+}
+\arguments{
+  \item{in.grids}{character vector: file names of input
+  ASCII grids, relative to \code{in.path};
+  \code{in.grid.prefix} will be used as a prefix to the
+  file name if specified; default file extension:
+  \code{.asc}}
+
+  \item{in.factor.grid}{optional file name giving a gridded
+  categorical variables defining zones; zone boundaries are
+  used as breaklines for the moving window (see Details)}
+
+  \item{in.grid.prefix}{character string (optional),
+  defining a file name prefix to be used for the input file
+  names; a dash (\code{-}) will separate the prefix and the
+  \code{in.varnames}}
+
+  \item{out.grid.prefix}{character string (optional),
+  defining a file name prefix to be used for the output
+  file names; a dash (\code{-}) will separate the prefix
+  and the \code{out.varnames}}
+
+  \item{path}{path in which to look for \code{in.grids} and
+  write output grid files; see also \code{in.path} and
+  \code{out.path}, which overwrite \code{path} if they are
+  specified}
+
+  \item{in.path}{path in which to look for \code{in.grids}
+  (defaults to \code{path})}
+
+  \item{out.path}{path in which to write output grid files;
+  defaults to \code{path}}
+
+  \item{fun}{a function, or name of a function, to be
+  applied on the moving window; see Details; \code{fun} is
+  expected to accept named arguments with the names given
+  by \code{in.varnames}; \code{\link{grid.predict}} is a
+  wrapper function that can be used for applying a model's
+  \code{predict} method to a stack of grids; see Details.
+  In \code{multi.local.function}, \code{fun} must be able
+  to process arguments that are vectors of equal length
+  (e.g., a vector of 50 slope angles, another vector of 50
+  elevation values, etc.).}
+
+  \item{in.varnames}{character vector: names of the
+  variables corresponding to the \code{in.grids}; if
+  missing, same as \code{in.grids}; if specified, must have
+  the same length and order as \code{in.grids}}
+
+  \item{out.varnames}{character vector specifying the
+  name(s) of the variable(s) returned by \code{fun}; if
+  missing, \code{multi.focal.function} will try to
+  determine the varnames from \code{fun} itself, or or from
+  a call to \code{fun} if this is a function (see Details)}
+
+  \item{radius}{numeric value specifying the (circular or
+  square) radius of the moving window; see
+  \code{is.pixel.radius} and \code{search.mode}; note that
+  all data within distance \code{<=radius} will be included
+  in the moving window, not \code{<radius}.}
+
+  \item{is.pixel.radius}{logical: if \code{TRUE} (default),
+  the \code{radius} will be interpreted as a (possibly
+  non-integer) number of pixels; if \code{FALSE}, it is
+  interpreted as a radius measured in the grid (map)
+  units.}
+
+  \item{valid.ranges}{optional list of length
+  \code{length(in.grids)} with numeric vector of length 2,
+  specifying minimum and maximum valid values read from
+  input file; all values \code{<valid.ranges[[i]][1]} or
+  \code{>valid.ranges[[i]][1]} will be converted to
+  \code{NA}.}
+
+  \item{nodata.values}{numeric vector: any values from the
+  input grid file that should be converted to \code{NA}, in
+  addition to the nodata value specified in the grid
+  header}
+
+  \item{out.nodata.value}{numeric: value used for storing
+  \code{NA}s in the output file(s); if missing, use the
+  same nodata value as specified in the header of the input
+  grid file}
+
+  \item{search.mode}{character, either \code{"circle"}
+  (default) for a circular search window, or
+  \code{"square"} for a squared one.}
+
+  \item{digits}{numeric, specifying the number of digits to
+  be used for output grid file.}
+
+  \item{hdr.digits}{numeric, specifying the number of
+  digits to be used for the header of the output grid file
+  (default: 10; see
+  \code{\link{write.ascii.grid.header}}).}
+
+  \item{dec}{character, specifying the decimal mark to be
+  used for input and output.}
+
+  \item{quiet}{If \code{FALSE}, gives some output
+  (\code{"*"}) after every 10th line of the grid file and
+  when the job is done.}
+
+  \item{nlines}{Number of lines to be processed; useful for
+  testing purposes.}
+
+  \item{na.action}{function: determines if/how \code{NA}
+  values are omitted from the stack of input variables; use
+  \code{\link{na.exclude}} (default) or
+  \code{\link{na.pass}} if \code{fun} can handle \code{NA}
+  values correctly}
+
+  \item{mw.to.vector}{logical: Should the content of the
+  moving window be coerced (from a matrix) to a vector?}
+
+  \item{mw.na.rm}{logical: Should \code{NA}s be removed
+  from moving window prior to passing the data to
+  \code{fun}? Only applicable when
+  \code{mw.to.vector=TRUE}.}
+
+  \item{pass.location}{logical: Should the x,y coordinates
+  of grid points (center of grid cells) be passed to
+  \code{fun}? If \code{TRUE}, two additional arguments
+  named arguments \code{x} and \code{y} are passed to
+  \code{fun}; NOTE: This currently only works for
+  \code{radius=0}, otherwise a warning is produced and
+  \code{pass.location} is reset to \code{FALSE}.}
+
+  \item{na.strings}{passed on to \code{\link{scan}}}
+
+  \item{\dots}{Arguments to be passed to \code{fun};
+  \code{local.function}: arguments to be passed to
+  \code{focal.function}.}
+}
+\value{
+  \code{multi.focal.function} returns the character vector
+  of output file names.
+}
+\description{
+  \code{multi.focal.function} cuts out square or circular
+  moving windows from a stack of grids (matrices) and
+  applies a user-defined matrix function that takes
+  multiple arguments to this data.
+  \code{multi.local.function} is a more efficiently coded
+  special case of moving windows of size 0, i.e. functions
+  applied to individual grid cells of a stack of grids.
+  This is especially useful for applying \code{predict}
+  methods of statistical models to a stack of grids
+  containing the explanatory variables (see Examples and
+  \code{\link{grid.predict}}). The function is suitable for
+  large grid files as it can process them row by row; but
+  it may be slow because one call to the focal function is
+  generated for each grid cell.
+}
+\details{
+  \code{multi.local.function} is probably most useful for
+  applying the \code{predict} method of a fitted model to a
+  grids representing the predictor variables. An example is
+  given below and in more detail in Brenning (2008) (who
+  used \code{multi.focal.function} for the same purpose);
+  see also \code{\link{grid.predict}}.
+
+  \code{multi.local.function} is essentially the same as
+  \code{multi.focal.function} for \code{radius=0}, but
+  coded MUCH more efficiently. (The relevant code will
+  eventually migrate into \code{multi.focal.function} as
+  well, but requires further testing.) Applying a GAM to
+  the data set of Brenning (2008) takes about 1/100th the
+  time with \code{multi.local.function} compared to
+  \code{multi.focal.function}.
+
+  \code{multi.focal.function} extends
+  \code{\link{focal.function}} by allowing multiple input
+  grids to be passed to the focal function \code{fun}
+  operating on moving windows. It passes square matrices of
+  size \code{2*radius+1} to the function \code{fun} if
+  \code{mw.to.vector=FALSE} (default), or a vector of
+  length \code{<=(2*radius+1)^2} if
+  \code{mw.to.vector=TRUE}; one such matrix or vector per
+  input grid will be passed to \code{fun} as an argument
+  whose name is specified by \code{in.varnames}.
+
+  These matrices or vectors will contain the content of the
+  moving window, which may possibly contain \code{NA}s even
+  if the \code{in.grid} has no nodata values, e.g. due to
+  edge effects. If \code{search.mode="circle"}, values more
+  than \code{radius} units (pixels or grid units, depending
+  on \code{is.pixel.radius}) away from the center pixel /
+  matrix entry will be set to \code{NA}. In addition,
+  \code{valid.range}, \code{nodata.values}, and the nodata
+  values specified in the \code{in.grid} are checked to
+  assign further \code{NA}s to pixels in the moving window.
+  Finally, if \code{in.factor.grid} specifies zones, all
+  pixels in the moving window that belong to a different
+  zone than the center pixel are set to \code{NA}, or, in
+  other words, zone boundaries are used as breaklines.
+
+  The function \code{fun} should return a single numeric
+  value or a numeric vector, such as a regression result or
+  a vector of class probabilities returned by a soft
+  classifier. In addition to the named arguments receiving
+  the moving window data, \code{fun} may have additional
+  arguments; the \code{...} argument of
+  \code{focal.function} is passed on to \code{fun}.
+  \code{\link{grid.predict}} uses this feature.
+
+  Optionally, \code{fun} should support the following
+  feature: If no argument is passed to it, then it should
+  return a character vector giving variable names to be
+  used for naming the output grids.
+
+  For the input files, \code{.asc} is used as the default
+  file extension, if it is not specified by the user.
+
+  See \code{\link{focal.function}} for details.
+}
+\note{
+  \code{multi.focal.function} can do all the things
+  \code{\link{focal.function}} can do.
+}
+\examples{
+\dontrun{
+# Assume that d is a data.frame with point observations
+# of a numerical response variable y and predictor variables
+# a, b, and c.
+# Fit a generalized additive model to y,a,b,c.
+# We want to model b and c as nonlinear terms:
+require(gam)
+fit <- gam(y ~ a + s(b) + s(c), data = d)
+multi.local.function(in.grids = c("a", "b", "c"),
+    out.varnames = "pred",
+    fun = grid.predict, fit = fit )
+    # Note that the 'grid.predict' uses by default the
+    # predict method of 'fit'.
+# Model predictions are written to a file named pred.asc
+}
+
+\dontrun{
+# A fake example of a logistic additive model:
+require(gam)
+fit <- gam(cl ~ a + s(b) + s(c), data = d, family = binomial)
+multi.local.function(in.grids = c("a", "b", "c"),
+    out.varnames = "pred",
+    fun = grid.predict, fit = fit,
+    control.predict = list(type = "response") )
+    # 'control.predict' is passed on to 'grid.predict', which
+    # dumps its contents into the arguments for 'fit''s
+    # 'predict' method.
+# Model predictions are written to a file named pred.asc
+}
+}
+\author{
+  Alexander Brenning
+}
+\references{
+  Brenning, A. (2008): Statistical geocomputing combining R
+  and SAGA: The example of landslide susceptibility
+  analysis with generalized additive models. In: J.
+  Boehner, T. Blaschke, L. Montanarella (eds.), SAGA -
+  Seconds Out (= Hamburger Beitraege zur Physischen
+  Geographie und Landschaftsoekologie, 19), 23-32.
+  \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+}
+\seealso{
+  \code{\link{focal.function}}, \code{\link{grid.predict}}
+}
+\keyword{spatial}
+
