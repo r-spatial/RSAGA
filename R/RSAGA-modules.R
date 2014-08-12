@@ -460,7 +460,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #' \item [0] radians
 #' \item [1] degrees
 #' \item [2] percent}
-#' @param unit.aspect character or numeric (default is 0, or radians) SAGA v 2.1.1+ only:
+#' @param unit.aspect character or numeric (default is 0, or radians):
 #' \itemize{
 #' \item [0] radians
 #' \item [1] degrees}
