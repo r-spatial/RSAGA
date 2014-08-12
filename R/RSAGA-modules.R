@@ -351,6 +351,11 @@ rsaga.local.morphometry = function( in.dem,
     out.slope, out.aspect, out.curv, out.hcurv, out.vcurv,
     method = "poly2zevenbergen", env = rsaga.env(), ...)
 {
+  if ( (env$version == "2.1.1" | env$version == "2.1.2") ) {
+    stop("rsaga.local.morphometry only for SAGA GIS 2.1.0 or older;\n",
+         " use rsaga.slope.aspect.curv for newer versions of SAGA GIS")
+  }
+  
     in.dem = default.file.extension(in.dem,".sgrd")
     choices = c("maxslope","maxtriangleslope","lsqfitplane",
         "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
@@ -420,8 +425,166 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 }
 
 
-
-
+############################################
+######   Slope, Aspect, Curvature   ########
+############################################
+#' Slope, Aspect, Curvature
+#' 
+#' Calculates local morphometric terrain attributes
+#' @name rsaga.slope.aspect.curv
+#' @param in.dem input: digital elevation model as SAGA grid file (\code{.sgrd})
+#' @param out.slope optional output: slope
+#' @param out.aspect optional output: aspect
+#' @param out.cgene optional output: general curvature
+#' @param out.cprof optional output: profile curvature (horizontal curvature; degrees)
+#' @param out.cplan optional output: plan curvature (vertical curvature; degrees)
+#' @param out.ctang optional output: tangential curvature (degrees) Zevenbergen & Thorne (1987) refer to this as profile curvature
+#' @param out.clong optional output: longitudinal curvature (degrees) Zevenbergen & Thorne (1987) refer to this as the plan curvature
+#' @param out.ccros optional output: cross-sectional curvature (degrees)
+#' @param out.cmini optional output: minimal curvature (degrees)
+#' @param out.cmaxi optional output: maximal curvature (degrees)
+#' @param out.ctota optional output: total curvature (degrees)
+#' @param out.croto optional output: flow line curvature (degrees)
+#' @param method character algorithm (see References):
+#' \itemize{
+#' \item Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
+#' \item Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
+#' \item Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
+#' \item Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
+#' \item Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
+#' \item Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
+#' \item Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
+#' \item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}}
+#' @param unit.slope character or numeric (default is 0, or radians):
+#' \itemize{
+#' \item [0] radians
+#' \item [1] degrees
+#' \item [2] percent}
+#' @param unit.aspect character or numeric (default is 0, or radians) SAGA v 2.1.1+ only:
+#' \itemize{
+#' \item [0] radians
+#' \item [1] degrees}
+#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
+#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @references General references:
+#'
+#' Jones KH (1998) A comparison of algorithms used to compute hill slope as a property of the DEM. Computers and Geosciences. 24 (4): 315-323.
+#' 
+#' References on specific methods:
+#' 
+#' Maximum Slope:
+#' 
+#' Travis, M.R., Elsner, G.H., Iverson, W.D., Johnson, C.G. (1975): VIEWIT: computation of seen areas, slope, and aspect for land-use planning. USDA F.S. Gen. Tech. Rep. PSW-11/1975, 70 p. Berkeley, California, U.S.A.
+#'
+#' Maximum Triangle Slope:
+#' 
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#'
+#' Least Squares or Best Fit Plane:
+#'
+#' Beasley, D.B., Huggins, L.F. (1982): ANSWERS: User's manual. U.S. EPA-905/9-82-001, Chicago, IL, 54 pp.
+#'
+#' Costa-Cabral, M., Burges, S.J. (1994): Digital Elevation Model Networks (DEMON): a model of flow over hillslopes for computation of contributing and dispersal areas. Water Resources Research, 30(6): 1681-1692.
+#'
+#' Fit 2nd Degree Polynomial:
+#' 
+#' Evans, I.S. (1979): An integrated system of terrain analysis and slope mapping. Final Report on grant DA-ERO-591-73-G0040. University of Durham, England.
+#' 
+#' Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vorraussetzung fuer ein deterministisches  Modell der Wasser- und Stoff-Fluesse. Landschaftsgenese und Landschaftsoekologie, H. 10, Parameteraufbereitung fuer deterministische Gebiets-Wassermodelle, Grundlagenarbeiten zur Analyse von Agrar-Oekosystemen, eds.: Bork, H.-R., Rohdenburg, H., p. 1-15.
+#'
+#' Heerdegen, R.G., Beran, M.A. (1982): Quantifying source areas through land surface curvature. Journal of Hydrology, 57.
+#'
+#' Zevenbergen, L.W., Thorne, C.R. (1987): Quantitative analysis of land surface topography. Earth Surface Processes and Landforms, 12: 47-56.
+#'
+#' Fit 3.Degree Polynom:
+#'
+#' Haralick, R.M. (1983): Ridge and valley detection on digital images. Computer Vision, Graphics and Image Processing, 22(1): 28-38.
+#'
+#' For a discussion on the calculation of slope by ArcGIS check these links:
+#'
+#' \url{http://forums.esri.com/Thread.asp?c=93&f=1734&t=239914}
+#'
+#' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
+#' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @examples
+#' \dontrun{
+#' # a simple slope algorithm:
+#' rsaga.slope("lican.sgrd","slope","maxslope")
+#' # same for ASCII grids (default extension .asc):
+#' rsaga.esri.wrapper(rsaga.slope,in.dem="lican",out.slope="slope",method="maxslope")
+#' }
+#' @keywords spatial interface
+#' @export
+rsaga.slope.aspect.curv = function(in.dem,
+                                   out.slope, out.aspect, out.cgene,
+                                   out.cprof, out.cplan, out.ctang,
+                                   out.clong, out.ccros, out.cmini,
+                                   out.cmaxi, out.ctota, out.croto,
+                                   method = "poly2zevenbergen", unit.slope, unit.aspect,
+                                   env = rsaga.env(), ...) {
+  
+  if ( (env$version != "2.1.1" | env$version != "2.1.2") ) {
+    stop("rsaga.slope.aspect.curv only for SAGA GIS 2.1.1+;\n",
+         " use rsaga.local.morphometry for older versions of SAGA GIS")
+  }
+  
+  in.dem = default.file.extension(in.dem, ".sgrd")
+  method = match.arg.ext(method, method.choices, numeric=TRUE, base=0)
+  
+  if (missing(unit.slope)){
+    unit.slope = "radians"
+  }
+  if (missing(unit.aspect)) {
+    unit.aspect = "radians"
+  }
+  
+  unit.slope.choices = c("radians", "degree", "percent")
+  unit.slope = match.arg.ext(unit.slope, unit.slope.choices, numeric=TRUE, base=0)
+  
+  unit.aspect.choices = c("radians", "degree")
+  unit.aspect = match.arg.ext(unit.aspect, unit.aspect.choices, numeric=TRUE, base=0)
+  
+  if (missing(out.aspect)) {
+    out.aspect = tempfile()
+    on.exit(unlink(paste(out.aspect,".*",sep="")), add = TRUE)
+  }
+  if (missing(out.slope)) {
+    out.slope = tempfile()
+    on.exit(unlink(paste(out.slope,".*",sep="")), add = TRUE)
+  }
+  
+  param = list(ELEVATION=in.dem, SLOPE=out.slope, ASPECT = out.aspect)
+  if(!missing(out.cgene))
+    param = c(param, C_GENE = out.cgene)
+  if(!missing(out.cprof))
+    param = c(param, C_PROF = out.cprof)
+  if(!missing(out.cplan))
+    param  =c(param, C_PLAN = out.cplan)
+  if(!missing(out.ctang))
+    param = c(param, C_TANG = out.ctang)
+  if(!missing(out.clong))
+    param = c(param, C_LONG = out.clong)
+  if(!missing(out.ccros))
+    param = c(param, C_CROS = out.ccros)
+  if(!missing(out.cmini))
+    param = c(param, C_MINI = out.cmini)
+  if(!missing(out.cmaxi))
+    param = c(param, C_MAXI = out.cmaxi)
+  if(!missing(out.ctota))
+    param = c(param, C_TOTA = out.ctota)
+  if(!missing(out.croto))
+    param = c(param, C_ROTO = out.croto)
+  
+  param = c(param, METHOD=method, UNIT_SLOPE=unit.slope, UNIT_ASPECT=unit.aspect)
+  
+  module = "Slope, Aspect, Curvature"
+  
+  rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
+}
+  
+  
 ############################################
 ########   Module ta_preprocessor   ########
 ############################################
