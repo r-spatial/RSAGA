@@ -493,7 +493,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         intern=TRUE, show.output.on.console=FALSE, flags=NULL, invisible=TRUE,
         reduce.intern=FALSE, check.module.exists=FALSE, warn = -1)
 
-    wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:") )
+    wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:", "tools:") )
 
     if (length(wh) > 0) {
         rawres = rawres[ (wh[length(wh)]+1) : length(rawres) ]
@@ -501,6 +501,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         rawres = rawres[ rawres != "type -h or --help for further information" ]
         # inserted tolower() for SAGA 2.1.0 RC1:
         rawres = rawres[ tolower(rawres) != "error: module" ]
+        rawres = rawres[ tolower(rawres) != "error: tool" ]
     }
     if (length(wh) > 0) {
         rawres = strsplit(rawres,"\t- ")
