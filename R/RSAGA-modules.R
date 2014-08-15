@@ -287,7 +287,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 
 #' Local Morphometry
 #' 
-#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures).
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use \code{\link{rsaga.slope.aspect.curv}} for SAGA 2.1.1+
 #' @name rsaga.local.morphometry
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
 #' @param out.slope optional output: slope (in radian)
@@ -337,7 +337,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.slope.aspect.curv}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # a simple slope algorithm:
@@ -351,7 +351,7 @@ rsaga.local.morphometry = function( in.dem,
     out.slope, out.aspect, out.curv, out.hcurv, out.vcurv,
     method = "poly2zevenbergen", env = rsaga.env(), ...)
 {
-  if ( (env$version == "2.1.1" | env$version == "2.1.2") ) {
+  if (env$version == "2.1.1" | env$version == "2.1.2") {
     stop("rsaga.local.morphometry only for SAGA GIS 2.1.0 or older;\n",
          " use rsaga.slope.aspect.curv for newer versions of SAGA GIS")
   }
@@ -383,69 +383,69 @@ rsaga.local.morphometry = function( in.dem,
     rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
 }
 
-#' @rdname rsaga.local.morphometry
+#' @rdname rsaga.slope.aspect.curv
 #' @name rsaga.slope
 #' @export
 rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", ... ) {
     stopifnot(!missing(out.slope))
-    if ( env$version != "2.1.1" | env$version != "2.1.2") {
-      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+    if ( env$version == "2.1.1" | env$version == "2.1.2") {
+      rsaga.slope.aspect.curv( in.dem=in.dem, out.slope=out.slope, method=method, ... )
     }
     else {
-      rsaga.slope.aspect.curv( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
     }
 }
 
-#' @rdname rsaga.local.morphometry
+#' @rdname rsaga.slope.aspect.curv
 #' @name rsaga.aspect
 #' @export
 rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", ... ) {
     stopifnot(!missing(out.aspect))
-    if ( env$version != "2.1.1" | env$version != "2.1.2") {
-      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )      
+    if ( env$version == "2.1.1" | env$version == "2.1.2") {
+      rsaga.slope.aspect.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )      
     }
     else {
-      rsaga.slope.aspect.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
     }
 }
 
 
-#' @rdname rsaga.local.morphometry
+#' @rdname rsaga.slope.aspect.curv
 #' @name rsaga.curvature
 #' @export
-rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", ... ) {
-    stopifnot(!missing(out.curv))
-    if ( env$version != "2.1.1" | env$version != "2.1.2") {
-      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, ... )
+rsaga.curvature = function( in.dem, out.cgene, method = "poly2zevenbergen", ... ) {
+    stopifnot(!missing(out.cgene))
+    if ( env$version == "2.1.1" | env$version == "2.1.2") {
+      rsaga.slope.aspect.curv( in.dem=in.dem, out.cgene=out.cgene, method=method, ... )
     }
     else {
-      rsaga.slope.aspect.curv( in.dem=in.dem, out.cgene=out.curv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.cgene, method=method, ... )
     }
 }
 
-#' @rdname rsaga.local.morphometry
+#' @rdname rsaga.slope.aspect.curv
 #' @name rsaga.plan.curvature
 #' @export
-rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen", ... ) {
-    stopifnot(!missing(out.hcurv))
-    if ( env$version != "2.1.1" | env$version != "2.1.2") {
-      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, ... )
+rsaga.plan.curvature = function( in.dem, out.cplan, method = "poly2zevenbergen", ... ) {
+    stopifnot(!missing(out.cplan))
+    if ( env$version == "2.1.1" | env$version == "2.1.2") {
+      rsaga.slope.aspect.curv( in.dem=in.dem, out.cplan=out.cplan, method=method, ... )
     }
     else {
-      rsaga.slope.aspect.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.cplan, method=method, ... )
     }
 }
 
-#' @rdname rsaga.local.morphometry
+#' @rdname rsaga.slope.aspect.curv
 #' @name rsaga.profile.curvature
 #' @export
-rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenbergen", ... ) {
-    stopifnot(!missing(out.vcurv))
-    if ( env$version != "2.1.1" | env$version != "2.1.2") {
-      rsaga.local.morphomery( in.dem=in.dem, out.vcurv=out.vcurv, method=method, ... )
+rsaga.profile.curvature = function( in.dem, out.cprof, method = "poly2zevenbergen", ... ) {
+    stopifnot(!missing(out.cprof))
+    if ( env$version == "2.1.1" | env$version == "2.1.2") {
+      rsaga.slope.aspect.curv( in.dem=in.dem, out.cprof=out.cprof, method=method, ... )
     }
     else {
-      rsaga.slope.aspect.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.cprof, method=method, ... )
     }
 }
 
@@ -455,7 +455,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 ############################################
 #' Slope, Aspect, Curvature
 #' 
-#' Calculates local morphometric terrain attributes
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link{rsaga.local.morphometry}}.
 #' @name rsaga.slope.aspect.curv
 #' @param in.dem input: digital elevation model as SAGA grid file (\code{.sgrd})
 #' @param out.slope optional output: slope
@@ -532,7 +532,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #'
 #' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso \code{link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # a simple slope algorithm:
@@ -550,12 +550,14 @@ rsaga.slope.aspect.curv = function(in.dem,
                                    method = "poly2zevenbergen", unit.slope, unit.aspect,
                                    env = rsaga.env(), ...) {
   
-  if ( (env$version != "2.1.1" | env$version != "2.1.2") ) {
+  if(env$version != "2.1.1" & env$version != "2.1.2") {
     stop("rsaga.slope.aspect.curv only for SAGA GIS 2.1.1+;\n",
          " use rsaga.local.morphometry for older versions of SAGA GIS")
   }
   
   in.dem = default.file.extension(in.dem, ".sgrd")
+  method.choices = c("maxslope","maxtriangleslope","lsqfitplane", "poly2evans",
+                     "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
   method = match.arg.ext(method, method.choices, numeric=TRUE, base=0)
   
   if (missing(unit.slope)){
@@ -1534,7 +1536,7 @@ rsaga.wetness.index = function( in.dem,
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
-    if (env$version == "2.1.0")  {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
