@@ -11,15 +11,20 @@
 rsaga.local.morphometry(in.dem, out.slope, out.aspect, out.curv, out.hcurv,
   out.vcurv, method = "poly2zevenbergen", env = rsaga.env(), ...)
 
-rsaga.slope(in.dem, out.slope, method = "poly2zevenbergen", ...)
+rsaga.slope(in.dem, out.slope, method = "poly2zevenbergen",
+  env = rsaga.env(), ...)
 
-rsaga.aspect(in.dem, out.aspect, method = "poly2zevenbergen", ...)
+rsaga.aspect(in.dem, out.aspect, method = "poly2zevenbergen",
+  env = rsaga.env(), ...)
 
-rsaga.curvature(in.dem, out.curv, method = "poly2zevenbergen", ...)
+rsaga.curvature(in.dem, out.curv, method = "poly2zevenbergen",
+  env = rsaga.env(), ...)
 
-rsaga.plan.curvature(in.dem, out.hcurv, method = "poly2zevenbergen", ...)
+rsaga.plan.curvature(in.dem, out.hcurv, method = "poly2zevenbergen",
+  env = rsaga.env(), ...)
 
-rsaga.profile.curvature(in.dem, out.vcurv, method = "poly2zevenbergen", ...)
+rsaga.profile.curvature(in.dem, out.vcurv, method = "poly2zevenbergen",
+  env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}

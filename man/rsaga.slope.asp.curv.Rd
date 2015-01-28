@@ -44,7 +44,7 @@ rsaga.slope.asp.curv(in.dem, out.slope, out.aspect, out.cgene, out.cprof,
 \item Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
 \item Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
 \item Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
-\item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}}}
+\item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}}
 
 \item{unit.slope}{character or numeric (default \code{"radians"}):
 \itemize{
