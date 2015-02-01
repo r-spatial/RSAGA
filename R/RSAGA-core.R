@@ -446,7 +446,6 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 rsaga.get.modules = function(libs, env = rsaga.env(), 
     interactive = FALSE, parallel = env$parallel)
 {
-    require(plyr)
     if (missing(libs)) libs = rsaga.get.libraries(env$modules)
     op = options(warn = -1) # llply would generate two warnings
     on.exit(options(op))    
@@ -493,7 +492,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         intern=TRUE, show.output.on.console=FALSE, flags=NULL, invisible=TRUE,
         reduce.intern=FALSE, check.module.exists=FALSE, warn = -1)
 
-    wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:") )
+    wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:", "tools:") )
 
     if (length(wh) > 0) {
         rawres = rawres[ (wh[length(wh)]+1) : length(rawres) ]
@@ -501,6 +500,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         rawres = rawres[ rawres != "type -h or --help for further information" ]
         # inserted tolower() for SAGA 2.1.0 RC1:
         rawres = rawres[ tolower(rawres) != "error: module" ]
+        rawres = rawres[ tolower(rawres) != "error: tool" ]
     }
     if (length(wh) > 0) {
         rawres = strsplit(rawres,"\t- ")
@@ -830,14 +830,14 @@ rsaga.geoprocessor = function(
     argsep = " ", ... )
 {
     # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
-    if (!is.null(env$version)) {
-        if (!is.na(env$version)) {
-            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0") == env$version))
-                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.0.\n",
-                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
-                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
-        }
-    }
+#    if (!is.null(env$version)) {
+#        if (!is.na(env$version)) {
+#            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0") == env$version))
+#                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.0.\n",
+#                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
+#                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
+#        }
+#    }
     
     # Number of cores for multicore processing:
     if (!missing(cores)) env$cores = cores

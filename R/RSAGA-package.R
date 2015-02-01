@@ -23,7 +23,7 @@
 #' values at point locations from a grid using kriging 
 #' or nearest neighbour interpolation.
 #' 
-#' RSAGA requires SAGA GIS (versions 2.0.4 - 2.1.0 
+#' RSAGA requires SAGA GIS (versions 2.0.4 - 2.1.2 
 #' are currently supported) and its user-contributed 
 #' modules to be available on your computer. These 
 #' can be downloaded under GPL from
@@ -47,7 +47,7 @@
 #'  Beitraege zur Physischen Geographie und
 #'  Landschaftsoekologie, vol. 19), p. 23-32.
 #'
-#' @author Alexander Brenning
+#' @author Alexander Brenning and Donovan Bangs
 #' @docType package
 #' @name RSAGA-package
 #' @aliases RSAGA-package

@@ -1,9 +1,9 @@
 Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis in R
-Version: 0.93-6
-Date: 2013-07-23
-Author: Alexander Brenning
+Version: 0.93-7
+Date: 2014-08-23
+Author: Alexander Brenning and Donovan Bangs
 Maintainer: Alexander Brenning <brenning@uwaterloo.ca>
 Description: RSAGA provides access to geocomputing and terrain analysis
     functions of SAGA from within R by running the command line version of
@@ -13,7 +13,7 @@ Description: RSAGA provides access to geocomputing and terrain analysis
     multiple grids. SAGA GIS is available under GPLv2 / LGPLv2 licence from
     http://sourceforge.net/projects/saga-gis/.
 License: GPL-2
-SystemRequirements: SAGA GIS (2.0.4 - 2.1.0)
+SystemRequirements: SAGA GIS (2.0.4 - 2.1.2)
 Depends:
     gstat,
     shapefiles,

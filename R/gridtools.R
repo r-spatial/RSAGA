@@ -324,7 +324,6 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' @export
 pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
 {
-    require(shapefiles)
     shapefile = set.file.extension(shapefile,"")
     shapefile = substr(shapefile,1,nchar(shapefile)-1) # remove "." at the end
     src = read.shapefile(shapefile)
@@ -479,7 +478,6 @@ pick.from.points = function(data, src, pick,
     rm(src)
     
     if (method=="krige") {
-        require(gstat)
         loc = as.formula(paste("~",X.name,"+",Y.name))
         for (p in 1:length(pick)) {
             form = as.formula(paste(pick[p],"~ 1"))
@@ -725,7 +723,6 @@ pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix
         return( internal.pick.from.ascii.grid(data = data, file = file, path = path, varname = varname, 
             prefix = prefix, method = method, quiet = quiet, ...))
     } else {
-        require(plyr)
         progress = "none"
         if (parallel)  quiet = TRUE
         if (nrow(data) >= 1000 & !quiet) {

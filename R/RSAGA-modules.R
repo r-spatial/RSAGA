@@ -278,26 +278,48 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 }
 
 
-
-
 ############################################
 ########    Module ta_morphometry   ########
 ############################################
-
-
-#' Local Morphometry
+#' Slope, Aspect, Curvature
 #' 
-#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures).
-#' @name rsaga.local.morphometry
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
-#' @param out.slope optional output: slope (in radian)
-#' @param out.aspect optional output: aspect (in radian; north=0, clockwise angles)
-#' @param out.curv optional output: curvature
-#' @param out.hcurv optional output: horizontal curvature (plan curvature)
-#' @param out.vcurv optional output: vertical curvature (profile curvature)
-#' @param method character or numeric: algorithm (see References): Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0), Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1), Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2), Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3), Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4), default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5), Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link{rsaga.local.morphometry}}.
+#' @name rsaga.slope.asp.curv
+#' @param in.dem input: digital elevation model as SAGA grid file (\code{.sgrd})
+#' @param out.slope optional output: slope
+#' @param out.aspect optional output: aspect
+#' @param out.cgene optional output: general curvature
+#' @param out.cprof optional output: profile curvature (vertical curvature; degrees)
+#' @param out.cplan optional output: plan curvature (horizontal curvature; degrees)
+#' @param out.ctang optional output: tangential curvature (degrees)
+#' @param out.clong optional output: longitudinal curvature (degrees) Zevenbergen & Thorne (1987) refer to this as profile curvature
+#' @param out.ccros optional output: cross-sectional curvature (degrees) Zevenbergen & Thorne (1987) refer to this as the plan curvature
+#' @param out.cmini optional output: minimal curvature (degrees)
+#' @param out.cmaxi optional output: maximal curvature (degrees)
+#' @param out.ctota optional output: total curvature (degrees)
+#' @param out.croto optional output: flow line curvature (degrees)
+#' @param method character algorithm (see References):
+#' \itemize{
+#' \item Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
+#' \item Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
+#' \item Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
+#' \item Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
+#' \item Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
+#' \item Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
+#' \item Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
+#' \item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
+#' @param unit.slope character or numeric (default \code{"radians"}):
+#' \itemize{
+#' \item [0] \code{"radians"}
+#' \item [1] \code{"degrees"}
+#' \item [2] \code{"percent"}}
+#' @param unit.aspect character or numeric (default is 0, or \code{"radians"}):
+#' \itemize{
+#' \item [0] \code{"radians"}
+#' \item [1] \code{"degrees"}}
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
 #' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @details Profile and plan curvature calculation (\code{out.cprof}, \code{out.cplan}) changed in SAGA GIS 2.1.1+ compared to earlier versions. See the following thread on sourceforge.net for an ongoing discussion: \url{http://sourceforge.net/p/saga-gis/discussion/354013/thread/e9d07075/#5727}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @references General references:
 #'
@@ -321,13 +343,15 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' Fit 2nd Degree Polynomial:
 #' 
+#' Evans, I.S. (1979): An integrated system of terrain analysis and slope mapping. Final Report on grant DA-ERO-591-73-G0040. University of Durham, England.
+#' 
 #' Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vorraussetzung fuer ein deterministisches  Modell der Wasser- und Stoff-Fluesse. Landschaftsgenese und Landschaftsoekologie, H. 10, Parameteraufbereitung fuer deterministische Gebiets-Wassermodelle, Grundlagenarbeiten zur Analyse von Agrar-Oekosystemen, eds.: Bork, H.-R., Rohdenburg, H., p. 1-15.
 #'
 #' Heerdegen, R.G., Beran, M.A. (1982): Quantifying source areas through land surface curvature. Journal of Hydrology, 57.
 #'
 #' Zevenbergen, L.W., Thorne, C.R. (1987): Quantitative analysis of land surface topography. Earth Surface Processes and Landforms, 12: 47-56.
 #'
-#' Fit 3.Degree Polynom:
+#' Fit 3.Degree Polynomial:
 #'
 #' Haralick, R.M. (1983): Ridge and valley detection on digital images. Computer Vision, Graphics and Image Processing, 22(1): 28-38.
 #'
@@ -336,8 +360,108 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' \url{http://forums.esri.com/Thread.asp?c=93&f=1734&t=239914}
 #'
 #' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
-#' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
+#' @seealso \code{link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @examples
+#' \dontrun{
+#' # Simple slope, aspect, and general curvature in degrees:
+#' rsaga.slope.asp.curv("lican.sgrd", "slope", "aspect", "curvature",
+#'                      method = "maxslope", unit.slope = "degrees", unit.aspect = "degrees")
+#' # same for ASCII grids (default extension .asc):
+#' rsaga.esri.wrapper(rsaga.slope.asp.curv,
+#'                    in.dem="lican", out.slope="slope", out.aspect = "aspect", out.cgene = "curvature",
+#'                    method="maxslope", unit.slope = "degrees", unit.aspect = "degrees")
+#' }
+#' @keywords spatial interface
+#' @export
+rsaga.slope.asp.curv = function(in.dem,
+                              out.slope, out.aspect, out.cgene,
+                              out.cprof, out.cplan, out.ctang,
+                              out.clong, out.ccros, out.cmini,
+                              out.cmaxi, out.ctota, out.croto,
+                              method = "poly2zevenbergen", 
+                              unit.slope = "radians", unit.aspect = "radians",
+                              env = rsaga.env(), ...) {
+  
+  if(env$version != "2.1.1" & env$version != "2.1.2") {
+    stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
+         "use rsaga.local.morphometry for older versions of SAGA GIS")
+  }
+  
+  in.dem = default.file.extension(in.dem, ".sgrd")
+  method.choices = c("maxslope","maxtriangleslope","lsqfitplane", "poly2evans",
+                     "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
+  if(is.numeric(method) == TRUE)
+    stop("Numeric 'method' argument not supported with SAGA GIS 2.1.1+;\n",
+         "Use character name of methods - see help(rsaga.slope.asp.curv) for options")
+  method = match.arg.ext(method, method.choices, numeric=TRUE, base=0)
+  
+  unit.slope.choices = c("radians", "degrees", "percent")
+  unit.slope = match.arg.ext(unit.slope, unit.slope.choices, numeric=TRUE, base=0)
+  
+  unit.aspect.choices = c("radians", "degrees")
+  unit.aspect = match.arg.ext(unit.aspect, unit.aspect.choices, numeric=TRUE, base=0)
+  
+  if (missing(out.aspect)) {
+    out.aspect = tempfile()
+    on.exit(unlink(paste(out.aspect,".*",sep="")), add = TRUE)
+  }
+  if (missing(out.slope)) {
+    out.slope = tempfile()
+    on.exit(unlink(paste(out.slope,".*",sep="")), add = TRUE)
+  }
+  
+  param = list(ELEVATION=in.dem, SLOPE=out.slope, ASPECT = out.aspect)
+  if(!missing(out.cgene))
+    param = c(param, C_GENE = out.cgene)
+  if(!missing(out.cprof))
+    param = c(param, C_PROF = out.cprof)
+  if(!missing(out.cplan))
+    param  =c(param, C_PLAN = out.cplan)
+  if(!missing(out.ctang))
+    param = c(param, C_TANG = out.ctang)
+  if(!missing(out.clong))
+    param = c(param, C_LONG = out.clong)
+  if(!missing(out.ccros))
+    param = c(param, C_CROS = out.ccros)
+  if(!missing(out.cmini))
+    param = c(param, C_MINI = out.cmini)
+  if(!missing(out.cmaxi))
+    param = c(param, C_MAXI = out.cmaxi)
+  if(!missing(out.ctota))
+    param = c(param, C_TOTA = out.ctota)
+  if(!missing(out.croto))
+    param = c(param, C_ROTO = out.croto)
+  
+  param = c(param, METHOD=method, UNIT_SLOPE=unit.slope, UNIT_ASPECT=unit.aspect)
+  
+  module = "Slope, Aspect, Curvature"
+  
+  rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
+  
+  if (!missing(out.cprof) | !missing(out.cplan))
+    warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
+            "See help(rsaga.slope.asp.curv) for more information")
+}
+
+
+#' Local Morphometry
+#' 
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use \code{\link{rsaga.slope.asp.curv}} for SAGA 2.1.1+
+#' @name rsaga.local.morphometry
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param out.slope optional output: slope (in radians)
+#' @param out.aspect optional output: aspect (in radians; north=0, clockwise angles)
+#' @param out.curv optional output: curvature
+#' @param out.hcurv optional output: horizontal curvature (plan curvature)
+#' @param out.vcurv optional output: vertical curvature (profile curvature)
+#' @param method character (or numeric): algorithm (see References): Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0), Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1), Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2), Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3), Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4), default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5), Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).
+#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
+#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @references For references and algorithm changes in SAGA GIS 2.1.1+ see \code{\link{rsaga.slope.asp.curv}}.
+#' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
+#' @seealso \code{\link{rsaga.slope.asp.curv}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # a simple slope algorithm:
@@ -351,6 +475,12 @@ rsaga.local.morphometry = function( in.dem,
     out.slope, out.aspect, out.curv, out.hcurv, out.vcurv,
     method = "poly2zevenbergen", env = rsaga.env(), ...)
 {
+  if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+    rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, out.aspect=out.aspect, 
+        out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv, 
+        method=method, env=env, ... )
+  } else {
+  
     in.dem = default.file.extension(in.dem,".sgrd")
     choices = c("maxslope","maxtriangleslope","lsqfitplane",
         "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
@@ -376,52 +506,80 @@ rsaga.local.morphometry = function( in.dem,
     if (any(c("2.0.4","2.0.5","2.0.6") == env$version)) module = "Local Morphometry"
     
     rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
+  }
+  
+  if (!missing(out.hcurv) | !missing(out.vcurv))
+    warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
+          "See help(rsaga.slope.asp.curv) for more information")
+
 }
 
 #' @rdname rsaga.local.morphometry
 #' @name rsaga.slope
 #' @export
-rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", ... ) {
+rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.slope))
-    rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+      rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+    }
+    else {
+      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+    }
 }
 
 #' @rdname rsaga.local.morphometry
 #' @name rsaga.aspect
 #' @export
-rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", ... ) {
+rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.aspect))
-    rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )      
+    }
+    else {
+      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
+    }
 }
 
 
 #' @rdname rsaga.local.morphometry
 #' @name rsaga.curvature
 #' @export
-rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", ... ) {
+rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.curv))
-    rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, ... )
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cgene=out.curv, method=method, ... )
+    }
+    else {
+      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, ... )
+    }
 }
 
 #' @rdname rsaga.local.morphometry
 #' @name rsaga.plan.curvature
 #' @export
-rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen", ... ) {
+rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.hcurv))
-    rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, ... )
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, ... )
+    }
+    else {
+      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, ... )
+    }
 }
 
 #' @rdname rsaga.local.morphometry
 #' @name rsaga.profile.curvature
 #' @export
-rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenbergen", ... ) {
+rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.vcurv))
-    rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, ... )
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, ... )
+    }
+    else {
+      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, ... )
+    }
 }
-
-
-
-
+  
 ############################################
 ########   Module ta_preprocessor   ########
 ############################################
@@ -1346,7 +1504,7 @@ rsaga.wetness.index = function( in.dem,
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
-    if (env$version == "2.1.0")  {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
