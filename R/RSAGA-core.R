@@ -582,7 +582,7 @@ rsaga.search.modules = function(text, modules, search.libs=TRUE, search.modules=
 #' @param env a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
 #' @param show logical (default: \code{TRUE}); display usage in the R console?
 #'
-#' @details This funciton is intended to provide information required to use the 
+#' @details This function is intended to provide information required to use the 
 #' \code{\link{rsaga.geoprocessor}} and for writing your own high-level interface 
 #' function for SAGA modules. R--SAGA interfaces already exist for some SAGA modules, 
 #' e.g. \code{\link{rsaga.hillshade}}, \code{\link{rsaga.local.morphometry}}, but there 
