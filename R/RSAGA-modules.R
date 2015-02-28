@@ -1504,7 +1504,7 @@ rsaga.wetness.index = function( in.dem,
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
-    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2")  {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" | env$version == "2.1.3" | env$version == "2.1.4")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
