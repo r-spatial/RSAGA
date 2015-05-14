@@ -889,10 +889,14 @@ rsaga.geoprocessor = function(
         }
     }
     
-    # Library - in the case of unix systems, it must be preceded by 'lib' - but not in the case of Mac OSX:
+    # Library - in the case of unix systems (until 2.0.9), it must be preceded by 'lib' -
+    # but not in the case of Mac OSX:
     ###add.lib = (Sys.info()["sysname"] != "Windows") & (Sys.info()["sysname"] != "Darwin")
     if (!is.null(lib)) {
-        if (is.null(env$lib.prefix)) env$lib.prefix = ""
+        # From 2.1.0 on, UNIX-like systems do not have preceding 'lib' any more
+        if (is.null(env$lib.prefix) |
+            !(env$version %in% c("2.0.4", "2.0.5", "2.0.6",
+                                 "2.0.7", "2.0.8", "2.0.9"))) env$lib.prefix = ""
         command = paste( command, " ", env$lib.prefix, lib, sep = "")
     }
     
