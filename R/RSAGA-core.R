@@ -501,6 +501,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         # inserted tolower() for SAGA 2.1.0 RC1:
         rawres = rawres[ tolower(rawres) != "error: module" ]
         rawres = rawres[ tolower(rawres) != "error: tool" ]
+        rawres = rawres[ tolower(rawres) != "error: select a tool"]
     }
     if (length(wh) > 0) {
         rawres = strsplit(rawres,"\t- ")
