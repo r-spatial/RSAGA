@@ -916,18 +916,33 @@ rsaga.geoprocessor = function(
         if (is.character(module)) module = shQuote(module)
         command = paste(command, module)
         if (length(param)>0) {
-            # Logical arguments are treated in a special way:
+            # Logical arguments are treated in a special way with SAGA versions below 2.1.3:
             # They are simply omitted if their value is FALSE.
-            i = 1
-            while (i<=length(param)) {
-                if (is.logical(param[[i]])) {
-                    if (!param[[i]]) {
-                        param[[i]] = NULL
-                        i = i - 1
-                    } else param[[i]] = ""
+            if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9",
+                                     "2.1.0","2.1.1","2.1.2"))) {
+                i = 1
+                while (i<=length(param)) {
+                    if (is.logical(param[[i]])) {
+                        if (!param[[i]]) {
+                            param[[i]] = "false"
+                            i = i - 1
+                        } else param[[i]] = "true"
+                    }
+                    i = i + 1
                 }
-                i = i + 1
+            } else {
+                i = 1
+                while (i<=length(param)) {
+                    if (is.logical(param[[i]])) {
+                        if (!param[[i]]) {
+                            param[[i]] = NULL
+                            i = i - 1
+                        } else param[[i]] = ""
+                    }
+                    i = i + 1
+                }
             }
+            
             # Argument names:
             nm = names(param)
             # Argument values:
@@ -936,7 +951,7 @@ rsaga.geoprocessor = function(
             # line added by Johan v.d.W.:
             # Put quotes around non-void argument values:
             val[ nchar(val) > 0 ] = shQuote( val[ nchar(val) > 0 ] )
-
+            
             # Add saga_cmd arguments to the command line call:
             param = paste("-",nm, argsep, val,sep="",collapse=" ")
             command = paste(command, param)
