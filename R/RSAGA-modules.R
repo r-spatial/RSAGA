@@ -520,10 +520,10 @@ rsaga.local.morphometry = function( in.dem,
 rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.slope))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, env = env, ... )
     }
 }
 
@@ -533,10 +533,10 @@ rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rs
 rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.aspect))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )      
+      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )      
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )
     }
 }
 
@@ -547,10 +547,10 @@ rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = 
 rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.curv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cgene=out.curv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cgene=out.curv, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, env = env,  ... )
     }
 }
 
@@ -560,10 +560,10 @@ rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", env =
 rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.hcurv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, env = env,  ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, env = env,  ... )
     }
 }
 
@@ -573,10 +573,10 @@ rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen",
 rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.vcurv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, env = env, ... )
     }
 }
   
