@@ -1335,7 +1335,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 
 #' Parallel Processing
 #'
-#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.
+#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See \code{\link{rsaga.topdown.processing}}.
 #' @name rsaga.parallel.processing
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
 #' @param in.sinkroute optional input: SAGA grid with sink routes
@@ -1409,6 +1409,11 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     step, method="mfd", linear.threshold=Inf, convergence=1.1,
     env = rsaga.env(), ...)
 {
+    ## Version Stop - tool no longer supported SAGA 2.1.3
+    if (env$version == "2.1.3" | env$version == "2.1.4") {
+      stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
+           "See help(rsaga.topdown.processing) for use with SAGA 2.1.3 and higher")  
+    }
     in.dem = default.file.extension(in.dem,".sgrd")
     pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd")
     method = match.arg.ext(method, choices=pp.choices,
@@ -1448,7 +1453,150 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...)
 }
 
+#' Top-Down Processing
+#' 
+#' Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See \code{\link{rsaga.parallel.processing}} with older versions.
+#' @name rsaga.topdown.processing
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.sinkroute optional input: SAGA grid with sink routes
+#' @param in.weight optional input: SAGA grid with weights
+#' @param in.mean optional input: SAGA grid for mean over catchment calculation
+#' @param in.material optional input: SAGA grid with material
+#' @param in.target optional input: SAGA grid of accumulation target
+#' @param in.lin.val optional input: SAGA grid providing values to be compared with linear flow threshold instead of catchment area
+#' @param in.lin.dir optional input: SAGA grid to be used for linear flow routing, if the value is a valid direction (0-7 = N, NE, E, SE, S, SW, W, NW)
+#' @param out.carea output: catchment area grid
+#' @param out.mean optional output: mean over catchment grid
+#' @param out.tot.mat optional output: total accumulated material grid
+#' @param out.acc.left optional output: accumulated material from left side grid
+#' @param out.acc.right optional output: accumulated material from right side grid
+#' @param out.flowpath optional output: flow path length grid
+#' @param step integer >=1: step parameter
+#' @param method character or numeric: choice of processing algorithm (default \code{"mfd"}, or 4):
+#' \itemize{
+#' \item [0] Deterministic 8 (\code{"d8"} or 0)
+#' \item [1] Rho 8 (\code{"rho8"}, or 1)
+#' \item [2] Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
+#' \item [3] Deterministic Infinity (\code{"dinf"} or 3)
+#' \item [4] Multiple Flow Direction (\code{"mfd"} or 4)
+#' \item [5] Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
+#' \item [6] Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)}
+#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)
+#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed
+#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
+#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @details Refer to the references for details on the available algorithms.
+#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @references
+#' Deterministic 8:
+#'
+#' O'Callaghan, J.F., Mark, D.M. (1984): The extraction of drainage networks from digital elevation data. Computer Vision, Graphics and Image Processing, 28: 323-344.
+#'
+#' Rho 8:
+#'
+#' Fairfield, J., Leymarie, P. (1991): Drainage networks from grid digital elevation models. Water Resources Research, 27: 709-717.
+#'
+#' Braunschweiger Reliefmodell:
+#'
+#' Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vorraussetzung fuer ein deterministisches Modell der Wasser- und Stoff-Fluesse. Landschaftsgenese und Landschaftsoekologie, H. 10, Parameteraufbereitung fuer deterministische Gebiets-Wassermodelle, Grundlagenarbeiten zu Analyse von Agrar-Oekosystemen, eds.: Bork, H.-R., Rohdenburg, H., p. 1-15.
+#'
+#' Deterministic Infinity:
+#'
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#'
+#' Multiple Flow Direction:
+#'
+#' Freeman, G.T. (1991): Calculating catchment area with divergent flow based on a regular grid. Computers and Geosciences, 17: 413-22.
+#'
+#' Quinn, P.F., Beven, K.J., Chevallier, P., Planchon, O. (1991): The prediction of hillslope flow paths for distributed hydrological modelling using digital terrain models. Hydrological Processes, 5: 59-79.
+#'
+#' Multiple Triangular Flow Direction:
+#'
+#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
+#'
+#' Multiple Flow Direction Based on Maximum Downslope Gradient:
+#' 
+#' Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An approach to computing topographic wetness index based on maximum downslope gradient. Precision Agriculture, 12(1): 32-43.
+#' 
+#' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+#' @examples
+#' \dontrun{
+#' # Calculation of contributing area with default settings:
+#' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea")
+#' # Calculation of contributing area by maximunm downslope gradient:
+#' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
+#'                          method = "mdg")
+#' }
+#' @seealso \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @keywords spatial interface
+#' @export
+rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in.material, in.target,
+                                    in.lin.val, in.lin.dir,
+                                    out.carea, out.mean, out.tot.mat, out.acc.left, out.acc.right,
+                                    out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
+                                    env = rsaga.env(), ...) {
+    ## Version Stop - SAGA GIS Version 2.1.3+
+    if (env$version != "2.1.3" & env$version != "2.1.4") {
+        stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
+             "see help(rsaga.parallel.processing) for similar function in earlier versions")
+    }
+    
+    in.dem = default.file.extension(in.dem,".sgrd")
+    pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd", "mdg")
+    method = match.arg.ext(method, choices=pp.choices,
+                           numeric=TRUE, ignore.case=TRUE, base=0)
+    param = list( ELEVATION=in.dem )
+    if (!missing(in.sinkroute)) {
+        in.sinkroute = default.file.extension(in.sinkroute,".sgrd")
+        param = c(param, SINKROUTE=in.sinkroute)
+    }
+    if (!missing(in.weight)) {
+        in.weight = default.file.extension(in.weight,".sgrd")
+        param = c(param, SINKROUTE=in.weight)
+    }
+    if (!missing(in.mean)) {
+        in.mean = default.file.extension(in.mean, ".sgrd")
+        param = c(param,VAL_INPUT=in.mean)
+    }
+    if (!missing(in.material)) {
+        in.material = default.file.extension(in.material, ".sgrd")
+        param = c(param, MATERIAL=in.material)
+    }
+    if (!missing(in.target)) {
+        in.target = default.file.extension(in.target, ".sgrd")
+        param = c(param, TARGET=in.target)
+    }
+    if (!missing(in.lin.val)) {
+        in.lin.val = default.file.extension(in.lin.val, ".sgrd")
+        param = c(param, LINEAR_VAL=in.lin.val)
+    }
+    if (!missing(in.lin.dir)){
+        in.lin.dir = default.file.extension(in.lin.dir, ".sgrd")
+        param = c(param, LINEAR_DIR=in.lin.dir)
+    }
+    if (!missing(out.carea))
+        param = c(param, CAREA=out.carea)
+    if (!missing(out.mean))
+        param = c(param, VAL_MEAN=out.mean)
+    if (!missing(out.tot.mat))
+        param = c(param, ACCU_TOT=out.tot.mat)
+    if (!missing(out.acc.left))
+        param = c(param, ACCU_LEFT=out.acc.left)
+    if (!missing(out.acc.right))
+        param = c(param, ACCU_RIGHT=out.acc.right)
+    if (!missing(out.flowpath))
+        param = c(param, FLOWLEN=out.flowpath)
+    param = c(param, METHOD=method)
+    if (is.finite(linear.threshold)) {
+        param = c(param, LINEAR_DO=TRUE, LINEAR_MIN=linear.threshold)
+    } else param = c(param, LINEAR_DO=FALSE)
+    
+    param = c(param, CONVERGENCE=convergence)
+    
+    module = "Catchment Area (Top-Down)"
 
+    rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...) 
+}
 
 #' SAGA Modules SAGA Wetness Index
 #' 
