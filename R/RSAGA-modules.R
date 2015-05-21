@@ -1860,20 +1860,38 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 #' @param in.grid input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
 #' @param out.shapefile output: contour line shapefile. Existing files will be overwritten!
 #' @param zstep,zmin,zmax lower limit, upper limit, and equidistance of contour lines
+#' @param vertex optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
+#' \item [0] \code{"xy"}
+#' \item [1] \code{"xyz"}}
 #' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @seealso \code{\link{rsaga.geoprocessor}}
 #' @keywords spatial interface
 #' @export
-rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,...) {
+rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",...) {
     in.grid = default.file.extension(in.grid,".sgrd")
-    param = list(INPUT=in.grid,CONTOUR=out.shapefile)
+    # 'INPUT' changed to 'GRID' with SAGA 2.1.3
+    if(env$version != "2.1.3" & env$version != "2.1.4"){
+        param = list(INPUT=in.grid,CONTOUR=out.shapefile)
+    } else {
+        param = list(GRID=in.grid,CONTOUR=out.shapefile)
+    }
     if (!missing(zmin))  param = c(param, ZMIN=as.numeric(zmin))
     if (!missing(zmax))  param = c(param, ZMAX=as.numeric(zmax))
     if (!missing(zstep)) {
         stopifnot(as.numeric(zstep)>0)
         param = c(param, ZSTEP=as.numeric(zstep))
+    }
+    v.choices = c("xy", "xyz")
+    vertex = match.arg.ext(vertex, choices=v.choices,
+                           numeric=TRUE, ignore.case=TRUE, base=0)
+    if (!missing(vertex)) {
+        if (env$version != "2.1.3" & env$version != "2.1.4") {
+            stop("parameter vertex for use with SAGA GIS 2.1.3+;\n;")
+        } else {
+            param = c(param, VERTEX=vertex)
+        }
     }
     rsaga.geoprocessor(lib = "shapes_grid", 
         module = "Contour Lines from Grid",
