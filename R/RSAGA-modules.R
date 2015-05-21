@@ -1863,13 +1863,14 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 #' @param vertex optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
 #' \item [0] \code{"xy"}
 #' \item [1] \code{"xyz"}}
+#' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}
 #' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @seealso \code{\link{rsaga.geoprocessor}}
 #' @keywords spatial interface
 #' @export
-rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",...) {
+rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
     if(env$version != "2.1.3" & env$version != "2.1.4"){
@@ -1887,15 +1888,13 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",...) 
     vertex = match.arg.ext(vertex, choices=v.choices,
                            numeric=TRUE, ignore.case=TRUE, base=0)
     if (!missing(vertex)) {
-        if (env$version != "2.1.3" & env$version != "2.1.4") {
-            stop("parameter vertex for use with SAGA GIS 2.1.3+;\n;")
-        } else {
+        if (env$version == "2.1.3" | env$version == "2.1.4") {
             param = c(param, VERTEX=vertex)
         }
     }
     rsaga.geoprocessor(lib = "shapes_grid", 
         module = "Contour Lines from Grid",
-        param, ...)
+        param, env = env,...)
 }
 
 

@@ -3,7 +3,8 @@
 \alias{rsaga.contour}
 \title{Contour Lines from a Grid}
 \usage{
-rsaga.contour(in.grid, out.shapefile, zstep, zmin, zmax, vertex = "xy", ...)
+rsaga.contour(in.grid, out.shapefile, zstep, zmin, zmax, vertex = "xy",
+  env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.grid}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}
@@ -15,6 +16,8 @@ rsaga.contour(in.grid, out.shapefile, zstep, zmin, zmax, vertex = "xy", ...)
 \item{vertex}{optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
 \item [0] \code{"xy"}
 \item [1] \code{"xyz"}}}
+
+\item{env}{A SAGA geoprocessing environment, see \code{\link{rsaga.env}}}
 
 \item{...}{arguments to be passed to \code{\link{rsaga.geoprocessor}}}
 }
