@@ -21,7 +21,7 @@ The character vector with usage information is invisibly returned.
 \code{rsaga.get.usage} provides information on the usage of and arguments required by SAGA command line modules.
 }
 \details{
-This funciton is intended to provide information required to use the
+This function is intended to provide information required to use the
 \code{\link{rsaga.geoprocessor}} and for writing your own high-level interface
 function for SAGA modules. R--SAGA interfaces already exist for some SAGA modules,
 e.g. \code{\link{rsaga.hillshade}}, \code{\link{rsaga.local.morphometry}}, but there
