@@ -53,9 +53,9 @@ rsaga.search.modules(text, modules, search.libs = TRUE,
 
 \code{rsaga.get.lib.modules} returns a \code{data.frame} with:
 \itemize{
-\item{name}{the names of all modules in library \code{lib},}
-\item{code}{their numeric identifiers,}
-\item{interactive}{and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
+\item{name} {the names of all modules in library \code{lib},}
+\item{code} {their numeric identifiers,}
+\item{interactive} {and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
 }
 
 \code{rsaga.get.modules} returns a list with, for each SAGA library in \code{libs}, a \code{data.frame} with module information as given by \code{rsaga.get.lib.modules}. If \code{libs} is missing, all modules in all libraries will be retrieved.
