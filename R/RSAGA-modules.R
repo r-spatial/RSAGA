@@ -2021,8 +2021,8 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @param power numeric (>0): exponent used in inverse distance  weighting (usually 1 or 2)
 #' @param maxdist numeric: maximum distance of points to be used for inverse distance interpolation (search radius); no search radius is applied when this argument is missing or equals \code{Inf}
 #' @param nmax Maximum number of nearest points to be used for interpolation; \code{nmax=Inf} is a valid value (no upper limit)
-#' @param quadratic.neighbors integer >=5; ??
-#' @param weighting.neighbors integer >=3; ??
+#' @param quadratic.neighbors integer >=5; default 13.
+#' @param weighting.neighbors integer >=3; default 19.
 #' @param target required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see \code{\link{rsaga.target}}.
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA version
 #' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
@@ -2279,60 +2279,4 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Triangulation",
         param, env = env, ...)
-}
-
-
-
-
-
-#' @rdname pick.from.points
-#' @name pick.from.saga.grid
-#' @export
-pick.from.saga.grid = function( data, filename, path, varname, 
-    prec = 7, show.output.on.console = FALSE, env = rsaga.env(), ... )
-{
-    if (!missing(path)) if (path!="") filename = file.path(path,filename)
-    temp.asc = paste(tempfile(),".asc",sep="")
-    if (missing(varname)) varname = create.variable.name(filename)
-    rsaga.sgrd.to.esri(filename, temp.asc, format = "ascii",
-        prec = prec, show.output.on.console = show.output.on.console,
-        env = env)
-    on.exit(unlink(temp.asc), add = TRUE)
-    data = pick.from.ascii.grid(data, temp.asc, varname = varname, ...)
-    invisible(data)
-}
-
-#' @rdname read.ascii.grid
-#' @name read.sgrd
-#' @export
-read.sgrd = function( fname, return.header = TRUE, print = 0, 
-    nodata.values = c(), at.once = TRUE, prec = 7, ... )
-{
-    temp.fname = paste(tempfile(),".asc",sep="")
-    res = rsaga.sgrd.to.esri( fname, temp.fname, prec=prec, format="ascii",
-        show.output.on.console=FALSE, intern=FALSE, ... )
-    on.exit(unlink(temp.fname), add = TRUE)
-    if (res==0) {
-        data = read.ascii.grid( temp.fname, return.header=return.header,
-            print=print, nodata.values=nodata.values, at.once=at.once )
-    } else
-        stop("error converting the SAGA sgrd file to a temporary ASCII grid file")
-    invisible(data)
-}
-
-#' @rdname read.ascii.grid
-#' @name write.sgrd
-#' @export
-write.sgrd = function( data, file, header = NULL, prec = 7,    
-    hdr.prec = 10, georef = "corner", ... )
-    # 'georef' argument was missing - bug fixed 2008-05-02
-    # hdr.prec argument added - 2013-02-07
-{
-    temp.fname = paste(tempfile(),".asc",sep="")
-    write.ascii.grid( data = data, file = temp.fname, header = header, 
-                digits = prec, hdr.digits = hdr.prec, georef = georef )
-    on.exit(unlink(temp.fname), add = TRUE)
-    res = rsaga.esri.to.sgrd( in.grids = temp.fname, out.sgrds = file,
-        show.output.on.console = FALSE, intern = FALSE, ... )
-    invisible(res)
 }

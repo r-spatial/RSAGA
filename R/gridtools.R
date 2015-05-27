@@ -206,47 +206,23 @@ read.ascii.grid.header = function(file,...)
     return(res)
 }
 
-
-
-
 #' @rdname read.ascii.grid
-#' @name write.ascii.grid.header
+#' @name read.sgrd
 #' @export
-write.ascii.grid.header = function(file, header, georef, dec=".", hdr.digits=10)
-    # added digits argument - 2013-02-07
+read.sgrd = function( fname, return.header = TRUE, print = 0, 
+                      nodata.values = c(), at.once = TRUE, prec = 7, ... )
 {
-    if (missing(georef)) {
-        # determine from the 'header' if georeferencing should refer
-        # to corner or center of lower left grid cell:
-        i.corner = min(c(Inf,grep("corner",tolower(names(header)))))
-        i.center = min(c(Inf,grep("center",tolower(names(header)))))
-        stopifnot(i.center!=i.corner) # this can only happen if header is corrupt
-        georef = "corner"
-        if (i.center < i.corner) georef = "center"
-    } else {
-        georef = match.arg(tolower(georef),choices=c("corner","center"))
-    }
-    # number of decimal places in header now determined by digits argument; 2013-02-07:
-    my.fmt = paste("%-14s%-.",as.character(hdr.digits),"f",sep="")
-    fmt = c("%-14s%-.0f", "%-14s%-.0f", my.fmt, my.fmt, 
-        my.fmt, my.fmt)
-    nm = c( "ncols", "nrows", paste(c("xll","yll"),georef,sep=""), "cellsize", "nodata_value" )
-    if (is.character(file))  {
-        file = default.file.extension(file,".asc")
-        file = file(file, open="w")
-        on.exit(close(file), add = TRUE)
-    } else {
-        if (!isOpen(file,"write"))
-            stop("'file' must be a file name or a connection opened for reading")
-    }
-    for (i in 1:length(nm)) {
-        entry = gsub(".", dec, sprintf(fmt[i],nm[i],as.numeric(header[[ nm[i] ]])), fixed=TRUE)
-        write( entry, file=file, append=(i>1) )
-    }
-    invisible()
+    temp.fname = paste(tempfile(),".asc",sep="")
+    res = rsaga.sgrd.to.esri( fname, temp.fname, prec=prec, format="ascii",
+                              show.output.on.console=FALSE, intern=FALSE, ... )
+    on.exit(unlink(temp.fname), add = TRUE)
+    if (res==0) {
+        data = read.ascii.grid( temp.fname, return.header=return.header,
+                                print=print, nodata.values=nodata.values, at.once=at.once )
+    } else
+        stop("error converting the SAGA sgrd file to a temporary ASCII grid file")
+    invisible(data)
 }
-
-
 
 #' @rdname read.ascii.grid
 #' @name read.Rd.grid
@@ -266,13 +242,11 @@ read.Rd.grid = function( fname, return.header = TRUE )
     invisible(data)
 }
 
-
-
 #' @rdname read.ascii.grid
 #' @name write.ascii.grid
 #' @export
 write.ascii.grid = function( data, file, header = NULL, write.header = TRUE, 
-    digits, hdr.digits = 10, dec = ".", georef = "corner" ) 
+                             digits, hdr.digits = 10, dec = ".", georef = "corner" ) 
 {
     if (is.character(file)) {
         file = default.file.extension(file, ".asc")
@@ -295,8 +269,62 @@ write.ascii.grid = function( data, file, header = NULL, write.header = TRUE,
     if (write.header)  
         write.ascii.grid.header(con, header, dec=dec, georef=georef, hdr.digits=hdr.digits)
     write.table(data, file=con, append=TRUE, quote=FALSE,
-        na=as.character(header$nodata_value),
-        row.names=FALSE, col.names=FALSE, dec=dec)
+                na=as.character(header$nodata_value),
+                row.names=FALSE, col.names=FALSE, dec=dec)
+}
+
+#' @rdname read.ascii.grid
+#' @name write.ascii.grid.header
+#' @export
+write.ascii.grid.header = function(file, header, georef, dec=".", hdr.digits=10)
+    # added digits argument - 2013-02-07
+{
+    if (missing(georef)) {
+        # determine from the 'header' if georeferencing should refer
+        # to corner or center of lower left grid cell:
+        i.corner = min(c(Inf,grep("corner",tolower(names(header)))))
+        i.center = min(c(Inf,grep("center",tolower(names(header)))))
+        stopifnot(i.center!=i.corner) # this can only happen if header is corrupt
+        georef = "corner"
+        if (i.center < i.corner) georef = "center"
+    } else {
+        georef = match.arg(tolower(georef),choices=c("corner","center"))
+    }
+    # number of decimal places in header now determined by digits argument; 2013-02-07:
+    my.fmt = paste("%-14s%-.",as.character(hdr.digits),"f",sep="")
+    fmt = c("%-14s%-.0f", "%-14s%-.0f", my.fmt, my.fmt, 
+            my.fmt, my.fmt)
+    nm = c( "ncols", "nrows", paste(c("xll","yll"),georef,sep=""), "cellsize", "nodata_value" )
+    if (is.character(file))  {
+        file = default.file.extension(file,".asc")
+        file = file(file, open="w")
+        on.exit(close(file), add = TRUE)
+    } else {
+        if (!isOpen(file,"write"))
+            stop("'file' must be a file name or a connection opened for reading")
+    }
+    for (i in 1:length(nm)) {
+        entry = gsub(".", dec, sprintf(fmt[i],nm[i],as.numeric(header[[ nm[i] ]])), fixed=TRUE)
+        write( entry, file=file, append=(i>1) )
+    }
+    invisible()
+}
+
+#' @rdname read.ascii.grid
+#' @name write.sgrd
+#' @export
+write.sgrd = function( data, file, header = NULL, prec = 7,    
+                       hdr.prec = 10, georef = "corner", ... )
+    # 'georef' argument was missing - bug fixed 2008-05-02
+    # hdr.prec argument added - 2013-02-07
+{
+    temp.fname = paste(tempfile(),".asc",sep="")
+    write.ascii.grid( data = data, file = temp.fname, header = header, 
+                      digits = prec, hdr.digits = hdr.prec, georef = georef )
+    on.exit(unlink(temp.fname), add = TRUE)
+    res = rsaga.esri.to.sgrd( in.grids = temp.fname, out.sgrds = file,
+                              show.output.on.console = FALSE, intern = FALSE, ... )
+    invisible(res)
 }
 
 #' @rdname read.ascii.grid
@@ -316,33 +344,6 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
     } else stopifnot(is.matrix(data))
     if (write.header)  data = list( header = header, data = data )
     save(data, file=file, ascii=FALSE, compress=compress)
-}
-
-
-#' @rdname pick.from.points
-#' @name pick.from.shapefile
-#' @export
-pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
-{
-    shapefile = set.file.extension(shapefile,"")
-    shapefile = substr(shapefile,1,nchar(shapefile)-1) # remove "." at the end
-    src = read.shapefile(shapefile)
-    src = add.xy(src)
-    src = src$dbf[[1]]
-    if (X.name != "XCOORD") {
-        if (X.name %in% names(src)) {
-            src[,X.name] = src[,"XCOORD"]
-            src = src[,names(src)!="XCOORD"]
-        }
-    }
-    if (Y.name != "YCOORD") {
-        if (Y.name %in% names(src)) {
-            src[,Y.name] = src[,"YCOORD"]
-            src = src[,names(src)!="YCOORD"]
-        }
-    }
-    data = pick.from.points(data,src,X.name=X.name,Y.name=Y.name,...)
-    return(data)
 }
 
 
@@ -509,6 +510,149 @@ pick.from.points = function(data, src, pick,
 
 
 #' @rdname pick.from.points
+#' @name pick.from.shapefile
+#' @export
+pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
+{
+    shapefile = set.file.extension(shapefile,"")
+    shapefile = substr(shapefile,1,nchar(shapefile)-1) # remove "." at the end
+    src = read.shapefile(shapefile)
+    src = add.xy(src)
+    src = src$dbf[[1]]
+    if (X.name != "XCOORD") {
+        if (X.name %in% names(src)) {
+            src[,X.name] = src[,"XCOORD"]
+            src = src[,names(src)!="XCOORD"]
+        }
+    }
+    if (Y.name != "YCOORD") {
+        if (Y.name %in% names(src)) {
+            src[,Y.name] = src[,"YCOORD"]
+            src = src[,names(src)!="YCOORD"]
+        }
+    }
+    data = pick.from.points(data,src,X.name=X.name,Y.name=Y.name,...)
+    return(data)
+}
+
+#' @rdname pick.from.points
+#' @name pick.from.ascii.grid
+#' @export
+pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix = NULL,
+                                 method = c("nearest.neighbour","krige"), cbind = TRUE,
+                                 parallel = FALSE, nsplit, quiet = TRUE, ... )
+{
+    method = match.arg(method)
+    
+    # TO DO: parallel implementation not currently working:
+    # it won't find the 'file' file unless the full path is specified
+    parallel = FALSE
+    
+    if (missing(nsplit)) {
+        if (method == "krige") {
+            nsplit = 1 + parallel
+        } else {
+            nsplit = ceiling(nrow(data) / 1500)
+            if (parallel)  nsplit = max(2, nsplit)
+        }
+    }
+    
+    if (nsplit == 1) {
+        return( internal.pick.from.ascii.grid(data = data, file = file, path = path, varname = varname, 
+                                              prefix = prefix, method = method, quiet = quiet, ...))
+    } else {
+        progress = "none"
+        if (parallel)  quiet = TRUE
+        if (nrow(data) >= 1000 & !quiet) {
+            progress = ifelse(Sys.info()["sysname"]=="Windows" & .Platform$GUI == "Rgui", "win", "text")
+            quiet = TRUE
+        }
+        PICKSPLIT = floor( seq(0, nsplit-0.001, length = nrow(data)) )
+        if (cbind) {
+            op = options(warn=-1)
+            on.exit(options(op))
+            data = ddply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
+                          file = file, path = path, varname = varname, prefix = prefix, method = method, 
+                          quiet = quiet, cbind = cbind, ...,
+                          .progress = progress, .parallel = parallel )
+            options(op)
+            data$PICKSPLIT = NULL
+            return(data)
+        } else {
+            op = options(warn=-1)
+            on.exit(options(op))
+            res = dlply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
+                         file = file, path = path, varname = varname, prefix = prefix, method = method, 
+                         quiet = quiet, cbind = cbind, ...,
+                         .progress = progress, .parallel = parallel )
+            options(op)
+            ###print(str(res))
+            res = unlist(res, use.names = FALSE)
+            ###print(str(res))
+            return(res)
+        }
+    }
+}
+
+#' @rdname pick.from.points
+#' @name pick.from.ascii.grids
+#' @export
+pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefix = NULL,
+                                  cbind = TRUE, quiet = TRUE, ... )
+{
+    if (!is.null(path)) {
+        if (length(path) == 1) path = rep(path, length(file))
+        stopifnot(length(path) == length(file))
+    }
+    if (!is.null(varname)) {
+        stopifnot(length(varname) == length(file))
+    }
+    if (!is.null(prefix)) {
+        if (length(prefix) == 1) prefix = rep(prefix, length(file))
+        stopifnot(length(prefix) == length(file))
+    }
+    
+    if (length(file) == 1) {
+        return( pick.from.ascii.grid( data = data, file = file, path = path, varname = varname, 
+                                      prefix = prefix, cbind = cbind, quiet = quiet, ...) )
+    }
+    
+    if (is.null(varname)) {
+        if (is.character(file)) {
+            varname = unname( sapply(file, RSAGA::create.variable.name) )
+        } else {
+            if (cbind) {
+                stop("'varname' must be specified unless 'file' is a character string with the filename")
+            } else varname = paste("X", c(1:length(file)), sep = "")
+        }
+    }
+    
+    # add a prefix to the variable names?
+    if (!is.null(prefix))
+        for (i in 1:length(file))
+            if (prefix!="")
+                varname[i] = paste(prefix[i],varname[i],sep=".")
+            
+            for (i in 1:length(file)) {
+                if (!quiet) cat("Processing file '", file[i], "' (", i, " of ", length(file), ")...\n", sep="")
+                res = pick.from.ascii.grid( data = data, file = file[i], path = path[i], varname = varname[i],
+                                            prefix = prefix[i], cbind = cbind, quiet = TRUE, ...)
+                if (cbind) {
+                    data = res
+                } else {
+                    if (i == 1) {
+                        RES = res
+                    } else RES = cbind(RES, res)
+                }
+            }
+            if (!cbind) {
+                data = as.data.frame(RES)
+                colnames(data) = varname
+            }
+            return(data)
+}
+
+#' @rdname pick.from.points
 #' @name internal.pick.from.ascii.grid
 #' @export
 internal.pick.from.ascii.grid = function( data, file, 
@@ -639,124 +783,21 @@ internal.pick.from.ascii.grid = function( data, file,
 
 
 #' @rdname pick.from.points
-#' @name pick.from.ascii.grids
+#' @name pick.from.saga.grid
 #' @export
-pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefix = NULL,
-    cbind = TRUE, quiet = TRUE, ... )
+pick.from.saga.grid = function( data, filename, path, varname, 
+                                prec = 7, show.output.on.console = FALSE, env = rsaga.env(), ... )
 {
-    if (!is.null(path)) {
-        if (length(path) == 1) path = rep(path, length(file))
-        stopifnot(length(path) == length(file))
-    }
-    if (!is.null(varname)) {
-        stopifnot(length(varname) == length(file))
-    }
-    if (!is.null(prefix)) {
-        if (length(prefix) == 1) prefix = rep(prefix, length(file))
-        stopifnot(length(prefix) == length(file))
-    }
-
-    if (length(file) == 1) {
-        return( pick.from.ascii.grid( data = data, file = file, path = path, varname = varname, 
-            prefix = prefix, cbind = cbind, quiet = quiet, ...) )
-    }
-
-    if (is.null(varname)) {
-        if (is.character(file)) {
-            varname = unname( sapply(file, RSAGA::create.variable.name) )
-        } else {
-            if (cbind) {
-                stop("'varname' must be specified unless 'file' is a character string with the filename")
-            } else varname = paste("X", c(1:length(file)), sep = "")
-        }
-    }
-
-    # add a prefix to the variable names?
-    if (!is.null(prefix))
-        for (i in 1:length(file))
-            if (prefix!="")
-                varname[i] = paste(prefix[i],varname[i],sep=".")
-
-    for (i in 1:length(file)) {
-        if (!quiet) cat("Processing file '", file[i], "' (", i, " of ", length(file), ")...\n", sep="")
-        res = pick.from.ascii.grid( data = data, file = file[i], path = path[i], varname = varname[i],
-            prefix = prefix[i], cbind = cbind, quiet = TRUE, ...)
-        if (cbind) {
-            data = res
-        } else {
-            if (i == 1) {
-                RES = res
-            } else RES = cbind(RES, res)
-        }
-    }
-    if (!cbind) {
-        data = as.data.frame(RES)
-        colnames(data) = varname
-    }
-    return(data)
+    if (!missing(path)) if (path!="") filename = file.path(path,filename)
+    temp.asc = paste(tempfile(),".asc",sep="")
+    if (missing(varname)) varname = create.variable.name(filename)
+    rsaga.sgrd.to.esri(filename, temp.asc, format = "ascii",
+                       prec = prec, show.output.on.console = show.output.on.console,
+                       env = env)
+    on.exit(unlink(temp.asc), add = TRUE)
+    data = pick.from.ascii.grid(data, temp.asc, varname = varname, ...)
+    invisible(data)
 }
-
-
-#' @rdname pick.from.points
-#' @name pick.from.ascii.grid
-#' @export
-pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix = NULL,
-    method = c("nearest.neighbour","krige"), cbind = TRUE,
-    parallel = FALSE, nsplit, quiet = TRUE, ... )
-{
-    method = match.arg(method)
-    
-    # TO DO: parallel implementation not currently working:
-    # it won't find the 'file' file unless the full path is specified
-    parallel = FALSE
-
-    if (missing(nsplit)) {
-        if (method == "krige") {
-            nsplit = 1 + parallel
-        } else {
-            nsplit = ceiling(nrow(data) / 1500)
-            if (parallel)  nsplit = max(2, nsplit)
-        }
-    }
-
-    if (nsplit == 1) {
-        return( internal.pick.from.ascii.grid(data = data, file = file, path = path, varname = varname, 
-            prefix = prefix, method = method, quiet = quiet, ...))
-    } else {
-        progress = "none"
-        if (parallel)  quiet = TRUE
-        if (nrow(data) >= 1000 & !quiet) {
-            progress = ifelse(Sys.info()["sysname"]=="Windows" & .Platform$GUI == "Rgui", "win", "text")
-            quiet = TRUE
-        }
-        PICKSPLIT = floor( seq(0, nsplit-0.001, length = nrow(data)) )
-        if (cbind) {
-            op = options(warn=-1)
-            on.exit(options(op))
-            data = ddply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
-                file = file, path = path, varname = varname, prefix = prefix, method = method, 
-                quiet = quiet, cbind = cbind, ...,
-                .progress = progress, .parallel = parallel )
-            options(op)
-            data$PICKSPLIT = NULL
-            return(data)
-        } else {
-            op = options(warn=-1)
-            on.exit(options(op))
-            res = dlply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
-                file = file, path = path, varname = varname, prefix = prefix, method = method, 
-                quiet = quiet, cbind = cbind, ...,
-                .progress = progress, .parallel = parallel )
-            options(op)
-            ###print(str(res))
-            res = unlist(res, use.names = FALSE)
-            ###print(str(res))
-            return(res)
-        }
-    }
-}
-
-
 
 
 #' Convert Grid Matrix to (x,y,z) data.frame

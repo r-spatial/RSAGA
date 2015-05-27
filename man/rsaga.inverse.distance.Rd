@@ -39,9 +39,9 @@ rsaga.triangulation(in.shapefile, out.grid, field, target, env = rsaga.env(),
 
 \item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.}
 
-\item{quadratic.neighbors}{integer >=5; ??}
+\item{quadratic.neighbors}{integer >=5; default 13.}
 
-\item{weighting.neighbors}{integer >=3; ??}
+\item{weighting.neighbors}{integer >=3; default 19.}
 }
 \description{
 Spatial interpolation of point data using inverse distance to a power (inverse distance weighting, IDW), nearest neighbors, or modified quadratic shephard.
