@@ -1521,7 +1521,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' 
 #' Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An approach to computing topographic wetness index based on maximum downslope gradient. Precision Agriculture, 12(1): 32-43.
 #' 
-#' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+#' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
 #' @examples
 #' \dontrun{
 #' # Calculation of contributing area with default settings:

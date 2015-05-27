@@ -13,7 +13,7 @@ Description: RSAGA provides access to geocomputing and terrain analysis
     multiple grids. SAGA GIS is available under GPLv2 / LGPLv2 licence from
     http://sourceforge.net/projects/saga-gis/.
 License: GPL-2
-SystemRequirements: SAGA GIS (2.0.4 - 2.1.2)
+SystemRequirements: SAGA GIS (2.0.4 - 2.1.4)
 Depends:
     gstat,
     shapefiles,

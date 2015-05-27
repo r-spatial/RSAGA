@@ -76,7 +76,7 @@ rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
 }
 }
 \author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
 }
 \references{
 Deterministic 8:
