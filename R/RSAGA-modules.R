@@ -479,6 +479,9 @@ rsaga.local.morphometry = function( in.dem,
     rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, out.aspect=out.aspect, 
         out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv, 
         method=method, env=env, ... )
+    warning("rsaga.local.morphometry specific to SAGA versions < 2.1.1\n",
+            "Translating provided parameters and using rsaga.slope.asp.curv\n",
+            "Order of numeric methods have changed with SAGA 2.1.1+")
   } else {
   
     in.dem = default.file.extension(in.dem,".sgrd")
@@ -2161,9 +2164,9 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
         nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
         nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
         nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
     }
-    names(param) = nm
-    
+
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Nearest Neighbour", # was: = 2 (=1 in earlier SAGA version)
         param, env = env, ...)
@@ -2219,8 +2222,8 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
         nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
         nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
         nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
     }
-    names(param) = nm
         
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Modifed Quadratic Shepard", # = 4 (earlier SAGA versions: =2)
@@ -2253,7 +2256,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     }
 
     param = list(
-        GRID = out.grid,
+        USER_GRID = out.grid,
         SHAPES = in.shapefile,
         FIELD = field)
     param = c(param, target)
@@ -2261,7 +2264,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4") {
         nm = names(param)
-        nm[ nm == "GRID" ] = "TARGET_OUT_GRID"
+        nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
         nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
         nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
@@ -2270,8 +2273,8 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
         nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
         nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
         nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
     }
-    names(param) = nm
         
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Triangulation",
