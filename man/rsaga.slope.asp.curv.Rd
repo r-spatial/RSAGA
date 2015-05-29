@@ -78,7 +78,8 @@ rsaga.slope.asp.curv("lican.sgrd", "slope", "aspect", "curvature",
                      method = "maxslope", unit.slope = "degrees", unit.aspect = "degrees")
 # same for ASCII grids (default extension .asc):
 rsaga.esri.wrapper(rsaga.slope.asp.curv,
-                   in.dem="lican", out.slope="slope", out.aspect = "aspect", out.cgene = "curvature",
+                   in.dem="lican", out.slope="slope",
+                   out.aspect = "aspect", out.cgene = "curvature",
                    method="maxslope", unit.slope = "degrees", unit.aspect = "degrees")
 }
 }
