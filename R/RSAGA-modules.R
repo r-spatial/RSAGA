@@ -1,15 +1,15 @@
 #' Define target grid for interpolation
 #'
-#' Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions. Currently works with SAGA GIS 2.0.5 - 2.0.8 and partially with SAGA GIS 2.1.0 (not with \code{target="target.grid"}).
+#' Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions.
 #' @name rsaga.target
-#' @param target character: method used for defining the target grid; note: \code{"target.grid"} currently doesn't seem to work in SAGA GIS 2.1.0
+#' @param target character: method used for defining the target grid
 #' @param user.cellsize Only for \code{target="user.defined"}: raster resolution (in the grid's map units)
 #' @param user.x.extent See \code{user.y.extent}
 #' @param user.y.extent Only for \code{target="user.defined"}: numeric vectors of length 2: minimum and maximum coordinates of grid cell center points
 #' @param target.grid Only for \code{target="target.grid"}: character string giving the name of a SAGA grid file that specifies the extent and resolution of the target grid; this target grid file may be overwritten, depending on the specifics of the SAGA GIS module used.
 #' @param header Only for \code{target="header"}: list: ASCII grid header (as returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually; must at least have components \code{ncols}, \code{nrows}, \code{cellsize}, and either \code{x/yllcorner} or \code{x/yllcenter}.
 #' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)
-#' @note This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher,  and that SAGA GIS 2.1.0 has some yet unresolved issues with the target grid parameterization (\code{target="target.grid"}).
+#' @note This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher.
 #' @seealso \code{\link{read.ascii.grid.header}}
 #' @examples
 #' \dontrun{
@@ -300,14 +300,14 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' @param out.croto optional output: flow line curvature (degrees)
 #' @param method character algorithm (see References):
 #' \itemize{
-#' \item Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
-#' \item Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
-#' \item Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
-#' \item Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
-#' \item Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
-#' \item Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
-#' \item Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
-#' \item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
+#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
+#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
+#' \item [2] Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
+#' \item [3] Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
+#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
+#' \item [5] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
+#' \item [6] default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
+#' \item [7] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
 #' @param unit.slope character or numeric (default \code{"radians"}):
 #' \itemize{
 #' \item [0] \code{"radians"}
@@ -361,7 +361,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
 #' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # Simple slope, aspect, and general curvature in degrees:
@@ -456,7 +456,15 @@ rsaga.slope.asp.curv = function(in.dem,
 #' @param out.curv optional output: curvature
 #' @param out.hcurv optional output: horizontal curvature (plan curvature)
 #' @param out.vcurv optional output: vertical curvature (profile curvature)
-#' @param method character (or numeric): algorithm (see References): Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0), Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1), Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2), Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3), Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4), default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5), Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).
+#' @param method character (or numeric): algorithm (see References):
+#' \itemize{
+#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
+#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
+#' \item [2] Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
+#' \item [3] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
+#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
+#' \item [5] default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
+#' \item [6] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
 #' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
@@ -481,8 +489,8 @@ rsaga.local.morphometry = function( in.dem,
         out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv, 
         method=method, env=env, ... )
     warning("rsaga.local.morphometry specific to SAGA versions < 2.1.1\n",
-            "Translating provided parameters and using rsaga.slope.asp.curv\n",
-            "Order of numeric methods have changed with SAGA 2.1.1+")
+            "Translating provided arguments and using rsaga.slope.asp.curv\n",
+            "Note: order of numeric methods have changed with SAGA 2.1.1+")
   } else {
   
     in.dem = default.file.extension(in.dem,".sgrd")
@@ -1392,7 +1400,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #' Use \code{\link{rsaga.geoprocessor}} for access to these options,
 #' and see \code{rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")}
 #' for information on new arguments.
-#' @seealso \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.topdown.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # SAGA GIS 2.0.6+:
@@ -1416,7 +1424,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     ## Version Stop - tool no longer supported SAGA 2.1.3
     if (env$version == "2.1.3" | env$version == "2.1.4") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
-           "See help(rsaga.topdown.processing) for use with SAGA 2.1.3 and higher")  
+           "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
     in.dem = default.file.extension(in.dem,".sgrd")
     pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd")
@@ -1531,7 +1539,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
 #'                          method = "mdg")
 #' }
-#' @seealso \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 #' @keywords spatial interface
 #' @export
 rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in.material, in.target,
@@ -1539,7 +1547,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     out.carea, out.mean, out.tot.mat, out.acc.left, out.acc.right,
                                     out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
                                     env = rsaga.env(), ...) {
-    ## Version Stop - SAGA GIS Version 2.1.3+
+    ## Version Stop - SAGA GIS Version < 2.1.3
     if (env$version != "2.1.3" & env$version != "2.1.4") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")

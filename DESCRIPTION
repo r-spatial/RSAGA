@@ -2,7 +2,7 @@ Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis in R
 Version: 0.94-0
-Date: 2015-05-29
+Date: 2015-06-01
 Author: Alexander Brenning and Donovan Bangs
 Maintainer: Alexander Brenning <brenning@uwaterloo.ca>
 Description: Provides access to geocomputing and terrain analysis

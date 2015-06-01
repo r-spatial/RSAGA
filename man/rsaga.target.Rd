@@ -9,7 +9,7 @@ rsaga.target(target = c("user.defined", "target.grid", "header"),
   env = rsaga.env())
 }
 \arguments{
-\item{target}{character: method used for defining the target grid; note: \code{"target.grid"} currently doesn't seem to work in SAGA GIS 2.1.0}
+\item{target}{character: method used for defining the target grid}
 
 \item{user.cellsize}{Only for \code{target="user.defined"}: raster resolution (in the grid's map units)}
 
@@ -24,10 +24,10 @@ rsaga.target(target = c("user.defined", "target.grid", "header"),
 \item{env}{A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)}
 }
 \description{
-Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions. Currently works with SAGA GIS 2.0.5 - 2.0.8 and partially with SAGA GIS 2.1.0 (not with \code{target="target.grid"}).
+Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions.
 }
 \note{
-This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher,  and that SAGA GIS 2.1.0 has some yet unresolved issues with the target grid parameterization (\code{target="target.grid"}).
+This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher.
 }
 \examples{
 \dontrun{

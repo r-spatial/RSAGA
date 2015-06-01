@@ -313,7 +313,7 @@ rsaga.lib.prefix = function(env) {
 #' @name rsaga.get.version
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}. Note that \code{version=NA} ensures that \code{\link{rsaga.env}} won't call \code{rsaga.get.version} itself.
 #' @param ... additional arguments to \code{\link{rsaga.geoprocessor}}
-#' @details The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4+.
+#' @details The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8+. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4 - 2.0.7.
 #' @return A character string defining the SAGA GIS (API) version. E.g., \code{"2.0.8"}.
 #' @seealso \code{\link{rsaga.env}}
 #' @examples

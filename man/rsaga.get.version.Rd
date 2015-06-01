@@ -18,7 +18,7 @@ A character string defining the SAGA GIS (API) version. E.g., \code{"2.0.8"}.
 Determine SAGA GIS version.
 }
 \details{
-The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4+.
+The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8+. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4 - 2.0.7.
 }
 \examples{
 \dontrun{

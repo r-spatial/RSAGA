@@ -40,7 +40,15 @@ rsaga.profile.curvature(in.dem, out.vcurv, method = "poly2zevenbergen",
 
 \item{out.vcurv}{optional output: vertical curvature (profile curvature)}
 
-\item{method}{character (or numeric): algorithm (see References): Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0), Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1), Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2), Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3), Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4), default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5), Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}
+\item{method}{character (or numeric): algorithm (see References):
+\itemize{
+\item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
+\item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
+\item [2] Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
+\item [3] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
+\item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
+\item [5] default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
+\item [6] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}}
 
 \item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
 
