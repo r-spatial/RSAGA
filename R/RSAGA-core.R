@@ -790,7 +790,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #' 
 #' @details This workhorse function establishes the interface between the SAGA command line program and R by submitting a system call. This is a low-level function that may be used for directly accessing SAGA; specific functions such as \code{rsaga.hillshade} are intended to be more user-friendly interfaces to the most frequently used SAGA modules. These higher-level interfaces support default values for the arguments and perform some error checking; they should therefore be preferred if available.
 #' 
-#' A warning is issued if the RSAGA version is not one of 2.0.4, 2.0.5, 2.0.6, 2.0.7, 2.0.8 or 2.1.0.
+#' A warning is issued if the RSAGA version is not one of 2.0.4-2.0.8 or 2.1.0-2.1.4
 #'
 #' @return The type of object returned depends on the \code{intern} argument passed to \code{\link{system}}.
 #' 
@@ -831,14 +831,14 @@ rsaga.geoprocessor = function(
     argsep = " ", ... )
 {
     # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
-#    if (!is.null(env$version)) {
-#        if (!is.na(env$version)) {
-#            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0") == env$version))
-#                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.0.\n",
-#                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
-#                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
-#        }
-#    }
+    if (!is.null(env$version)) {
+        if (!is.na(env$version)) {
+            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0","2.1.1","2.1.2","2.1.3","2.1.4") == env$version))
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.4.\n",
+                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
+                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
+        }
+    }
     
     # Number of cores for multicore processing:
     if (!missing(cores)) env$cores = cores
