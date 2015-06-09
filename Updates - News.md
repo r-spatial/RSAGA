@@ -9,7 +9,7 @@ RSAGA 0.94-1 is now available on CRAN. Updates to the package support changes in
 
 1. Arguments and calculations using the `Slope, Aspect, Curvature` module have changed with SAGA 2.1.1+ 
   * New function `rsaga.slope.asp.curv` has been added for use with SAGA 2.1.1+
-  * Continue to use `rsaga.local.morphometery` with SAGA versions below 2.1.1
+  * Continue to use `rsaga.local.morphometry` with SAGA versions below 2.1.1
   * Calls using `rsaga.local.morphometry` with SAGA 2.1.1+ are redirected to `rsaga.slope.asp.curv`
     * An additional method has been added in `rsaga.slope.asp.curv`, in the `3` position. Numeric arguments for `method`
     are not supported with this function, and will stop with an error message.
