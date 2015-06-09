@@ -313,7 +313,7 @@ rsaga.lib.prefix = function(env) {
 #' @name rsaga.get.version
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}. Note that \code{version=NA} ensures that \code{\link{rsaga.env}} won't call \code{rsaga.get.version} itself.
 #' @param ... additional arguments to \code{\link{rsaga.geoprocessor}}
-#' @details The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4+.
+#' @details The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8+. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4 - 2.0.7.
 #' @return A character string defining the SAGA GIS (API) version. E.g., \code{"2.0.8"}.
 #' @seealso \code{\link{rsaga.env}}
 #' @examples
@@ -416,9 +416,9 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 #'
 #' \code{rsaga.get.lib.modules} returns a \code{data.frame} with:
 #' \itemize{
-#' \item{name}{the names of all modules in library \code{lib},}
-#' \item{code}{their numeric identifiers,}
-#' \item{interactive}{and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
+#' \item{name} {the names of all modules in library \code{lib},}
+#' \item{code} {their numeric identifiers,}
+#' \item{interactive} {and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
 #' }
 #'
 #' \code{rsaga.get.modules} returns a list with, for each SAGA library in \code{libs}, a \code{data.frame} with module information as given by \code{rsaga.get.lib.modules}. If \code{libs} is missing, all modules in all libraries will be retrieved.
@@ -501,6 +501,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         # inserted tolower() for SAGA 2.1.0 RC1:
         rawres = rawres[ tolower(rawres) != "error: module" ]
         rawres = rawres[ tolower(rawres) != "error: tool" ]
+        rawres = rawres[ tolower(rawres) != "error: select a tool" ]
     }
     if (length(wh) > 0) {
         rawres = strsplit(rawres,"\t- ")
@@ -789,7 +790,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #' 
 #' @details This workhorse function establishes the interface between the SAGA command line program and R by submitting a system call. This is a low-level function that may be used for directly accessing SAGA; specific functions such as \code{rsaga.hillshade} are intended to be more user-friendly interfaces to the most frequently used SAGA modules. These higher-level interfaces support default values for the arguments and perform some error checking; they should therefore be preferred if available.
 #' 
-#' A warning is issued if the RSAGA version is not one of 2.0.4, 2.0.5, 2.0.6, 2.0.7, 2.0.8 or 2.1.0.
+#' A warning is issued if the RSAGA version is not one of 2.0.4-2.0.8 or 2.1.0-2.1.4
 #'
 #' @return The type of object returned depends on the \code{intern} argument passed to \code{\link{system}}.
 #' 
@@ -830,14 +831,14 @@ rsaga.geoprocessor = function(
     argsep = " ", ... )
 {
     # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
-#    if (!is.null(env$version)) {
-#        if (!is.na(env$version)) {
-#            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0") == env$version))
-#                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.0.\n",
-#                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
-#                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
-#        }
-#    }
+    if (!is.null(env$version)) {
+        if (!is.na(env$version)) {
+            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0","2.1.1","2.1.2","2.1.3","2.1.4") == env$version))
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.4.\n",
+                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
+                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
+        }
+    }
     
     # Number of cores for multicore processing:
     if (!missing(cores)) env$cores = cores
@@ -888,10 +889,14 @@ rsaga.geoprocessor = function(
         }
     }
     
-    # Library - in the case of unix systems, it must be preceded by 'lib' - but not in the case of Mac OSX:
+    # Library - in the case of unix systems (until 2.0.9), it must be preceded by 'lib' -
+    # but not in the case of Mac OSX:
     ###add.lib = (Sys.info()["sysname"] != "Windows") & (Sys.info()["sysname"] != "Darwin")
     if (!is.null(lib)) {
-        if (is.null(env$lib.prefix)) env$lib.prefix = ""
+        # From 2.1.0 on, UNIX-like systems do not have preceding 'lib' any more
+        if (is.null(env$lib.prefix) |
+            !(env$version %in% c("2.0.4", "2.0.5", "2.0.6",
+                                 "2.0.7", "2.0.8", "2.0.9"))) env$lib.prefix = ""
         command = paste( command, " ", env$lib.prefix, lib, sep = "")
     }
     
@@ -911,18 +916,33 @@ rsaga.geoprocessor = function(
         if (is.character(module)) module = shQuote(module)
         command = paste(command, module)
         if (length(param)>0) {
-            # Logical arguments are treated in a special way:
+            # Logical arguments are treated in a special way with SAGA versions below 2.1.3:
             # They are simply omitted if their value is FALSE.
-            i = 1
-            while (i<=length(param)) {
-                if (is.logical(param[[i]])) {
-                    if (!param[[i]]) {
-                        param[[i]] = NULL
-                        i = i - 1
-                    } else param[[i]] = ""
+            if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9",
+                                     "2.1.0","2.1.1","2.1.2"))) {
+                i = 1
+                while (i<=length(param)) {
+                    if (is.logical(param[[i]])) {
+                        if (!param[[i]]) {
+                            param[[i]] = "false"
+                            i = i - 1
+                        } else param[[i]] = "true"
+                    }
+                    i = i + 1
                 }
-                i = i + 1
+            } else {
+                i = 1
+                while (i<=length(param)) {
+                    if (is.logical(param[[i]])) {
+                        if (!param[[i]]) {
+                            param[[i]] = NULL
+                            i = i - 1
+                        } else param[[i]] = ""
+                    }
+                    i = i + 1
+                }
             }
+            
             # Argument names:
             nm = names(param)
             # Argument values:
@@ -931,7 +951,7 @@ rsaga.geoprocessor = function(
             # line added by Johan v.d.W.:
             # Put quotes around non-void argument values:
             val[ nchar(val) > 0 ] = shQuote( val[ nchar(val) > 0 ] )
-
+            
             # Add saga_cmd arguments to the command line call:
             param = paste("-",nm, argsep, val,sep="",collapse=" ")
             command = paste(command, param)

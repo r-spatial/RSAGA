@@ -1,15 +1,15 @@
 #' Define target grid for interpolation
 #'
-#' Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions. Currently works with SAGA GIS 2.0.5 - 2.0.8 and partially with SAGA GIS 2.1.0 (not with \code{target="target.grid"}).
+#' Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions.
 #' @name rsaga.target
-#' @param target character: method used for defining the target grid; note: \code{"target.grid"} currently doesn't seem to work in SAGA GIS 2.1.0
+#' @param target character: method used for defining the target grid
 #' @param user.cellsize Only for \code{target="user.defined"}: raster resolution (in the grid's map units)
 #' @param user.x.extent See \code{user.y.extent}
 #' @param user.y.extent Only for \code{target="user.defined"}: numeric vectors of length 2: minimum and maximum coordinates of grid cell center points
 #' @param target.grid Only for \code{target="target.grid"}: character string giving the name of a SAGA grid file that specifies the extent and resolution of the target grid; this target grid file may be overwritten, depending on the specifics of the SAGA GIS module used.
 #' @param header Only for \code{target="header"}: list: ASCII grid header (as returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually; must at least have components \code{ncols}, \code{nrows}, \code{cellsize}, and either \code{x/yllcorner} or \code{x/yllcenter}.
 #' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)
-#' @note This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher,  and that SAGA GIS 2.1.0 has some yet unresolved issues with the target grid parameterization (\code{target="target.grid"}).
+#' @note This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher.
 #' @seealso \code{\link{read.ascii.grid.header}}
 #' @examples
 #' \dontrun{
@@ -300,14 +300,14 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' @param out.croto optional output: flow line curvature (degrees)
 #' @param method character algorithm (see References):
 #' \itemize{
-#' \item Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
-#' \item Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
-#' \item Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
-#' \item Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
-#' \item Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
-#' \item Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
-#' \item Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
-#' \item Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
+#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
+#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
+#' \item [2] Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
+#' \item [3] Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
+#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
+#' \item [5] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
+#' \item [6] default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
+#' \item [7] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
 #' @param unit.slope character or numeric (default \code{"radians"}):
 #' \itemize{
 #' \item [0] \code{"radians"}
@@ -361,7 +361,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
 #' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # Simple slope, aspect, and general curvature in degrees:
@@ -369,7 +369,8 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'                      method = "maxslope", unit.slope = "degrees", unit.aspect = "degrees")
 #' # same for ASCII grids (default extension .asc):
 #' rsaga.esri.wrapper(rsaga.slope.asp.curv,
-#'                    in.dem="lican", out.slope="slope", out.aspect = "aspect", out.cgene = "curvature",
+#'                    in.dem="lican", out.slope="slope",
+#'                    out.aspect = "aspect", out.cgene = "curvature",
 #'                    method="maxslope", unit.slope = "degrees", unit.aspect = "degrees")
 #' }
 #' @keywords spatial interface
@@ -383,7 +384,7 @@ rsaga.slope.asp.curv = function(in.dem,
                               unit.slope = "radians", unit.aspect = "radians",
                               env = rsaga.env(), ...) {
   
-  if(env$version != "2.1.1" & env$version != "2.1.2") {
+  if(env$version != "2.1.1" & env$version != "2.1.2" & env$version != "2.1.3" & env$version != "2.1.4") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -455,7 +456,15 @@ rsaga.slope.asp.curv = function(in.dem,
 #' @param out.curv optional output: curvature
 #' @param out.hcurv optional output: horizontal curvature (plan curvature)
 #' @param out.vcurv optional output: vertical curvature (profile curvature)
-#' @param method character (or numeric): algorithm (see References): Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0), Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1), Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2), Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3), Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4), default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5), Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).
+#' @param method character (or numeric): algorithm (see References):
+#' \itemize{
+#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
+#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
+#' \item [2] Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
+#' \item [3] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
+#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
+#' \item [5] default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
+#' \item [6] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
 #' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
@@ -479,6 +488,9 @@ rsaga.local.morphometry = function( in.dem,
     rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, out.aspect=out.aspect, 
         out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv, 
         method=method, env=env, ... )
+    warning("rsaga.local.morphometry specific to SAGA versions < 2.1.1\n",
+            "Translating provided arguments and using rsaga.slope.asp.curv\n",
+            "Note: order of numeric methods have changed with SAGA 2.1.1+")
   } else {
   
     in.dem = default.file.extension(in.dem,".sgrd")
@@ -520,10 +532,10 @@ rsaga.local.morphometry = function( in.dem,
 rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.slope))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.slope=out.slope, method=method, env = env, ... )
     }
 }
 
@@ -533,10 +545,10 @@ rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rs
 rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.aspect))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )      
+      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )      
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )
     }
 }
 
@@ -547,10 +559,10 @@ rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = 
 rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.curv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cgene=out.curv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cgene=out.curv, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.curv=out.curv, method=method, env = env,  ... )
     }
 }
 
@@ -560,10 +572,10 @@ rsaga.curvature = function( in.dem, out.curv, method = "poly2zevenbergen", env =
 rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.hcurv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cplan=out.hcurv, method=method, env = env,  ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.hcurv=out.hcurv, method=method, env = env,  ... )
     }
 }
 
@@ -573,10 +585,10 @@ rsaga.plan.curvature = function( in.dem, out.hcurv, method = "poly2zevenbergen",
 rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.vcurv))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, ... )
+      rsaga.slope.asp.curv( in.dem=in.dem, out.cprof=out.vcurv, method=method, env = env, ... )
     }
     else {
-      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, ... )
+      rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, env = env, ... )
     }
 }
   
@@ -1335,7 +1347,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 
 #' Parallel Processing
 #'
-#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.
+#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See \code{\link{rsaga.topdown.processing}}.
 #' @name rsaga.parallel.processing
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
 #' @param in.sinkroute optional input: SAGA grid with sink routes
@@ -1388,7 +1400,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #' Use \code{\link{rsaga.geoprocessor}} for access to these options,
 #' and see \code{rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")}
 #' for information on new arguments.
-#' @seealso \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.topdown.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 #' @examples
 #' \dontrun{
 #' # SAGA GIS 2.0.6+:
@@ -1409,6 +1421,11 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     step, method="mfd", linear.threshold=Inf, convergence=1.1,
     env = rsaga.env(), ...)
 {
+    ## Version Stop - tool no longer supported SAGA 2.1.3
+    if (env$version == "2.1.3" | env$version == "2.1.4") {
+      stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
+           "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
+    }
     in.dem = default.file.extension(in.dem,".sgrd")
     pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd")
     method = match.arg.ext(method, choices=pp.choices,
@@ -1448,7 +1465,150 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...)
 }
 
+#' Top-Down Processing
+#' 
+#' Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See \code{\link{rsaga.parallel.processing}} with older versions.
+#' @name rsaga.topdown.processing
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.sinkroute optional input: SAGA grid with sink routes
+#' @param in.weight optional input: SAGA grid with weights
+#' @param in.mean optional input: SAGA grid for mean over catchment calculation
+#' @param in.material optional input: SAGA grid with material
+#' @param in.target optional input: SAGA grid of accumulation target
+#' @param in.lin.val optional input: SAGA grid providing values to be compared with linear flow threshold instead of catchment area
+#' @param in.lin.dir optional input: SAGA grid to be used for linear flow routing, if the value is a valid direction (0-7 = N, NE, E, SE, S, SW, W, NW)
+#' @param out.carea output: catchment area grid
+#' @param out.mean optional output: mean over catchment grid
+#' @param out.tot.mat optional output: total accumulated material grid
+#' @param out.acc.left optional output: accumulated material from left side grid
+#' @param out.acc.right optional output: accumulated material from right side grid
+#' @param out.flowpath optional output: flow path length grid
+#' @param step integer >=1: step parameter
+#' @param method character or numeric: choice of processing algorithm (default \code{"mfd"}, or 4):
+#' \itemize{
+#' \item [0] Deterministic 8 (\code{"d8"} or 0)
+#' \item [1] Rho 8 (\code{"rho8"}, or 1)
+#' \item [2] Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
+#' \item [3] Deterministic Infinity (\code{"dinf"} or 3)
+#' \item [4] Multiple Flow Direction (\code{"mfd"} or 4)
+#' \item [5] Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
+#' \item [6] Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)}
+#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)
+#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed
+#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
+#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @details Refer to the references for details on the available algorithms.
+#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @references
+#' Deterministic 8:
+#'
+#' O'Callaghan, J.F., Mark, D.M. (1984): The extraction of drainage networks from digital elevation data. Computer Vision, Graphics and Image Processing, 28: 323-344.
+#'
+#' Rho 8:
+#'
+#' Fairfield, J., Leymarie, P. (1991): Drainage networks from grid digital elevation models. Water Resources Research, 27: 709-717.
+#'
+#' Braunschweiger Reliefmodell:
+#'
+#' Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vorraussetzung fuer ein deterministisches Modell der Wasser- und Stoff-Fluesse. Landschaftsgenese und Landschaftsoekologie, H. 10, Parameteraufbereitung fuer deterministische Gebiets-Wassermodelle, Grundlagenarbeiten zu Analyse von Agrar-Oekosystemen, eds.: Bork, H.-R., Rohdenburg, H., p. 1-15.
+#'
+#' Deterministic Infinity:
+#'
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#'
+#' Multiple Flow Direction:
+#'
+#' Freeman, G.T. (1991): Calculating catchment area with divergent flow based on a regular grid. Computers and Geosciences, 17: 413-22.
+#'
+#' Quinn, P.F., Beven, K.J., Chevallier, P., Planchon, O. (1991): The prediction of hillslope flow paths for distributed hydrological modelling using digital terrain models. Hydrological Processes, 5: 59-79.
+#'
+#' Multiple Triangular Flow Direction:
+#'
+#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
+#'
+#' Multiple Flow Direction Based on Maximum Downslope Gradient:
+#' 
+#' Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An approach to computing topographic wetness index based on maximum downslope gradient. Precision Agriculture, 12(1): 32-43.
+#' 
+#' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+#' @examples
+#' \dontrun{
+#' # Calculation of contributing area with default settings:
+#' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea")
+#' # Calculation of contributing area by maximunm downslope gradient:
+#' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
+#'                          method = "mdg")
+#' }
+#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @keywords spatial interface
+#' @export
+rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in.material, in.target,
+                                    in.lin.val, in.lin.dir,
+                                    out.carea, out.mean, out.tot.mat, out.acc.left, out.acc.right,
+                                    out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
+                                    env = rsaga.env(), ...) {
+    ## Version Stop - SAGA GIS Version < 2.1.3
+    if (env$version != "2.1.3" & env$version != "2.1.4") {
+        stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
+             "see help(rsaga.parallel.processing) for similar function in earlier versions")
+    }
+    
+    in.dem = default.file.extension(in.dem,".sgrd")
+    pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd", "mdg")
+    method = match.arg.ext(method, choices=pp.choices,
+                           numeric=TRUE, ignore.case=TRUE, base=0)
+    param = list( ELEVATION=in.dem )
+    if (!missing(in.sinkroute)) {
+        in.sinkroute = default.file.extension(in.sinkroute,".sgrd")
+        param = c(param, SINKROUTE=in.sinkroute)
+    }
+    if (!missing(in.weight)) {
+        in.weight = default.file.extension(in.weight,".sgrd")
+        param = c(param, SINKROUTE=in.weight)
+    }
+    if (!missing(in.mean)) {
+        in.mean = default.file.extension(in.mean, ".sgrd")
+        param = c(param,VAL_INPUT=in.mean)
+    }
+    if (!missing(in.material)) {
+        in.material = default.file.extension(in.material, ".sgrd")
+        param = c(param, MATERIAL=in.material)
+    }
+    if (!missing(in.target)) {
+        in.target = default.file.extension(in.target, ".sgrd")
+        param = c(param, TARGET=in.target)
+    }
+    if (!missing(in.lin.val)) {
+        in.lin.val = default.file.extension(in.lin.val, ".sgrd")
+        param = c(param, LINEAR_VAL=in.lin.val)
+    }
+    if (!missing(in.lin.dir)){
+        in.lin.dir = default.file.extension(in.lin.dir, ".sgrd")
+        param = c(param, LINEAR_DIR=in.lin.dir)
+    }
+    if (!missing(out.carea))
+        param = c(param, CAREA=out.carea)
+    if (!missing(out.mean))
+        param = c(param, VAL_MEAN=out.mean)
+    if (!missing(out.tot.mat))
+        param = c(param, ACCU_TOT=out.tot.mat)
+    if (!missing(out.acc.left))
+        param = c(param, ACCU_LEFT=out.acc.left)
+    if (!missing(out.acc.right))
+        param = c(param, ACCU_RIGHT=out.acc.right)
+    if (!missing(out.flowpath))
+        param = c(param, FLOWLEN=out.flowpath)
+    param = c(param, METHOD=method)
+    if (is.finite(linear.threshold)) {
+        param = c(param, LINEAR_DO=TRUE, LINEAR_MIN=linear.threshold)
+    } else param = c(param, LINEAR_DO=FALSE)
+    
+    param = c(param, CONVERGENCE=convergence)
+    
+    module = "Catchment Area (Top-Down)"
 
+    rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...) 
+}
 
 #' SAGA Modules SAGA Wetness Index
 #' 
@@ -1504,7 +1664,7 @@ rsaga.wetness.index = function( in.dem,
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
-    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2")  {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" | env$version == "2.1.3" | env$version == "2.1.4")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
@@ -1712,24 +1872,41 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 #' @param in.grid input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
 #' @param out.shapefile output: contour line shapefile. Existing files will be overwritten!
 #' @param zstep,zmin,zmax lower limit, upper limit, and equidistance of contour lines
+#' @param vertex optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
+#' \item [0] \code{"xy"}
+#' \item [1] \code{"xyz"}}
+#' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}
 #' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @seealso \code{\link{rsaga.geoprocessor}}
 #' @keywords spatial interface
 #' @export
-rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,...) {
+rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
     in.grid = default.file.extension(in.grid,".sgrd")
-    param = list(INPUT=in.grid,CONTOUR=out.shapefile)
+    # 'INPUT' changed to 'GRID' with SAGA 2.1.3
+    if(env$version != "2.1.3" & env$version != "2.1.4"){
+        param = list(INPUT=in.grid,CONTOUR=out.shapefile)
+    } else {
+        param = list(GRID=in.grid,CONTOUR=out.shapefile)
+    }
     if (!missing(zmin))  param = c(param, ZMIN=as.numeric(zmin))
     if (!missing(zmax))  param = c(param, ZMAX=as.numeric(zmax))
     if (!missing(zstep)) {
         stopifnot(as.numeric(zstep)>0)
         param = c(param, ZSTEP=as.numeric(zstep))
     }
+    v.choices = c("xy", "xyz")
+    vertex = match.arg.ext(vertex, choices=v.choices,
+                           numeric=TRUE, ignore.case=TRUE, base=0)
+    if (!missing(vertex)) {
+        if (env$version == "2.1.3" | env$version == "2.1.4") {
+            param = c(param, VERTEX=vertex)
+        }
+    }
     rsaga.geoprocessor(lib = "shapes_grid", 
         module = "Contour Lines from Grid",
-        param, ...)
+        param, env = env,...)
 }
 
 
@@ -1853,8 +2030,8 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @param power numeric (>0): exponent used in inverse distance  weighting (usually 1 or 2)
 #' @param maxdist numeric: maximum distance of points to be used for inverse distance interpolation (search radius); no search radius is applied when this argument is missing or equals \code{Inf}
 #' @param nmax Maximum number of nearest points to be used for interpolation; \code{nmax=Inf} is a valid value (no upper limit)
-#' @param quadratic.neighbors integer >=5; ??
-#' @param weighting.neighbors integer >=3; ??
+#' @param quadratic.neighbors integer >=5; default 13.
+#' @param weighting.neighbors integer >=3; default 19.
 #' @param target required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see \code{\link{rsaga.target}}.
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA version
 #' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
@@ -1933,6 +2110,18 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "NPOINTS" ] = "SEARCH_POINTS_MAX"
         nm[ nm == "MODE" ] = "SEARCH_DIRECTION"
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
+        # TARGET parameters changed SAGA 2.1.3:
+        if (env$version == "2.1.3" | env$version == "2.1.4") {
+            nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
+            nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
+            nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
+            nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
+            nm[ nm == "USER_FIT" ] = "TARGET_USER_FITS"
+            nm[ nm == "USER_XMIN" ] = "TARGET_USER_XMIN"
+            nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
+            nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
+            nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        }
         names(param) = nm
     }
 
@@ -1971,7 +2160,22 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
         SHAPES = in.shapefile,
         FIELD = field)
     param = c(param, target)
-        
+    
+    # TARGET parameters changed SAGA 2.1.3:
+    if (env$version == "2.1.3" | env$version == "2.1.4") {
+        nm = names(param)
+        nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
+        nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
+        nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
+        nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
+        nm[ nm == "USER_FIT" ] = "TARGET_USER_FITS"
+        nm[ nm == "USER_XMIN" ] = "TARGET_USER_XMIN"
+        nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
+        nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
+        nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
+    }
+
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Nearest Neighbour", # was: = 2 (=1 in earlier SAGA version)
         param, env = env, ...)
@@ -2012,7 +2216,23 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
         FIELD = field,
         QUADRATIC_NEIGHBORS = quadratic.neighbors,
         WEIGHTING_NEIGHBORS = weighting.neighbors)
+    
     param = c(param, target)
+    
+    # TARGET parameters changed SAGA 2.1.3:
+    if (env$version == "2.1.3" | env$version == "2.1.4") {
+        nm = names(param)
+        nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
+        nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
+        nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
+        nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
+        nm[ nm == "USER_FIT" ] = "TARGET_USER_FITS"
+        nm[ nm == "USER_XMIN" ] = "TARGET_USER_XMIN"
+        nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
+        nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
+        nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
+    }
         
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Modifed Quadratic Shepard", # = 4 (earlier SAGA versions: =2)
@@ -2045,68 +2265,27 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     }
 
     param = list(
-        GRID = out.grid,
+        USER_GRID = out.grid,
         SHAPES = in.shapefile,
         FIELD = field)
     param = c(param, target)
+    
+    # TARGET parameters changed SAGA 2.1.3:
+    if (env$version == "2.1.3" | env$version == "2.1.4") {
+        nm = names(param)
+        nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
+        nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
+        nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
+        nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
+        nm[ nm == "USER_FIT" ] = "TARGET_USER_FITS"
+        nm[ nm == "USER_XMIN" ] = "TARGET_USER_XMIN"
+        nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
+        nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
+        nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
+        names(param) = nm
+    }
         
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Triangulation",
         param, env = env, ...)
-}
-
-
-
-
-
-#' @rdname pick.from.points
-#' @name pick.from.saga.grid
-#' @export
-pick.from.saga.grid = function( data, filename, path, varname, 
-    prec = 7, show.output.on.console = FALSE, env = rsaga.env(), ... )
-{
-    if (!missing(path)) if (path!="") filename = file.path(path,filename)
-    temp.asc = paste(tempfile(),".asc",sep="")
-    if (missing(varname)) varname = create.variable.name(filename)
-    rsaga.sgrd.to.esri(filename, temp.asc, format = "ascii",
-        prec = prec, show.output.on.console = show.output.on.console,
-        env = env)
-    on.exit(unlink(temp.asc), add = TRUE)
-    data = pick.from.ascii.grid(data, temp.asc, varname = varname, ...)
-    invisible(data)
-}
-
-#' @rdname read.ascii.grid
-#' @name read.sgrd
-#' @export
-read.sgrd = function( fname, return.header = TRUE, print = 0, 
-    nodata.values = c(), at.once = TRUE, prec = 7, ... )
-{
-    temp.fname = paste(tempfile(),".asc",sep="")
-    res = rsaga.sgrd.to.esri( fname, temp.fname, prec=prec, format="ascii",
-        show.output.on.console=FALSE, intern=FALSE, ... )
-    on.exit(unlink(temp.fname), add = TRUE)
-    if (res==0) {
-        data = read.ascii.grid( temp.fname, return.header=return.header,
-            print=print, nodata.values=nodata.values, at.once=at.once )
-    } else
-        stop("error converting the SAGA sgrd file to a temporary ASCII grid file")
-    invisible(data)
-}
-
-#' @rdname read.ascii.grid
-#' @name write.sgrd
-#' @export
-write.sgrd = function( data, file, header = NULL, prec = 7,    
-    hdr.prec = 10, georef = "corner", ... )
-    # 'georef' argument was missing - bug fixed 2008-05-02
-    # hdr.prec argument added - 2013-02-07
-{
-    temp.fname = paste(tempfile(),".asc",sep="")
-    write.ascii.grid( data = data, file = temp.fname, header = header, 
-                digits = prec, hdr.digits = hdr.prec, georef = georef )
-    on.exit(unlink(temp.fname), add = TRUE)
-    res = rsaga.esri.to.sgrd( in.grids = temp.fname, out.sgrds = file,
-        show.output.on.console = FALSE, intern = FALSE, ... )
-    invisible(res)
 }
