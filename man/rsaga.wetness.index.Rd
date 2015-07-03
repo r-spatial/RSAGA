@@ -59,6 +59,8 @@ Alexander Brenning (R interface), Juergen Boehner and Olaf Conrad (SAGA module)
 }
 \references{
 Boehner, J., Koethe, R. Conrad, O., Gross, J.,  Ringeler, A., Selige, T. (2002): Soil Regionalisation by Means of Terrain Analysis and Process Parameterisation. In: Micheli, E., Nachtergaele, F., Montanarella, L. (ed.): Soil Classification 2001. European Soil Bureau, Research Report No. 7, EUR 20398 EN, Luxembourg. pp.213-222.
+
+Boehner, J. and Selige, T. (2006): Spatial prediction of soil attributes using terrain analysis and climate regionalisation. In: Boehner, J., McCloy, K.R., Strobl, J. [Ed.]: SAGA - Analysis and Modelling Applications, Goettinger Geographische Abhandlungen, Goettingen: 13-28.
 }
 \seealso{
 \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
