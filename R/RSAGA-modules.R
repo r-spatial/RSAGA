@@ -1609,6 +1609,10 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     
     module = "Catchment Area (Top-Down)"
 
+    if (env$version == "2.2.0") {
+        module = "Flow Accumulation (Top-Down)"
+    }
+
     rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...) 
 }
 
