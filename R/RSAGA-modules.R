@@ -1890,7 +1890,7 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
-    if(env$version != "2.1.3" & env$version != "2.1.4"){
+    if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0"){
         param = list(INPUT=in.grid,CONTOUR=out.shapefile)
     } else {
         param = list(GRID=in.grid,CONTOUR=out.shapefile)
@@ -2116,7 +2116,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "MODE" ] = "SEARCH_DIRECTION"
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
         # TARGET parameters changed SAGA 2.1.3:
-        if (env$version == "2.1.3" | env$version == "2.1.4") {
+        if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
             nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
             nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
             nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
@@ -2127,6 +2127,16 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
             nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
             nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
         }
+        names(param) = nm
+        
+        # Translate some argument names for SAGA 2.2.0
+        if (substr(env$version,1,4) == "2.2."){
+            nm = names(param)
+            nm[ nm == "WEIGHTING" ] = "DW_WEIGHTING"
+            nm[ nm == "WEIGHT_POWER" ] = "DW_IDW_POWER"
+            nm[ nm == "WEIGHT_BANDWIDTH" ] = "DW_BANDWIDTH"
+        }
+        
         names(param) = nm
     }
 
@@ -2167,7 +2177,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2225,7 +2235,7 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2276,7 +2286,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
