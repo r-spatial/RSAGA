@@ -384,7 +384,9 @@ rsaga.slope.asp.curv = function(in.dem,
                               unit.slope = "radians", unit.aspect = "radians",
                               env = rsaga.env(), ...) {
   
-  if(env$version != "2.1.1" & env$version != "2.1.2" & env$version != "2.1.3" & env$version != "2.1.4") {
+  if(env$version != "2.1.1" & env$version != "2.1.2" &
+     env$version != "2.1.3" & env$version != "2.1.4" &
+     env$version != "2.2.0") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -1548,7 +1550,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
-    if (env$version != "2.1.3" & env$version != "2.1.4") {
+    if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1664,7 +1666,8 @@ rsaga.wetness.index = function( in.dem,
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
-    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" | env$version == "2.1.3" | env$version == "2.1.4")  {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
+        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
