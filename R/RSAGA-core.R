@@ -698,7 +698,8 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 #' @export
 rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsaga.env(), ...)
 {
-    if (env$version == "2.1.0") {
+    if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
+        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
         # Convert character string module names to integer code, if possible:
         if (!is.null(module)) {
             if (is.character(module)) {
