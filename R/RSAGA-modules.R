@@ -1775,23 +1775,25 @@ rsaga.wetness.index = function( in.dem,
 #' 
 #' In addition to +, -, *, and /, the following operators and functions are available for the \code{formula} definition:
 #' \itemize{
-#'     \item{\eqn{\hat{\ }}{^}}{power}
-#'     \item{sin(a)}{sine}
-#'     \item{cos(a)}{cosine}
-#'     \item{tan(a)}{tangent}
-#'     \item{asin(a)}{arc sine}
-#'     \item{acos(a)}{arc cosine}
-#'     \item{atan(a)}{arc tangent}
-#'     \item{atan2(a,b)}{arc tangent of b/a}
-#'     \item{abs(a)}{absolute value}
-#'     \item{int(a)}{convert to integer}
-#'     \item{sqrt(a)}{square root}
-#'     \item{ln(a)}{natural logarithm}
-#'     \item{mod(a,b)}{modulo}
-#'     \item{gt(a, b)}{returns 1 if a greater b}
-#'     \item{lt(a, b)}{returns 1 if a lower b}
-#'     \item{eq(a, b)}{returns 1 if a equal b}
-#'     \item{ifelse(switch, x, y)}{returns x if switch equals 1 else y}
+#'     \item \eqn{\hat{\ }}{^} power
+#'     \item \code{sin(a)} sine
+#'     \item \code{cos(a)} cosine
+#'     \item \code{tan(a)} tangent
+#'     \item \code{asin(a)} arc sine
+#'     \item \code{acos(a)} arc cosine
+#'     \item \code{atan(a)} arc tangent
+#'     \item \code{atan2(a,b)} arc tangent of b/a
+#'     \item \code{abs(a)} absolute value
+#'     \item \code{int(a)} convert to integer
+#'     \item \code{sqr(a)} square
+#'     \item \code{sqrt(a)} square root
+#'     \item \code{ln(a)} natural logarithm
+#'     \item \code{log(a)} base 10 logarithm
+#'     \item \code{mod(a,b)} modulo
+#'     \item \code{gt(a, b)} returns 1 if a greater b
+#'     \item \code{lt(a, b)} returns 1 if a lower b
+#'     \item \code{eq(a, b)} returns 1 if a equal b
+#'     \item \code{ifelse(switch, x, y)} returns x if switch equals 1 else y
 #' }
 #' 
 #' Using \code{remove.zeros=FALSE} might have the side effect that no data areas in the grid with coefficient 0 are passed on to the results grid. (To be confirmed.)
