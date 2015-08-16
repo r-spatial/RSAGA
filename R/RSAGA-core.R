@@ -831,15 +831,17 @@ rsaga.geoprocessor = function(
     check.module.exists = TRUE, warn = options("warn")$warn,
     argsep = " ", ... )
 {
-# ! Commented out for testing 2.2.0   # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
-#    if (!is.null(env$version)) {
-#        if (!is.na(env$version)) {
-#            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.1.0","2.1.1","2.1.2","2.1.3","2.1.4","2.2.0") == env$version))
-#                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.1.4.\n",
-#                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
-#                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
-#        }
-#    }
+# Issue warning if using SAGA GIS version that has not been tested with RSAGA:
+    if (!is.null(env$version)) {
+        if (!is.na(env$version)) {
+            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+                       "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+                       "2.2.0") == env$version))
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.0.\n",
+                    "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
+                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
+        }
+    }
     
     # Number of cores for multicore processing:
     if (!missing(cores)) env$cores = cores

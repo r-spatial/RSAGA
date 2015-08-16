@@ -1453,7 +1453,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     env = rsaga.env(), ...)
 {
     ## Version Stop - tool no longer supported SAGA 2.1.3
-    if (env$version == "2.1.3" | env$version == "2.1.4") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
            "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
