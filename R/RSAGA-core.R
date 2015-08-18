@@ -756,12 +756,12 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
                     "- Module or library does not exist\n")
             return()
         }
-        browseURL( paste("file://",fnm,sep=""), ...)
+        utils::browseURL( paste("file://",fnm,sep=""), ...)
     } else {
         warning("rsaga.html.help only available for SAGA GIS 2.1.0+.\n",
                 "Redirecting you to the SAGA GIS wiki...")
         url = "http://sourceforge.net/apps/trac/saga-gis/wiki"
-        browseURL(url, ...)
+        utils::browseURL(url, ...)
     }
     return()
 }

@@ -2,7 +2,7 @@ Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis in R
 Version: 0.94-2
-Date: 2015-06-02
+Date: 2015-08-17
 Author: Alexander Brenning and Donovan Bangs
 Maintainer: Alexander Brenning <brenning@uwaterloo.ca>
 Description: Provides access to geocomputing and terrain analysis
@@ -19,6 +19,9 @@ Depends:
     gstat,
     shapefiles,
     plyr
+Suggests:
+    knitr,
+    gam
 LazyLoad: yes
 Collate: 
     'gridtools.R'
@@ -26,3 +29,6 @@ Collate:
     'RSAGA-modules.R'
     'RSAGA-utils.R'
     'RSAGA-package.R'
+    'landslides.R'
+VignetteBuilder:
+    knitr

@@ -268,7 +268,7 @@ write.ascii.grid = function( data, file, header = NULL, write.header = TRUE,
         data = round(data,digits=digits)
     if (write.header)  
         write.ascii.grid.header(con, header, dec=dec, georef=georef, hdr.digits=hdr.digits)
-    write.table(data, file=con, append=TRUE, quote=FALSE,
+    utils::write.table(data, file=con, append=TRUE, quote=FALSE,
                 na=as.character(header$nodata_value),
                 row.names=FALSE, col.names=FALSE, dec=dec)
 }
@@ -479,9 +479,9 @@ pick.from.points = function(data, src, pick,
     rm(src)
     
     if (method=="krige") {
-        loc = as.formula(paste("~",X.name,"+",Y.name))
+        loc = stats::as.formula(paste("~",X.name,"+",Y.name))
         for (p in 1:length(pick)) {
-            form = as.formula(paste(pick[p],"~ 1"))
+            form = stats::as.formula(paste(pick[p],"~ 1"))
             src = the.src[ !is.na(the.src[,pick[p]]) , ]
             if (nrow(src)==0) next
             krg = krige(
@@ -764,7 +764,7 @@ internal.pick.from.ascii.grid = function( data, file,
                 }
             } else # if (at.once)
             {
-                v = read.table(con, na.strings = na.strings)
+                v = utils::read.table(con, na.strings = na.strings)
                 for (na in nodata.values) v[ v==na ] = NA
                 for (j in 1:nr) {
                     if ( all(select[j,]>=1) & all(select[j,]<=c(ncol(v),nrow(v))) )
@@ -881,7 +881,7 @@ centervalue = function(x) {
 #' @export
 resid.median = function(x) {
     if (missing(x)) return("rmed")
-    return( median(x,na.rm=TRUE) - centervalue(x) )
+    return( stats::median(x,na.rm=TRUE) - centervalue(x) )
 }
 
 #' @rdname resid.median
@@ -889,7 +889,7 @@ resid.median = function(x) {
 #' @export
 resid.minmedmax = function(x) {
     if (missing(x)) return(c("rmin","rmed","rmax"))
-    return( c(min(x,na.rm=TRUE),median(x,na.rm=TRUE),max(x,na.rm=TRUE)) - centervalue(x) )
+    return( c(min(x,na.rm=TRUE),stats::median(x,na.rm=TRUE),max(x,na.rm=TRUE)) - centervalue(x) )
 }
 
 #' Relative Topographic Position
@@ -929,7 +929,7 @@ relative.position = function(x) {
 #' @export
 resid.quantile = function(x,probs) {
     if (missing(x)) return(NULL)
-    return(quantile(x-centervalue(x),probs=probs,na.rm=TRUE,names=FALSE))
+    return(stats::quantile(x-centervalue(x),probs=probs,na.rm=TRUE,names=FALSE))
 }
 
 #' @rdname resid.median
@@ -937,7 +937,7 @@ resid.quantile = function(x,probs) {
 #' @export
 resid.quartiles = function(x) {
     if (missing(x)) return(c("r25","r50","r75"))
-    return(quantile(x-centervalue(x),probs=c(0.25,0.5,0.75),na.rm=TRUE,names=FALSE))
+    return(stats::quantile(x-centervalue(x),probs=c(0.25,0.5,0.75),na.rm=TRUE,names=FALSE))
 }
 
 #' @rdname relative.position
@@ -1001,7 +1001,7 @@ wind.shelter = function(x,prob=NULL,control) {
         x = atan((x-ctr)/control$dist)
         if (is.null(prob)) {
             res = max(x,na.rm=TRUE)
-        } else res = quantile(x,probs=prob,na.rm=TRUE)
+        } else res = stats::quantile(x,probs=prob,na.rm=TRUE)
     }
     return(res)
 }
@@ -1893,7 +1893,7 @@ grid.predict = function(fit, predfun, trafo, control.predict,
     if (missing(fit)) stop("'fit' object required\n")
 
     if (trace >= 2 & !missing(location))
-        print(str(location))
+        print(utils::str(location))
     
     newdata = as.data.frame( list(...) )
 
@@ -1908,13 +1908,13 @@ grid.predict = function(fit, predfun, trafo, control.predict,
         newdata = trafo(newdata)
 
     if (trace >= 2)
-        print(str(newdata))
+        print(utils::str(newdata))
     
     args = list(object = fit, newdata = newdata)
     args = c(args, control.predict)
     
     if (missing(predfun)) {
-        pred = do.call( predict, args )
+        pred = do.call( stats::predict, args )
     } else
         pred = do.call( predfun, args )
         
@@ -1922,7 +1922,7 @@ grid.predict = function(fit, predfun, trafo, control.predict,
         pred = pred[,predict.column]
     
     if (trace >= 1)
-        print(str(pred))
+        print(utils::str(pred))
     
     return(pred)
 }
@@ -1941,7 +1941,7 @@ multi.local.function = function(
     na.strings = "NA",
     valid.ranges, nodata.values = c(), out.nodata.value, 
     digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-    na.action = na.exclude, pass.location = FALSE, 
+    na.action = stats::na.exclude, pass.location = FALSE, 
     ... )
 {
     # build input filenames:
