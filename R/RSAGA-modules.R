@@ -64,9 +64,9 @@ rsaga.target = function(
 }
 
 
-############################################
+
 ########     Module io_grid_gdal    ########
-############################################
+
 
 
 #' Import Grid Files to SAGA grid format using GDAL
@@ -225,9 +225,8 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
 
 
 
-############################################
+
 ########       Module io_grid       ########
-############################################
 
 
 #' Convert ESRI ASCII/binary grids to SAGA grids
@@ -307,9 +306,9 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 }
 
 
-############################################
+#
 ########    Module ta_morphometry   ########
-############################################
+
 #' Slope, Aspect, Curvature
 #' 
 #' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link{rsaga.local.morphometry}}.
@@ -623,9 +622,9 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
     }
 }
   
-############################################
+
 ########   Module ta_preprocessor   ########
-############################################
+
 
 
 #' Fill Sinks
@@ -761,9 +760,9 @@ rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 
 
 
-############################################
+
 ########     Module grid_tools      ########
-############################################
+
 
 
 
@@ -817,9 +816,9 @@ rsaga.close.one.cell.gaps = function(in.dem,out.dem,...)
 }
 
 
-############################################
+
 ########     Module ta_lighting     ########
-############################################
+
 
 
 #' Analytical hillshading
@@ -1294,9 +1293,9 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 
 
 
-############################################
+
 ########     Module grid_filter     ########
-############################################
+
 
 
 #' Simple Filters
@@ -1371,9 +1370,9 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 
 
 
-############################################
+
 ########     Module ta_hydrology    ########
-############################################
+
 
 
 #' Parallel Processing
@@ -1753,9 +1752,9 @@ rsaga.wetness.index = function( in.dem,
 
 
 
-############################################
+
 ########    Module grid_calculus    ########
-############################################
+
 
 
 #' SAGA Module Grid Calculus
@@ -1900,9 +1899,9 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 
 
 
-############################################
+
 ########     Module shapes_grid     ########
-############################################
+
 
 
 #' Contour Lines from a Grid
