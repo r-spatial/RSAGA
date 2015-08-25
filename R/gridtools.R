@@ -402,8 +402,8 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #'
 #' If \code{cbind=FALSE}, a data.frame only containing the new variables is returned (possibly coerced to a vector if only one variable is processed).
 #' 
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
-#' 
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
+#'
 #' @author Alexander Brenning
 #' @note \code{method="krige"} requires the \pkg{gstat} package.
 #' 
@@ -1083,7 +1083,7 @@ wind.shelter.prep = function(radius,direction,tolerance,cellsize=90) {
 #' For the input files, \code{.asc} is used as the default file extension, if it is not specified by the user.
 #' 
 #' @return \code{focal.function} and \code{local.function} return the character vector of output file names.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note These functions are not very efficient ways of calculating e.g. (focal) terrain attributes compared to for example the SAGA modules, but the idea is that you can easily specify your own functions without starting to mess around with C code. For example try implementing a median filter as a SAGA module... or just use the code shown in the example!
 #' @seealso \code{\link{multi.focal.function}}, \code{\link{multi.local.function}}, \code{\link{resid.median}}, \code{\link{resid.minmedmax}}, \code{\link{relative.position}}, \code{\link{resid.quantile}}, \code{\link{resid.quartiles}}, \code{\link{relative.rank}},  \code{\link{wind.shelter}}, \code{\link{create.variable.name}}
@@ -1441,7 +1441,7 @@ local.function = function( ... ) {
 #' See \code{\link{focal.function}} for details.
 #'
 #' @return \code{multi.focal.function} returns the character vector of output file names.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note \code{multi.focal.function} can do all the things \code{\link{focal.function}} can do.
 #' @seealso \code{\link{focal.function}}, \code{\link{grid.predict}}
@@ -1851,7 +1851,7 @@ multi.focal.function = function(
 #' @param \dots these arguments are provided by the calling function, usually \code{\link{multi.local.function}} or \code{\link{multi.focal.function}}.  They contain the explanatory (predictor) variables required by the \code{fit} model.
 #' @details \code{grid.predict} is a simple wrapper function. First it binds the arguments in \code{\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link{multi.local.function}} (or \code{\link{multi.focal.function}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link{predict}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
 #' @return \code{grid.predict} returns the result of the call to \code{predfun} or the default \code{\link{predict}} method.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note Though \code{grid.predict} can in principle deal with \code{predict} methods returning factor variables, its usual caller \code{\link{multi.local.function}} / \code{\link{multi.focal.function}} cannot; classification models should be dealt with by setting a \code{type="prob"} (for \code{rpart}) or \code{type="response"} (for logistic regression and logistic additive model) argument, for example (see second Example below).
 #' @seealso \code{\link{focal.function}}, \code{\link{multi.local.function}}, \code{\link{multi.focal.function}}
