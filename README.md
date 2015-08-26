@@ -3,7 +3,7 @@ RSAGA
 
 RSAGA Package Code
 
-Currently updated to RSAGA 0.94-1, available on CRAN
+Currently updated to RSAGA 0.94-3, available on CRAN
 
 Supports SAGA GIS 2.0.4 - 2.2.0
 
