@@ -5,7 +5,7 @@ RSAGA Package Code
 
 Currently updated to RSAGA 0.94-1, available on CRAN
 
-Supports SAGA GIS 2.0.4 - 2.1.4
+Supports SAGA GIS 2.0.4 - 2.2.0
 
 Provides access to geocomputing and terrain analysis
 functions of the geographical information system (GIS) ['SAGA' (System for
