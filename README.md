@@ -1,7 +1,7 @@
 RSAGA
 =====
 
-RSAGA Package Code and [Vignette](https://github.com/debangs/RSAGA/blob/0.94-4/vignettes/RSAGA-landslides.pdf)
+RSAGA Package Code and [Vignette](https://cran.r-project.org/web/packages/RSAGA/vignettes/RSAGA-landslides.pdf)
 
 Currently updated to RSAGA 0.94-3, available on CRAN
 
