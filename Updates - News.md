@@ -3,7 +3,7 @@ RSAGA News
 #### 27 August 2015
 RSAGA 0.94-3 is now available on CRAN. Included in this release are updates to support SAGA GIS version 2.2.0
 
-An introductory vignette and associated data file `landslides` are now included with RSAGA. The vignette demonstrates how to initialize and run RSAGA, perform terrain analysis, and execute RSAGA grid functions using an example of generalized additive modeling for landslide modeling with the included dataset.
+An introductory vignette and associated data file `landslides` are now included with RSAGA. The vignette demonstrates how to initialize and run RSAGA, perform terrain analysis, and execute RSAGA grid functions using an example of generalized additive modeling for landslide susceptibility modeling with the included dataset.
 
 #### 09 June 2015
 
