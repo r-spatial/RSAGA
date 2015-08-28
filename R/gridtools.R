@@ -268,7 +268,7 @@ write.ascii.grid = function( data, file, header = NULL, write.header = TRUE,
         data = round(data,digits=digits)
     if (write.header)  
         write.ascii.grid.header(con, header, dec=dec, georef=georef, hdr.digits=hdr.digits)
-    write.table(data, file=con, append=TRUE, quote=FALSE,
+    utils::write.table(data, file=con, append=TRUE, quote=FALSE,
                 na=as.character(header$nodata_value),
                 row.names=FALSE, col.names=FALSE, dec=dec)
 }
@@ -402,8 +402,8 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #'
 #' If \code{cbind=FALSE}, a data.frame only containing the new variables is returned (possibly coerced to a vector if only one variable is processed).
 #' 
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
-#' 
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
+#'
 #' @author Alexander Brenning
 #' @note \code{method="krige"} requires the \pkg{gstat} package.
 #' 
@@ -479,9 +479,9 @@ pick.from.points = function(data, src, pick,
     rm(src)
     
     if (method=="krige") {
-        loc = as.formula(paste("~",X.name,"+",Y.name))
+        loc = stats::as.formula(paste("~",X.name,"+",Y.name))
         for (p in 1:length(pick)) {
-            form = as.formula(paste(pick[p],"~ 1"))
+            form = stats::as.formula(paste(pick[p],"~ 1"))
             src = the.src[ !is.na(the.src[,pick[p]]) , ]
             if (nrow(src)==0) next
             krg = krige(
@@ -764,7 +764,7 @@ internal.pick.from.ascii.grid = function( data, file,
                 }
             } else # if (at.once)
             {
-                v = read.table(con, na.strings = na.strings)
+                v = utils::read.table(con, na.strings = na.strings)
                 for (na in nodata.values) v[ v==na ] = NA
                 for (j in 1:nr) {
                     if ( all(select[j,]>=1) & all(select[j,]<=c(ncol(v),nrow(v))) )
@@ -881,7 +881,7 @@ centervalue = function(x) {
 #' @export
 resid.median = function(x) {
     if (missing(x)) return("rmed")
-    return( median(x,na.rm=TRUE) - centervalue(x) )
+    return( stats::median(x,na.rm=TRUE) - centervalue(x) )
 }
 
 #' @rdname resid.median
@@ -889,7 +889,7 @@ resid.median = function(x) {
 #' @export
 resid.minmedmax = function(x) {
     if (missing(x)) return(c("rmin","rmed","rmax"))
-    return( c(min(x,na.rm=TRUE),median(x,na.rm=TRUE),max(x,na.rm=TRUE)) - centervalue(x) )
+    return( c(min(x,na.rm=TRUE),stats::median(x,na.rm=TRUE),max(x,na.rm=TRUE)) - centervalue(x) )
 }
 
 #' Relative Topographic Position
@@ -929,7 +929,7 @@ relative.position = function(x) {
 #' @export
 resid.quantile = function(x,probs) {
     if (missing(x)) return(NULL)
-    return(quantile(x-centervalue(x),probs=probs,na.rm=TRUE,names=FALSE))
+    return(stats::quantile(x-centervalue(x),probs=probs,na.rm=TRUE,names=FALSE))
 }
 
 #' @rdname resid.median
@@ -937,7 +937,7 @@ resid.quantile = function(x,probs) {
 #' @export
 resid.quartiles = function(x) {
     if (missing(x)) return(c("r25","r50","r75"))
-    return(quantile(x-centervalue(x),probs=c(0.25,0.5,0.75),na.rm=TRUE,names=FALSE))
+    return(stats::quantile(x-centervalue(x),probs=c(0.25,0.5,0.75),na.rm=TRUE,names=FALSE))
 }
 
 #' @rdname relative.position
@@ -1001,7 +1001,7 @@ wind.shelter = function(x,prob=NULL,control) {
         x = atan((x-ctr)/control$dist)
         if (is.null(prob)) {
             res = max(x,na.rm=TRUE)
-        } else res = quantile(x,probs=prob,na.rm=TRUE)
+        } else res = stats::quantile(x,probs=prob,na.rm=TRUE)
     }
     return(res)
 }
@@ -1083,7 +1083,7 @@ wind.shelter.prep = function(radius,direction,tolerance,cellsize=90) {
 #' For the input files, \code{.asc} is used as the default file extension, if it is not specified by the user.
 #' 
 #' @return \code{focal.function} and \code{local.function} return the character vector of output file names.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note These functions are not very efficient ways of calculating e.g. (focal) terrain attributes compared to for example the SAGA modules, but the idea is that you can easily specify your own functions without starting to mess around with C code. For example try implementing a median filter as a SAGA module... or just use the code shown in the example!
 #' @seealso \code{\link{multi.focal.function}}, \code{\link{multi.local.function}}, \code{\link{resid.median}}, \code{\link{resid.minmedmax}}, \code{\link{relative.position}}, \code{\link{resid.quantile}}, \code{\link{resid.quartiles}}, \code{\link{relative.rank}},  \code{\link{wind.shelter}}, \code{\link{create.variable.name}}
@@ -1441,7 +1441,7 @@ local.function = function( ... ) {
 #' See \code{\link{focal.function}} for details.
 #'
 #' @return \code{multi.focal.function} returns the character vector of output file names.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note \code{multi.focal.function} can do all the things \code{\link{focal.function}} can do.
 #' @seealso \code{\link{focal.function}}, \code{\link{grid.predict}}
@@ -1851,7 +1851,7 @@ multi.focal.function = function(
 #' @param \dots these arguments are provided by the calling function, usually \code{\link{multi.local.function}} or \code{\link{multi.focal.function}}.  They contain the explanatory (predictor) variables required by the \code{fit} model.
 #' @details \code{grid.predict} is a simple wrapper function. First it binds the arguments in \code{\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link{multi.local.function}} (or \code{\link{multi.focal.function}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link{predict}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
 #' @return \code{grid.predict} returns the result of the call to \code{predfun} or the default \code{\link{predict}} method.
-#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+#' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note Though \code{grid.predict} can in principle deal with \code{predict} methods returning factor variables, its usual caller \code{\link{multi.local.function}} / \code{\link{multi.focal.function}} cannot; classification models should be dealt with by setting a \code{type="prob"} (for \code{rpart}) or \code{type="response"} (for logistic regression and logistic additive model) argument, for example (see second Example below).
 #' @seealso \code{\link{focal.function}}, \code{\link{multi.local.function}}, \code{\link{multi.focal.function}}
@@ -1893,7 +1893,7 @@ grid.predict = function(fit, predfun, trafo, control.predict,
     if (missing(fit)) stop("'fit' object required\n")
 
     if (trace >= 2 & !missing(location))
-        print(str(location))
+        print(utils::str(location))
     
     newdata = as.data.frame( list(...) )
 
@@ -1908,13 +1908,13 @@ grid.predict = function(fit, predfun, trafo, control.predict,
         newdata = trafo(newdata)
 
     if (trace >= 2)
-        print(str(newdata))
+        print(utils::str(newdata))
     
     args = list(object = fit, newdata = newdata)
     args = c(args, control.predict)
     
     if (missing(predfun)) {
-        pred = do.call( predict, args )
+        pred = do.call( stats::predict, args )
     } else
         pred = do.call( predfun, args )
         
@@ -1922,7 +1922,7 @@ grid.predict = function(fit, predfun, trafo, control.predict,
         pred = pred[,predict.column]
     
     if (trace >= 1)
-        print(str(pred))
+        print(utils::str(pred))
     
     return(pred)
 }
@@ -1941,7 +1941,7 @@ multi.local.function = function(
     na.strings = "NA",
     valid.ranges, nodata.values = c(), out.nodata.value, 
     digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-    na.action = na.exclude, pass.location = FALSE, 
+    na.action = stats::na.exclude, pass.location = FALSE, 
     ... )
 {
     # build input filenames:

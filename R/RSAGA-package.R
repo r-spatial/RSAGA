@@ -46,6 +46,10 @@
 #'  L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger
 #'  Beitraege zur Physischen Geographie und
 #'  Landschaftsoekologie, vol. 19), p. 23-32.
+#'  
+#'  Conrad, O., Bechtel, M., Bock, M., Dietrich, H., Fischer, E., Gerlitz, L., Wichmann,
+#'  V., & Boehner, J. (2015). System for Automated Geoscientific Analyses (SAGA) v. 2.1.4.
+#'  \emph{Geoscientific Model Development}, 8, 1991-2007
 #'
 #' @author Alexander Brenning and Donovan Bangs
 #' @docType package

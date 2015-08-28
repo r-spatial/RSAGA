@@ -17,7 +17,7 @@ multi.local.function(in.grids, in.grid.prefix, out.grid.prefix, path = NULL,
   in.path = path, out.path = path, fun, in.varnames, out.varnames,
   na.strings = "NA", valid.ranges, nodata.values = c(), out.nodata.value,
   digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-  na.action = na.exclude, pass.location = FALSE, ...)
+  na.action = stats::na.exclude, pass.location = FALSE, ...)
 }
 \arguments{
 \item{in.grids}{character vector: file names of input ASCII grids, relative to \code{in.path}; \code{in.grid.prefix} will be used as a prefix to the file name if specified; default file extension: \code{.asc}}
@@ -135,7 +135,7 @@ multi.local.function(in.grids = c("a", "b", "c"),
 Alexander Brenning
 }
 \references{
-Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32. \url{http://www.environment.uwaterloo.ca/u/brenning/Brenning-2008-RSAGA.pdf}
+Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
 \code{\link{focal.function}}, \code{\link{grid.predict}}

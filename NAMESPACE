@@ -86,3 +86,6 @@ export(write.sgrd)
 import(gstat)
 import(plyr)
 import(shapefiles)
+importFrom("stats", "as.formula", "median", "na.exclude", "predict",
+     "quantile")
+importFrom("utils", "browseURL", "read.table", "str", "write.table")
