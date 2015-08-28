@@ -1,7 +1,7 @@
 RSAGA
 =====
 
-RSAGA Package Code
+RSAGA Package Code and Vignette
 
 Currently updated to RSAGA 0.94-3, available on CRAN
 
