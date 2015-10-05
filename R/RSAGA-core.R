@@ -297,7 +297,7 @@ rsaga.lib.prefix = function(env) {
     } else if ((Sys.info()["sysname"] == "Darwin")) {
         lib.prefix = ""
     } else if (!is.na(env$version)) {
-        if (substr(env$version,1,4) == "2.1.")
+        if (substr(env$version,1,4) == "2.1." | substr(env$version,1,4) == "2.2.")
             lib.prefix = ""
     }
     return(lib.prefix)
@@ -699,7 +699,8 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsaga.env(), ...)
 {
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
-        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1") {
         # Convert character string module names to integer code, if possible:
         if (!is.null(module)) {
             if (is.character(module)) {
@@ -836,8 +837,8 @@ rsaga.geoprocessor = function(
         if (!is.na(env$version)) {
             if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
                        "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
-                       "2.2.0") == env$version))
-                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.0.\n",
+                       "2.2.0","2.2.1") == env$version))
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.1.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
         }
