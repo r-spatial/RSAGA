@@ -414,7 +414,8 @@ rsaga.slope.asp.curv = function(in.dem,
   
   if(env$version != "2.1.1" & env$version != "2.1.2" &
      env$version != "2.1.3" & env$version != "2.1.4" &
-     env$version != "2.2.0" & env$version != "2.2.1") {
+     env$version != "2.2.0" & env$version != "2.2.1" &
+     env$version != "2.2.2") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -1452,7 +1453,8 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     env = rsaga.env(), ...)
 {
     ## Version Stop - tool no longer supported SAGA 2.1.3
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1" |
+        env$version == "2.2.2") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
            "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
@@ -1578,7 +1580,8 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
-    if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1") {
+    if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
+        env$version != "2.2.2") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1637,7 +1640,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     
     module = "Catchment Area (Top-Down)"
 
-    if (env$version == "2.2.0" | env$version == "2.2.1") {
+    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2") {
         module = "Flow Accumulation (Top-Down)"
     }
 
@@ -1702,7 +1705,7 @@ rsaga.wetness.index = function( in.dem,
     }
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
         env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1")  {
+        env$version == "2.2.1" | env$verison == "2.2.2")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
@@ -1925,7 +1928,8 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
-    if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1"){
+    if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
+       env$version != "2.2.2"){
         param = list(INPUT=in.grid,CONTOUR=out.shapefile)
     } else {
         param = list(GRID=in.grid,CONTOUR=out.shapefile)
@@ -2151,7 +2155,8 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "MODE" ] = "SEARCH_DIRECTION"
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
         # TARGET parameters changed SAGA 2.1.3:
-        if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1") {
+        if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+            env$version == "2.2.1" | env$version == "2.2.2") {
             nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
             nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
             nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
@@ -2212,7 +2217,8 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2270,7 +2276,8 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2321,7 +2328,8 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"

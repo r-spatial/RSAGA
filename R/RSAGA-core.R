@@ -700,7 +700,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 {
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
         env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1") {
+        env$version == "2.2.1" | env$version == "2.2.2") {
         # Convert character string module names to integer code, if possible:
         if (!is.null(module)) {
             if (is.character(module)) {
@@ -837,7 +837,7 @@ rsaga.geoprocessor = function(
         if (!is.na(env$version)) {
             if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
                        "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
-                       "2.2.0","2.2.1") == env$version))
+                       "2.2.0","2.2.1","2.2.2") == env$version))
                 warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.1.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
