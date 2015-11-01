@@ -838,7 +838,7 @@ rsaga.geoprocessor = function(
             if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
                        "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
                        "2.2.0","2.2.1","2.2.2") == env$version))
-                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.1.\n",
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.2.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
         }
