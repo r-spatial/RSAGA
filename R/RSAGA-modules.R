@@ -550,11 +550,11 @@ rsaga.local.morphometry = function( in.dem,
     
     rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
   }
-  
-  if (!missing(out.hcurv) | !missing(out.vcurv))
-    warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
-          "See help(rsaga.slope.asp.curv) for more information")
-
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))){
+        if (!missing(out.hcurv) | !missing(out.vcurv))
+            warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
+                    "See help(rsaga.slope.asp.curv) for more information")
+    }
 }
 
 #' @rdname rsaga.local.morphometry
