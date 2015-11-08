@@ -414,7 +414,8 @@ rsaga.slope.asp.curv = function(in.dem,
   
   if(env$version != "2.1.1" & env$version != "2.1.2" &
      env$version != "2.1.3" & env$version != "2.1.4" &
-     env$version != "2.2.0") {
+     env$version != "2.2.0" & env$version != "2.2.1" &
+     env$version != "2.2.2") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -549,11 +550,11 @@ rsaga.local.morphometry = function( in.dem,
     
     rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
   }
-  
-  if (!missing(out.hcurv) | !missing(out.vcurv))
-    warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
-          "See help(rsaga.slope.asp.curv) for more information")
-
+    if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))){
+        if (!missing(out.hcurv) | !missing(out.vcurv))
+            warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
+                    "See help(rsaga.slope.asp.curv) for more information")
+    }
 }
 
 #' @rdname rsaga.local.morphometry
@@ -929,8 +930,12 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     env = rsaga.env(), ...)
 {
     if ( (env$version == "2.0.4" | env$version == "2.0.5") ) {
-        stop("rsaga.pisr only for SAGA GIS 2.0.6+;\n",
+        stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1;\n",
              " use rsaga.solar.radiation for older versions of SAGA GIS")
+    }
+    if ( (env$version == "2.2.2") ) {
+        stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1:\n",
+             " use rsaga.pisr2 for newer versions of SAGA GIS")
     }
 
     in.dem = default.file.extension(in.dem,".sgrd")
@@ -1085,6 +1090,218 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         param = param, env = env, ...)
 }
 
+#' Potential incoming solar radiation SAGA 2.2.2+
+#'
+#' This function calculates the potential incoming solar radiation in an area using different atmospheric models; This function reflects changes to the module with SAGA 2.2.2+.
+#' For SAGA versions 2.0.6 to 2.2.1 please see \code{\link{rsaga.pisr}}.
+#' @name rsaga.pisr2
+#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})
+#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also \code{local.svf} 
+#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar), for use with \code{method = "height"}; default 10 mbar
+#' @param in.linke.grid Optional input grid in SAGA format: Linke turbidity coefficient, for use with \code{method = "hofierka"}; default 3.0
+#' @param out.direct.grid Output grid: Direct insolation (unit selected by \code{unit} argument)
+#' @param out.diffuse.grid Output grid: Diffuse insolation
+#' @param out.total.grid Optional output grid: Total insolation, i.e. sum of direct and diffuse incoming solar radiation
+#' @param out.ratio.grid Optional output grid: Direct to diffuse ratio
+#' @param out.duration Optional output grid: Duration of insolation
+#' @param out.sunrise Optional output grid: time of sunrise; only calculated if time span is set to single day
+#' @param out.sunset Time of sunset; see \code{out.sunrise}
+#' @param local.svf logical (default: \code{TRUE}; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in \code{in.svf.grid}
+#' @param location specified whether to use constant latitude supplied by \code{latitude} below (\code{"latitude"} or code \code{0}; default) or as calculated from the grid system (\code{"grid"} or code \code{1})
+#' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
+#' @param unit unit of insolation output grids: \code{"kWh/m2"} (default) \code{"kJ/m2"}, or \code{"J/cm2"}
+#' @param solconst solar constant, defaults to 1367 W/m2
+#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (\code{"height"}, or numeric code 0), or air pressure, water and dust content (\code{"components"}, code 1), or lumped atmospheric transmittance (\code{"lumped"}, code \code{2}), or by the method of Hofierka and Suri, 2009 (\code{"hofierka"}, code \code{3}). Default: \code{"lumped"}. 
+#' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with \code{method = "height"}
+#' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with \code{method = "components"}
+#' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with \code{method = "components"}
+#' @param cmp.dust dust factor in ppm; defaults to 100 ppm. For use with \code{method = "components"}
+#' @param lmp.transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
+#' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
+#' @param time.step time step in hours for numerical integration
+#' @param start.date list of length three, giving the start date in \code{day}, \code{month}, and \code{year} components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is \code{list(day=1,month=1,year=2015)}
+#' @param end.date see \code{start.date}
+#' @param day.step if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
+#' @param env RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)
+#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
+#' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with \code{method = "components"} and \code{method = "lumped"}.
+#' @references 
+#' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
+#' 
+#' Oke, T.R. (1988): Boundary layer climates. London, Taylor and Francis.
+#'
+#' Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley and Sons.
+#' 
+#' Hofierka, J., Suri, M. (2002): The solar radiation model for Open source GIS: implementation and applications. International GRASS users conference in Trento, Italy, September 2002
+#' @author Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)
+#' @note
+#' SAGA_CMD uses zero-based months, but this R function uses the standard one-based months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
+#'
+#' This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
+#' Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \code{*.date} arguments to allow calculation across years.
+#' The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
+#' Duration of insolation (\code{"out.duration"}) is only calculated when the time period is set to a single day.
+#' @seealso \code{\link{rsaga.pisr}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}; \code{\link{rsaga.hillshade}}
+#' @keywords spatial interface
+#' @export
+rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL, 
+                       in.linke.grid = NULL,
+                       out.direct.grid, out.diffuse.grid, out.total.grid = NULL, 
+                       out.ratio.grid = NULL, out.duration, out.sunrise, out.sunset,
+                       local.svf = TRUE, location = c("latitude", "grid"), latitude = 53, 
+                       unit=c("kWh/m2","kJ/m2","J/cm2"), solconst=1367.0,
+                       method = c("height","components","lumped","hofierka"),
+                       hgt.atmosphere = 12000,
+                       cmp.pressure = 1013, cmp.water.content = 1.68, cmp.dust = 100,
+                       lmp.transmittance = 70,
+                       time.range = c(0,24), time.step = 0.5,
+                       start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
+                       env = rsaga.env(), ...)
+{
+    if ( env$version != "2.2.2" ) {
+        stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
+             " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
+    }
+    
+    in.dem = default.file.extension(in.dem,".sgrd")
+    if (!is.null(in.svf.grid)) in.svf.grid = default.file.extension(in.svf.grid,".sgrd")
+    if (!is.null(in.vapour.grid)) in.vapour.grid = default.file.extension(in.vapour.grid,".sgrd")
+    if (!is.null(in.linke.grid)) in.linke.grid = default.file.extension(in.linke.grid,".sgrd")
+    if (missing(out.direct.grid)) {
+        out.direct.grid = tempfile()
+        on.exit(unlink(paste(out.direct.grid,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.diffuse.grid)) {
+        out.diffuse.grid = tempfile()
+        on.exit(unlink(paste(out.diffuse.grid,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.total.grid)) {
+        out.total.grid = tempfile()
+        on.exit(unlink(paste(out.total.grid,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.ratio.grid)) {
+        out.ratio.grid = tempfile()
+        on.exit(unlink(paste(out.ratio.grid,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.duration)) {
+        out.duration = tempfile()
+        on.exit(unlink(paste(out.duration,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.sunrise)) {
+        out.sunrise = tempfile()
+        on.exit(unlink(paste(out.sunrise,".*",sep="")), add = TRUE)
+    }
+    if (missing(out.sunset)) {
+        out.sunset = tempfile()
+        on.exit(unlink(paste(out.sunset,".*",sep="")), add = TRUE)
+    }
+    
+    unit = match.arg.ext(unit,numeric=TRUE,ignore.case=TRUE,base=0)
+    method = match.arg.ext(method, numeric = TRUE, ignore.case = TRUE, base = 0)
+    location = match.arg.ext(location, numeric = TRUE, ignore.case = TRUE, base = 0)
+    
+    if (!is.null(latitude))
+        stopifnot( (latitude>=-90) & (latitude<=90) )
+    stopifnot( length(time.range)==2 )
+    stopifnot( all(time.range>=0) & all(time.range<=24) & (time.range[1]<time.range[2]) )
+    stopifnot( (time.step>0) & (time.step<=12) )
+    stopifnot( (day.step>0) & (day.step<=100) )
+    stopifnot( is.logical(local.svf) )
+    
+    param = list( GRD_DEM=in.dem, 
+                  GRD_DIRECT = out.direct.grid, GRD_DIFFUS = out.diffuse.grid,
+                  GRD_TOTAL = out.total.grid, GRD_RATIO = out.ratio.grid,
+                  GRD_DURATION = out.duration, 
+                  GRD_SUNRISE = out.sunrise, GRD_SUNSET = out.sunset,
+                  UNITS = unit, SOLARCONST = as.numeric(solconst), LOCALSVF = local.svf,
+                  METHOD = method,
+                  HOUR_STEP = time.step )
+    
+    if (location == 0) {
+        if (!is.null(latitude)) {
+            stopifnot((latitude >= -90) & (latitude <= 90))
+            param = c(param, LATITUDE = as.numeric(latitude))
+        }
+    } else {
+        param = c(param, LOCATION = as.numeric(location))
+    }
+    
+    if (!is.null(in.svf.grid)) param = c( param, GRD_SVF=in.svf.grid )
+    if (!is.null(in.vapour.grid)) param = c( param, GRD_VAPOUR=in.vapour.grid )
+    if (!is.null(in.linke.grid)) param = c( param, GRD_LINKE=in.linke.grid )
+    
+    if (method == 0) {
+        param = c(param, ATMOSPHERE = as.numeric(hgt.atmosphere))
+    } else if (method == 1) {
+        param = c(param, PRESSURE = as.numeric(cmp.pressure), 
+                  WATER = as.numeric(cmp.water.content), DUST = as.numeric(cmp.dust))
+    } else if (method == 2) {
+        stopifnot( (lmp.transmittance>=0) & (lmp.transmittance<=100) )
+        param = c(param, LUMPED = as.numeric(lmp.transmittance))
+    } else if (method == 3) {
+        param = param
+    } else stopifnot( method %in% c(0:3) )
+    
+    if (is.null(start.date)) { # one year
+        stopifnot( is.null(end.date) )
+        param = c( param, PERIOD = 2, DAY_A = 0, MONTH_A = 0,
+                   DAY_B = 30, MONTH_B = 11 )
+    } else {
+        if (is.null(end.date)) {
+            param = c( param, PERIOD = 1 ) # single day ... or moment (later)
+        } else param = c( param, PERIOD = 2 )
+        stopifnot(is.list(start.date))
+        stopifnot(length(start.date) == 3)
+        stopifnot(all(names(start.date %in% c("day","month","year"))))
+        stopifnot( (start.date$day>=1) & (start.date$day<=31) )
+        stopifnot( (start.date$month>=1) & (start.date$month<=12) )
+        param = c( param, DAY_A = start.date$day ,
+                   MON_A = start.date$month - 1,
+                   YEAR_A = start.date$year )
+        if (is.null(end.date)) {
+            # check if moment:
+            stopifnot(length(time.range) <= 2)
+            if (length(time.range) == 2) {
+                if (time.range[2] == time.range[1])
+                    time.range = time.range[1]
+            }
+            if (length(time.range) == 1) {
+                # moment
+                param$PERIOD = 0
+                stopifnot(time.range >= 0 & time.range <= 24)
+                param = c(param, MOMENT = round(time.range,3))
+            } else {
+                stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
+                stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
+                stopifnot(time.range[1] < time.range[2])
+                param = c(param, HOUR_RANGE_MIN = time.range[1],
+                          HOUR_RANGE_MAX = time.range[2])
+            }
+        } else {
+            # range of days:
+            stopifnot(is.list(end.date))
+            stopifnot(length(end.date) == 3)
+            stopifnot(all(names(end.date %in% c("day","month","year"))))
+            stopifnot( (end.date$day>=1) & (end.date$day<=31) )
+            stopifnot( (end.date$month>=1) & (end.date$month<=12) )
+            param = c( param, DAY_B = end.date$day,
+                       MON_B = end.date$month - 1,
+                       YEAR_B = end.date$year,
+                       DAYS_STEP = day.step )
+            if (is.null(time.range)) time.range = c(0,24)
+            stopifnot(length(time.range) == 2)
+            stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
+            stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
+            stopifnot(time.range[1] < time.range[2])
+            param = c(param, HOUR_RANGE_MIN = time.range[1],
+                      HOUR_RANGE_MAX = time.range[2])
+        }
+    }
+    
+    rsaga.geoprocessor(lib = "ta_lighting", 
+                       module = "Potential Incoming Solar Radiation",  # = 2
+                       param = param, env = env, ...)
+}
 
 
 #' Potential incoming solar radiation
@@ -1452,7 +1669,8 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     env = rsaga.env(), ...)
 {
     ## Version Stop - tool no longer supported SAGA 2.1.3
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1" |
+        env$version == "2.2.2") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
            "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
@@ -1578,7 +1796,8 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
-    if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0") {
+    if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
+        env$version != "2.2.2") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1637,7 +1856,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     
     module = "Catchment Area (Top-Down)"
 
-    if (env$version == "2.2.0") {
+    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2") {
         module = "Flow Accumulation (Top-Down)"
     }
 
@@ -1701,7 +1920,8 @@ rsaga.wetness.index = function( in.dem,
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
     }
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
-        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0")  {
+        env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
@@ -1924,7 +2144,8 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
-    if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0"){
+    if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
+       env$version != "2.2.2"){
         param = list(INPUT=in.grid,CONTOUR=out.shapefile)
     } else {
         param = list(GRID=in.grid,CONTOUR=out.shapefile)
@@ -2150,7 +2371,8 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "MODE" ] = "SEARCH_DIRECTION"
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
         # TARGET parameters changed SAGA 2.1.3:
-        if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+        if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+            env$version == "2.2.1" | env$version == "2.2.2") {
             nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
             nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
             nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
@@ -2211,7 +2433,8 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2269,7 +2492,8 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2320,7 +2544,8 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0") {
+    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
+        env$version == "2.2.1" | env$version == "2.2.2") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"

@@ -23,7 +23,7 @@
 #' values at point locations from a grid using kriging 
 #' or nearest neighbour interpolation.
 #' 
-#' RSAGA requires SAGA GIS (versions 2.0.4 - 2.1.4 
+#' RSAGA requires SAGA GIS (versions 2.0.4 - 2.2.2) 
 #' are currently supported) and its user-contributed 
 #' modules to be available on your computer. These 
 #' can be downloaded under GPL from
