@@ -6,7 +6,7 @@ RSAGA 0.94-4 is now available on CRAN. Included in this release are updates to s
 
 An additional function `rsaga.pisr2` has been added to support the Potential Incoming Solar Radiation module with SAGA 2.2.2
 
-**Unix note** - on some systems users have reported that `rsaga.*` functions produce a warning message: "Error: select a tool". This can be suppressed by adding the argument `check.module.exists = FALSE` until the bug is addressed.
+**Unix note** - on some systems users have reported that `rsaga.*` functions with SAGA 2.2.0+ produce a warning message: "Error: select a tool". This can be suppressed by adding the argument `check.module.exists = FALSE` until the bug is addressed.
 
 
 #### 27 August 2015
