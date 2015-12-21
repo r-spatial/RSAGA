@@ -1158,7 +1158,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
                        env = rsaga.env(), ...)
 {
-    if ( env$version != "2.2.2" | env$version != "2.2.3" ) {
+    if ( env$version != "2.2.2" & env$version != "2.2.3" ) {
         stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
              " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
     }
