@@ -415,7 +415,7 @@ rsaga.slope.asp.curv = function(in.dem,
   if(env$version != "2.1.1" & env$version != "2.1.2" &
      env$version != "2.1.3" & env$version != "2.1.4" &
      env$version != "2.2.0" & env$version != "2.2.1" &
-     env$version != "2.2.2") {
+     env$version != "2.2.2" & env$version != "2.2.3") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -933,7 +933,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1;\n",
              " use rsaga.solar.radiation for older versions of SAGA GIS")
     }
-    if ( (env$version == "2.2.2") ) {
+    if ( (env$version == "2.2.2" | env$version == "2.2.3") ) {
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1:\n",
              " use rsaga.pisr2 for newer versions of SAGA GIS")
     }
@@ -1158,7 +1158,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
                        env = rsaga.env(), ...)
 {
-    if ( env$version != "2.2.2" ) {
+    if ( env$version != "2.2.2" | env$version != "2.2.3" ) {
         stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
              " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
     }
@@ -1670,7 +1670,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 {
     ## Version Stop - tool no longer supported SAGA 2.1.3
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1" |
-        env$version == "2.2.2") {
+        env$version == "2.2.2" | env$version == "2.2.3") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
            "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
@@ -1797,7 +1797,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
     if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
-        env$version != "2.2.2") {
+        env$version != "2.2.2" & env$version != "2.2.3") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1856,7 +1856,8 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     
     module = "Catchment Area (Top-Down)"
 
-    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2") {
+    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2" |
+        env$version == "2.2.3") {
         module = "Flow Accumulation (Top-Down)"
     }
 
@@ -1921,7 +1922,7 @@ rsaga.wetness.index = function( in.dem,
     }
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
         env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2")  {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
@@ -2145,7 +2146,7 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
     if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
-       env$version != "2.2.2"){
+       env$version != "2.2.2" & env$version != "2.2.3"){
         param = list(INPUT=in.grid,CONTOUR=out.shapefile)
     } else {
         param = list(GRID=in.grid,CONTOUR=out.shapefile)
@@ -2372,7 +2373,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
         # TARGET parameters changed SAGA 2.1.3:
         if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-            env$version == "2.2.1" | env$version == "2.2.2") {
+            env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
             nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
             nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
             nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
@@ -2434,7 +2435,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2493,7 +2494,7 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2545,7 +2546,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
