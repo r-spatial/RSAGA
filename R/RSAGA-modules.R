@@ -88,7 +88,7 @@ rsaga.target = function(
 #' 
 #' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd}, \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each band.
 #' 
-#' The following raster formats are currently supported. Last updated for SAGA GIS 2.2.0;
+#' The following raster formats are currently supported. Last updated for SAGA GIS 2.2.3;
 #' for a list for a specific SAGA GIS version call \code{rsaga.html.help("io_gdal","GDAL: Import Raster", env = rsaga.env(path="SAGA_Version_to_Test"))}
 #' \itemize{
 #' \item BAG - Bathymetry Attributed Grid
@@ -96,10 +96,15 @@ rsaga.target = function(
 #' \item JP2ECW - ERDAS JPEG2000 (SDK 3.x)
 #' \item FITS - Flexible Image Transport System
 #' \item GMT - GMT NetCDF Grid Format
+#' \item HDF4 - Hierarchical Data Format Release 4
+#' \item HDF4Image - HDF4 Dataset
 #' \item HDF5 - Hierarchical Data Format Release 5
 #' \item HDF5Image - HDF5 Dataset
+#' \item KEA - KEA Image Format (.kea)
+#' \item MG4Lidar - MrSID Generation 4 / Lidar (.sid)
 #' \item MrSID - Multi-resolution Seamless Image Database (MrSID)
 #' \item netCDF - Network Common Data Format
+#' \item PostgreSQL - PostgreSQL/PostGIS
 #' \item VRT - Virtual Raster
 #' \item GTiff - GeoTIFF
 #' \item NITF - National Imagery Transmission Format
@@ -129,6 +134,7 @@ rsaga.target = function(
 #' \item DIMAP - SPOT DIMAP
 #' \item AirSAR - AirSAR Polarimetric Image
 #' \item RS2 - RadarSat 2 XML Product
+#' \item SAFE - Sentinel SAFE Product
 #' \item PCIDSK - PCIDSK Database File
 #' \item PCRaster - PCRaster Raster File
 #' \item ILWIS - ILWIS Raster Map
@@ -139,6 +145,7 @@ rsaga.target = function(
 #' \item ISIS3 - USGS Astrogeology ISIS cube (Version 3)
 #' \item ISIS2 - USGS Astrogeology ISIS cube (Version 2)
 #' \item PDS - NASA Planetary Data System
+#' \item VICAR - MIPL VICAR file
 #' \item TIL - EarthWatch .TIL
 #' \item ERS - ERMapper .ers Labelled
 #' \item JP2OpenJPEG - JPEG-2000 driver based on OpenJPEG library
@@ -185,11 +192,13 @@ rsaga.target = function(
 #' \item CTable2 - CTable2 Datum Grid Shift
 #' \item ACE2 - ACE2
 #' \item SNODAS - Snow Data Assimilation System
+#' \item KRO - KOLOR Raw
+#' \item ROI_PAC - ROI_PAC raster
+#' \item ISCE - ISCE raster
 #' \item ARG - Azavea Raster Grid format
 #' \item RIK - Swedish Grid RIK (.rik)
 #' \item USGSDEM - USGS Optional ASCII DEM (and CDED)
 #' \item GXF - GeoSoft Grid Exchange Format
-#' \item HTTP - HTTP Fetching Wrapper
 #' \item NWT_GRD - Northwood Numeric Grid Format .grd/.tab
 #' \item NWT_GRC - Northwood Classified Grid Format .grc/.tab
 #' \item ADRG - ARC Digitized Raster Graphics
@@ -209,6 +218,78 @@ rsaga.target = function(
 #' \item NGSGEOID - NOAA NGS Geoid Height Grids
 #' \item MBTiles - MBTiles
 #' \item IRIS - IRIS data (.PPI, .CAPPi etc)
+#' \item PLMOSAIC - Planet Labs Mosaic
+#' \item CALS - CALS (Type 1)
+#' \item WMTS - OGC Web Map Tile Service
+#' \item ESRI Shapefile - ESRI Shapefile
+#' \item MapInfo File - MapInfo File
+#' \item UK .NTF - UK .NTF
+#' \item OGD_SDTS - SDTS
+#' \item S57 - IHO S-57 (ENC)
+#' \item DGN - Microstation DGN
+#' \item OGR_VRT - VRT - Virtual Datasource
+#' \item REC EPIInfo .REC
+#' \item Memory - Memory
+#' \item BNA - Atlas BNA
+#' \item CSV - Comma Separated Value (.csv)
+#' \item NAS - NAS - ALKIS
+#' \item GML - Geography Markup Language
+#' \item GPX - GPX
+#' \item LIBKML - Keyhole Markup Language (LIBKML)
+#' \item KML - Keyhole Markup Language (KML)
+#' \item GeoJSON - GeoJSON
+#' \item Interlis 1 - Interlis 1
+#' \item Interlis 2 - Interlis 2
+#' \item OGR_GMT - GMT ASCII Vectors (.gmt)
+#' \item GPKG - GeoPackage
+#' \item SQLite - SQLite / Spatialite
+#' \item ODBC - ODBC
+#' \item WAsP - WAsP .map format
+#' \item PGeo - ESRI Personal GeoDatabase
+#' \item MSSQLSpatial - Microsoft SQL Server Spatial Database
+#' \item MySQL - MySQL
+#' \item OpenFileGDB - ESRI FileGDB
+#' \item XPlane - X-Plane/Flightgear aeronautical data
+#' \item DXF - AutoCAD DXF
+#' \item Geoconcept - Geoconcept
+#' \item GeoRSS - GeoRSS
+#' \item GPSTrackMaker - GPSTrackMaker
+#' \item VFK - Czech Cadastral Exchange Data Format
+#' \item PGDUMP - PostgreSQL SQL dump
+#' \item OSM - OpenStreetMap XML and PDF
+#' \item GPSBabel - GPSBabel
+#' \item SUA - Tim Newport-Peace's Special Use Airspace Format
+#' \item OpenAir - OpenAir
+#' \item OGR_PDS - Planetary Data Systems TABLE
+#' \item WFS - OGC WFS (Web Feature Service)
+#' \item HTF - Hydrographic Transfer Vector
+#' \item AeronavFAA - Aeronav FAA
+#' \item Geomedia - Geomedia .mdb
+#' \item EDIGEO - French EDIGEO exchange format
+#' \item GFT - Google Fusion Tables
+#' \item GME - Google Maps Engine
+#' \item SVG - Scalable Vector Graphics
+#' \item CouchDB - CouchDB / GeoCouch
+#' \item Cloudant - Cloudant / CouchDB
+#' \item Idrisi - Idrisi Vector (.vct)
+#' \item ARCGEN - Arc/Info Generate
+#' \item SEGUKOOA - SEG-P1 / UKOOA P1/90
+#' \item SEG-Y - SEG-Y
+#' \item ODS - Open Document/ LibreOffice / OpenOffice Spreadsheet
+#' \item XLSX - MS Office Open XML spreadsheet
+#' \item ElasticSearch - Elastic Search
+#' \item Walk - Walk
+#' \item CartoDB - CartoDB
+#' \item SXF - Storage and eXchange Format
+#' \item Selafin - Selafin
+#' \item JML - OpenJUMP JML
+#' \item PLSCENES - Planet Labs Scenes API
+#' \item CSW - OGC CSW (Catalog Search for the Web)
+#' \item IDF - INTREST Data Format
+#' \item TIGER - U.S. Census TIGER/Line
+#' \item AVCBin - Arc/Info Binary Coverage
+#' \item AVCE00 - Arc/Info E00 (ASCII) Coverage
+#' \item HTTP - HTTP Fetching Wrapper
 #' }
 #' @references GDAL website: \url{http://www.gdal.org/}
 #' @author Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
