@@ -77,7 +77,14 @@ rsaga.target = function(
 #' @param out.grid output SAGA grid file name; defaults to \code{in.grid} with the file extension being removed; file extension should not be specified, it defaults to \code{.sgrd}
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}
 #' @param ... additional arguments to be passed to \code{rsaga.geoprocessor}
-#' @details The GDAL Raster Import module of SAGA imports grid data from various file formats using the Geospatial Data Abstraction Library (GDAL) by Frank Warmerdam. As of SAGA GIS 2.0.7, GDAL version 1.8.0 is used. More information is available at \url{http://www.gdal.org/}.
+#' @details The GDAL Raster Import module of SAGA imports grid data from various file formats using the Geospatial Data Abstraction Library (GDAL) by Frank Warmerdam.
+#' GDAL Versions are specific to SAGA versions:
+#' \itemize{
+#' \item SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
+#' \item SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
+#' \item SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
+#' \item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev}
+#' More information is available at \url{http://www.gdal.org/}.
 #' 
 #' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd}, \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each band.
 #' 
