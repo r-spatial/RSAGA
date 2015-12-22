@@ -219,7 +219,14 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
     } else {
         param = list( GRIDS = out.grid, FILES = in.grid )
     }
-    rsaga.geoprocessor("io_gdal", "GDAL: Import Raster", 
+    
+    # Module name change with SAGA 2.2.3
+    module = "GDAL: Import Raster"
+    if (env$version == "2.2.3"){
+        module = "Import Raster"
+    }
+    
+    rsaga.geoprocessor("io_gdal", module = module, 
         param = param, env = env, ...)
 }
 
