@@ -39,10 +39,10 @@
 #' 
 #' \strong{Landslide Data:}
 #' 
-#' Muenchow, J., Brenning, A., Richter, R. (2012). Geomorphic process rates of landslides along a humidity gradient
+#' Muenchow, J., Brenning, A., Richter, R. (2012): Geomorphic process rates of landslides along a humidity gradient
 #' in the tropical Andes, Geomorphology, 139-140, 271-284
 #' 
-#' Stoyan, R. (2000). Aktivitat, Ursachen und Klassifikation der Rutschungen in San Francisco/Südecuador.
+#' Stoyan, R. (2000): Aktivitat, Ursachen und Klassifikation der Rutschungen in San Francisco/Südecuador.
 #' Unpublished Diploma Thesis, University of Erlangen-Nuremberg, Germany.
 #' @examples
 #' \dontrun{
