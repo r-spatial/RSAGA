@@ -1,6 +1,9 @@
 RSAGA News
 ====
 
+#### 07 January 2016
+RSAGA 0.94-5 is now available on CRAN. This release is largely version updates to support SAGA GIS 2.2.3
+
 #### 08 November 2015
 RSAGA 0.94-4 is now available on CRAN. Included in this release are updates to support SAGA GIS versions 2.2.1 and 2.2.2
 
