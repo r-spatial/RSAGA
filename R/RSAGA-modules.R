@@ -77,11 +77,18 @@ rsaga.target = function(
 #' @param out.grid output SAGA grid file name; defaults to \code{in.grid} with the file extension being removed; file extension should not be specified, it defaults to \code{.sgrd}
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}
 #' @param ... additional arguments to be passed to \code{rsaga.geoprocessor}
-#' @details The GDAL Raster Import module of SAGA imports grid data from various file formats using the Geospatial Data Abstraction Library (GDAL) by Frank Warmerdam. As of SAGA GIS 2.0.7, GDAL version 1.8.0 is used. More information is available at \url{http://www.gdal.org/}.
+#' @details The GDAL Raster Import module of SAGA imports grid data from various file formats using the Geospatial Data Abstraction Library (GDAL) by Frank Warmerdam.
+#' GDAL Versions are specific to SAGA versions:
+#' \itemize{
+#' \item SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
+#' \item SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
+#' \item SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
+#' \item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev}
+#' More information is available at \url{http://www.gdal.org/}.
 #' 
 #' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd}, \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each band.
 #' 
-#' The following raster formats are currently supported. Last updated for SAGA GIS 2.2.0;
+#' The following raster formats are currently supported. Last updated for SAGA GIS 2.2.3;
 #' for a list for a specific SAGA GIS version call \code{rsaga.html.help("io_gdal","GDAL: Import Raster", env = rsaga.env(path="SAGA_Version_to_Test"))}
 #' \itemize{
 #' \item BAG - Bathymetry Attributed Grid
@@ -89,10 +96,15 @@ rsaga.target = function(
 #' \item JP2ECW - ERDAS JPEG2000 (SDK 3.x)
 #' \item FITS - Flexible Image Transport System
 #' \item GMT - GMT NetCDF Grid Format
+#' \item HDF4 - Hierarchical Data Format Release 4
+#' \item HDF4Image - HDF4 Dataset
 #' \item HDF5 - Hierarchical Data Format Release 5
 #' \item HDF5Image - HDF5 Dataset
+#' \item KEA - KEA Image Format (.kea)
+#' \item MG4Lidar - MrSID Generation 4 / Lidar (.sid)
 #' \item MrSID - Multi-resolution Seamless Image Database (MrSID)
 #' \item netCDF - Network Common Data Format
+#' \item PostgreSQL - PostgreSQL/PostGIS
 #' \item VRT - Virtual Raster
 #' \item GTiff - GeoTIFF
 #' \item NITF - National Imagery Transmission Format
@@ -122,6 +134,7 @@ rsaga.target = function(
 #' \item DIMAP - SPOT DIMAP
 #' \item AirSAR - AirSAR Polarimetric Image
 #' \item RS2 - RadarSat 2 XML Product
+#' \item SAFE - Sentinel SAFE Product
 #' \item PCIDSK - PCIDSK Database File
 #' \item PCRaster - PCRaster Raster File
 #' \item ILWIS - ILWIS Raster Map
@@ -132,6 +145,7 @@ rsaga.target = function(
 #' \item ISIS3 - USGS Astrogeology ISIS cube (Version 3)
 #' \item ISIS2 - USGS Astrogeology ISIS cube (Version 2)
 #' \item PDS - NASA Planetary Data System
+#' \item VICAR - MIPL VICAR file
 #' \item TIL - EarthWatch .TIL
 #' \item ERS - ERMapper .ers Labelled
 #' \item JP2OpenJPEG - JPEG-2000 driver based on OpenJPEG library
@@ -178,11 +192,13 @@ rsaga.target = function(
 #' \item CTable2 - CTable2 Datum Grid Shift
 #' \item ACE2 - ACE2
 #' \item SNODAS - Snow Data Assimilation System
+#' \item KRO - KOLOR Raw
+#' \item ROI_PAC - ROI_PAC raster
+#' \item ISCE - ISCE raster
 #' \item ARG - Azavea Raster Grid format
 #' \item RIK - Swedish Grid RIK (.rik)
 #' \item USGSDEM - USGS Optional ASCII DEM (and CDED)
 #' \item GXF - GeoSoft Grid Exchange Format
-#' \item HTTP - HTTP Fetching Wrapper
 #' \item NWT_GRD - Northwood Numeric Grid Format .grd/.tab
 #' \item NWT_GRC - Northwood Classified Grid Format .grc/.tab
 #' \item ADRG - ARC Digitized Raster Graphics
@@ -202,6 +218,78 @@ rsaga.target = function(
 #' \item NGSGEOID - NOAA NGS Geoid Height Grids
 #' \item MBTiles - MBTiles
 #' \item IRIS - IRIS data (.PPI, .CAPPi etc)
+#' \item PLMOSAIC - Planet Labs Mosaic
+#' \item CALS - CALS (Type 1)
+#' \item WMTS - OGC Web Map Tile Service
+#' \item ESRI Shapefile - ESRI Shapefile
+#' \item MapInfo File - MapInfo File
+#' \item UK .NTF - UK .NTF
+#' \item OGD_SDTS - SDTS
+#' \item S57 - IHO S-57 (ENC)
+#' \item DGN - Microstation DGN
+#' \item OGR_VRT - VRT - Virtual Datasource
+#' \item REC EPIInfo .REC
+#' \item Memory - Memory
+#' \item BNA - Atlas BNA
+#' \item CSV - Comma Separated Value (.csv)
+#' \item NAS - NAS - ALKIS
+#' \item GML - Geography Markup Language
+#' \item GPX - GPX
+#' \item LIBKML - Keyhole Markup Language (LIBKML)
+#' \item KML - Keyhole Markup Language (KML)
+#' \item GeoJSON - GeoJSON
+#' \item Interlis 1 - Interlis 1
+#' \item Interlis 2 - Interlis 2
+#' \item OGR_GMT - GMT ASCII Vectors (.gmt)
+#' \item GPKG - GeoPackage
+#' \item SQLite - SQLite / Spatialite
+#' \item ODBC - ODBC
+#' \item WAsP - WAsP .map format
+#' \item PGeo - ESRI Personal GeoDatabase
+#' \item MSSQLSpatial - Microsoft SQL Server Spatial Database
+#' \item MySQL - MySQL
+#' \item OpenFileGDB - ESRI FileGDB
+#' \item XPlane - X-Plane/Flightgear aeronautical data
+#' \item DXF - AutoCAD DXF
+#' \item Geoconcept - Geoconcept
+#' \item GeoRSS - GeoRSS
+#' \item GPSTrackMaker - GPSTrackMaker
+#' \item VFK - Czech Cadastral Exchange Data Format
+#' \item PGDUMP - PostgreSQL SQL dump
+#' \item OSM - OpenStreetMap XML and PDF
+#' \item GPSBabel - GPSBabel
+#' \item SUA - Tim Newport-Peace's Special Use Airspace Format
+#' \item OpenAir - OpenAir
+#' \item OGR_PDS - Planetary Data Systems TABLE
+#' \item WFS - OGC WFS (Web Feature Service)
+#' \item HTF - Hydrographic Transfer Vector
+#' \item AeronavFAA - Aeronav FAA
+#' \item Geomedia - Geomedia .mdb
+#' \item EDIGEO - French EDIGEO exchange format
+#' \item GFT - Google Fusion Tables
+#' \item GME - Google Maps Engine
+#' \item SVG - Scalable Vector Graphics
+#' \item CouchDB - CouchDB / GeoCouch
+#' \item Cloudant - Cloudant / CouchDB
+#' \item Idrisi - Idrisi Vector (.vct)
+#' \item ARCGEN - Arc/Info Generate
+#' \item SEGUKOOA - SEG-P1 / UKOOA P1/90
+#' \item SEG-Y - SEG-Y
+#' \item ODS - Open Document/ LibreOffice / OpenOffice Spreadsheet
+#' \item XLSX - MS Office Open XML spreadsheet
+#' \item ElasticSearch - Elastic Search
+#' \item Walk - Walk
+#' \item CartoDB - CartoDB
+#' \item SXF - Storage and eXchange Format
+#' \item Selafin - Selafin
+#' \item JML - OpenJUMP JML
+#' \item PLSCENES - Planet Labs Scenes API
+#' \item CSW - OGC CSW (Catalog Search for the Web)
+#' \item IDF - INTREST Data Format
+#' \item TIGER - U.S. Census TIGER/Line
+#' \item AVCBin - Arc/Info Binary Coverage
+#' \item AVCE00 - Arc/Info E00 (ASCII) Coverage
+#' \item HTTP - HTTP Fetching Wrapper
 #' }
 #' @references GDAL website: \url{http://www.gdal.org/}
 #' @author Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
@@ -219,7 +307,14 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
     } else {
         param = list( GRIDS = out.grid, FILES = in.grid )
     }
-    rsaga.geoprocessor("io_gdal", "GDAL: Import Raster", 
+    
+    # Module name change with SAGA 2.2.3
+    module = "GDAL: Import Raster"
+    if (env$version == "2.2.3"){
+        module = "Import Raster"
+    }
+    
+    rsaga.geoprocessor("io_gdal", module = module, 
         param = param, env = env, ...)
 }
 
@@ -415,7 +510,7 @@ rsaga.slope.asp.curv = function(in.dem,
   if(env$version != "2.1.1" & env$version != "2.1.2" &
      env$version != "2.1.3" & env$version != "2.1.4" &
      env$version != "2.2.0" & env$version != "2.2.1" &
-     env$version != "2.2.2") {
+     env$version != "2.2.2" & env$version != "2.2.3") {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
@@ -933,7 +1028,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1;\n",
              " use rsaga.solar.radiation for older versions of SAGA GIS")
     }
-    if ( (env$version == "2.2.2") ) {
+    if ( (env$version == "2.2.2" | env$version == "2.2.3") ) {
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1:\n",
              " use rsaga.pisr2 for newer versions of SAGA GIS")
     }
@@ -1158,7 +1253,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
                        env = rsaga.env(), ...)
 {
-    if ( env$version != "2.2.2" ) {
+    if ( env$version != "2.2.2" & env$version != "2.2.3" ) {
         stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
              " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
     }
@@ -1670,7 +1765,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 {
     ## Version Stop - tool no longer supported SAGA 2.1.3
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1" |
-        env$version == "2.2.2") {
+        env$version == "2.2.2" | env$version == "2.2.3") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
            "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
     }
@@ -1797,7 +1892,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
     if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
-        env$version != "2.2.2") {
+        env$version != "2.2.2" & env$version != "2.2.3") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1856,7 +1951,8 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     
     module = "Catchment Area (Top-Down)"
 
-    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2") {
+    if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2" |
+        env$version == "2.2.3") {
         module = "Flow Accumulation (Top-Down)"
     }
 
@@ -1921,7 +2017,7 @@ rsaga.wetness.index = function( in.dem,
     }
     if (env$version == "2.1.0" | env$version == "2.1.1" | env$version == "2.1.2" |
         env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2")  {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3")  {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
@@ -2145,7 +2241,7 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
     in.grid = default.file.extension(in.grid,".sgrd")
     # 'INPUT' changed to 'GRID' with SAGA 2.1.3
     if(env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
-       env$version != "2.2.2"){
+       env$version != "2.2.2" & env$version != "2.2.3"){
         param = list(INPUT=in.grid,CONTOUR=out.shapefile)
     } else {
         param = list(GRID=in.grid,CONTOUR=out.shapefile)
@@ -2372,7 +2468,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         nm[ nm == "POWER" ] = "WEIGHT_POWER"
         # TARGET parameters changed SAGA 2.1.3:
         if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-            env$version == "2.2.1" | env$version == "2.2.2") {
+            env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
             nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
             nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
             nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
@@ -2434,7 +2530,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2493,7 +2589,7 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
@@ -2545,7 +2641,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     
     # TARGET parameters changed SAGA 2.1.3:
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2") {
+        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
         nm = names(param)
         nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
         nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
