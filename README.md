@@ -3,9 +3,9 @@ RSAGA
 
 RSAGA Package Code and [Vignette](https://cran.r-project.org/web/packages/RSAGA/vignettes/RSAGA-landslides.pdf)
 
-Currently updated to RSAGA 0.94-4, available on CRAN
+Currently updated to RSAGA 0.94-5, available on CRAN
 
-Supports SAGA GIS 2.0.4 - 2.2.2
+Supports SAGA GIS 2.0.4 - 2.2.3
 
 Provides access to geocomputing and terrain analysis
 functions of the geographical information system (GIS) ['SAGA' (System for
