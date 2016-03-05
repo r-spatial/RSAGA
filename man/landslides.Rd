@@ -3,12 +3,12 @@
 \name{landslides}
 \alias{dem}
 \alias{landslides}
-\title{Landslide Inventory and DEM}
+\title{Landslide inventory and DEM}
 \format{A data frame of 1535 rows and 3 variables:
 \itemize{
 \item{\code{x}}: the x coordinate of the sample point
 \item{\code{y}}: the y coordinate of the sample point
-\item{\code{lslpts}}: \code{TRUE} or \code{FALSE} of landslide observation at sample point
+\item{\code{lslpts}}: this column informs if the corresponding point is a landslide (\code{TRUE}) or not (\code{FALSE}).
 }
 
 A digital elevation model as a .Rd grid \code{dem}
@@ -29,24 +29,24 @@ Jordan, E., Ungerechts, L., Caceres, B. Penafiel, A. and Francou, B.
 
 \strong{Landslide Data:}
 
-Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient
+Muenchow, J., Brenning, A., Richter, R. (2012): Geomorphic process rates of landslides along a humidity gradient
 in the tropical Andes, Geomorphology, 139-140, 271-284
 
-Stoyan, R. (2000). Aktivitat, Ursachen und Klassifikation der Rutschungen in San Francisco/Sudecuador.
+Stoyan, R. (2000): Aktivitat, Ursachen und Klassifikation der Rutschungen in San Francisco/Südecuador.
 Unpublished Diploma Thesis, University of Erlangen-Nuremberg, Germany.
 }
 \description{
-Landslide initiation points in the \emph{Reserva Biologica San Francisco} (RBSF) area of the tropical
+The landslide dataset consists of landslide initiation points in the \emph{Reserva Biológica San Francisco} (RBSF) area of the tropical
 Andes in Ecuador. The landslide inventory was mapped by Stoyan (2000) in the field and by the presence
 of landslide scars in aerial imagery. The 10 m x 10 m digital elevation model (DEM) was triangulated
-from aerial imagery as described by Jordan \emph{et al.} (2005) and provided courtesy of Lars Ungerechts (2010).
+from aerial imagery as described by Jordan \emph{et al.} (2005) and provided as a courtesy of Lars Ungerechts (2010).
 }
 \details{
 Loading this dataset also loads the object \code{dem}. Existing objects named \code{dem} may be overwritten.
 
-Landslide data provided here are a subset of that used to build generalized additive models (GAMs) as landslide
-susceptibility models by Muenchow \emph{et al.} (2012). These data correspond to those in the "natural" part of
-the \emph{RBSF} area. Please refer to the accompanying vignette for an introductory tutorial on the use of the
+Landslide data provided here are a subset of that used by Muenchow \emph{et al.} (2012) to predict spatially landslide
+susceptibility using generalized additive models (GAMs). Specifically, the here provided landslides belong to the "natural" part of
+the \emph{RBSF} area. Please refer also to the accompanying vignette for an introductory tutorial on the use of the
 RSAGA package for terrain analysis, geoprocessing, and model-building using these data.
 }
 \examples{
