@@ -21,7 +21,8 @@ Depends:
     plyr
 Imports:
   stats,
-  utils
+  utils,
+  rgdal
 Suggests:
     knitr
 LazyLoad: yes
