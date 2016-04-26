@@ -2708,91 +2708,93 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 ### Module shapes_polygons##########
 
 #' @title Spatial intersection of two polygon layers
-#' @description The function \code{rsaga.intersect} calculates the geometric 
-#'   intersection of two overlayed polygon layers using SAGA module
+#' @description The function \code{rsaga.intersect.polygons} calculates the
+#'   geometric intersection of two overlayed polygon layers using SAGA module 
 #'   "\code{Intersect}".
 #' @param layer_a A \code{character}-string representing the path to a polygon 
-#' shapefile or an spatial object of class
-#' \code{\link[sp]{SpatialPolygonsDataFrame}}.
+#'   shapefile or an spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
 #' @param layer_b A \code{character}-string representing the path to a polygon 
 #'   shapefile or a spatial object of class 
 #'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to intersect layer_a.
 #' @param result A \code{character}-string indicating where the resulting 
 #'   shapefile should be stored.
-#' @param split if \code{TRUE}, multipart polygons become separated polygons
-#'   (not the default).
+#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#'   (default: FALSE).
 #' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
 #'   into R (default: FALSE).
-#' @param env RSAGA geoprocessing environment created by
+#' @param env RSAGA geoprocessing environment created by 
 #'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
 #'   version.
 #' @return The function saves the output shapefile to the path indicated in 
 #'   function argument \code{result}.
-#' @author Jannes Muenchow (R interface), Olaf Conrad (SAGA modules)
+#' @details Function \code{\link[rgeos]{gIntersection}} can also be used to 
+#' define the intersection between two polygon layers. However, 
+#' \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
+#' especially when intersecting thousands of polygons.
+#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
+#'   modules)
 #' @keywords SAGA GIS
 #' @examples
-#' # create two polygon layers
-#' library("RSAGA")
+#' #' library("RSAGA")
 #' library("sp")
 #' library("magrittr")
+#' # construct coordinates of two squares
 #' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
 #'                  ncol = 2, byrow = TRUE)
 #' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
 #'                             -0.5, -0.5),
-#'                  ncol = 2, byrow = TRUE) 
+#'                  ncol = 2, byrow = TRUE)
+#' # convert the coordinates into polygons
 #' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1))) %>%
 #'   as(., "SpatialPolygonsDataFrame")
 #' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) %>%
 #'   as(., "SpatialPolygonsDataFrame")
-#' plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
-#' plot(poly_2, col = "blue", axes = TRUE, add = TRUE)
-#' # intersect the two layers using SAGA and load the output
-#' my_env <- rsaga.env(path = "C:/OSGeo4W64/apps/saga")
+#' # intersect the two polygons using SAGA and load the output
 #' tmp_dir <- paste0(tempdir(), "/out_int.shp")
-#' int <- rsaga.intersect(layer_a = poly_1,
-#'                        layer_b = poly_2,
-#'                        result = tmp_dir,
-#'                        load = TRUE)
-#' # plot the intersection
+#' int <- rsaga.intersect.polygons(layer_a = poly_1,
+#'                                 layer_b = poly_2,
+#'                                 result = tmp_dir,
+#'                                 load = TRUE, env = my_env)
+#' # plot input polygons
 #' plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
 #' plot(poly_2, col = "blue", add = TRUE)
+#' # plot the intersection
 #' plot(int, col = "yellow", add = TRUE)
 #' @export
 #' 
-rsaga.intersect <- function(layer_a = NULL,
-                            layer_b = NULL,
-                            result = NULL,
-                            split = FALSE,
-                            load = FALSE,
-                            env = rsaga.env()) {
-  if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
-    stop("Please specify layer_a, layer_b and a result layer!")
-  }
-  
-  if (class(layer_a) %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
+rsaga.intersect.polygons <- 
+  function(layer_a = NULL, layer_b = NULL, result = NULL,
+           split = FALSE, load = FALSE, env = rsaga.env()) {
+    # check if all necessary function arguments were supplied
+    if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
+      stop("Please specify layer_a, layer_b and a result layer!")
+    }
+    
+    # define a temporary folder
     dir_tmp <- tempdir()
-    rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
-                    driver = "ESRI Shapefile", overwrite_layer = TRUE)
-    layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+    }
+    
+    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+    }
+    
+    # execute the 'Intersect'-function
+    rsaga.geoprocessor(lib = "shapes_polygons", module = "Intersect", 
+                       list(A = layer_a,
+                            B = layer_b,
+                            RESULT = result,
+                            SPLIT = split), 
+                       env = env)
+    # if requested, load the resulting shapefile
+    if (load) {
+      rgdal::readOGR(dsn = dirname(result), 
+                     layer = gsub(".shp", "", basename(result)))  
+    }
   }
-  
-  if (class(layer_b) %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
-    dir_tmp <- tempdir()
-    rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
-                    driver = "ESRI Shapefile", overwrite_layer = TRUE)
-    layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
-  }
-  
-  # execute the 'Intersect'-function
-  rsaga.geoprocessor(lib = "shapes_polygons", module = "Intersect", 
-                     list(A = layer_a,
-                          B = layer_b,
-                          RESULT = result,
-                          SPLIT = split), 
-                     env = my_env)
-  # load the resulting shapefile
-  if (load) {
-    rgdal::readOGR(dsn = dirname(result), 
-                   layer = gsub(".shp", "", basename(result)))  
-  }
-}
