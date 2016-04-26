@@ -2708,13 +2708,13 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 ### Module shapes_polygons##########
 
 #' @title Spatial intersection of two polygon layers
-#' @description The function \code{rsaga.intersect.polygons} calculates the
+#' @description The function \code{rsaga.intersect.polygons} calculates the 
 #'   geometric intersection of two overlayed polygon layers using SAGA module 
 #'   "\code{Intersect}".
 #' @param layer_a A \code{character}-string representing the path to a polygon 
-#'   shapefile or an spatial object of class 
+#'   shapefile or a spatial object of class 
 #'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
-#' @param layer_b A \code{character}-string representing the path to a polygon 
+#' @param layer_b A \code{character}-string representing the path to a polygon
 #'   shapefile or a spatial object of class 
 #'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to intersect layer_a.
 #' @param result A \code{character}-string indicating where the resulting 
@@ -2727,16 +2727,17 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
 #'   version.
 #' @return The function saves the output shapefile to the path indicated in 
-#'   function argument \code{result}.
+#'   function argument \code{result} and loads the resulting shapefile into R
+#'   when function parameter \code{load} is set to TRUE.
 #' @details Function \code{\link[rgeos]{gIntersection}} can also be used to 
-#' define the intersection between two polygon layers. However, 
-#' \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
-#' especially when intersecting thousands of polygons.
+#'   define the intersection between two polygon layers. However, 
+#'   \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
+#'   especially when intersecting thousands of polygons.
 #' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
 #'   modules)
-#' @keywords SAGA GIS
+#' @keywords vector operations, polygons
 #' @examples
-#' #' library("RSAGA")
+#' library("RSAGA")
 #' library("sp")
 #' library("magrittr")
 #' # construct coordinates of two squares
@@ -2751,16 +2752,16 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) %>%
 #'   as(., "SpatialPolygonsDataFrame")
 #' # intersect the two polygons using SAGA and load the output
-#' tmp_dir <- paste0(tempdir(), "/out_int.shp")
-#' int <- rsaga.intersect.polygons(layer_a = poly_1,
+#' dir_tmp <- paste0(tempdir(), "/out.shp")
+#' res <- rsaga.intersect.polygons(layer_a = poly_1,
 #'                                 layer_b = poly_2,
-#'                                 result = tmp_dir,
-#'                                 load = TRUE, env = my_env)
+#'                                 result = dir_tmp,
+#'                                 load = TRUE)
 #' # plot input polygons
 #' plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
 #' plot(poly_2, col = "blue", add = TRUE)
 #' # plot the intersection
-#' plot(int, col = "yellow", add = TRUE)
+#' plot(res, col = "yellow", add = TRUE)
 #' @export
 #' 
 rsaga.intersect.polygons <- 
@@ -2798,3 +2799,95 @@ rsaga.intersect.polygons <-
                      layer = gsub(".shp", "", basename(result)))  
     }
   }
+
+#' @title Spatial union of two polygon layers
+#' @description The function \code{rsaga.union.polygons} uses SAGA function 
+#'   "\code{Union}" to calculate the geometric union of two polygon layers. This
+#' corresponds to the intersection and the symmetrical difference of the two 
+#' layers.
+#' @param layer_a A \code{character}-string representing the path to a polygon 
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
+#' @param layer_b A \code{character}-string representing the path to a polygon 
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to union layer_a.
+#' @param result \code{character}, path indicating where to store the output 
+#'   shapefile.
+#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#'   (default: FALSE).
+#' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
+#'   into R (default: FALSE).
+#' @return The function saves the output shapefile to the path indicated in 
+#'   function argument \code{result} and loads the resulting shapefile into R 
+#'   when function parameter \code{load} is set to TRUE.
+#' @details Function \code{\link[rgeos]{gUnion}} can also be used for joining
+#'   intersecting polygon geometries. However, 
+#'   \code{\link{rsaga.union.polygons}} will be usually much faster, 
+#'   especially when joining thousands of polygons.
+#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+#'   modules)
+#' @keywords vector operations, polygons
+#' @examples
+#' library("RSAGA")
+#' library("sp")
+#' # construct coordinates of two squares
+#' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
+#'                  ncol = 2, byrow = TRUE)
+#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+#'                             -0.5, -0.5),
+#'                  ncol = 2, byrow = TRUE)
+#' # convert the coordinates into polygons
+#' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
+#' poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
+#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) 
+#' poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
+#' # union the two polygons using SAGA and load the output
+#' dir_tmp <- paste0(tempdir(), "/out.shp")
+#' res <- rsaga.union.polygons(layer_a = poly_1,
+#'                             layer_b = poly_2,
+#'                             result = dir_tmp,
+#'                             load = TRUE)
+#' # output attribute table consists of three elements, i.e. the union of poly_1
+#' # and poly_2
+#' dim(res)
+#' res@data
+#' @export
+
+rsaga.union.polygons <- 
+  function(layer_a = NULL, layer_b = NULL,
+           result = NULL, split = FALSE, load = FALSE,
+           env = rsaga.env()) {
+    # check if all necessary function arguments were provided
+    if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
+      stop("Please specify layer_a, layer_b and a result layer!")
+      }
+    
+    # define a temporary folder
+    dir_tmp <- tempdir()
+    # if layer_a and layer_b are SpatialObjects, save them as shapefiles
+    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+    }
+    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+    }
+
+  # execute SAGA function "Union"
+  rsaga.geoprocessor(lib = "shapes_polygons", module = "Union", 
+                     list(A = layer_a,
+                          B = layer_b,
+                          RESULT = result,
+                          SPLIT = split), 
+                     env = env)
+  
+  # if requested, load the resulting output shapefile
+  if (load) {
+    rgdal::readOGR(dsn = dirname(result), 
+                   layer = gsub(".shp", "", basename(result)))  
+    }
+}
+
