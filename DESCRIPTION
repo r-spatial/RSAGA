@@ -5,29 +5,33 @@ Version: 0.94-5
 Date: 2015-12-23
 Author: Alexander Brenning and Donovan Bangs
 Maintainer: Alexander Brenning <alexander.brenning@uni-jena.de>
-Description: Provides access to geocomputing and terrain analysis
-    functions of the geographical information system (GIS) 'SAGA' (System for
-    Automated Geoscientific Analyses) from within R by running the command 
-    line version of SAGA. This package furthermore provides several R functions
-    for handling ASCII grids, including a flexible framework for applying local
-    functions (including predict methods of fitted models) and focal functions to
-    multiple grids. SAGA GIS is available under GPLv2 / LGPLv2 licence from
-    http://sourceforge.net/projects/saga-gis/.
+Description: Provides access to geocomputing and terrain analysis functions
+    of the geographical information system (GIS) 'SAGA' (System for Automated
+    Geoscientific Analyses) from within R by running the command line version of
+    SAGA. This package furthermore provides several R functions for handling ASCII
+    grids, including a flexible framework for applying local functions (including
+    predict methods of fitted models) and focal functions to multiple grids. SAGA
+    GIS is available under GPLv2 / LGPLv2 licence from http://sourceforge.net/
+    projects/saga-gis/.
 License: GPL-2 | file LICENSE
 SystemRequirements: SAGA GIS (2.0.4 - 2.2.3)
-Depends: 
+Depends:
     gstat,
     shapefiles,
     plyr
+Imports:
+  stats,
+  utils,
+  rgdal
 Suggests:
     knitr
 LazyLoad: yes
-Collate: 
+Collate:
     'gridtools.R'
     'RSAGA-core.R'
     'RSAGA-modules.R'
     'RSAGA-utils.R'
     'RSAGA-package.R'
     'landslides.R'
-VignetteBuilder:
-    knitr
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
