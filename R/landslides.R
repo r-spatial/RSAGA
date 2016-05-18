@@ -1,7 +1,7 @@
 #' Landslide inventory and DEM
 #'
 #' The landslide dataset consists of landslide initiation points in the
-#' \emph{Reserva Biológica San Francisco} (RBSF) area of the tropical Andes in
+#' \emph{Reserva Biologica San Francisco} (RBSF) area of the tropical Andes in
 #' Ecuador. The landslide inventory was mapped by Stoyan (2000) in the field and
 #' by the presence of landslide scars in aerial imagery. The 10 m x 10 m digital
 #' elevation model (DEM) was triangulated from aerial imagery as described by
@@ -53,7 +53,7 @@
 #' 139-140, 271-284
 #' 
 #' Stoyan, R. (2000): Aktivitat, Ursachen und Klassifikation der Rutschungen in
-#' San Francisco/Südecuador. Unpublished Diploma Thesis, University of
+#' San Francisco/Sudecuador. Unpublished Diploma Thesis, University of
 #' Erlangen-Nuremberg, Germany.
 #' @examples
 #' \dontrun{

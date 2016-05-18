@@ -46,6 +46,7 @@ Function \code{\link[rgeos]{gIntersection}} can also be used to
   especially when intersecting thousands of polygons.
 }
 \examples{
+\dontrun{
 library("RSAGA")
 library("sp")
 library("magrittr")
@@ -71,6 +72,7 @@ plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
 plot(poly_2, col = "blue", add = TRUE)
 # plot the intersection
 plot(res, col = "yellow", add = TRUE)
+}
 }
 \author{
 Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 

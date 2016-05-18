@@ -43,6 +43,7 @@ Function \code{\link[rgeos]{gUnion}} can also be used for joining
   especially when joining thousands of polygons.
 }
 \examples{
+\dontrun{
 library("RSAGA")
 library("sp")
 # construct coordinates of two squares
@@ -66,6 +67,7 @@ res <- rsaga.union.polygons(layer_a = poly_1,
 # and poly_2
 dim(res)
 res@data
+}
 }
 \author{
 Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
