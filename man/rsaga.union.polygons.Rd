@@ -5,7 +5,7 @@
 \title{Spatial union of two polygon layers}
 \usage{
 rsaga.union.polygons(layer_a = NULL, layer_b = NULL, result = NULL,
-  split = FALSE, load = FALSE, env = rsaga.env())
+  split = FALSE, load = FALSE, env = rsaga.env(), ...)
 }
 \arguments{
 \item{layer_a}{A \code{character}-string representing the path to a polygon 
@@ -27,6 +27,8 @@ into R (default: FALSE).}
 
 \item{env}{RSAGA geoprocessing environment created by \code{\link{rsaga.env}},
 required because module(s) depend(s) on SAGA version}
+
+\item{...}{arguments to be passed to \code{\link{rsaga.geoprocessor}}}
 }
 \value{
 The function saves the output shapefile to the path indicated in 

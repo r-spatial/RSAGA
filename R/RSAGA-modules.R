@@ -2734,6 +2734,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' @param env RSAGA geoprocessing environment created by 
 #'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
 #'   version.
+#' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
 #' @return The function saves the output shapefile to the path indicated in 
 #'   function argument \code{result} and loads the resulting shapefile into R
 #'   when function parameter \code{load} is set to TRUE.
@@ -2777,7 +2778,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 
 rsaga.intersect.polygons <- 
   function(layer_a = NULL, layer_b = NULL, result = NULL,
-           split = FALSE, load = FALSE, env = rsaga.env()) {
+           split = FALSE, load = FALSE, env = rsaga.env(), ...) {
     # check if all necessary function arguments were supplied
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
@@ -2803,7 +2804,7 @@ rsaga.intersect.polygons <-
                             B = layer_b,
                             RESULT = result,
                             SPLIT = split), 
-                       env = env)
+                       env = env, ...)
     # if requested, load the resulting shapefile
     if (load) {
       rgdal::readOGR(dsn = dirname(result), 
@@ -2830,6 +2831,7 @@ rsaga.intersect.polygons <-
 #'   into R (default: FALSE).
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}},
 #'   required because module(s) depend(s) on SAGA version
+#' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
 #' @return The function saves the output shapefile to the path indicated in 
 #'   function argument \code{result} and loads the resulting shapefile into R 
 #'   when function parameter \code{load} is set to TRUE.
@@ -2871,7 +2873,7 @@ rsaga.intersect.polygons <-
 rsaga.union.polygons <- 
   function(layer_a = NULL, layer_b = NULL,
            result = NULL, split = FALSE, load = FALSE,
-           env = rsaga.env()) {
+           env = rsaga.env(), ...) {
     # check if all necessary function arguments were provided
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
@@ -2897,7 +2899,7 @@ rsaga.union.polygons <-
                           B = layer_b,
                           RESULT = result,
                           SPLIT = split), 
-                     env = env)
+                     env = env, ...)
   
   # if requested, load the resulting output shapefile
   if (load) {
