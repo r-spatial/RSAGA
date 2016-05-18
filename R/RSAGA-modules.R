@@ -2828,6 +2828,8 @@ rsaga.intersect.polygons <-
 #'   (default: FALSE).
 #' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
 #'   into R (default: FALSE).
+#' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}},
+#'   required because module(s) depend(s) on SAGA version
 #' @return The function saves the output shapefile to the path indicated in 
 #'   function argument \code{result} and loads the resulting shapefile into R 
 #'   when function parameter \code{load} is set to TRUE.
