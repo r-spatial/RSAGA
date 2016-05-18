@@ -1,15 +1,29 @@
 #' Define target grid for interpolation
 #'
-#' Define the resolution and extent of a target grid for interpolation by SAGA modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid file, or (3) the header data of an ASCII grid. Intended to be used with RSAGA's interpolation functions.
+#' Define the resolution and extent of a target grid for interpolation by SAGA
+#' modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid
+#' file, or (3) the header data of an ASCII grid. Intended to be used with
+#' RSAGA's interpolation functions.
 #' @name rsaga.target
 #' @param target character: method used for defining the target grid
-#' @param user.cellsize Only for \code{target="user.defined"}: raster resolution (in the grid's map units)
+#' @param user.cellsize Only for \code{target="user.defined"}: raster resolution
+#'   (in the grid's map units)
 #' @param user.x.extent See \code{user.y.extent}
-#' @param user.y.extent Only for \code{target="user.defined"}: numeric vectors of length 2: minimum and maximum coordinates of grid cell center points
-#' @param target.grid Only for \code{target="target.grid"}: character string giving the name of a SAGA grid file that specifies the extent and resolution of the target grid; this target grid file may be overwritten, depending on the specifics of the SAGA GIS module used.
-#' @param header Only for \code{target="header"}: list: ASCII grid header (as returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually; must at least have components \code{ncols}, \code{nrows}, \code{cellsize}, and either \code{x/yllcorner} or \code{x/yllcenter}.
+#' @param user.y.extent Only for \code{target="user.defined"}: numeric vectors
+#'   of length 2: minimum and maximum coordinates of grid cell center points
+#' @param target.grid Only for \code{target="target.grid"}: character string
+#'   giving the name of a SAGA grid file that specifies the extent and
+#'   resolution of the target grid; this target grid file may be overwritten,
+#'   depending on the specifics of the SAGA GIS module used.
+#' @param header Only for \code{target="header"}: list: ASCII grid header (as
+#'   returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually;
+#'   must at least have components \code{ncols}, \code{nrows}, \code{cellsize},
+#'   and either \code{x/yllcorner} or \code{x/yllcenter}.
 #' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)
-#' @note This function is to be used with RSAGA functions \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}} and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are currently only compatible with SAGA GIS 2.0.5 and higher.
+#' @note This function is to be used with RSAGA functions
+#'   \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}}
+#'   and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are
+#'   currently only compatible with SAGA GIS 2.0.5 and higher.
 #' @seealso \code{\link{read.ascii.grid.header}}
 #' @examples
 #' \dontrun{
@@ -71,14 +85,19 @@ rsaga.target = function(
 
 #' Import Grid Files to SAGA grid format using GDAL
 #' 
-#' These functions provide simple interfaces for reading and writing grids from/to ASCII grids and Rd files. Grids are stored in matrices, their headers in lists.
+#' These functions provide simple interfaces for reading and writing grids
+#' from/to ASCII grids and Rd files. Grids are stored in matrices, their headers
+#' in lists.
 #' @name rsaga.import.gdal
 #' @param in.grid file name of a grid in a format supported by GDAL
-#' @param out.grid output SAGA grid file name; defaults to \code{in.grid} with the file extension being removed; file extension should not be specified, it defaults to \code{.sgrd}
+#' @param out.grid output SAGA grid file name; defaults to \code{in.grid} with
+#'   the file extension being removed; file extension should not be specified,
+#'   it defaults to \code{.sgrd}
 #' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}
 #' @param ... additional arguments to be passed to \code{rsaga.geoprocessor}
-#' @details The GDAL Raster Import module of SAGA imports grid data from various file formats using the Geospatial Data Abstraction Library (GDAL) by Frank Warmerdam.
-#' GDAL Versions are specific to SAGA versions:
+#' @details The GDAL Raster Import module of SAGA imports grid data from various
+#'   file formats using the Geospatial Data Abstraction Library (GDAL) by Frank
+#'   Warmerdam. GDAL Versions are specific to SAGA versions:
 #' \itemize{
 #' \item SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
 #' \item SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
@@ -86,10 +105,15 @@ rsaga.target = function(
 #' \item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev}
 #' More information is available at \url{http://www.gdal.org/}.
 #' 
-#' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd}, \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each band.
+#' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output
+#' grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd},
+#' \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each
+#' band.
 #' 
-#' The following raster formats are currently supported. Last updated for SAGA GIS 2.2.3;
-#' for a list for a specific SAGA GIS version call \code{rsaga.html.help("io_gdal","GDAL: Import Raster", env = rsaga.env(path="SAGA_Version_to_Test"))}
+#' The following raster formats are currently supported. Last updated for SAGA
+#' GIS 2.2.3; for a list for a specific SAGA GIS version call
+#' \code{rsaga.html.help("io_gdal","GDAL: Import Raster", env =
+#' rsaga.env(path="SAGA_Version_to_Test"))}
 #' \itemize{
 #' \item BAG - Bathymetry Attributed Grid
 #' \item ECW - ERDAS Compressed Wavelets (SDK 3.x)
@@ -360,19 +384,39 @@ rsaga.esri.to.sgrd = function( in.grids,
 
 #' Convert SAGA grids to ESRI ASCII/binary grids
 #' 
-#' \code{rsaga.sgrd.to.esri} converts grid files from SAGA's (version 2) grid format (.sgrd) to ESRI's ASCII (.asc)  and binary (.flt) format.
+#' \code{rsaga.sgrd.to.esri} converts grid files from SAGA's (version 2) grid
+#' format (.sgrd) to ESRI's ASCII (.asc)  and binary (.flt) format.
 #' @name rsaga.sgrd.to.esri
-#' @param in.sgrds character vector of SAGA grid files (\code{.sgrd}) to be converted;  files are expected to be found in folder \code{\link{rsaga.env}()$workspace}, or, if an optional \code{env} argument is provided, in \code{env$workspace}
-#' @param out.grids character vector of ESRI ASCII/float output file names; defaults to \code{in.sgrds} with the file extension being replaced by \code{.asc} or \code{.flt}, depending on \code{format}. Files will be placed in folder \code{out.path}, existing files will be overwritten 
+#' @param in.sgrds character vector of SAGA grid files (\code{.sgrd}) to be
+#'   converted;  files are expected to be found in folder
+#'   \code{\link{rsaga.env}()$workspace}, or, if an optional \code{env} argument
+#'   is provided, in \code{env$workspace}
+#' @param out.grids character vector of ESRI ASCII/float output file names;
+#'   defaults to \code{in.sgrds} with the file extension being replaced by
+#'   \code{.asc} or \code{.flt}, depending on \code{format}. Files will be
+#'   placed in folder \code{out.path}, existing files will be overwritten
 #' @param out.path folder for \code{out.grids}
-#' @param format output file format, either \code{"ascii"} (default; equivalent: \code{format=1}) for ASCII grids or \code{"binary"} (equivalent: \code{0}) for binary ESRI grids (\code{.flt}). 
-#' @param georef character: \code{"corner"} (equivalent numeric code: \code{0}) or \code{"center"} (default; equivalent: \code{1}). Determines whether the georeference will be related to the center or corner of its extreme lower left grid cell.
-#' @param prec number of digits when writing floating point values to ASCII grid files; either a single number (to be replicated if necessary), or a numeric vector of length \code{length(in.grids)}
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @param format output file format, either \code{"ascii"} (default; equivalent:
+#'   \code{format=1}) for ASCII grids or \code{"binary"} (equivalent: \code{0})
+#'   for binary ESRI grids (\code{.flt}).
+#' @param georef character: \code{"corner"} (equivalent numeric code: \code{0})
+#'   or \code{"center"} (default; equivalent: \code{1}). Determines whether the
+#'   georeference will be related to the center or corner of its extreme lower
+#'   left grid cell.
+#' @param prec number of digits when writing floating point values to ASCII grid
+#'   files; either a single number (to be replicated if necessary), or a numeric
+#'   vector of length \code{length(in.grids)}
+#' @param ... optional arguments to be passed to
+#'   \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA
+#'   geoprocessing environment
+#' @return The type of object returned depends on the \code{intern} argument
+#'   passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it
+#'   is a numerical error code (0: success), or otherwise (default) a character
+#'   vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @note This function uses module 0 from the SAGA library \code{io_grid}.
-#' @seealso \code{\link{rsaga.esri.wrapper}} for an efficient way of applying RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
+#' @seealso \code{\link{rsaga.esri.wrapper}} for an efficient way of applying
+#'   RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
 #' @keywords spatial interface file
 #' @export
 rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
@@ -2667,3 +2711,191 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
         module = "Triangulation",
         param, env = env, ...)
 }
+
+
+### Module shapes_polygons##########
+
+#' @title Spatial intersection of two polygon layers
+#' @description The function \code{rsaga.intersect.polygons} calculates the 
+#'   geometric intersection of two overlayed polygon layers using SAGA module 
+#'   "\code{Intersect}".
+#' @param layer_a A \code{character}-string representing the path to a polygon 
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
+#' @param layer_b A \code{character}-string representing the path to a polygon
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to intersect layer_a.
+#' @param result A \code{character}-string indicating where the resulting 
+#'   shapefile should be stored.
+#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#'   (default: FALSE).
+#' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
+#'   into R (default: FALSE).
+#' @param env RSAGA geoprocessing environment created by 
+#'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
+#'   version.
+#' @return The function saves the output shapefile to the path indicated in 
+#'   function argument \code{result} and loads the resulting shapefile into R
+#'   when function parameter \code{load} is set to TRUE.
+#' @details Function \code{\link[rgeos]{gIntersection}} can also be used to 
+#'   define the intersection between two polygon layers. However, 
+#'   \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
+#'   especially when intersecting thousands of polygons.
+#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
+#'   modules)
+#' @keywords vector operations, polygons
+#' @examples
+#' library("RSAGA")
+#' library("sp")
+#' library("magrittr")
+#' # construct coordinates of two squares
+#' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
+#'                  ncol = 2, byrow = TRUE)
+#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+#'                             -0.5, -0.5),
+#'                  ncol = 2, byrow = TRUE)
+#' # convert the coordinates into polygons
+#' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1))) %>%
+#'   as(., "SpatialPolygonsDataFrame")
+#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) %>%
+#'   as(., "SpatialPolygonsDataFrame")
+#' # intersect the two polygons using SAGA and load the output
+#' dir_tmp <- paste0(tempdir(), "/out.shp")
+#' res <- rsaga.intersect.polygons(layer_a = poly_1,
+#'                                 layer_b = poly_2,
+#'                                 result = dir_tmp,
+#'                                 load = TRUE)
+#' # plot input polygons
+#' plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
+#' plot(poly_2, col = "blue", add = TRUE)
+#' # plot the intersection
+#' plot(res, col = "yellow", add = TRUE)
+#' @export
+#' 
+rsaga.intersect.polygons <- 
+  function(layer_a = NULL, layer_b = NULL, result = NULL,
+           split = FALSE, load = FALSE, env = rsaga.env()) {
+    # check if all necessary function arguments were supplied
+    if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
+      stop("Please specify layer_a, layer_b and a result layer!")
+    }
+    
+    # define a temporary folder
+    dir_tmp <- tempdir()
+    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+    }
+    
+    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+    }
+    
+    # execute the 'Intersect'-function
+    rsaga.geoprocessor(lib = "shapes_polygons", module = "Intersect", 
+                       list(A = layer_a,
+                            B = layer_b,
+                            RESULT = result,
+                            SPLIT = split), 
+                       env = env)
+    # if requested, load the resulting shapefile
+    if (load) {
+      rgdal::readOGR(dsn = dirname(result), 
+                     layer = gsub(".shp", "", basename(result)))  
+    }
+  }
+
+#' @title Spatial union of two polygon layers
+#' @description The function \code{rsaga.union.polygons} uses SAGA function 
+#'   "\code{Union}" to calculate the geometric union of two polygon layers. This
+#' corresponds to the intersection and the symmetrical difference of the two 
+#' layers.
+#' @param layer_a A \code{character}-string representing the path to a polygon 
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
+#' @param layer_b A \code{character}-string representing the path to a polygon 
+#'   shapefile or a spatial object of class 
+#'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to union layer_a.
+#' @param result \code{character}, path indicating where to store the output 
+#'   shapefile.
+#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#'   (default: FALSE).
+#' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
+#'   into R (default: FALSE).
+#' @return The function saves the output shapefile to the path indicated in 
+#'   function argument \code{result} and loads the resulting shapefile into R 
+#'   when function parameter \code{load} is set to TRUE.
+#' @details Function \code{\link[rgeos]{gUnion}} can also be used for joining
+#'   intersecting polygon geometries. However, 
+#'   \code{\link{rsaga.union.polygons}} will be usually much faster, 
+#'   especially when joining thousands of polygons.
+#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+#'   modules)
+#' @keywords vector operations, polygons
+#' @examples
+#' library("RSAGA")
+#' library("sp")
+#' # construct coordinates of two squares
+#' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
+#'                  ncol = 2, byrow = TRUE)
+#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+#'                             -0.5, -0.5),
+#'                  ncol = 2, byrow = TRUE)
+#' # convert the coordinates into polygons
+#' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
+#' poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
+#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) 
+#' poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
+#' # union the two polygons using SAGA and load the output
+#' dir_tmp <- paste0(tempdir(), "/out.shp")
+#' res <- rsaga.union.polygons(layer_a = poly_1,
+#'                             layer_b = poly_2,
+#'                             result = dir_tmp,
+#'                             load = TRUE)
+#' # output attribute table consists of three elements, i.e. the union of poly_1
+#' # and poly_2
+#' dim(res)
+#' res@data
+#' @export
+
+rsaga.union.polygons <- 
+  function(layer_a = NULL, layer_b = NULL,
+           result = NULL, split = FALSE, load = FALSE,
+           env = rsaga.env()) {
+    # check if all necessary function arguments were provided
+    if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
+      stop("Please specify layer_a, layer_b and a result layer!")
+      }
+    
+    # define a temporary folder
+    dir_tmp <- tempdir()
+    # if layer_a and layer_b are SpatialObjects, save them as shapefiles
+    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+    }
+    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
+                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
+      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+    }
+
+  # execute SAGA function "Union"
+  rsaga.geoprocessor(lib = "shapes_polygons", module = "Union", 
+                     list(A = layer_a,
+                          B = layer_b,
+                          RESULT = result,
+                          SPLIT = split), 
+                     env = env)
+  
+  # if requested, load the resulting output shapefile
+  if (load) {
+    rgdal::readOGR(dsn = dirname(result), 
+                   layer = gsub(".shp", "", basename(result)))  
+    }
+}
+
