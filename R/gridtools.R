@@ -1153,7 +1153,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
         in.factor.hdr = read.ascii.grid.header(in.factor.file,dec=dec)
         if (in.hdr$ncols != in.factor.hdr$ncols |
             in.hdr$nrows != in.factor.hdr$nrows |
-            !all.equal(in.hdr$cellsize, in.factor.hdr$cellsize) |
+            isTRUE(all.equal(in.hdr$cellsize, in.factor.hdr$cellsize)) |
             in.hdr$xllcorner != in.factor.hdr$xllcorner |
             in.hdr$yllcorner != in.factor.hdr$yllcorner)
             stop("input grid and factor grid must have same extent and cellsize")
@@ -1522,7 +1522,7 @@ multi.focal.function = function(
         in.hdrs[[k]] = read.ascii.grid.header(in.files[[k]],dec=dec)
         nodata.vals[[k]] = unique(c(nodata.values,in.hdrs[[k]]$nodata_value))
         if (k > 1) {
-            if (!all.equal(in.hdrs[[k]]$cellsize, in.hdrs[[1]]$cellsize) |
+            if (isTRUE(all.equal(in.hdrs[[k]]$cellsize, in.hdrs[[1]]$cellsize)) |
                 in.hdrs[[k]]$ncols != in.hdrs[[1]]$ncols |
                 in.hdrs[[k]]$nrows != in.hdrs[[1]]$nrows )
                 stop("incompatible input grids")
@@ -1545,7 +1545,7 @@ multi.focal.function = function(
         in.factor.hdr = read.ascii.grid.header(in.factor.file,dec=dec)
         if (in.hdr$ncols != in.factor.hdr$ncols |
             in.hdr$nrows != in.factor.hdr$nrows |
-            !all.equal(in.hdr$cellsize, in.factor.hdr$cellsize))
+            isTRUE(all.equal(in.hdr$cellsize, in.factor.hdr$cellsize)))
             stop("input grid and factor grid must have same extent and cellsize")
     }
 
@@ -1969,7 +1969,7 @@ multi.local.function = function(
         in.hdrs[[k]] = read.ascii.grid.header(in.files[[k]],dec=dec)
         nodata.vals[[k]] = unique(c(nodata.values,in.hdrs[[k]]$nodata_value))
         if (k > 1) {
-            if ( !all.equal(in.hdrs[[k]]$cellsize, in.hdrs[[1]]$cellsize) |
+            if ( isTRUE(all.equal(in.hdrs[[k]]$cellsize, in.hdrs[[1]]$cellsize)) |
                   in.hdrs[[k]]$ncols != in.hdrs[[1]]$ncols |
                   in.hdrs[[k]]$nrows != in.hdrs[[1]]$nrows )
                 stop("incompatible input grids")
