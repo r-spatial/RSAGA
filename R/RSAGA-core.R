@@ -504,7 +504,14 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         rawres = rawres[ tolower(rawres) != "error: select a tool" ]
     }
     if (length(wh) > 0) {
-        rawres = strsplit(rawres,"\t- ")
+      
+        # String to split output changed from '\t- ' to '\t' with SAGA version 2.3.1
+        if (env$version == "2.3.1") {
+        rawres = strsplit(rawres,"\t")
+        } else {
+          rawres = strsplit(rawres,"\t- ")
+        }
+      
         mcodes = c()
         mnames = c()
         minteracs = c()
