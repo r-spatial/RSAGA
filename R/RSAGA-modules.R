@@ -1937,7 +1937,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     env = rsaga.env(), ...) {
     ## Version Stop - SAGA GIS Version < 2.1.3
     if (env$version != "2.1.3" & env$version != "2.1.4" & env$version != "2.2.0" & env$version != "2.2.1" &
-        env$version != "2.2.2" & env$version != "2.2.3") {
+        env$version != "2.2.2" & env$version != "2.2.3" & env$version != "2.3.1") {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
@@ -1961,11 +1961,24 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     }
     if (!missing(in.material)) {
         in.material = default.file.extension(in.material, ".sgrd")
-        param = c(param, MATERIAL=in.material)
+        
+        # Usage changed with 2.3.1
+        if (env$version == "2.3.1"){
+          param = c(param, ACCU_MATERIAL=in.material)
+        } else {
+          param = c(param, MATERIAL=in.material)
+        }
     }
     if (!missing(in.target)) {
         in.target = default.file.extension(in.target, ".sgrd")
-        param = c(param, TARGET=in.target)
+        
+        # Usage changed with 2.3.1
+        if (env$version == "2.3.1"){
+          param = c(param, ACCU_TARGET=in.target)
+        } else {
+          param = c(param, TARGET=in.target)
+        }
+        
     }
     if (!missing(in.lin.val)) {
         in.lin.val = default.file.extension(in.lin.val, ".sgrd")
@@ -1975,18 +1988,37 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
         in.lin.dir = default.file.extension(in.lin.dir, ".sgrd")
         param = c(param, LINEAR_DIR=in.lin.dir)
     }
-    if (!missing(out.carea))
-        param = c(param, CAREA=out.carea)
+    if (!missing(out.carea)){
+        # Usage changed with 2.3.1
+        if (env$version == "2.3.1"){
+          param = c(param, FLOW=out.carea)
+        } else {
+          param = c(param, CAREA=out.carea)
+        }
+    }
     if (!missing(out.mean))
         param = c(param, VAL_MEAN=out.mean)
-    if (!missing(out.tot.mat))
+    if (!missing(out.tot.mat)) {
+      # Usage changed with 2.3.1
+      if (env$version == "2.3.1"){
+        param = c(param, ACCU_TOTAL=out.tot.mat)
+      } else {
         param = c(param, ACCU_TOT=out.tot.mat)
+      }
+    }
     if (!missing(out.acc.left))
         param = c(param, ACCU_LEFT=out.acc.left)
     if (!missing(out.acc.right))
         param = c(param, ACCU_RIGHT=out.acc.right)
-    if (!missing(out.flowpath))
+    if (!missing(out.flowpath)) {
+      # Usage changed with 2.3.1
+      if (env$version == "2.3.1"){
+        param = c(param, FLOW_LENGTH=out.flowpath)
+      } else {
         param = c(param, FLOWLEN=out.flowpath)
+      }
+    }
+        
     param = c(param, METHOD=method)
     if (is.finite(linear.threshold)) {
         param = c(param, LINEAR_DO=TRUE, LINEAR_MIN=linear.threshold)
@@ -1997,7 +2029,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     module = "Catchment Area (Top-Down)"
 
     if (env$version == "2.2.0" | env$version == "2.2.1" | env$version == "2.2.2" |
-        env$version == "2.2.3") {
+        env$version == "2.2.3" | env$version == "2.3.1") {
         module = "Flow Accumulation (Top-Down)"
     }
 
