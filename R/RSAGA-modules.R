@@ -1721,6 +1721,13 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
 #' @seealso \code{\link{rsaga.filter.simple}}
 #' @keywords spatial interface
 #' @export
+#' 
+#' Differences between parameters:
+#' -MODE (2.0.4 to 3.0.0) -KERNEL_TYPE (4.0.0 to 6.0.0) 
+#' -RADIUS (2.0.4 to 3.0.0) -KERNEL_RADIUS (4.0.0 to 6.0.0)
+#'
+#' Support for Kernel_Type could be added
+#' 
 rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     radius=ceiling(2*sigma),...)
 {
@@ -1729,7 +1736,17 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     stopifnot(sigma>0.0001)
     if (round(radius) != radius) stop("'radius' must be an integer (# pixels)")
     stopifnot(radius>=1)
-    param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, RADIUS=radius)
+    
+    if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+              "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+              "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
+              "3.0.0") == env$version)) {
+      param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, RADIUS=radius)
+    } else {
+      param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, KERNEL_RADIUS=radius)
+    }
+    
+    
     rsaga.geoprocessor(lib = "grid_filter", 
         module = "Gaussian Filter", # = 1, 
         param, ...)
