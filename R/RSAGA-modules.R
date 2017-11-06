@@ -1667,6 +1667,11 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 #' @examples \dontrun{rsaga.filter.simple("dem","dem-smooth",radius=4)}
 #' @keywords spatial interface
 #' @export
+#' 
+#' Differences between parameters:
+#' -MODE (2.0.4 to 3.0.0) -KERNEL_TYPE (4.0.0 to 6.0.0) 
+#' -RADIUS (2.0.4 to 3.0.0) -KERNEL_RADIUS (4.0.0 to 6.0.0)
+#' 
 rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
     method=c("smooth","sharpen","edge"), radius,...)
 {
@@ -1683,8 +1688,18 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
         warning("'radius' must be an integer >=1 (# pixels); setting 'radius=1'...")
         radius = 1
     }
-    param = list(INPUT=in.grid, RESULT=out.grid, MODE=mode,
-        METHOD=method, RADIUS=radius)
+    
+    if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+              "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+              "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
+              "3.0.0") == env$version)) {
+      param = list(INPUT=in.grid, RESULT=out.grid, MODE=mode,
+                   METHOD=method, RADIUS=radius)
+    } else {
+      param = list(INPUT=in.grid, RESULT=out.grid, KERNEL_TYPE=mode,
+                   METHOD=method, KERNEL_RADIUS=radius)
+    }
+    
     rsaga.geoprocessor(lib = "grid_filter", 
         module = "Simple Filter",
         param = param, ...)
