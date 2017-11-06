@@ -506,10 +506,12 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
     if (length(wh) > 0) {
       
         # String to split output changed from '\t- ' to '\t' with SAGA version 2.3.1
-        if (env$version == "2.3.1") {
-        rawres = strsplit(rawres,"\t")
+        if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+                  "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+                  "2.2.0","2.2.1","2.2.2","2.2.3") == env$version)) {
+        rawres = strsplit(rawres,"\t- ")
         } else {
-          rawres = strsplit(rawres,"\t- ")
+          rawres = strsplit(rawres,"\t")
         }
       
         mcodes = c()
