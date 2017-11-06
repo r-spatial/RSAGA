@@ -551,11 +551,7 @@ rsaga.slope.asp.curv = function(in.dem,
                               unit.slope = "radians", unit.aspect = "radians",
                               env = rsaga.env(), ...) {
   
-  if(env$version != "2.1.1" & env$version != "2.1.2" &
-     env$version != "2.1.3" & env$version != "2.1.4" &
-     env$version != "2.2.0" & env$version != "2.2.1" &
-     env$version != "2.2.2" & env$version != "2.2.3" &
-     env$version != "2.3.1") {
+  if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0") == env$version)) {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
