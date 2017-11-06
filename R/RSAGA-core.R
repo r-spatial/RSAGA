@@ -27,7 +27,12 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"],
     saga.path = rsaga.default.path(sysname))
 {
     if (sysname == "Windows") {
-        modules = file.path(saga.path,"modules")
+        # Module folder changed with SAGA Version 3+
+        if(file.exists(file.path(saga.path, "modules"))){
+          modules = file.path(saga.path,"modules")
+        } else {
+          modules = file.path(saga.path,"tools")
+        }
     } else { ### tested with: ((sysname == "Linux") | (sysname == "Darwin") | (sysname == "FreeBSD"))
         modules = Sys.getenv("SAGA_MLB")[[1]]
         if (modules == "") {
