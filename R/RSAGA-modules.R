@@ -2669,7 +2669,7 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     }
     
     param = list(
-        TARRGET_OUT_GRID = out.grid,
+        TARGET_OUT_GRID = out.grid,
         POINTS = in.shapefile,
         FIELD = field,
         QUADRATIC_NEIGHBORS = quadratic.neighbors,
