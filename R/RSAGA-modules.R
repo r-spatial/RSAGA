@@ -42,8 +42,11 @@ rsaga.target = function(
     user.x.extent, user.y.extent,
     target.grid, header, env = rsaga.env() )
 {
-    if(env$version == "2.0.4")
-        stop("'rsaga.target' currently doesn't support SAGA GIS version 2.0.4\n")
+    if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+            "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+            "2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
+        stop("rsaga.target doesn't support SAGA GIS Versions older than 2.3.1 any longer")
+    }
     
     target = match.arg.ext(target, base = 0, numeric = TRUE)
     
@@ -59,20 +62,19 @@ rsaga.target = function(
         user.y.extent = c(header$yllcenter, header$yllcenter + header$cellsize * (header$nrows-1))
     }
 
-    param = list(TARGET = target)
+    param = list(TARGET_DEFINITION = target)
     
     if (target == 0) {
         param = c(param,
-            USER_SIZE = user.cellsize,
-            USER_XMIN = min(user.x.extent),
-            USER_XMAX = max(user.x.extent),
-            USER_YMIN = min(user.y.extent),
-            USER_YMAX = max(user.y.extent))
+            TARGET_USER_SIZE = user.cellsize,
+            TARGET_USER_XMIN = min(user.x.extent),
+            TARGET_USER_XMAX = max(user.x.extent),
+            TARGET_USER_YMIN = min(user.y.extent),
+            TARGET_USER_YMAX = max(user.y.extent))
     } else if (target == 1) {
         stopifnot(missing(user.x.extent) & missing(user.y.extent))
         target.grid = default.file.extension(target.grid, ".sgrd")
-        param = c(param,
-            GRID_GRID = target.grid)
+        param = c(param, TARGET_TEMPLATE = target.grid)
     }
     return(param)
 }
