@@ -2697,9 +2697,11 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
 rsaga.triangulation = function(in.shapefile, out.grid, field,
     target, env = rsaga.env(), ...)
 {
-    if (env$version == "2.0.4")
-        stop("rsaga.triangulation doesn't support SAGA GIS 2.0.4 any longer\n",
-             "  because some of the arguments have changed")
+  if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+            "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+            "2.2.0","2.2.1","2.2.2","2.2.3") == env$version))
+    stop("rsaga.modified.quadratic.shephard doesn't support SAGA GIS Versions older than 2.3.1 any longer")
+  
     stopifnot(!missing(target))
 
     if (field < 0)
@@ -2708,34 +2710,27 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     in.shapefile = default.file.extension(in.shapefile, ".shp")
     out.grid = default.file.extension(out.grid, ".sgrd")
     
-    if (target$TARGET == 1) {
-        if (target$GRID_GRID != out.grid) {
-            rsaga.copy.sgrd(target$GRID_GRID, out.grid, env = env)
-            target$GRID_GRID = out.grid
-        }
+    if (target$TARGET_DEFINITION== 1) {
+      if (target$TARGET_TEMPLATE != out.grid) {
+        rsaga.copy.sgrd(target$TARGET_TEMPLATE, out.grid, env = env)
+        target$TARGET_TEMPLATE = out.grid
+      }
     }
 
     param = list(
-        USER_GRID = out.grid,
-        SHAPES = in.shapefile,
-        FIELD = field)
+      TARGET_OUT_GRID = out.grid,
+      POINTS = in.shapefile,
+      FIELD = field)
+    
     param = c(param, target)
     
-    # TARGET parameters changed SAGA 2.1.3:
-    if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" |
-        env$version == "2.2.1" | env$version == "2.2.2" | env$version == "2.2.3") {
-        nm = names(param)
-        nm[ nm == "USER_GRID" ] = "TARGET_OUT_GRID"
-        nm[ nm == "TARGET" ] = "TARGET_DEFINITION"
-        nm[ nm == "GRID_GRID" ] = "TARGET_TEMPLATE"
-        nm[ nm == "USER_SIZE" ] = "TARGET_USER_SIZE"
-        nm[ nm == "USER_FIT" ] = "TARGET_USER_FITS"
-        nm[ nm == "USER_XMIN" ] = "TARGET_USER_XMIN"
-        nm[ nm == "USER_XMAX" ] = "TARGET_USER_XMAX"
-        nm[ nm == "USER_YMIN" ] = "TARGET_USER_YMIN"
-        nm[ nm == "USER_YMAX" ] = "TARGET_USER_YMAX"
-        names(param) = nm
-    }
+    if (any(c("2.3.1", "3.0.0") == env$version)) {
+      
+      nm = names(param)
+      nm[ nm == "POINTS" ] = "SHAPES"
+      
+      names(param) = nm
+    } 
         
     rsaga.geoprocessor(lib = "grid_gridding", 
         module = "Triangulation",
