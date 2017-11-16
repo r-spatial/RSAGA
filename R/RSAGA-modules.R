@@ -559,6 +559,14 @@ rsaga.slope.asp.curv = function(in.dem,
   }
   
   in.dem = default.file.extension(in.dem, ".sgrd")
+  
+  if(!missing(out.slope)){
+    out.slope = default.file.extension(out.slope, ".sgrd")
+  }
+  if(!missing(out.aspect)){
+    out.aspect = default.file.extension(out.aspect, ".sgrd")
+  }
+  
   method.choices = c("maxslope","maxtriangleslope","lsqfitplane", "poly2evans",
                      "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
   if(is.numeric(method) == TRUE)
@@ -582,27 +590,37 @@ rsaga.slope.asp.curv = function(in.dem,
   }
   
   param = list(ELEVATION=in.dem, SLOPE=out.slope, ASPECT = out.aspect)
-  if(!missing(out.cgene))
-    param = c(param, C_GENE = out.cgene)
-  if(!missing(out.cprof))
-    param = c(param, C_PROF = out.cprof)
-  if(!missing(out.cplan))
-    param  =c(param, C_PLAN = out.cplan)
-  if(!missing(out.ctang))
-    param = c(param, C_TANG = out.ctang)
-  if(!missing(out.clong))
-    param = c(param, C_LONG = out.clong)
-  if(!missing(out.ccros))
-    param = c(param, C_CROS = out.ccros)
-  if(!missing(out.cmini))
-    param = c(param, C_MINI = out.cmini)
-  if(!missing(out.cmaxi))
-    param = c(param, C_MAXI = out.cmaxi)
-  if(!missing(out.ctota))
-    param = c(param, C_TOTA = out.ctota)
-  if(!missing(out.croto))
-    param = c(param, C_ROTO = out.croto)
-  
+  if(!missing(out.cgene)) {
+    out.cgene = default.file.extension(out.cgene, ".sgrd")
+    param = c(param, C_GENE = out.cgene)}
+  if(!missing(out.cprof)) {
+    out.cprof = default.file.extension(out.cprof, ".sgrd")
+    param = c(param, C_PROF = out.cprof)}
+  if(!missing(out.cplan)) {
+    out.cplan = default.file.extension(out.cplan, ".sgrd")
+    param  =c(param, C_PLAN = out.cplan)}
+  if(!missing(out.ctang)) {
+    out.ctang = default.file.extension(out.ctang, ".sgrd")
+    param = c(param, C_TANG = out.ctang)}
+  if(!missing(out.clong)) {
+    out.clong = default.file.extension(out.clong, ".sgrd")
+    param = c(param, C_LONG = out.clong)}
+  if(!missing(out.ccros)) {
+    out.ccros = default.file.extension(out.ccros, ".sgrd")
+    param = c(param, C_CROS = out.ccros)}
+  if(!missing(out.cmini)){
+    out.cmini = default.file.extension(out.cmini, ".sgrd")
+    param = c(param, C_MINI = out.cmini)}
+  if(!missing(out.cmaxi)){
+    out.cmaxi = default.file.extension(out.cmaxi, ".sgrd")
+    param = c(param, C_MAXI = out.cmaxi)}
+  if(!missing(out.ctota)){
+    out.ctota = default.file.extension(out.ctota, ".sgrd")
+    param = c(param, C_TOTA = out.ctota)}
+  if(!missing(out.croto)){
+    out.croto = default.file.extension(out.croto, ".sgrd")
+    param = c(param, C_ROTO = out.croto)}
+
   param = c(param, METHOD=method, UNIT_SLOPE=unit.slope, UNIT_ASPECT=unit.aspect)
   
   module = "Slope, Aspect, Curvature"
@@ -804,6 +822,19 @@ rsaga.fill.sinks = function(in.dem,out.dem,
     method = match.arg.ext(method, ignore.case=TRUE, numeric=TRUE, base=2,
         choices=c("planchon.darboux.2001","wang.liu.2006","xxl.wang.liu.2006"))
     in.dem = default.file.extension(in.dem,".sgrd")
+    
+    if(!missing("out.dem")){
+      out.dem = default.file.extension(out.dem, "sgrd")
+    }
+    
+    if(!missing("out.flowdir")){
+      out.flowdir = default.file.extension(out.flowdir, "sgrd")
+    }
+    
+    if(!missing("out.wshed")){
+      out.wshed = default.file.extension(out.wshed, "sgrd")
+    }
+    
     stopifnot(!missing(out.dem))
     if (missing(minslope)) minslope = NULL
     if (method==2) {
@@ -854,6 +885,8 @@ rsaga.sink.route = function(in.dem, out.sinkroute,
     threshold, thrsheight = 100, ...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
+    out.sinkroute = default.file.extension(out.sinkroute,".sgrd")
+    
     param = list( ELEVATION=in.dem, SINKROUTE=out.sinkroute )
     if (!missing(threshold)) {
         if (threshold)   param = c( param, THRESHOLD="" )
@@ -886,6 +919,8 @@ rsaga.sink.route = function(in.dem, out.sinkroute,
 rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
+    out.dem = default.file.extension(out.dem, ".sgrd")
+    
     method = match.arg.ext(method,c("deepen drainage routes","fill sinks"),ignore.case=TRUE,numeric=TRUE)
     param = list( DEM=in.dem )
     if (!missing(in.sinkroute)) {
@@ -937,6 +972,7 @@ rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 rsaga.close.gaps = function(in.dem,out.dem,threshold=0.1,...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
+    out.dem = default.file.extension(out.dem, ".sgrd")
     param = list( INPUT=in.dem, RESULT=out.dem, THRESHOLD=as.numeric(threshold) )
     rsaga.geoprocessor("grid_tools", "Close Gaps", param, ...)
 }
@@ -949,6 +985,7 @@ rsaga.close.gaps = function(in.dem,out.dem,threshold=0.1,...)
 rsaga.close.one.cell.gaps = function(in.dem,out.dem,...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
+    out.dem = default.file.extension(out.dem, ".sgrd")
     param = list( INPUT = in.dem, RESULT = out.dem )
     rsaga.geoprocessor("grid_tools", "Close One Cell Gaps", 
         param, ...)
@@ -1308,30 +1345,44 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     if (missing(out.direct.grid)) {
         out.direct.grid = tempfile()
         on.exit(unlink(paste(out.direct.grid,".*",sep="")), add = TRUE)
+    } else {
+        out.direct.grid = default.file.extension(out.direct.grid, ".sgrd")
     }
     if (missing(out.diffuse.grid)) {
         out.diffuse.grid = tempfile()
         on.exit(unlink(paste(out.diffuse.grid,".*",sep="")), add = TRUE)
+    } else {
+      out.diffuse.grid = default.file.extension(out.diffuse.grid, ".sgrd")
     }
     if (missing(out.total.grid)) {
         out.total.grid = tempfile()
         on.exit(unlink(paste(out.total.grid,".*",sep="")), add = TRUE)
+    } else {
+      out.total.grid = default.file.extension(out.total.grid, ".sgrd")
     }
     if (missing(out.ratio.grid)) {
         out.ratio.grid = tempfile()
         on.exit(unlink(paste(out.ratio.grid,".*",sep="")), add = TRUE)
+    } else {
+      out.ratio.grid = default.file.extension(out.ratio.grid, ".sgrd")
     }
     if (missing(out.duration)) {
         out.duration = tempfile()
         on.exit(unlink(paste(out.duration,".*",sep="")), add = TRUE)
+    } else {
+      out.duration = default.file.extension(out.duration, ".sgrd")
     }
     if (missing(out.sunrise)) {
         out.sunrise = tempfile()
         on.exit(unlink(paste(out.sunrise,".*",sep="")), add = TRUE)
+    } else {
+      out.sunrise = default.file.extension(out.sunrise, ".sgrd")
     }
     if (missing(out.sunset)) {
         out.sunset = tempfile()
         on.exit(unlink(paste(out.sunset,".*",sep="")), add = TRUE)
+    } else {
+      out.sunset = default.file.extension(out.sunset, ".sgrd")
     }
     
     unit = match.arg.ext(unit,numeric=TRUE,ignore.case=TRUE,base=0)
@@ -1678,6 +1729,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
     method=c("smooth","sharpen","edge"), radius,...)
 {
     in.grid = default.file.extension(in.grid,".sgrd")
+    out.grid = default.file.extension(out.grid, ".sgrd")
     mode = match.arg.ext(mode,choices=c("square","circle"),
         numeric=TRUE,base=0,ignore.case=TRUE)
     method = match.arg.ext(method,numeric=TRUE,base=0,ignore.case=TRUE)
@@ -1734,6 +1786,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     radius=ceiling(2*sigma),...)
 {
     in.grid = default.file.extension(in.grid,".sgrd")
+    out.grid = default.file.extension(out.grid, ".sgrd")
     if (missing(sigma)) stop("the 'sigma' standard deviation argument (in # pixels) must be specified")
     stopifnot(sigma>0.0001)
     if (round(radius) != radius) stop("'radius' must be an integer (# pixels)")
@@ -2026,26 +2079,32 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
         param = c(param, LINEAR_DIR=in.lin.dir)
     }
     if (!missing(out.carea)){
+        out.carea = default.file.extension(out.carea, ".sgrd")
         if (any(c("2.1.3","2.1.4","2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
           param = c(param, CAREA=out.carea)
         } else {
           param = c(param, FLOW=out.carea)
         }
     }
-    if (!missing(out.mean))
-        param = c(param, VAL_MEAN=out.mean)
+    if (!missing(out.mean)){
+        out.mean = default.file.extension(out.mean, ".sgrd")
+        param = c(param, VAL_MEAN=out.mean)}
     if (!missing(out.tot.mat)) {
+      out.tot.mat = default.file.extension(out.tot.mat, ".sgrd")
       if (any(c("2.1.3","2.1.4","2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
         param = c(param, ACCU_TOT=out.tot.mat)
       } else {
         param = c(param, ACCU_TOTAL=out.tot.mat)
       }
     }
-    if (!missing(out.acc.left))
-        param = c(param, ACCU_LEFT=out.acc.left)
-    if (!missing(out.acc.right))
-        param = c(param, ACCU_RIGHT=out.acc.right)
+    if (!missing(out.acc.left)){
+        out.acc.left = default.file.extension(out.acc.left, ".sgrd")
+        param = c(param, ACCU_LEFT=out.acc.left)}
+    if (!missing(out.acc.right)){ 
+        out.acc.right = default.file.extension(out.acc.right, ".sgrd")
+        param = c(param, ACCU_RIGHT=out.acc.right)}
     if (!missing(out.flowpath)) {
+      out.flowpath = default.file.extension(out.flowpath, ".sgrd")
       if (any(c("2.1.3","2.1.4","2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
         param = c(param, FLOWLEN=out.flowpath)
       } else {
@@ -2113,17 +2172,24 @@ rsaga.wetness.index = function( in.dem,
     env = rsaga.env(), ...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
+    out.wetness.index = default.file.extension(out.wetness.index, ".sgrd")
     if (missing(out.carea)) {
         out.carea = tempfile()
         on.exit(unlink(paste(out.carea,".*",sep="")), add = TRUE)
+    } else {
+      out.carea = default.file.extension(out.carea, ".sgrd")
     }
     if (missing(out.cslope)) {
         out.cslope = tempfile()
         on.exit(unlink(paste(out.cslope,".*",sep="")), add=TRUE)
+    } else {
+      out.cslope = default.file.extension(out.cslope, ".sgrd")
     }
     if (missing(out.mod.carea)) {
         out.mod.carea = tempfile()
         on.exit(unlink(paste(out.mod.carea,".*",sep="")), add=TRUE)
+    } else {
+      out.mod.carea = default.file.extension(out.mod.carea, ".sgrd")
     }
     if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8") == env$version)) {
         param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
@@ -2241,7 +2307,8 @@ rsaga.wetness.index = function( in.dem,
 #' @export
 rsaga.grid.calculus = function(in.grids, out.grid, formula,
     env = rsaga.env(), ...)
-{
+{   
+    out.grid = default.file.extension(out.grid, ".sgrd")
     in.grids = default.file.extension(in.grids, ".sgrd")
     in.grids = paste(in.grids, collapse = ";")
     if (any(class(formula) == "formula"))
@@ -2267,7 +2334,8 @@ rsaga.grid.calculus = function(in.grids, out.grid, formula,
 rsaga.linear.combination = function(in.grids, out.grid, coef, 
     cf.digits = 16, remove.zeros = FALSE, remove.ones = TRUE, 
     env = rsaga.env(), ...)
-{
+{   
+    out.grid = default.file.extension(out.grid, ".sgrd")
     fmt = paste("%.", cf.digits, "f", sep = "")
     coef = sprintf(fmt, coef)
     zero = sprintf(fmt, 0)
@@ -2524,7 +2592,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         stop("rsaga.inverse.distance doesn't support SAGA GIS Versions older than 2.3.1 any longer")
 
     stopifnot(!missing(target))
-
+    
     if (power <= 0) stop("'power' must be >0")
     if (field < 0) stop("'field' must be an integer >=0")
 
