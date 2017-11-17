@@ -1751,7 +1751,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
               "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
-              "3.0.0") == env$version)) {
+              "2.3.2","3.0.0") == env$version)) {
       param = list(INPUT=in.grid, RESULT=out.grid, MODE=mode,
                    METHOD=method, RADIUS=radius)
     } else {
@@ -1800,7 +1800,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
               "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
-              "3.0.0") == env$version)) {
+              "2.3.2", "3.0.0") == env$version)) {
       param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, RADIUS=radius)
     } else {
       param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, KERNEL_RADIUS=radius)
@@ -2640,7 +2640,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
 
     param = c(param, target) 
     
-    if (any(c("2.3.1", "3.0.0") == env$version)) {
+    if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
       
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
@@ -2691,7 +2691,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     param = c(param, target)
     
     
-    if (any(c("2.3.1", "3.0.0") == env$version)) {
+    if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
       
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
@@ -2750,7 +2750,7 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     
     param = c(param, target)
     
-    if (any(c("2.3.1", "3.0.0") == env$version)) {
+    if (any(c("2.3.1","2.3.1", "3.0.0") == env$version)) {
       
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
@@ -2797,7 +2797,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
     
     param = c(param, target)
     
-    if (any(c("2.3.1", "3.0.0") == env$version)) {
+    if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
       
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
