@@ -323,21 +323,26 @@ rsaga.target = function(
 #' @keywords spatial interface file
 #' @export
 rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
-{
+{   
+    if(!missing(out.grid)) {
+      out.grid = default.file.extension(out.grid, ".sgrd")
+    }
     if (missing(out.grid)) {
         out.grid = set.file.extension(in.grid, "")
         out.grid = substr(out.grid, 1, nchar(out.grid) - 1)
-    }
+    } 
     if (env$version == "2.0.4") {
         param = list( GRIDS = out.grid, FILE = in.grid )
     } else {
-        param = list( GRIDS = out.grid, FILES = in.grid )
+        param = list( GRIDS = out.grid, FILES = in.grid)
     }
     
-    # Module name change with SAGA 2.2.3
-    module = "GDAL: Import Raster"
-    if (env$version == "2.2.3"){
-        module = "Import Raster"
+    module = "Import Raster"
+    
+    if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+              "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+              "2.2.0","2.2.1","2.2.2") == env$version)) {
+      module = "GDAL: Import Raster"
     }
     
     rsaga.geoprocessor("io_gdal", module = module, 
