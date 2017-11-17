@@ -1338,7 +1338,9 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
                        env = rsaga.env(), ...)
 {
-    if ( env$version != "2.2.2" & env$version != "2.2.3" ) {
+  if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
+            "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+            "2.2.0","2.2.1") == env$version)) {
         stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
              " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
     }
@@ -1435,62 +1437,85 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     } else if (method == 3) {
         param = param
     } else stopifnot( method %in% c(0:3) )
+  
     
-    if (is.null(start.date)) { # one year
-        stopifnot( is.null(end.date) )
-        param = c( param, PERIOD = 2, DAY_A = 0, MONTH_A = 0,
-                   DAY_B = 30, MONTH_B = 11 )
+    
+
+    if (is.null(end.date)) { # Just Start Date but no end date
+        param = c( param, PERIOD = 1 ) # single day ... or moment (later)
+    } else param = c( param, PERIOD = 2 )
+    stopifnot(is.list(start.date))
+    stopifnot(length(start.date) == 3)
+    stopifnot(all(names(start.date %in% c("day","month","year"))))
+    stopifnot( (start.date$day>=1) & (start.date$day<=31) )
+    stopifnot( (start.date$month>=1) & (start.date$month<=12) )
+    
+    if (any(c("2.2.2","2.2.3") == env$version)){
+      param = c( param, DAY_A = start.date$day ,
+                 MON_A = start.date$month - 1,
+                 YEAR_A = start.date$year )
     } else {
-        if (is.null(end.date)) {
-            param = c( param, PERIOD = 1 ) # single day ... or moment (later)
-        } else param = c( param, PERIOD = 2 )
-        stopifnot(is.list(start.date))
-        stopifnot(length(start.date) == 3)
-        stopifnot(all(names(start.date %in% c("day","month","year"))))
-        stopifnot( (start.date$day>=1) & (start.date$day<=31) )
-        stopifnot( (start.date$month>=1) & (start.date$month<=12) )
-        param = c( param, DAY_A = start.date$day ,
-                   MON_A = start.date$month - 1,
-                   YEAR_A = start.date$year )
-        if (is.null(end.date)) {
-            # check if moment:
-            stopifnot(length(time.range) <= 2)
-            if (length(time.range) == 2) {
-                if (time.range[2] == time.range[1])
-                    time.range = time.range[1]
-            }
-            if (length(time.range) == 1) {
-                # moment
-                param$PERIOD = 0
-                stopifnot(time.range >= 0 & time.range <= 24)
-                param = c(param, MOMENT = round(time.range,3))
-            } else {
-                stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
-                stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
-                stopifnot(time.range[1] < time.range[2])
-                param = c(param, HOUR_RANGE_MIN = time.range[1],
-                          HOUR_RANGE_MAX = time.range[2])
-            }
+      # Add leading zeros too archieve SAGA date format 
+      if (nchar(start.date$day) == 1) {
+        start.date$day <- paste0("0", start.date$day)
+      }
+      if (nchar(start.date$month) == 1) {
+        start.date$month <- paste0("0", start.date$month-1)
+      }
+      param = c( param, DAY = paste0(start.date$day, "/", start.date$month, "/", start.date$year))
+    }
+    if (is.null(end.date)) {
+        # check if moment:
+        stopifnot(length(time.range) <= 2)
+        if (length(time.range) == 2) {
+            if (time.range[2] == time.range[1])
+                time.range = time.range[1]
+        }
+        if (length(time.range) == 1) {
+            # moment
+            param$PERIOD = 0
+            stopifnot(time.range >= 0 & time.range <= 24)
+            param = c(param, MOMENT = round(time.range,3))
         } else {
-            # range of days:
-            stopifnot(is.list(end.date))
-            stopifnot(length(end.date) == 3)
-            stopifnot(all(names(end.date %in% c("day","month","year"))))
-            stopifnot( (end.date$day>=1) & (end.date$day<=31) )
-            stopifnot( (end.date$month>=1) & (end.date$month<=12) )
-            param = c( param, DAY_B = end.date$day,
-                       MON_B = end.date$month - 1,
-                       YEAR_B = end.date$year,
-                       DAYS_STEP = day.step )
-            if (is.null(time.range)) time.range = c(0,24)
-            stopifnot(length(time.range) == 2)
             stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
             stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
             stopifnot(time.range[1] < time.range[2])
             param = c(param, HOUR_RANGE_MIN = time.range[1],
                       HOUR_RANGE_MAX = time.range[2])
         }
+    } else {
+        # range of days:
+        stopifnot(is.list(end.date))
+        stopifnot(length(end.date) == 3)
+        stopifnot(all(names(end.date %in% c("day","month","year"))))
+        stopifnot( (end.date$day>=1) & (end.date$day<=31) )
+        stopifnot( (end.date$month>=1) & (end.date$month<=12) )
+        
+        if (any(c("2.2.2","2.2.3") == env$version)){
+        param = c( param, DAY_B = end.date$day,
+                   MON_B = end.date$month - 1,
+                   YEAR_B = end.date$year,
+                   DAYS_STEP = day.step )
+        } else {
+           # Add leading zeros too archieve SAGA date format 
+           if (nchar(end.date$day) == 1) {
+              end.date$day <- paste0("0", end.date$day)
+           }
+           if (nchar(end.date$month) == 1) {
+              end.date$month <- paste0("0", end.date$month-1)
+           }   
+         param = c( param, DAY_STOP = paste0(end.date$day, "/", end.date$month, "/", end.date$year)) 
+        }
+        
+        if (is.null(time.range)) time.range = c(0,24)
+        stopifnot(length(time.range) == 2)
+        stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
+        stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
+        stopifnot(time.range[1] < time.range[2])
+        param = c(param, HOUR_RANGE_MIN = time.range[1],
+                  HOUR_RANGE_MAX = time.range[2])
     }
+    
     
     rsaga.geoprocessor(lib = "ta_lighting", 
                        module = "Potential Incoming Solar Radiation",  # = 2
