@@ -995,7 +995,12 @@ rsaga.geoprocessor = function(
         oldwarn = options("warn")$warn
         on.exit(options(warn = oldwarn), add = TRUE)
         options(warn = warn)
-        res = system( command, intern=intern, ...)
+        # Supress error message, which appears by using rsaga.get.lib.modules  
+        if (warn == -1){
+          res = system( command, intern=intern, ignore.stderr = TRUE, ...)
+        } else {
+          res = system( command, intern=intern, ...)
+        }
         # 'show.output.on.console' and 'invisible' only work under Windows
         options(warn = oldwarn)
     }
