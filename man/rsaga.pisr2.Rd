@@ -89,9 +89,6 @@ Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \code{*
 The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
 Duration of insolation (\code{"out.duration"}) is only calculated when the time period is set to a single day.
 }
-\author{
-Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-}
 \references{
 Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
 
@@ -104,6 +101,8 @@ Hofierka, J., Suri, M. (2002): The solar radiation model for Open source GIS: im
 \seealso{
 \code{\link{rsaga.pisr}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}; \code{\link{rsaga.hillshade}}
 }
+\author{
+Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

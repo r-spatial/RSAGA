@@ -28,12 +28,11 @@ The type of object returned depends on the \code{intern} argument passed to the 
 \description{
 Creates a contour lines shapefile from a grid file in SAGA grid format.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.geoprocessor}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

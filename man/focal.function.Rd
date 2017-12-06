@@ -115,14 +115,13 @@ gapply("aspect","sin") # how "easterly-exposed" is a pixel?
 focal.function("aspect",fun=function(x) c(cos(x),sin(x)), varnames=c("cos","sin"))
 }
 }
-\author{
-Alexander Brenning
-}
 \references{
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
 \code{\link{multi.focal.function}}, \code{\link{multi.local.function}}, \code{\link{resid.median}}, \code{\link{resid.minmedmax}}, \code{\link{relative.position}}, \code{\link{resid.quantile}}, \code{\link{resid.quartiles}}, \code{\link{relative.rank}},  \code{\link{wind.shelter}}, \code{\link{create.variable.name}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{spatial}
-

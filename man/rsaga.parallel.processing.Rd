@@ -69,9 +69,6 @@ formula = paste(fac, "*a", sep = "")
 rsaga.grid.calculus("cslope", "cslopedeg", formula)
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
-}
 \references{
 Deterministic 8:
 
@@ -102,6 +99,8 @@ Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algori
 \seealso{
 \code{\link{rsaga.topdown.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+}
 \keyword{interface}
 \keyword{spatial}
-

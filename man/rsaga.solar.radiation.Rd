@@ -67,15 +67,14 @@ rsaga.solar.radiation("dem","solrad","soldur",latitude=43,
     days=list(day=7,month=11),time.step=0.5)
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \references{
 Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley & Sons.
 }
 \seealso{
 \code{\link{rsaga.hillshade}}, \code{\link{rsaga.insolation}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

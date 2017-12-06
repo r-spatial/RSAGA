@@ -66,4 +66,3 @@ rsaga.esri.wrapper(rsaga.hillshade,in.dem="dem",out.grid="hshd",condensed.res=FA
 }
 \keyword{interface}
 \keyword{spatial}
-

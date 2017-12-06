@@ -22,4 +22,3 @@ create.variable.name("C:/my-path/my-file-name.Rd",prefix="res")
 }
 }
 \keyword{utilities}
-

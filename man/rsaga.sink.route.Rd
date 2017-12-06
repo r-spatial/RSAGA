@@ -30,12 +30,11 @@ I assume that flow directions are coded as 0 = north, 1 = northeast,  2 = east, 
 \dontrun{rsaga.sink.route("dem","sinkroute")
 rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.sink.removal}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

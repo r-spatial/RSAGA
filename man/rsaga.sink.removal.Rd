@@ -32,12 +32,11 @@ This function uses module 1 from SAGA library \code{ta_preprocessor}.
 \dontrun{rsaga.sink.route("dem","sinkroute")
 rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.sink.route}}, \code{\link{rsaga.fill.sinks}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

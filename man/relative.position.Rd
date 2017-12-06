@@ -40,4 +40,3 @@ cor(relpos,relrank,use="complete.obs",method="pearson")
 \code{\link{focal.function}}, \code{\link{rank}}, \code{\link{centervalue}}
 }
 \keyword{spatial}
-

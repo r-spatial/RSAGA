@@ -83,9 +83,6 @@ rsaga.esri.wrapper(rsaga.slope.asp.curv,
                    method="maxslope", unit.slope = "degrees", unit.aspect = "degrees")
 }
 }
-\author{
-Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-}
 \references{
 General references:
 
@@ -130,6 +127,8 @@ For a discussion on the calculation of slope by ArcGIS check these links:
 \seealso{
 \code{\link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
 }
+\author{
+Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

@@ -44,9 +44,6 @@ The flow directions are coded as 0 = north, 1 = northeast, 2 = east, ..., 7 = no
 
 If \code{minslope=0}, depressions will only be filled until a horizontal surface is established, which may not be helpful for hydrological modeling.
 }
-\author{
-Alexander Brenning (R interface), Volker Wichmann (SAGA module)
-}
 \references{
 Planchon, O., and F. Darboux (2001): A fast, simple and versatile algorithm to fill the depressions of digital elevation models. Catena 46: 159-176.
 
@@ -55,6 +52,8 @@ Wang, L. & H. Liu (2006): An efficient method for identifying and filling surfac
 \seealso{
 \code{\link{rsaga.sink.removal}}, \code{\link{rsaga.sink.route}}.
 }
+\author{
+Alexander Brenning (R interface), Volker Wichmann (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

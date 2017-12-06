@@ -244,16 +244,15 @@ rsaga.env(path="SAGA_Version_to_Test"))}
 \item HTTP - HTTP Fetching Wrapper
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
-}
 \references{
 GDAL website: \url{http://www.gdal.org/}
 }
 \seealso{
 \code{read.ascii.grid}, \code{rsaga.esri.to.sgrd}, \code{read.sgrd}, \code{read.Rd.grid}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
+}
 \keyword{file}
 \keyword{interface}
 \keyword{spatial}
-

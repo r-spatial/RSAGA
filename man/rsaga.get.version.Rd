@@ -38,4 +38,3 @@ rsaga.get.version(env = myenv05)
 }
 \keyword{interface}
 \keyword{spatial}
-

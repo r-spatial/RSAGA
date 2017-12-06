@@ -39,12 +39,11 @@ While the default azimuth of 315 degree (northwest) is not physically meaningful
 \examples{
 \dontrun{rsaga.hillshade("dem.sgrd","hillshade")}
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.insolation}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

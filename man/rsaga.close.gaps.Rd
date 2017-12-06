@@ -45,12 +45,11 @@ rsaga.close.gaps("rawdem.sgrd","dem.sgrd")
 rsaga.esri.wrapper(rsaga.close.gaps,in.dem="rawdem",out.dem="dem")
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

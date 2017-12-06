@@ -27,13 +27,12 @@ If multiple \code{in.grids} are converted, the result will be a vector of numeri
 \note{
 This function uses module 1 from the SAGA library \code{io_grid}.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.esri.wrapper}} for an efficient way of applying RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
+}
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 }
 \keyword{file}
 \keyword{interface}
 \keyword{spatial}
-

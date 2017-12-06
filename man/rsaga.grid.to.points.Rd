@@ -45,12 +45,11 @@ rsaga.grid.to.points("dem", "dempoints")
 rsaga.grid.to.points.randomly("dem", "dempoints20", freq = 20)
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-}
 \seealso{
 \code{\link{rsaga.add.grid.values.to.points}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
+}
 \keyword{interface}
 \keyword{spatial}
-

@@ -78,12 +78,11 @@ rsaga.linear.combination("elevation.sgrd", "maat.sgrd", coefs)
 rsaga.grid.calculus("elevation.sgrd", "maat.sgrd", "20 - 0.6*a")
 }
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{local.function}}, \code{\link{focal.function}}, and \code{\link{multi.focal.function}} for a more flexible framework for combining grids or applying local and focal functions; \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

@@ -56,9 +56,6 @@ ctrl = wind.shelter.prep(6,-pi/4,pi/12,10)
 \dontrun{focal.function("dem.asc",fun=wind.shelter,control=ctrl,
     radius=6,search.mode="circle")}
 }
-\author{
-Alexander Brenning
-}
 \references{
 Plattner, C., Braun, L.N., Brenning, A. (2004): Spatial variability of snow accumulation on Vernagtferner, Austrian Alps, in winter 2003/2004. Zeitschrift fuer Gletscherkunde und Glazialgeologie, 39: 43-57.
 
@@ -67,5 +64,7 @@ Winstral, A., Elder, K., Davis, R.E. (2002): Spatial snow modeling of wind-redis
 \seealso{
 \code{\link{focal.function}}, \code{\link{quantile}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{spatial}
-

@@ -70,9 +70,9 @@ multi.local.function(in.grids, in.grid.prefix, out.grid.prefix, path = NULL,
 
 \item{pass.location}{logical: Should the x,y coordinates of grid points (center of grid cells) be passed to \code{fun}? If \code{TRUE}, two additional arguments named arguments \code{x} and \code{y} are passed to \code{fun}; NOTE: This currently only works for \code{radius=0}, otherwise a warning is produced and \code{pass.location} is reset to \code{FALSE}.}
 
-\item{na.action}{function: determines if/how \code{NA} values are omitted from the stack of input variables; use \code{\link{na.exclude}} (default) or \code{\link{na.pass}} if \code{fun} can handle \code{NA} values correctly}
-
 \item{\dots}{Arguments to be passed to \code{fun}; \code{local.function}: arguments to be passed to  \code{focal.function}.}
+
+\item{na.action}{function: determines if/how \code{NA} values are omitted from the stack of input variables; use \code{\link{na.exclude}} (default) or \code{\link{na.pass}} if \code{fun} can handle \code{NA} values correctly}
 }
 \value{
 \code{multi.focal.function} returns the character vector of output file names.
@@ -131,14 +131,13 @@ multi.local.function(in.grids = c("a", "b", "c"),
 # Model predictions are written to a file named pred.asc
 }
 }
-\author{
-Alexander Brenning
-}
 \references{
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
 \code{\link{focal.function}}, \code{\link{grid.predict}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{spatial}
-

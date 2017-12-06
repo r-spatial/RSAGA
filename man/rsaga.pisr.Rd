@@ -104,9 +104,6 @@ SAGA_CMD uses zero-based days and months, but this R function uses the standard 
 
 This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \references{
 Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
 
@@ -117,6 +114,8 @@ Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and appl
 \seealso{
 \code{\link{rsaga.hillshade}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

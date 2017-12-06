@@ -23,12 +23,11 @@ The type of object returned depends on the \code{intern} argument passed to the 
 \description{
 Smooth a grid using a Gauss filter.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.filter.simple}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

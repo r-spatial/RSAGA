@@ -23,4 +23,3 @@ centervalue(m)
 \code{\link{focal.function}}, \code{\link{resid.median}}
 }
 \keyword{utilities}
-

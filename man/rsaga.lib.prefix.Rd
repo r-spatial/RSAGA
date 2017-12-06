@@ -33,4 +33,3 @@ rsaga.lib.prefix(env=env)
 }
 \keyword{interface}
 \keyword{spatial}
-

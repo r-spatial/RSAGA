@@ -2,8 +2,8 @@
 % Please edit documentation in R/RSAGA-modules.R
 \name{rsaga.inverse.distance}
 \alias{rsaga.inverse.distance}
-\alias{rsaga.modified.quadratic.shephard}
 \alias{rsaga.nearest.neighbour}
+\alias{rsaga.modified.quadratic.shephard}
 \alias{rsaga.triangulation}
 \title{Spatial Interpolation Methods}
 \usage{
@@ -56,15 +56,14 @@ See the example section in the help file for \code{\link[shapefiles]{write.shape
 
 Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
 }
-\author{
-Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)
-}
 \references{
 QSHEP2D: Fortran routines implementing the Quadratic Shepard method for bivariate interpolation of scattered data  (see R. J. Renka, ACM TOMS 14 (1988) pp.149-150). Classes: E2b. Interpolation of scattered, non-gridded  multivariate data.
 }
 \seealso{
 \code{\link{rsaga.target}}; \code{\link[gstat]{idw}} in package \code{gstat}.
 }
+\author{
+Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)
+}
 \keyword{interface}
 \keyword{spatial}
-

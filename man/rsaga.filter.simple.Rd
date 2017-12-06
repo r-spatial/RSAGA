@@ -29,12 +29,11 @@ Apply a smoothing, sharpening or edge filter to a SAGA grid.
 \examples{
 \dontrun{rsaga.filter.simple("dem","dem-smooth",radius=4)}
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.filter.gauss}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

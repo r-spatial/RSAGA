@@ -54,11 +54,10 @@ center(x, "med")     # Works
 center(x, 1)         # Same, for base=0
 try(center(x, "m"))  # Error
 }
-\author{
-Alexander Brenning
-}
 \seealso{
 \code{\link{match.arg}}, \code{\link{pmatch}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{utilities}
-

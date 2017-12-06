@@ -37,4 +37,3 @@ The \code{resid.median} function rests the value of the central grid cell from t
 \code{\link{focal.function}}, \code{\link{quantile}}, \code{\link{median}}, \code{\link{centervalue}}
 }
 \keyword{spatial}
-

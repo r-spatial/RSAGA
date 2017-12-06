@@ -73,12 +73,11 @@ Calculation of incoming solar radiation (insolation). Based on the SADO (System 
 \note{
 This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link{rsaga.pisr}}.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-}
 \seealso{
 \code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.pisr}},  \code{\link{rsaga.hillshade}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA module)
+}
 \keyword{interface}
 \keyword{spatial}
-

@@ -76,9 +76,6 @@ rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
                          method = "mdg")
 }
 }
-\author{
-Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
-}
 \references{
 Deterministic 8:
 
@@ -113,6 +110,8 @@ Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An app
 \seealso{
 \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 }
+\author{
+Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
+}
 \keyword{interface}
 \keyword{spatial}
-

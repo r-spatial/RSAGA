@@ -28,12 +28,11 @@ Retrieves information from the selected grids at the positions of the points of 
 \note{
 This function uses module \code{Add Grid Values to Points} in SAGA GIS library \code{shapes_grid}.
 }
-\author{
-Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-}
 \seealso{
 \code{\link{pick.from.points}}, \code{\link{pick.from.ascii.grid}}, \code{\link{pick.from.saga.grid}}, \code{\link{rsaga.grid.to.points}}
 }
+\author{
+Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
+}
 \keyword{interface}
 \keyword{spatial}
-

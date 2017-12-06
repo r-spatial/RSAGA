@@ -75,9 +75,6 @@ rsaga.geoprocessor("ta_lighting",0,list(ELEVATION="dem.sgrd",SHADE="hillshade",E
 # saga_cmd.exe ta_lighting 0 -ELEVATION dem.sgrd -SHADE hillshade -EXAGGERATION 2 
 }
 }
-\author{
-Alexander Brenning (R interface); Olaf Conrad and the SAGA development team (SAGA development)
-}
 \references{
 Brenning, A., 2008. Statistical geocomputing combining R and
  SAGA: The example of landslide susceptibility analysis with
@@ -89,6 +86,8 @@ Brenning, A., 2008. Statistical geocomputing combining R and
 \seealso{
 \code{\link{rsaga.env}}, \code{\link{rsaga.get.libraries}}, \code{\link{rsaga.get.modules}}, \code{\link{rsaga.search.modules}}, \code{\link{rsaga.get.usage}}; \code{\link{rsaga.esri.wrapper}} for a wrapper for ESRI ASCII/binary grids; \code{\link{rsaga.hillshade}} and other higher-level functions.
 }
+\author{
+Alexander Brenning (R interface); Olaf Conrad and the SAGA development team (SAGA development)
+}
 \keyword{interface}
 \keyword{spatial}
-

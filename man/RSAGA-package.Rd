@@ -46,9 +46,6 @@ Hurling, Johan van de Wauw, Massimo Di Stefano and
 others for helping to adapt SAGA to and test it on
 unix and Max OSX.
 }
-\author{
-Alexander Brenning and Donovan Bangs
-}
 \references{
 Brenning, A., 2008. Statistical geocomputing combining R and
  SAGA: The example of landslide susceptibility analysis with
@@ -61,4 +58,6 @@ Brenning, A., 2008. Statistical geocomputing combining R and
  V., & Boehner, J. (2015). System for Automated Geoscientific Analyses (SAGA) v. 2.1.4.
  \emph{Geoscientific Model Development}, 8, 1991-2007
 }
-
+\author{
+Alexander Brenning and Donovan Bangs
+}

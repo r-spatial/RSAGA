@@ -67,14 +67,13 @@ multi.local.function(in.grids = c("a", "b", "c"),
 # Model predictions are written to a file named pred.asc
 }
 }
-\author{
-Alexander Brenning
-}
 \references{
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
 \code{\link{focal.function}}, \code{\link{multi.local.function}}, \code{\link{multi.focal.function}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{spatial}
-

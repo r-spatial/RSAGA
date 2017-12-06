@@ -74,4 +74,3 @@ Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
 \keyword{operations,}
 \keyword{polygons}
 \keyword{vector}
-

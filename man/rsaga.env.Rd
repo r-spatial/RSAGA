@@ -78,12 +78,11 @@ myenv05 = rsaga.env(path = "C:/Progra~1/SAGA-GIS_2.0.5")
 rsaga.hillshade("dem","hillshade205",env=myenv05)
 }
 }
-\author{
-Alexander Brenning
-}
 \seealso{
 \code{\link{rsaga.get.version}}
 }
+\author{
+Alexander Brenning
+}
 \keyword{interface}
 \keyword{spatial}
-

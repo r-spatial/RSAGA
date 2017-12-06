@@ -32,4 +32,3 @@ str(xyz)
 \code{\link{read.ascii.grid}}, \code{\link{pick.from.ascii.grid}}
 }
 \keyword{spatial}
-

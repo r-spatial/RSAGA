@@ -58,4 +58,3 @@ rsaga.inverse.distance("points", "dem", field = "z", maxdist = 1000,
 }
 \keyword{interface}
 \keyword{spatial}
-
