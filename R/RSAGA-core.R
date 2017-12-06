@@ -274,6 +274,89 @@ rsaga.env = function( workspace=".",
     return( env )
 }
 
+#' Set up the RSAGA Geoprocessing Environment - Version 2
+#' \code{rsaga.env2} is an updated version of \code{rsaga.env} for SAGA 2.3.1+. It searches for the SAGA path and module path with the link2GI package.
+#' @name rsaga.env2
+#' @param workspace path of the working directory for SAGA; defaults to the current directory (\code{"."}).
+#' @param cmd name of the SAGA command line program; defaults to \code{saga_cmd.exe}, its name under Windows
+#' @param path path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.
+#' @param modules path in which to find SAGA libraries; see Details
+#' @param version optional character string: SAGA GIS (API) version, e.g. \code{"2.0.8"}; if missing, a call to \code{\link{rsaga.get.version}} is used to determine version number of SAGA API
+#' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
+#' @param parallel optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+rsaga.env2 = function(workspace=".", 
+                      cmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd"), 
+                      path = NULL, 
+                      modules = NULL, 
+                      version = NULL, 
+                      cores, parallel = FALSE)
+                      {
+  
+  if(!is.null(path)){
+    # If path specified by user, check if valid
+    if (!file.exists(file.path(path,cmd))) {
+      warning("SAGA command line program ", cmd, " not found in the specified path ", 
+              path, ".", "\nTrying to find it somewhere else.")
+      path = NULL
+    }
+  } 
+  
+  # Check windows default path. link2GI is too slow on windows
+  if(is.null(path)) {
+    if(Sys.info()["sysname"]=="Windows") {
+      if(file.exists("C:/Program Files (x86)/SAGA-GIS/saga_cmd.exe")) { 
+        path = "C:/Program Files (x86)/SAGA-GIS/"
+      }
+    }
+  }
+  
+  # Search for path with link2GI if no default path
+  if(is.null(path)) {
+    linkSAGA(verSelect = TRUE)
+    # Fix link2GI path
+    path = gsub("\\", "/", sagaPath, fixed=TRUE)
+    # Set module path in linux
+    if(Sys.info()["sysname"]!="Windows") {
+      modules = sagaModules  
+    } 
+  }
+      
+  # Set module path in windows
+  if(is.null(modules)){
+    path = substr(path, 1, nchar(path)-1)
+    if(file.exists(file.path(path, "modules"))){
+      modules = file.path(path,"modules")
+    } else {
+      modules = file.path(path,"tools")
+    }
+  }
+    
+  # Number of cores:
+  if (missing(cores)) {
+    cores = NA
+  } else stopifnot(cores >= 0)
+  
+  # cmd has inheritted a 'sysname' name from the result of Sys.info():
+  cmd = unname(cmd)
+    
+  # Set up RSAGA geoprocessing environment
+  env = list(
+  workspace = workspace,
+  cmd = cmd,
+  path = path,
+  modules = modules,
+  version = NA,
+  cores = cores,
+  parallel = parallel)
+  
+  # Determine SAGA API version, if not specified by caller:
+  if (is.null(version))
+    version = rsaga.get.version(env = env)
+  env$version = version
+  
+  return(env)
+  }
+
 
 #' Determine prefix for SAGA GIS library names
 #'

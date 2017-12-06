@@ -18,13 +18,15 @@ SystemRequirements: SAGA GIS (2.0.4 - 2.2.3)
 Depends:
     gstat,
     shapefiles,
-    plyr
+    plyr,
+	link2GI
 Imports:
   stats,
   utils,
-  rgdal
+  rgdal,
 Suggests:
-    knitr
+    knitr,
+    testthat
 LazyLoad: yes
 Collate:
     'gridtools.R'
