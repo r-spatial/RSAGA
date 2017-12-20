@@ -302,11 +302,19 @@ rsaga.env2 = function(workspace=".",
     }
   } 
   
-  # Check windows default path. link2GI is too slow on windows
+  # Check default path
   if(is.null(path)) {
     if(Sys.info()["sysname"]=="Windows") {
       if(file.exists("C:/Program Files (x86)/SAGA-GIS/saga_cmd.exe")) { 
         path = "C:/Program Files (x86)/SAGA-GIS/"
+      }
+    } else {
+      module_paths <- c("/usr/lib/x86_64-linux-gnu/saga", "/usr/lib/saga", "/usr/lib64/saga")
+      for(i in module_paths) {
+        if(file.exists(i)) {
+          path = "/usr/bin"
+          modules = i
+        }
       }
     }
   }
