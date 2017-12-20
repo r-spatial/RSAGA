@@ -1750,11 +1750,6 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 #' @examples \dontrun{rsaga.filter.simple("dem","dem-smooth",radius=4)}
 #' @keywords spatial interface
 #' @export
-#' 
-#' Differences between parameters:
-#' -MODE (2.0.4 to 3.0.0) -KERNEL_TYPE (4.0.0 to 6.0.0) 
-#' -RADIUS (2.0.4 to 3.0.0) -KERNEL_RADIUS (4.0.0 to 6.0.0)
-#' 
 rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
     method=c("smooth","sharpen","edge"), radius,...)
 {
@@ -1805,13 +1800,6 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
 #' @seealso \code{\link{rsaga.filter.simple}}
 #' @keywords spatial interface
 #' @export
-#' 
-#' Differences between parameters:
-#' -MODE (2.0.4 to 3.0.0) -KERNEL_TYPE (4.0.0 to 6.0.0) 
-#' -RADIUS (2.0.4 to 3.0.0) -KERNEL_RADIUS (4.0.0 to 6.0.0)
-#'
-#' Support for Kernel_Type could be added
-#' 
 rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     radius=ceiling(2*sigma),...)
 {
@@ -2043,14 +2031,6 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
 #' @keywords spatial interface
 #' @export
-#' 
-#' Parameters:
-#' -MATERIAL (2.1.3 to 2.2.3) -ACCU_MATERIAL (2.3.1 to 6.0.0)
-#' -TARGET (2.1.3 to 2.2.3) -ACCU_TARGET (2.3.1 to 6.0.0)
-#' -CAREA (2.1.3 to 2.2.3) -FLOW (2.3.1 to 6.0.0)
-#' -ACCU_TOT (2.1.3 to 2.2.3) -ACCU_TOTAL (2.3.1 to 6.0.0)
-#' -FLOWLEN (2.1.3 to 2.2.3) -FLOW_LENGTH (2.3.1 to 6.0.0)
-#' 
 rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in.material, in.target,
                                     in.lin.val, in.lin.dir,
                                     out.carea, out.mean, out.tot.mat, out.acc.left, out.acc.right,
@@ -2608,10 +2588,6 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @seealso \code{\link{rsaga.target}}; \code{\link[gstat]{idw}} in package \code{gstat}.
 #' @keywords spatial interface
 #' @export
-#' 
-#' Parameters:
-#' -SHAPES (2.3.1 to 3.0.0) -POINTS (4.0.0 to 6.0.0)
-#'
 rsaga.inverse.distance = function(in.shapefile, out.grid, field, 
         power = 1, maxdist, nmax = 100,
         target, env = rsaga.env(), ...)
@@ -2682,10 +2658,6 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
 #' @rdname rsaga.inverse.distance
 #' @name rsaga.nearest.neighbour
 #' @export
-#' 
-#' Parameters:
-#' -SHAPES (2.3.1 to 3.0.0) -POINTS (4.0.0 to 6.0.0)
-#'
 rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
     target, env = rsaga.env(), ...)
 {
@@ -2733,10 +2705,6 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
 #' @rdname rsaga.inverse.distance
 #' @name rsaga.modified.quadratic.shephard
 #' @export
-#' 
-#' Parameters:
-#' -SHAPES (2.3.1 to 3.0.0) -POINTS (4.0.0 to 6.0.0)
-#'
 rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
     quadratic.neighbors = 13, weighting.neighbors = 19,
     target, env = rsaga.env(), ...)
