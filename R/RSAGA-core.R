@@ -318,7 +318,7 @@ rsaga.env2 = function(workspace=".",
     path = gsub("\\", "/", sagaPath, fixed=TRUE)
     # Set module path in linux
     if(Sys.info()["sysname"]!="Windows") {
-      modules = sagaModules  
+      modules = sagaModPath 
     } 
   }
       
