@@ -878,7 +878,7 @@ centervalue = function(x) {
 #' If \code{x} is missing, a character vector of same length giving suggested variable (or file) names, such as \code{"rmed"}. See \code{\link{focal.function}} for details.
 #' @seealso \code{\link{focal.function}}, \code{\link{quantile}}, \code{\link{median}}, \code{\link{centervalue}}
 #' @keywords spatial
-#' @export
+#' @export resid.median
 resid.median = function(x) {
     if (missing(x)) return("rmed")
     return( stats::median(x,na.rm=TRUE) - centervalue(x) )
@@ -886,7 +886,7 @@ resid.median = function(x) {
 
 #' @rdname resid.median
 #' @name resid.minmedmax
-#' @export
+#' @export resid.minmedmax
 resid.minmedmax = function(x) {
     if (missing(x)) return(c("rmin","rmed","rmax"))
     return( c(min(x,na.rm=TRUE),stats::median(x,na.rm=TRUE),max(x,na.rm=TRUE)) - centervalue(x) )
@@ -926,7 +926,7 @@ relative.position = function(x) {
 
 #' @rdname resid.median
 #' @name resid.quantile
-#' @export
+#' @export resid.quantile
 resid.quantile = function(x,probs) {
     if (missing(x)) return(NULL)
     return(stats::quantile(x-centervalue(x),probs=probs,na.rm=TRUE,names=FALSE))
@@ -934,7 +934,7 @@ resid.quantile = function(x,probs) {
 
 #' @rdname resid.median
 #' @name resid.quartiles
-#' @export
+#' @export resid.quartiles
 resid.quartiles = function(x) {
     if (missing(x)) return(c("r25","r50","r75"))
     return(stats::quantile(x-centervalue(x),probs=c(0.25,0.5,0.75),na.rm=TRUE,names=FALSE))
