@@ -2836,6 +2836,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #'   modules)
 #' @keywords vector operations, polygons
 #' @examples
+#' \dontrun{
 #' library("RSAGA")
 #' library("sp")
 #' library("magrittr")
@@ -2861,6 +2862,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' plot(poly_2, col = "blue", add = TRUE)
 #' # plot the intersection
 #' plot(res, col = "yellow", add = TRUE)
+#' }
 #' @export
 #' 
 rsaga.intersect.polygons <- 
@@ -2927,6 +2929,7 @@ rsaga.intersect.polygons <-
 #'   modules)
 #' @keywords vector operations, polygons
 #' @examples
+#' \dontrun{
 #' library("RSAGA")
 #' library("sp")
 #' # construct coordinates of two squares
@@ -2950,6 +2953,7 @@ rsaga.intersect.polygons <-
 #' # and poly_2
 #' dim(res)
 #' res@data
+#' }
 #' @export
 
 rsaga.union.polygons <- 
