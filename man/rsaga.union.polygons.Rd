@@ -24,6 +24,10 @@ shapefile.}
 
 \item{load}{If \code{TRUE}, the resulting output shapefile will be loaded 
 into R (default: FALSE).}
+
+\item{env}{RSAGA geoprocessing environment created by 
+\code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
+version.}
 }
 \value{
 The function saves the output shapefile to the path indicated in 
