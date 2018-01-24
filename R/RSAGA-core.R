@@ -293,6 +293,10 @@ rsaga.env2 = function(workspace=".",
                       cores, parallel = FALSE)
                       {
   
+  if(require(link2GI, quietly=TRUE) == FALSE) {
+    stop('Please install link2GI to use rsaga.env2()')
+  }
+  
   if(!is.null(path)){
     # If path specified by user, check if valid
     if (!file.exists(file.path(path,cmd))) {
