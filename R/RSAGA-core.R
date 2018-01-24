@@ -328,6 +328,7 @@ rsaga.env2 = function(workspace=".",
     linkSAGA(verSelect = TRUE)
     # Fix link2GI path
     path = gsub("\\", "/", sagaPath, fixed=TRUE)
+    path = substr(path, 1, nchar(path)-1)
     # Set module path in linux
     if(Sys.info()["sysname"]!="Windows") {
       modules = sagaModPath 
@@ -336,7 +337,6 @@ rsaga.env2 = function(workspace=".",
       
   # Set module path in windows
   if(is.null(modules)){
-    path = substr(path, 1, nchar(path)-1)
     if(file.exists(file.path(path, "modules"))){
       modules = file.path(path,"modules")
     } else {
