@@ -590,7 +590,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
     }
 
     rawres = rsaga.geoprocessor(lib, module=NULL, env=env,
-        intern=TRUE, show.output.on.console=TRUE, flags=NULL, invisible=TRUE,
+        intern=TRUE, show.output.on.console=FALSE, flags=NULL, invisible=TRUE,
         reduce.intern=FALSE, check.module.exists=FALSE, warn = -1)
     
     wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:", "tools:") )
