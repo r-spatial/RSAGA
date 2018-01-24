@@ -614,11 +614,15 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         } else {
           rawres = strsplit(rawres,"\t")
         }
-      
+
         mcodes = c()
         mnames = c()
         minteracs = c()
         for (descr in rawres) {
+          # Remove box brackets from SAGA > 6.2 output
+          descr[1] <- gsub(']', '', descr[1], fixed = TRUE)
+          descr[1] <- gsub('[', '', descr[1], fixed = TRUE)
+          
             mygrep = c( grep("[",descr[1],fixed=TRUE), grep("]",descr[1],fixed=TRUE),
                 grep("[interactive]",descr[2],fixed=TRUE) )
             minterac = (length(mygrep) > 0)
