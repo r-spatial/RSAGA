@@ -590,13 +590,24 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
     }
 
     rawres = rsaga.geoprocessor(lib, module=NULL, env=env,
-        intern=TRUE, show.output.on.console=FALSE, flags=NULL, invisible=TRUE,
+        intern=TRUE, show.output.on.console=TRUE, flags=NULL, invisible=TRUE,
         reduce.intern=FALSE, check.module.exists=FALSE, warn = -1)
-
+    
     wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:", "tools:") )
+    
+    # Fix for SAGA 6.2.0
+    # It outputs additionally the tool chains of the library. The list also starts with the string 'Tools:'
+    if(length(wh) == 2) {
+      empty_elements = which(rawres == '')
+      empty_elements = empty_elements[empty_elements > wh[1]]
+      wh_2 = empty_elements[1]-1
+      wh = wh[1]
+    } else {
+      wh_2 = length(rawres)
+    }
 
     if (length(wh) > 0) {
-        rawres = rawres[ (wh[length(wh)]+1) : length(rawres) ]
+        rawres = rawres[ (wh[length(wh)]+1) : wh_2 ]
         rawres = rawres[ rawres != "" ]
         rawres = rawres[ rawres != "type -h or --help for further information" ]
         # inserted tolower() for SAGA 2.1.0 RC1:
