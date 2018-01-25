@@ -293,7 +293,11 @@ rsaga.env2 = function(workspace=".",
                       cores, parallel = FALSE)
                       {
   
-  if(require(link2GI, quietly=TRUE) == FALSE) {
+  # To pass CRAN check
+  sagaPath = NULL
+  sagaModPath = NULL
+  
+  if(requireNamespace('link2GI', quietly=TRUE) == FALSE) {
     stop('Please install link2GI to use rsaga.env2()')
   }
   
@@ -325,7 +329,7 @@ rsaga.env2 = function(workspace=".",
   
   # Search for path with link2GI if no default path
   if(is.null(path)) {
-    linkSAGA(verSelect = TRUE)
+    link2GI::linkSAGA(verSelect = TRUE)
     # Fix link2GI path
     path = gsub("\\", "/", sagaPath, fixed=TRUE)
     path = substr(path, 1, nchar(path)-1)
