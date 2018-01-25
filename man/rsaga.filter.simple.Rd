@@ -5,7 +5,7 @@
 \title{Simple Filters}
 \usage{
 rsaga.filter.simple(in.grid, out.grid, mode = "circle", method = c("smooth",
-  "sharpen", "edge"), radius, ...)
+  "sharpen", "edge"), radius, env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.grid}{input: SAGA grid file (default file extension: \code{.sgrd})}
@@ -17,6 +17,8 @@ rsaga.filter.simple(in.grid, out.grid, mode = "circle", method = c("smooth",
 \item{method}{character or numeric: \code{"smooth"} (=0), \code{"sharpen"} (=1), or \code{"edge"} (=2)}
 
 \item{radius}{positive integer: radius of moving window}
+
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
 
 \item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
 }

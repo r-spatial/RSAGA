@@ -547,6 +547,7 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 #' rsaga.search.modules("gap")
 #' }
 #' @keywords spatial interface
+#' @import plyr
 #' @export
 rsaga.get.modules = function(libs, env = rsaga.env(), 
     interactive = FALSE, parallel = env$parallel)

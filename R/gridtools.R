@@ -440,6 +440,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' plot(meuse.kr$elev,meuse.nn$elev)
 #' }
 #' @keywords spatial
+#' @import gstat
 #' @export
 pick.from.points = function(data, src, pick, 
     method = c("nearest.neighbour","krige"), set.na = FALSE,
@@ -511,6 +512,7 @@ pick.from.points = function(data, src, pick,
 
 #' @rdname pick.from.points
 #' @name pick.from.shapefile
+#' @import shapefiles
 #' @export
 pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
 {
@@ -537,6 +539,7 @@ pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
 
 #' @rdname pick.from.points
 #' @name pick.from.ascii.grid
+#' @import plyr
 #' @export
 pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix = NULL,
                                  method = c("nearest.neighbour","krige"), cbind = TRUE,
@@ -654,6 +657,7 @@ pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefi
 
 #' @rdname pick.from.points
 #' @name internal.pick.from.ascii.grid
+#' @import gstat
 #' @export
 internal.pick.from.ascii.grid = function( data, file, 
     path = NULL, varname = NULL, prefix = NULL,

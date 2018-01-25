@@ -4,7 +4,8 @@
 \alias{rsaga.filter.gauss}
 \title{Gauss Filter}
 \usage{
-rsaga.filter.gauss(in.grid, out.grid, sigma, radius = ceiling(2 * sigma), ...)
+rsaga.filter.gauss(in.grid, out.grid, sigma, radius = ceiling(2 * sigma),
+  env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.grid}{input: SAGA GIS grid file (default file extension: \code{.sgrd})}
@@ -14,6 +15,8 @@ rsaga.filter.gauss(in.grid, out.grid, sigma, radius = ceiling(2 * sigma), ...)
 \item{sigma}{numeric, >0.0001: standard deviation parameter of Gauss filter}
 
 \item{radius}{positive integer: radius of moving window}
+
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
 
 \item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
 }
