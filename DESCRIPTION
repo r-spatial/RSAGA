@@ -27,7 +27,6 @@ Imports:
   rgdal
 Suggests:
     knitr,
-	  link2GI
 LazyLoad: yes
 Collate:
     'gridtools.R'
