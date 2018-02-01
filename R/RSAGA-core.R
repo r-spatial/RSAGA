@@ -74,9 +74,9 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
 #' @keywords spatial interface
 #' @export
 #' 
-rsaga.env = function(workspace = ".",
-                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                      path = NULL, modules=NULL, version=NULL, cores, parallel = FALSE, lib.prefix)
+rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
+                     cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
+                     version=NULL, cores, parallel = FALSE, lib.prefix)
 {
   # Check paths specified by user
   if (!is.null(path)) {
@@ -158,7 +158,7 @@ rsaga.env = function(workspace = ".",
       stop("SAGA command line program not found\n")
     }
     # Remove saga_cmd from string
-    path <- substr(path, 1, nchar(path[1]) - 9)
+    path <- substr(path[1], 1, nchar(path[1]) - 9)
     
     # Try to find modules path
     modules <- rsaga.default.modules.path(saga.path = path)
