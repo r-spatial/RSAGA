@@ -1743,8 +1743,8 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 #' @param mode character or numeric: shape of moving window, either \code{"square"} (=0) or \code{"circle"} (=1, default)
 #' @param method character or numeric: \code{"smooth"} (=0), \code{"sharpen"} (=1), or \code{"edge"} (=2)
 #' @param radius positive integer: radius of moving window
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
 #' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
+#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
 #' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @seealso \code{\link{rsaga.filter.gauss}}
@@ -1752,7 +1752,7 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 #' @keywords spatial interface
 #' @export
 rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
-    method=c("smooth","sharpen","edge"), radius, env=rsaga.env(), ...)
+    method=c("smooth","sharpen","edge"), radius, env = rsaga.env(), ...)
 {
     in.grid = default.file.extension(in.grid,".sgrd")
     out.grid = default.file.extension(out.grid, ".sgrd")
@@ -1782,7 +1782,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
     
     rsaga.geoprocessor(lib = "grid_filter", 
         module = "Simple Filter",
-        param = param, ...)
+        param = param, env = env, ...)
 }
 
 
@@ -1803,7 +1803,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
 #' @keywords spatial interface
 #' @export
 rsaga.filter.gauss = function(in.grid, out.grid, sigma,
-    radius=ceiling(2*sigma), env=rsaga.env(), ...)
+    radius=ceiling(2*sigma), env = rsaga.env(), ...)
 {
     in.grid = default.file.extension(in.grid,".sgrd")
     out.grid = default.file.extension(out.grid, ".sgrd")
@@ -1824,7 +1824,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     
     rsaga.geoprocessor(lib = "grid_filter", 
         module = "Gaussian Filter", # = 1, 
-        param, ...)
+        param, env = env, ...)
 }
 
 
