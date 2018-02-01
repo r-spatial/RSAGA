@@ -2,6 +2,7 @@
 #' 
 #' @name rsaga.default.modules.path
 #' @rdname rsaga.default.modules.path
+#' @param sysname character: name of the operating system, determined by default by \code{\link[base]{Sys.info}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}
 #' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}
 #' @export
 rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path)
@@ -40,15 +41,26 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
 #' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link{rsaga.lib.prefix}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)
 #' @details IMPORTANT: Unlike R functions such as \code{\link{options}},  which changes and saves settings somewhere in a global variable, \code{\link{rsaga.env}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
 #' 
-#' I strongly recommend to install SAGA GIS in \code{"C:/Program Files/SAGA-GIS"}  in the case of English-language Windows platforms (the equivalent non-English installation folder in the case of non-English Windows versions seems to work as well). If this is the only SAGA GIS copy on the computer and you do \emph{not} define a Windows environment variable \code{SAGA}, then RSAGA should normally be able to find your SAGA GIS installation in this folder.
+#' We strongly recommend to install SAGA GIS on Windows in \code{"C:/Program Files/SAGA-GIS"} , \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
+#' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 #' 
-#' \code{rsaga.env} tries to collect infromation on the (R)SAGA environment. If \code{path} is missing, \code{rsaga.env} first looks for an environment variable \code{SAGA}; if this is undefined, it checks the current working directory, then the paths given in the PATH environment variable, and finally the function's guess is \code{"C:/Progra~1/SAGA-GIS"} (or \code{"/usr/local/bin"} on non-Windows systems).
+#' There are three ways to create a RSAGA environment with \code{rsaga.env}:
 #' 
-#' The default \code{modules} folder on Windows systems is the  \code{modules} subfolder of the SAGA binaries' folder. The \code{SAGA_MLB} environment variable is \emph{not} checked by \code{rsaga.env}.
+#' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}. 
+#' On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders 
+#' \code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. The subfolder \code{tools} 
+#' (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
+#' On Unix a search for the SAGA command line program and the modules is performed on \code{"/usr"}. 
+#' If this fails please specify the paths as described in section 2.
+#' 
+#' 2) The user specifies both the path to the SAGA command line program and 
+#' to the SAGA modules. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path 
+#' or if you use more than one SAGA GIS version.
+#' 
+#' 3) The user specifies only the path to the SAGA command line program. A search for the SAGA modules is performed as described in section 1.
 #'
-#' On Unix (and Mac OS X) systems, the default \code{modules} folder is as specified in the \code{SAGA_MLB} environment variable. If this is empty / not set, then the following backup path is used. If \code{path} ends with "/bin", then "/bin" is changed to "/lib/saga" and taken as the \code{modules} path; otherwise, \code{/usr/local/lib/saga} is used.
 #' @return A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}, \code{version}, \code{cores} and \code{parallel} with values as passed to \code{rsaga.env} or default values as described in the Details section.
-#' @author Alexander Brenning
+#' @author Alexander Brenning and Marc Becker
 #' @note Note that the default \code{workspace} is \code{"."}, not \code{getwd()}; i.e. the default SAGA workspace folder is not fixed, it changes each time you change the R working directory using \code{setwd}.
 #' @seealso \code{\link{rsaga.get.version}}
 #' @examples
@@ -255,9 +267,6 @@ rsaga.lib.prefix = function(env) {
     }
     return(lib.prefix)
 }
-
-
-
 
 #' Determine SAGA GIS version
 #'
@@ -818,7 +827,7 @@ rsaga.geoprocessor = function(
                        "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
                        "2.3.2", "3.0.0", "4.0.0", "4.0.1", "4.1.0", 
                        "5.0.0", "6.0.0", "6.1.0", "6.2.0") == env$version))
-                warning("This RSAGA version has been tested with SAGA GIS versions 2.0.4 - 2.2.2 and 2.3.1 - 6.1.0.\n",
+                warning("This RSAGA version has been tested with SAGA GIS versions 2.3.1 - 6.2.0.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
         }

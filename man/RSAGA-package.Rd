@@ -29,7 +29,7 @@ functions are provided for conveniently picking
 values at point locations from a grid using kriging 
 or nearest neighbour interpolation.
 
-RSAGA requires SAGA GIS (versions 2.0.4 - 2.2.3) 
+RSAGA requires SAGA GIS (versions 2.3.1 LTS - 6.2.0) 
 are currently supported) and its user-contributed 
 modules to be available on your computer. These 
 can be downloaded under GPL from
@@ -59,5 +59,5 @@ Brenning, A., 2008. Statistical geocomputing combining R and
  \emph{Geoscientific Model Development}, 8, 1991-2007
 }
 \author{
-Alexander Brenning and Donovan Bangs
+Alexander Brenning, Donovan Bangs and Marc Becker
 }

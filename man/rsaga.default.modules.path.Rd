@@ -7,6 +7,8 @@
 rsaga.default.modules.path(sysname = Sys.info()["sysname"], saga.path)
 }
 \arguments{
+\item{sysname}{character: name of the operating system, determined by default by \code{\link[base]{Sys.info}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}}
+
 \item{saga.path}{character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}}
 }
 \description{
