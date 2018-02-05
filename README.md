@@ -19,11 +19,11 @@ install.packages("RSAGA", dependencies = TRUE)
 Or you can get the latest version from github with:
 
 ``` r
-devtools::install_github("be-marc/RSAGA/")
+devtools::install_github("be-marc/RSAGA")
 ```
 
 Or with dependencies:
 
 ``` r
-devtools::install_github("be-marc/RSAGA/", dependencies = TRUE, force = TRUE)
+devtools::install_github("be-marc/RSAGA", dependencies = TRUE, force = TRUE)
 ```
