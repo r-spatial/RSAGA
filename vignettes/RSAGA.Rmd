@@ -52,7 +52,7 @@ RSAGA can be considered a collection of geocomputing functions in three general 
 ## Initializing the RSAGA Geoprocessing Environment
 Running the geoprocessing functions requires that SAGA is installed and can be found by RSAGA. The `rsaga.env()` function creates a list with system-dependent information on SAGA path, module path and data directory. The function should be called with the path to the SAGA executable:
 
-```{r, collapse=TRUE}
+```{r, collapse=TRUE, eval=FALSE}
 env <- rsaga.env(path = "C:/SAGA-GIS", modules="C:/SAGA-GIS/tools")
 env
 ```
@@ -268,7 +268,6 @@ When a new version of SAGA-GIS is released, RSAGA on CRAN may not be initially c
 
 Please be aware that some modules and calculations may change or be deprecated between SAGA versions. Where practical, warnings are issued to alert users to changes in modules. The `rsaga.get.usage` function may be used to access SAGA command-line help to explore any changes between versions.
 
-\newpage
 ## References
 Conrad, O., Bechtel, M., Bock, M., Dietrich, H., Fischer, E., Gerlitz, L., Wichmann, V., & Bohner, J. (2015). System for Automated Geoscientific Analyses (SAGA) v. 2.1.4. _Geoscientific Model Development_, 8, 1991-2007
 
