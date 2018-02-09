@@ -191,7 +191,7 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
   cmd = unname(cmd)
   
   # Check workspace
-  if (!file.exists(workspace)) {
+  if (!dir.exists(workspace)) {
     stop("Invalid workspace path ", workspace)
   }
   
