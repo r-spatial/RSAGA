@@ -134,7 +134,8 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
       windows.defaults.paths <-
         c("C:/Progra~1/SAGA-GIS",
           "C:/SAGA-GIS",
-          "C:/OSGeo4W64/apps/saga")
+          "C:/OSGeo4W64/apps/saga",
+          "C:/OSGeo4W64/apps/saga-ltr")
       
       # Check if one path is valid
       for (pa in windows.defaults.paths) {
