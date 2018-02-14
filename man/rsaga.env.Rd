@@ -2,11 +2,13 @@
 % Please edit documentation in R/RSAGA-core.R
 \name{rsaga.env}
 \alias{rsaga.env}
-\title{Set up the RSAGA Geoprocessing Environment}
+\title{Function to set up RSAGA geoprocessing environment:
+Set up the RSAGA Geoprocessing Environment}
 \usage{
 rsaga.env(path = NULL, modules = NULL, workspace = ".",
   cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe",
-  "saga_cmd"), version = NULL, cores, parallel = FALSE, lib.prefix)
+  "saga_cmd"), version = NULL, cores, parallel = FALSE, search = TRUE,
+  root = NULL, lib.prefix)
 }
 \arguments{
 \item{path}{path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.}
@@ -23,6 +25,10 @@ rsaga.env(path = NULL, modules = NULL, workspace = ".",
 
 \item{parallel}{optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated}
 
+\item{search}{optinal logical agrument (default: \code{TRUE}): if \code{FALSe}, RSAGA does not perform an automatic search for saga_cmd.exe on Windows.}
+
+\item{root}{optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. \code{search}).  If left empty, on Windoes \code{C:/} is used, on Linux \code{/usr} and on Mac OS  \code{/usr/local/Cellar}.}
+
 \item{lib.prefix}{character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link{rsaga.lib.prefix}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)}
 }
 \value{
@@ -34,6 +40,7 @@ A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}
 \details{
 IMPORTANT: Unlike R functions such as \code{\link{options}},  which changes and saves settings somewhere in a global variable, \code{\link{rsaga.env}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
 
+
 We strongly recommend to install SAGA GIS on Windows in \code{"C:/Program Files/SAGA-GIS"} , \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
 If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 
@@ -41,8 +48,9 @@ There are three ways to create a RSAGA environment with \code{rsaga.env}:
 
 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}. 
 On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders 
-\code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. The subfolder \code{tools} 
-(SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
+\code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
+If this fails and attempt is being made to find the SAGA command line programm with a search on \code{C:/}
+The subfolder \code{tools} (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
 On Unix a search for the SAGA command line program and the modules is performed on \code{"/usr"}. 
 If this fails please specify the paths as described in section 2.
 

@@ -17,16 +17,41 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
   } else {
     ### tested with: ((sysname == "Linux") | (sysname == "Darwin") | (sysname == "FreeBSD"))
     # Try to find SAGA modules
-    modules <- system2("find", 
-                       "/usr ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print",
-                       stdout = TRUE)
+    modules <- list.files(path = '/usr', pattern = 'libio_gdal', recursive = TRUE, full.names = TRUE)[1]
     
-    # Remove libio_gdal.so from string
-    modules <- substr(modules[1], 1, nchar(modules[1]) - 14)
+    # Remove libio_gdal.* from string
+    modules <- gsub("/libio_gdal.*", x = modules, replacement = "")
   }
   return(modules)
 }
 
+#' Internal function that sets the RSAGA Geoprocessing Eviroment manually 
+#' @name rsaga.set.env
+#' @param workspace path of the working directory for SAGA; defaults to the current directory (\code{"."}).
+#' @param cmd name of the SAGA command line program; defaults to \code{saga_cmd.exe}, its name under Windows
+#' @param path path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.
+#' @param modules path in which to find SAGA libraries; see Details
+#' @param version optional character string: SAGA GIS (API) version, e.g. \code{"2.0.8"}; if missing, a call to \code{\link{rsaga.get.version}} is used to determine version number of SAGA API
+#' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
+#' @param parallel optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @export
+#' 
+
+rsaga.set.env <- function(workspace = NULL, cmd = NULL, path = NULL, modules = NULL,
+                    version = NA, cores = NULL, parallel = NULL) {
+  env = list(
+    workspace = workspace,
+    cmd = cmd,
+    path = path,
+    modules = modules,
+    version = NA,
+    cores = NA,
+    parallel = parallel
+  )
+  return(env)
+}
+
+#' Function to set up RSAGA geoprocessing environment:
 #' Set up the RSAGA Geoprocessing Environment
 #'
 #' \code{rsaga.env} creates a list with system-dependent information on SAGA path, module path and data (working) directory. This kind of a list is required by most RSAGA geoprocessing functions and is referred to as the 'RSAGA geoprocessing environment.'
@@ -38,8 +63,12 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
 #' @param version optional character string: SAGA GIS (API) version, e.g. \code{"2.0.8"}; if missing, a call to \code{\link{rsaga.get.version}} is used to determine version number of SAGA API
 #' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
 #' @param parallel optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @param search optinal logical agrument (default: \code{TRUE}): if \code{FALSe}, RSAGA does not perform an automatic search for saga_cmd.exe on Windows.
+#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. \code{search}).  If left empty, on Windoes \code{C:/} is used, on Linux \code{/usr} and on Mac OS  \code{/usr/local/Cellar}.
 #' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link{rsaga.lib.prefix}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)
+#' 
 #' @details IMPORTANT: Unlike R functions such as \code{\link{options}},  which changes and saves settings somewhere in a global variable, \code{\link{rsaga.env}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
+#' 
 #' 
 #' We strongly recommend to install SAGA GIS on Windows in \code{"C:/Program Files/SAGA-GIS"} , \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
 #' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
@@ -48,8 +77,9 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
 #' 
 #' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}. 
 #' On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders 
-#' \code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. The subfolder \code{tools} 
-#' (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
+#' \code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
+#' If this fails and attempt is being made to find the SAGA command line programm with a search on \code{C:/}
+#' The subfolder \code{tools} (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
 #' On Unix a search for the SAGA command line program and the modules is performed on \code{"/usr"}. 
 #' If this fails please specify the paths as described in section 2.
 #' 
@@ -86,10 +116,42 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
 #' @keywords spatial interface
 #' @export
 #' 
-rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
+rsaga.env = function(path = NULL,
+                     modules = NULL,
+                     workspace = ".",
                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                     version=NULL, cores, parallel = FALSE, lib.prefix)
+                     version = NULL,
+                     cores,
+                     parallel = FALSE,
+                     search = TRUE,
+                     root = NULL,
+                     lib.prefix)
 {
+  # Set root path depending on operating system
+  if (is.null(root)) {
+    if (Sys.info()["sysname"] == "Windows") {
+      root = "C:/"
+    } else if (Sys.info()["sysname"] == "Darwin") {
+      root = "/usr/local/Cellar"
+    } else {
+      root = '/usr'
+    }
+  }
+  
+  # Clean paths
+  if (!is.null(path)) {
+    path <- gsub(pattern = "\\/$", x = path, "")
+  }
+  if (!is.null(modules)) {
+    modules <- gsub(pattern = "\\/$", x = modules, "")
+  }
+  workspace <- gsub(pattern = "\\/$", x = workspace, "")
+  
+  # Check workspace
+  if (!dir.exists(workspace)) {
+    stop("Invalid workspace path ", workspace)
+  }
+  
   # Check paths specified by user
   if (!is.null(path)) {
     cat("Try to find SAGA command line program in specified path... \n")
@@ -106,13 +168,14 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
       cat("Try to find SAGA modules in specified path... \n")
       # Check if modules path is valid
       if (!file.exists(file.path(modules))) {
-        stop("SAGA modules not found in the specified path ",
+        stop("SAGA modules not found in the specified path:\n ",
              modules,
              ".")
       }
-    # If modules path is emtpy but cmd path is set, try to find modules path  
+      cat("Done\n")
+      # If modules path is emtpy but cmd path is set, try to find modules path
     } else {
-      cat("Search for not specified SAGA modules path... \n")
+      cat("Found SAGA command line program. Search for not specified SAGA modules path... \n")
       
       # Search for modules path
       modules <- rsaga.default.modules.path(saga.path = path)
@@ -121,19 +184,19 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
       if (!file.exists(modules)) {
         stop("SAGA modules not found\n")
       }
+      cat("Done\n")
     }
   }
   
   # Searching for SAGA command line program in default paths
   if (is.null(path)) {
     cat("Searching for SAGA command line program and modules... \n")
-    # Try to find SAGA command line programm in windows default paths
-    # Use no search on c:/ becasue it is slow
+    # Try to find SAGA command line programm in windows default paths to speed things up
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
       windows.defaults.paths <-
-        c("C:/Progra~1/SAGA-GIS",
-          "C:/SAGA-GIS",
+        c(#"C:/Progra~1/SAGA-GIS",
+          #"C:/SAGA-GIS",
           "C:/OSGeo4W64/apps/saga",
           "C:/OSGeo4W64/apps/saga-ltr")
       
@@ -143,57 +206,129 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
           path = pa
         }
       }
-      # Stop if SAGA is not found in windows default paths
+      
+      # Search for SAGA by search on entire drive
       if (is.null(path)) {
-        stop(
-          "SAGA command line program not found in the following windows default paths.\n",
-          paste(windows.defaults.paths,collapse="\n")
-        )
+        path.text = paste0(windows.defaults.paths, collapse = "\n")
+        cat("SAGA command line program not found in the following windows default paths:\n",
+            path.text, "\n\nTrying a search on the entire hard drive...\n",
+            "This could be slow. Consider to set the path and module path arguments.\n", sep="")
       }
+        
+        # Search starts in root directory
+        path_list = list.files(
+          path = root,
+          pattern = cmd,
+          recursive = TRUE,
+          full.names = TRUE
+        )
+        
+        # Remove saga_cmd.exe from path
+        path_list = gsub('.{13}$', '', path_list)
+      
+      
+      # Stop if no saga_cmd.exe is found
+      if (length(path_list) == 0) {
+        stop("SAGA command line program not found on ", root, "\n")
+      }
+      
+      # If more than one version is available, select the one with the highest version numer
+      if (length(path_list) >= 2) {
+        cat(
+          length(path_list),
+          " SAGA GIS versions detected. Trying to select SAGA with the highest version number.\n"
+        )
+        version_numbers = c()
+        for (pa in path_list) {
+          # It's a dummy enviroment to get the version number
+          dummy_env <-
+            rsaga.set.env(
+              path = pa,
+              cmd = cmd,
+              workspace = ".",
+              modules = paste0(pa, "/NULL")
+            )
+          version_numbers <-
+            c(version_numbers, rsaga.get.version(dummy_env))
+        }
+        # Select path with the latest SAGA GIS version
+        path <-
+          path_list[which(version_numbers == max(version_numbers))]
+        # Choose one if multiple versions with the same version number are available
+        path <- path[1]
+      }
+      
       # Set modules path
       modules <- rsaga.default.modules.path(saga.path = path)
-
+      
       # Stop if module path is invalid
       if (!file.exists(modules)) {
-        stop("SAGA modules not found in the following windows default paths.\n", paste0(path,"/modules"), "\n", paste0(path,"/tools"))
+        stop(
+          "SAGA modules not found in the following windows default paths.\n",
+          paste0(path, "/modules"),
+          "\n",
+          paste0(path, "/tools")
+        )
       }
+      cat("Done\n")
     }
-   else {
-    # Try to find SAGA command line programm on other os
-    # By searching /usr
-    path <- system2(
-      "find",
-      "/usr ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print",
-      stdout = TRUE
-    )
-    
-    if (!file.exists(path[1])) {
-      stop("SAGA command line program not found\n")
+    else {
+      # Try to find SAGA command line programm on other os
+      path_list = list.files(
+        path = root,
+        pattern = paste0(cmd,"$"),
+        recursive = TRUE,
+        full.names = TRUE
+      )
+      
+      # Remove saga_cmd from path
+      path_list = gsub('.{9}$', '', path_list)
+      
+      # Stop if no saga_cmd is found
+      if (length(path_list) == 0) {
+        stop("SAGA command line program not found on ", root, "\n")
+      }
+      
+      # If more than one version is available, select the one with the highest version numer
+      if (length(path_list) >= 2) {
+        cat(
+          length(path_list),
+          " SAGA GIS versions detected. Try to select SAGA with the highest version number.\n"
+        )
+        version_numbers = c()
+        for (pa in path_list) {
+          # It's a dummy enviroment to get the version number
+          dummy_env <-
+            rsaga.set.env(
+              path = pa,
+              cmd = cmd,
+              workspace = ".",
+              modules = paste0(pa, "/NULL")
+            )
+          version_numbers <-
+            c(version_numbers, rsaga.get.version(dummy_env))
+        }
+        # Select path with the latest SAGA GIS version
+        path <-
+          path_list[which(version_numbers == max(version_numbers))]
+        # Choose one if multiple versions with the same version number are available
+        path <- path[1]
+      }
+      
+      # Try to find modules path
+      modules <- rsaga.default.modules.path(saga.path = path)
+      
+      if (!file.exists(modules)) {
+        stop("SAGA modules not found\n")
+      }
+      cat("Done\n")
     }
-    # Remove saga_cmd from string
-    path <- substr(path[1], 1, nchar(path[1]) - 9)
-    
-    # Try to find modules path
-    modules <- rsaga.default.modules.path(saga.path = path)
-    
-    if (!file.exists(modules)) {
-      stop("SAGA modules not found\n")
-    }
-   } 
   }
   
-  # Default RSAGA workspace is the current working directory of R:
-  if (workspace == "") {
-    workspace = "."
-  }
   
   # cmd has inheritted a 'sysname' name from the result of Sys.info():
   cmd = unname(cmd)
   
-  # Check workspace
-  if (!dir.exists(workspace)) {
-    stop("Invalid workspace path ", workspace)
-  }
   
   # (optional) number of cores:
   if (missing(cores)) {
@@ -202,16 +337,8 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
     stopifnot(cores >= 0)
   }
   
-  # Set up RSAGA geoprocessing environment:
-  env = list(
-    workspace = workspace,
-    cmd = cmd,
-    path = path,
-    modules = modules,
-    version = NA,
-    cores = cores,
-    parallel = parallel
-  )
+  env = rsaga.set.env(workspace = workspace, cmd = cmd, path = path, modules = modules,
+                            version = NA, cores = cores, parallel = parallel) 
   
   # Determine SAGA API version, if not specified by caller:
   if (missing(version)) {
@@ -220,7 +347,8 @@ rsaga.env = function(path = NULL, modules=NULL, workspace = ".",
   }
   
   if (!is.na(env$cores) &
-      (is.na(env$version) | (substr(env$version, 1, 4) == "2.0."))) {
+      (is.na(env$version) |
+       (substr(env$version, 1, 4) == "2.0."))) {
     warning(
       "'cores' argument not supported by SAGA GIS versions <2.1.0; ignoring 'cores' argument\n",
       "Use SAGA GIS 2.1.0+ for multicore geoprocessing."
@@ -827,7 +955,7 @@ rsaga.geoprocessor = function(
                        "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
                        "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
                        "2.3.2", "3.0.0", "4.0.0", "4.0.1", "4.1.0", 
-                       "5.0.0", "6.0.0", "6.1.0", "6.2.0") == env$version))
+                       "5.0.0", "6.0.0", "6.1.0", "6.2.0", NULL) == env$version))
                 warning("This RSAGA version has been tested with SAGA GIS versions 2.3.1 - 6.2.0.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
