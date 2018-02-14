@@ -192,11 +192,8 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     # Try to find SAGA command line programm in windows default paths to speed things up
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
-      windows.defaults.paths <-
-        c(#"C:/Progra~1/SAGA-GIS",
-          #"C:/SAGA-GIS",
-          "C:/OSGeo4W64/apps/saga",
-          "C:/OSGeo4W64/apps/saga-ltr")
+      windows.defaults.paths =  c(#"C:/Progra~1/SAGA-GIS", #"C:/SAGA-GIS",
+                                  "C:/OSGeo4W64/apps/saga", "C:/OSGeo4W64/apps/saga-ltr")
       
       # Check if one path is valid
       for (pa in windows.defaults.paths) {
@@ -210,7 +207,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
         path.text = paste0(windows.defaults.paths, collapse = "\n")
         cat("SAGA command line program not found in the following windows default paths:\n",
             path.text, "\n\nTrying a search on the entire hard drive...\n",
-            "This could be slow. Consider to set the path and module path arguments.\n", sep="")
+            "This could be slow. Consider to set the arguments path and module\n", sep="")
       }
         
         # Search starts in root directory
@@ -268,24 +265,23 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
       }
           
       if(is.null(path)) {
-      # Try to find SAGA command line programm on other os
-      path = list.files(path = root, pattern = paste0(cmd,"$"), recursive = TRUE, 
-                        full.names = TRUE)[1]
-      
-      # Remove cmd name from path
-      path = gsub(paste0(".{",nchar(cmd),"}$"), '', path_list)
-      
-      # Stop if no saga_cmd is found
-      if (length(path_list) == 0) {
-        stop("SAGA command line program not found on ", root, "\n")
+        # Try to find SAGA command line programm on other os
+        path = list.files(path = root, pattern = paste0(cmd,"$"), recursive = TRUE, 
+                          full.names = TRUE)[1]
+        
+        # Remove cmd name from path
+        path = gsub(paste0(".{",nchar(cmd),"}$"), '', path_list)
+        
+        # Stop if no saga_cmd is found
+        if (length(path_list) == 0) {
+          stop("SAGA command line program not found on ", root, "\n")
+        }
       }
-      
       # Try to find modules path
       modules = rsaga.get.modules.path(saga.path = path, root=root, cmd=cmd)
       
       if (!file.exists(modules)) {
         stop("SAGA modules not found\n")
-      }
       }
       cat("Done\n")
     }
