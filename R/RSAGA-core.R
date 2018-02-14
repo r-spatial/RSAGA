@@ -4,8 +4,9 @@
 #' @rdname rsaga.default.modules.path
 #' @param sysname character: name of the operating system, determined by default by \code{\link[base]{Sys.info}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}
 #' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}
+#' @param root 
 #' @export
-rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path)
+rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path, root="/usr")
 {
   if (sysname == "Windows") {
     # Module folder changed with SAGA Version 3+
@@ -15,12 +16,28 @@ rsaga.default.modules.path = function(sysname = Sys.info()["sysname"], saga.path
       modules = file.path(saga.path, "tools")
     }
   } else {
-    ### tested with: ((sysname == "Linux") | (sysname == "Darwin") | (sysname == "FreeBSD"))
-    # Try to find SAGA modules
-    modules <- list.files(path = '/usr', pattern = 'libio_gdal', recursive = TRUE, full.names = TRUE)[1]
+    # Linux, Unix, MacOS
+    # Look in likely locations
+    modules = NULL
     
-    # Remove libio_gdal.* from string
-    modules <- gsub("/libio_gdal.*", x = modules, replacement = "")
+    module.defaults.paths <-
+      c("/usr/lib/x86_64-linux-gnu/saga", "/usr/lib/saga", "/usr/lib64/saga", 
+        "/usr/local/Cellar/saga-gis-lts/2.3.2/lib/saga")
+    
+    # Check if one path is valid
+    for (pa in module.defaults.paths) {
+      if (file.exists(file.path(pa, cmd))) {
+        modules = pa
+      }
+    }
+    
+    if(is.null(modules)) {
+      # Try to find SAGA modules
+      modules <- list.files(path = root, pattern = 'libio_gdal', recursive = TRUE, full.names = TRUE)[1]
+      
+      # Remove libio_gdal.* from string
+      modules <- gsub("/libio_gdal.*", x = modules, replacement = "")
+    }
   }
   return(modules)
 }
@@ -273,6 +290,21 @@ rsaga.env = function(path = NULL,
       cat("Done\n")
     }
     else {
+      # Try default paths
+      unix.defaults.paths <-
+        c("/usr/bin",
+          "/usr/local/bin",
+          "/usr/local/Cellar/saga-gis-lts/2.3.2/bin")
+      
+      # Check if one path is valid
+      for (pa in unix.defaults.paths) {
+        if (file.exists(file.path(pa, cmd))) {
+          path = pa
+        }
+      }
+          
+      if(is.null(path)) {
+    
       # Try to find SAGA command line programm on other os
       path = list.files(
         path = root,
@@ -290,10 +322,11 @@ rsaga.env = function(path = NULL,
       }
       
       # Try to find modules path
-      modules <- rsaga.default.modules.path(saga.path = path)
+      modules <- rsaga.default.modules.path(saga.path = path, root=root)
       
       if (!file.exists(modules)) {
         stop("SAGA modules not found\n")
+      }
       }
       cat("Done\n")
     }
