@@ -25,8 +25,6 @@ rsaga.env(path = NULL, modules = NULL, workspace = ".",
 
 \item{parallel}{optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated}
 
-\item{search}{optinal logical agrument (default: \code{TRUE}): if \code{FALSe}, RSAGA does not perform an automatic search for saga_cmd.exe on Windows.}
-
 \item{root}{optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. \code{search}).  If left empty, on Windoes \code{C:/} is used, on Linux \code{/usr} and on Mac OS  \code{/usr/local/Cellar}.}
 
 \item{lib.prefix}{character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link{rsaga.lib.prefix}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)}
