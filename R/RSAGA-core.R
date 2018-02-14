@@ -22,7 +22,7 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
                               "/usr/lib64/saga", 
                               "/usr/local/Cellar/saga-gis-lts/2.3.2/lib/saga")
     for (pa in module.defaults.paths) {
-      if (file.exists(file.path(pa, cmd))) {
+      if (file.exists(file.path(pa))) {
         modules = pa
       }
     }
