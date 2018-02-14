@@ -309,10 +309,12 @@ rsaga.env = function(path = NULL,
             c(version_numbers, rsaga.get.version(dummy_env))
         }
         # Select path with the latest SAGA GIS version
-        path <-
+        path =
           path_list[which(version_numbers == max(version_numbers))]
         # Choose one if multiple versions with the same version number are available
-        path <- path[1]
+        path = path[1]
+      } else {
+        path = path
       }
       
       # Try to find modules path
