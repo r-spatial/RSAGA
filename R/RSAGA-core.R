@@ -19,7 +19,7 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
   } else { # Linux, Unix, MacOS
     # Look in likely locations for modules folder
     module.defaults.paths = c("/usr/lib/x86_64-linux-gnu/saga", "/usr/lib/saga", 
-                              "/usr/lib64/saga", 
+                              "/usr/lib64/saga", "/usr/local/lib/saga", "/usr/local/lib64/saga",
                               "/usr/local/Cellar/saga-gis-lts/2.3.2/lib/saga")
     for (pa in module.defaults.paths) {
       if (file.exists(file.path(pa))) {
