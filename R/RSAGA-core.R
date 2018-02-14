@@ -274,47 +274,19 @@ rsaga.env = function(path = NULL,
     }
     else {
       # Try to find SAGA command line programm on other os
-      path_list = list.files(
+      path = list.files(
         path = root,
         pattern = paste0(cmd,"$"),
         recursive = TRUE,
         full.names = TRUE
-      )
+      )[1]
       
       # Remove saga_cmd from path
-      path_list = gsub('.{9}$', '', path_list)
+      path = gsub('.{9}$', '', path_list)
       
       # Stop if no saga_cmd is found
       if (length(path_list) == 0) {
         stop("SAGA command line program not found on ", root, "\n")
-      }
-      
-      # If more than one version is available, select the one with the highest version numer
-      if (length(path_list) >= 2) {
-        cat(
-          length(path_list),
-          " SAGA GIS versions detected. Try to select SAGA with the highest version number.\n"
-        )
-        version_numbers = c()
-        for (pa in path_list) {
-          # It's a dummy enviroment to get the version number
-          dummy_env <-
-            rsaga.set.env(
-              path = pa,
-              cmd = cmd,
-              workspace = ".",
-              modules = paste0(pa, "/NULL")
-            )
-          version_numbers <-
-            c(version_numbers, rsaga.get.version(dummy_env))
-        }
-        # Select path with the latest SAGA GIS version
-        path =
-          path_list[which(version_numbers == max(version_numbers))]
-        # Choose one if multiple versions with the same version number are available
-        path = path[1]
-      } else {
-        path = path_list
       }
       
       # Try to find modules path
