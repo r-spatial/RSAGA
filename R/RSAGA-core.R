@@ -314,7 +314,7 @@ rsaga.env = function(path = NULL,
         # Choose one if multiple versions with the same version number are available
         path = path[1]
       } else {
-        path = path
+        path = path_list
       }
       
       # Try to find modules path
