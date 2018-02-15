@@ -38,18 +38,20 @@ A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}
 \details{
 IMPORTANT: Unlike R functions such as \code{\link[=options]{options()}},  which changes and saves settings somewhere in a global variable, \code{\link[=rsaga.env]{rsaga.env()}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
 
-We strongly recommend to install SAGA GIS on Windows in \code{"C:/Program Files/SAGA-GIS"} , \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}.
+We strongly recommend to install SAGA GIS on Windows in \code{C:/Program Files/SAGA-GIS} , \code{C:/SAGA-GIS}, \code{C:/OSGeo4W64/apps/saga-lts} or \code{C:/OSGeo4W64/apps/saga}.
 If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 
 There are three ways to create a RSAGA environment with \code{rsaga.env}:
 \enumerate{
 \item No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}.
 On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders
-\code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}.
-If this fails and attempt is being made to find the SAGA command line programm with a search on \code{C:/}
+\code{C:/Progra~1/SAGA-GIS}, \code{C:/SAGA-GIS}, \code{C:/OSGeo4W64/apps/saga-lts} and \code{C:/OSGeo4W64/apps/saga}.
+If this fails and attempt is being made to find the SAGA command line program with a search on \code{C:/}
+(The drive letter can be changed with the \code{root} argument).
 The subfolder \code{tools} (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules.
-On Unix a search for the SAGA command line program and the modules is performed on \code{"/usr"}.
-If this fails please specify the paths as described in section 2.
+On Unix systems \code{rsaga.env} tries to find the SAGA command line program in various default paths.
+If this fails, a search for the SAGA command line program and the modules is performed on \code{/usr}.
+If no SAGA command line program can be found, please specify the paths as described in section 2.
 \item The user specifies both the path to the SAGA command line program and
 to the SAGA modules. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path
 or if you use more than one SAGA GIS version.

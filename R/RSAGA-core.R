@@ -87,18 +87,20 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
 #' 
 #' 
-#' We strongly recommend to install SAGA GIS on Windows in `"C:/Program Files/SAGA-GIS"` , `"C:/SAGA-GIS"` and `"C:/OSGeo4W64/apps/saga"`. 
+#' We strongly recommend to install SAGA GIS on Windows in `C:/Program Files/SAGA-GIS` , `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` or `C:/OSGeo4W64/apps/saga`. 
 #' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 #' 
 #' There are three ways to create a RSAGA environment with `rsaga.env`:
 #' 
 #' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments `path` and `modules`. 
 #' On Windows `rsaga.env` tries to find the SAGA command line program in the following folders 
-#' `"C:/Progra~1/SAGA-GIS"`, `"C:/SAGA-GIS"` and `"C:/OSGeo4W64/apps/saga"`. 
-#' If this fails and attempt is being made to find the SAGA command line programm with a search on `C:/`
+#' `C:/Progra~1/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`. 
+#' If this fails and attempt is being made to find the SAGA command line program with a search on `C:/`
+#' (The drive letter can be changed with the `root` argument).
 #' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA modules. 
-#' On Unix a search for the SAGA command line program and the modules is performed on `"/usr"`. 
-#' If this fails please specify the paths as described in section 2.
+#' On Unix systems `rsaga.env` tries to find the SAGA command line program in various default paths.
+#' If this fails, a search for the SAGA command line program and the modules is performed on `/usr`. 
+#' If no SAGA command line program can be found, please specify the paths as described in section 2.
 #' 
 #' 2) The user specifies both the path to the SAGA command line program and 
 #' to the SAGA modules. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path 
