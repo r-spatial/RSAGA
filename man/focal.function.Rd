@@ -38,7 +38,7 @@ local.function(...)
 
 \item{is.pixel.radius}{logical: if \code{TRUE} (default), the \code{radius} will be interpreted as a (possibly non-integer) number of pixels; if \code{FALSE}, it is interpreted as a radius measured in the grid (map) units.}
 
-\item{na.strings}{passed on to \code{\link{scan}}}
+\item{na.strings}{passed on to \code{\link[=scan]{scan()}}}
 
 \item{valid.range}{numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \code{<valid.range[1]} or \code{>valid.range[1]} will be converted to \code{NA}.}
 
@@ -50,7 +50,7 @@ local.function(...)
 
 \item{digits}{numeric, specifying the number of digits to be used for output grid file.}
 
-\item{hdr.digits}{numeric, specifying the number of digits to be used for the header of the output grid file (default: 10; see \code{\link{write.ascii.grid.header}}).}
+\item{hdr.digits}{numeric, specifying the number of digits to be used for the header of the output grid file (default: 10; see \code{\link[=write.ascii.grid.header]{write.ascii.grid.header()}}).}
 
 \item{dec}{character, specifying the decimal mark to be used for input and output.}
 
@@ -73,9 +73,9 @@ local.function(...)
 \details{
 \code{focal.function} passes a square matrix of size \code{2*radius+1} to the function \code{fun} if \code{mw.to.vector=FALSE} (default), or a vector of length \code{<=(2*radius+1)^2} if \code{mw.to.vector=TRUE}. This matrix or vector will contain the content of the moving window, which may possibly contain \code{NA}s even if the \code{in.grid} has no nodata values, e.g. due to edge effects. If \code{search.mode="circle"}, values more than \code{radius} units (pixels or grid units, depending on \code{is.pixel.radius}) away from the center pixel / matrix entry will be set to \code{NA}. In addition, \code{valid.range}, \code{nodata.values}, and the nodata values specified in the \code{in.grid} are checked to assign further \code{NA}s to pixels in the moving window. Finally, if \code{in.factor.grid} specifies zones, all pixels in the moving window that belong to a different zone than the center pixel are set to \code{NA}, or, in other words, zone boundaries are used as breaklines.
 
-The function \code{fun} should return a single numeric value or a numeric vector. As an example, the function \code{\link{resid.minmedmax}} returns the minimum, median and maximum of the difference between the values in the moving window and the value in the center grid cell. In addition to the (first) argument receiving the moving window data, \code{fun} may have additional arguments; the \code{...} argument of \code{focal.function} is passed on to \code{fun}. \code{\link{resid.quantile}} is a function that uses this feature.
+The function \code{fun} should return a single numeric value or a numeric vector. As an example, the function \code{\link[=resid.minmedmax]{resid.minmedmax()}} returns the minimum, median and maximum of the difference between the values in the moving window and the value in the center grid cell. In addition to the (first) argument receiving the moving window data, \code{fun} may have additional arguments; the \code{...} argument of \code{focal.function} is passed on to \code{fun}. \code{\link[=resid.quantile]{resid.quantile()}} is a function that uses this feature.
 
-Optionally, \code{fun} should support the following feature: If no argument is passed to it, then it should return a character vector giving variable names to be used for naming the output grids. The call \code{\link{resid.minmedmax}()}, for example, returns \code{c("rmin","rmed","rmax")}; this vector must have the same length as the numeric vector returned when moving window data is passed to the function. This feature is only used if no \code{varnames} argument is provided. Note that the result is currently being \code{\link{abbreviate}}d to a length of 6 characters.
+Optionally, \code{fun} should support the following feature: If no argument is passed to it, then it should return a character vector giving variable names to be used for naming the output grids. The call \code{\link[=resid.minmedmax]{resid.minmedmax()}}, for example, returns \code{c("rmin","rmed","rmax")}; this vector must have the same length as the numeric vector returned when moving window data is passed to the function. This feature is only used if no \code{varnames} argument is provided. Note that the result is currently being \code{\link[=abbreviate]{abbreviate()}}d to a length of 6 characters.
 
 Input and output file names are built according to the following schemes:
 
@@ -119,7 +119,7 @@ focal.function("aspect",fun=function(x) c(cos(x),sin(x)), varnames=c("cos","sin"
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
-\code{\link{multi.focal.function}}, \code{\link{multi.local.function}}, \code{\link{resid.median}}, \code{\link{resid.minmedmax}}, \code{\link{relative.position}}, \code{\link{resid.quantile}}, \code{\link{resid.quartiles}}, \code{\link{relative.rank}},  \code{\link{wind.shelter}}, \code{\link{create.variable.name}}
+\code{\link[=multi.focal.function]{multi.focal.function()}}, \code{\link[=multi.local.function]{multi.local.function()}}, \code{\link[=resid.median]{resid.median()}}, \code{\link[=resid.minmedmax]{resid.minmedmax()}}, \code{\link[=relative.position]{relative.position()}}, \code{\link[=resid.quantile]{resid.quantile()}}, \code{\link[=resid.quartiles]{resid.quartiles()}}, \code{\link[=relative.rank]{relative.rank()}},  \code{\link[=wind.shelter]{wind.shelter()}}, \code{\link[=create.variable.name]{create.variable.name()}}
 }
 \author{
 Alexander Brenning

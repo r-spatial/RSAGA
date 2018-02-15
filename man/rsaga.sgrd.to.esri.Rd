@@ -34,14 +34,14 @@ files; either a single number (to be replicated if necessary), or a numeric
 vector of length \code{length(in.grids)}}
 
 \item{...}{optional arguments to be passed to
-\code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA
+\code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA
 geoprocessing environment}
 }
 \value{
 The type of object returned depends on the \code{intern} argument
-  passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it
-  is a numerical error code (0: success), or otherwise (default) a character
-  vector with the module's console output.
+passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it
+is a numerical error code (0: success), or otherwise (default) a character
+vector with the module's console output.
 }
 \description{
 \code{rsaga.sgrd.to.esri} converts grid files from SAGA's (version 2) grid
@@ -51,8 +51,8 @@ format (.sgrd) to ESRI's ASCII (.asc)  and binary (.flt) format.
 This function uses module 0 from the SAGA library \code{io_grid}.
 }
 \seealso{
-\code{\link{rsaga.esri.wrapper}} for an efficient way of applying
-  RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
+\code{\link[=rsaga.esri.wrapper]{rsaga.esri.wrapper()}} for an efficient way of applying
+RSAGA to ESRI ASCII/binary grids; \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

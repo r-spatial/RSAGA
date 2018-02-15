@@ -25,11 +25,11 @@ resolution of the target grid; this target grid file may be overwritten,
 depending on the specifics of the SAGA GIS module used.}
 
 \item{header}{Only for \code{target="header"}: list: ASCII grid header (as
-returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually;
+returned e.g. by \code{\link[=read.ascii.grid.header]{read.ascii.grid.header()}}) or defined manually;
 must at least have components \code{ncols}, \code{nrows}, \code{cellsize},
 and either \code{x/yllcorner} or \code{x/yllcenter}.}
 
-\item{env}{A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)}
+\item{env}{A SAGA geoprocessing environment, see \code{\link[=rsaga.env]{rsaga.env()}}.)}
 }
 \description{
 Define the resolution and extent of a target grid for interpolation by SAGA
@@ -39,9 +39,9 @@ RSAGA's interpolation functions.
 }
 \note{
 This function is to be used with RSAGA functions
-  \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}}
-  and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are
-  currently only compatible with SAGA GIS 2.0.5 and higher.
+\code{\link[=rsaga.inverse.distance]{rsaga.inverse.distance()}}, \code{\link[=rsaga.nearest.neighbour]{rsaga.nearest.neighbour()}}
+and \code{\link[=rsaga.modified.quadratic.shephard]{rsaga.modified.quadratic.shephard()}}. Note that these are
+currently only compatible with SAGA GIS 2.0.5 and higher.
 }
 \examples{
 \dontrun{
@@ -54,7 +54,7 @@ rsaga.inverse.distance("points", "dem", field = "z", maxdist = 1000,
 }
 }
 \seealso{
-\code{\link{read.ascii.grid.header}}
+\code{\link[=read.ascii.grid.header]{read.ascii.grid.header()}}
 }
 \keyword{interface}
 \keyword{spatial}

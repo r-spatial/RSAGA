@@ -11,7 +11,7 @@ rsaga.get.usage(lib, module, env = rsaga.env(), show = TRUE)
 
 \item{module}{name or numeric identifier of SAGA module in library \code{lib}}
 
-\item{env}{a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
 \item{show}{logical (default: \code{TRUE}); display usage in the R console?}
 }
@@ -22,10 +22,10 @@ The character vector with usage information is invisibly returned.
 \code{rsaga.get.usage} provides information on the usage of and arguments required by SAGA command line modules.
 }
 \details{
-This function is intended to provide information required to use the 
-\code{\link{rsaga.geoprocessor}} and for writing your own high-level interface 
-function for SAGA modules. R--SAGA interfaces already exist for some SAGA modules, 
-e.g. \code{\link{rsaga.hillshade}}, \code{\link{rsaga.local.morphometry}}, but there 
+This function is intended to provide information required to use the
+\code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}} and for writing your own high-level interface
+function for SAGA modules. R--SAGA interfaces already exist for some SAGA modules,
+e.g. \code{\link[=rsaga.hillshade]{rsaga.hillshade()}}, \code{\link[=rsaga.local.morphometry]{rsaga.local.morphometry()}}, but there
 are many more.
 }
 \examples{
@@ -39,7 +39,7 @@ rsaga.html.help("io_grid",1)
 }
 }
 \seealso{
-\code{\link{rsaga.html.help}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}, \code{\link{rsaga.get.modules}}
+\code{\link[=rsaga.html.help]{rsaga.html.help()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, \code{\link[=rsaga.env]{rsaga.env()}}, \code{\link[=rsaga.get.modules]{rsaga.get.modules()}}
 }
 \keyword{interface}
 \keyword{spatial}

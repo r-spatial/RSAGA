@@ -6,25 +6,25 @@
 #' RSAGA's interpolation functions.
 #' @name rsaga.target
 #' @param target character: method used for defining the target grid
-#' @param user.cellsize Only for \code{target="user.defined"}: raster resolution
+#' @param user.cellsize Only for `target="user.defined"`: raster resolution
 #'   (in the grid's map units)
-#' @param user.x.extent See \code{user.y.extent}
-#' @param user.y.extent Only for \code{target="user.defined"}: numeric vectors
+#' @param user.x.extent See `user.y.extent`
+#' @param user.y.extent Only for `target="user.defined"`: numeric vectors
 #'   of length 2: minimum and maximum coordinates of grid cell center points
-#' @param target.grid Only for \code{target="target.grid"}: character string
+#' @param target.grid Only for `target="target.grid"`: character string
 #'   giving the name of a SAGA grid file that specifies the extent and
 #'   resolution of the target grid; this target grid file may be overwritten,
 #'   depending on the specifics of the SAGA GIS module used.
-#' @param header Only for \code{target="header"}: list: ASCII grid header (as
-#'   returned e.g. by \code{\link{read.ascii.grid.header}}) or defined manually;
-#'   must at least have components \code{ncols}, \code{nrows}, \code{cellsize},
-#'   and either \code{x/yllcorner} or \code{x/yllcenter}.
-#' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)
+#' @param header Only for `target="header"`: list: ASCII grid header (as
+#'   returned e.g. by [read.ascii.grid.header()]) or defined manually;
+#'   must at least have components `ncols`, `nrows`, `cellsize`,
+#'   and either `x/yllcorner` or `x/yllcenter`.
+#' @param env A SAGA geoprocessing environment, see [rsaga.env()].)
 #' @note This function is to be used with RSAGA functions
-#'   \code{\link{rsaga.inverse.distance}}, \code{\link{rsaga.nearest.neighbour}}
-#'   and \code{\link{rsaga.modified.quadratic.shephard}}. Note that these are
+#'   [rsaga.inverse.distance()], [rsaga.nearest.neighbour()]
+#'   and [rsaga.modified.quadratic.shephard()]. Note that these are
 #'   currently only compatible with SAGA GIS 2.0.5 and higher.
-#' @seealso \code{\link{read.ascii.grid.header}}
+#' @seealso [read.ascii.grid.header()]
 #' @examples
 #' \dontrun{
 #' # IDW interpolation of attribute "z" from the point shapefile
@@ -92,234 +92,231 @@ rsaga.target = function(
 #' in lists.
 #' @name rsaga.import.gdal
 #' @param in.grid file name of a grid in a format supported by GDAL
-#' @param out.grid output SAGA grid file name; defaults to \code{in.grid} with
+#' @param out.grid output SAGA grid file name; defaults to `in.grid` with
 #'   the file extension being removed; file extension should not be specified,
-#'   it defaults to \code{.sgrd}
-#' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}
-#' @param ... additional arguments to be passed to \code{rsaga.geoprocessor}
+#'   it defaults to `.sgrd`
+#' @param env RSAGA geoprocessing environment created by [rsaga.env()]
+#' @param ... additional arguments to be passed to `rsaga.geoprocessor`
 #' @details The GDAL Raster Import module of SAGA imports grid data from various
 #'   file formats using the Geospatial Data Abstraction Library (GDAL) by Frank
 #'   Warmerdam. GDAL Versions are specific to SAGA versions:
-#' \itemize{
-#' \item SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
-#' \item SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
-#' \item SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
-#' \item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev}
-#' More information is available at \url{http://www.gdal.org/}.
+#' + SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
+#' + SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
+#' + SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
+#' + SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev
+#' More information is available at <http://www.gdal.org/>.
 #' 
-#' If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output
+#' If `in.grid` has more than one band (e.g. RGB GEOTIFF), then output
 #' grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd},
 #' \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each
 #' band.
 #' 
 #' The following raster formats are currently supported. Last updated for SAGA
 #' GIS 2.2.3; for a list for a specific SAGA GIS version call
-#' \code{rsaga.html.help("io_gdal","GDAL: Import Raster", env =
-#' rsaga.env(path="SAGA_Version_to_Test"))}
-#' \itemize{
-#' \item BAG - Bathymetry Attributed Grid
-#' \item ECW - ERDAS Compressed Wavelets (SDK 3.x)
-#' \item JP2ECW - ERDAS JPEG2000 (SDK 3.x)
-#' \item FITS - Flexible Image Transport System
-#' \item GMT - GMT NetCDF Grid Format
-#' \item HDF4 - Hierarchical Data Format Release 4
-#' \item HDF4Image - HDF4 Dataset
-#' \item HDF5 - Hierarchical Data Format Release 5
-#' \item HDF5Image - HDF5 Dataset
-#' \item KEA - KEA Image Format (.kea)
-#' \item MG4Lidar - MrSID Generation 4 / Lidar (.sid)
-#' \item MrSID - Multi-resolution Seamless Image Database (MrSID)
-#' \item netCDF - Network Common Data Format
-#' \item PostgreSQL - PostgreSQL/PostGIS
-#' \item VRT - Virtual Raster
-#' \item GTiff - GeoTIFF
-#' \item NITF - National Imagery Transmission Format
-#' \item RPFTOC - Raster Product Format TOC format
-#' \item ECRGTOC - ECRG TOC format
-#' \item HFA - Erdas Imagine Images (.img)
-#' \item SAR_CEOS - CEOS SAR Image
-#' \item CEOS - CEOS Image
-#' \item JAXAPALSAR - JAXA PALSAR Product Reader (Level 1.1/1.5)
-#' \item GFF - Ground-based SAR Applications Testbed File Format (.gff)
-#' \item ELAS - ELAS
-#' \item AIG - Arc/Info Binary Grid
-#' \item AAIGrid - Arc/Info ASCII Grid
-#' \item GRASSASCIIGrid - GRASS ASCII Grid
-#' \item SDTS - SDTS Raster
-#' \item DTED - DTED Elevation Raster
-#' \item PNG - Portable Network Graphics
-#' \item JPEG - JPEG JFIF
-#' \item MEM - In Memory Raster
-#' \item JDEM - Japanese DEM (.mem)
-#' \item GIF - Graphics Interchange Format (.gif)
-#' \item BIGGIF - Graphics Interchange Format (.gif)
-#' \item ESAT - Envisat Image Format
-#' \item BSB - Maptech BSB Nautical Charts
-#' \item XPM - X11 PixMap Format
-#' \item BMP - MS Windows Device Independent Bitmap
-#' \item DIMAP - SPOT DIMAP
-#' \item AirSAR - AirSAR Polarimetric Image
-#' \item RS2 - RadarSat 2 XML Product
-#' \item SAFE - Sentinel SAFE Product
-#' \item PCIDSK - PCIDSK Database File
-#' \item PCRaster - PCRaster Raster File
-#' \item ILWIS - ILWIS Raster Map
-#' \item SGI - SGI Image File Format 1.0
-#' \item SRTMHGT - SRTMHGT File Format
-#' \item Leveller - Leveller heightfield
-#' \item Terragen - Terragen heightfield
-#' \item ISIS3 - USGS Astrogeology ISIS cube (Version 3)
-#' \item ISIS2 - USGS Astrogeology ISIS cube (Version 2)
-#' \item PDS - NASA Planetary Data System
-#' \item VICAR - MIPL VICAR file
-#' \item TIL - EarthWatch .TIL
-#' \item ERS - ERMapper .ers Labelled
-#' \item JP2OpenJPEG - JPEG-2000 driver based on OpenJPEG library
-#' \item L1B - NOAA Polar Orbiter Level 1b Data Set
-#' \item FIT - FIT Image
-#' \item GRIB - GRIdded Binary (.grb)
-#' \item RMF - Raster Matrix Format
-#' \item WCS - OGC Web Coverage Service
-#' \item WMS - OGC Web Map Service
-#' \item MSGN - EUMETSAT Archive native (.nat)
-#' \item RST - Idrisi Raster A.1
-#' \item INGR - Intergraph Raster
-#' \item GSAG - Golden Software ASCII Grid (.grd)
-#' \item GSBG - Golden Software Binary Grid (.grd)
-#' \item GS7BG - Golden Software 7 Binary Grid (.grd)
-#' \item COSAR - COSAR Annotated Binary Matrix (TerraSAR-X)
-#' \item TSX - TerraSAR-X Product
-#' \item COASP - DRDC COASP SAR Processor Raster
-#' \item R - R Object Data Store
-#' \item MAP - OziExplorer .MAP
-#' \item PNM - Portable Pixmap Format (netpbm)
-#' \item DOQ1 - USGS DOQ (Old Style)
-#' \item DOQ2 - USGS DOQ (New Style)
-#' \item ENVI - ENVI .hdr Labelled
-#' \item EHdr - ESRI .hdr Labelled
-#' \item GenBin - Generic Binary (.hdr Labelled)
-#' \item PAux - PCI .aux Labelled
-#' \item MFF - Vexcel MFF Raster
-#' \item MFF2 - Vexcel MFF2 (HKV) Raster
-#' \item FujiBAS - Fuji BAS Scanner Image
-#' \item GSC - GSC Geogrid
-#' \item FAST - EOSAT FAST Format
-#' \item BT - VTP .bt (Binary Terrain) 1.3 Format
-#' \item LAN - Erdas .LAN/.GIS
-#' \item CPG - Convair PolGASP
-#' \item IDA - Image Data and Analysis
-#' \item NDF - NLAPS Data Format
-#' \item EIR - Erdas Imagine Raw
-#' \item DIPEx - DIPEx
-#' \item LCP - FARSITE v.4 Landscape File (.lcp)
-#' \item GTX - NOAA Vertical Datum .GTX
-#' \item LOSLAS - NADCON .los/.las Datum Grid Shift
-#' \item NTv2 - NTv2 Datum Grid Shift
-#' \item CTable2 - CTable2 Datum Grid Shift
-#' \item ACE2 - ACE2
-#' \item SNODAS - Snow Data Assimilation System
-#' \item KRO - KOLOR Raw
-#' \item ROI_PAC - ROI_PAC raster
-#' \item ISCE - ISCE raster
-#' \item ARG - Azavea Raster Grid format
-#' \item RIK - Swedish Grid RIK (.rik)
-#' \item USGSDEM - USGS Optional ASCII DEM (and CDED)
-#' \item GXF - GeoSoft Grid Exchange Format
-#' \item NWT_GRD - Northwood Numeric Grid Format .grd/.tab
-#' \item NWT_GRC - Northwood Classified Grid Format .grc/.tab
-#' \item ADRG - ARC Digitized Raster Graphics
-#' \item SRP - Standard Raster Product (ASRP/USRP)
-#' \item BLX - Magellan topo (.blx)
-#' \item Rasterlite - Rasterlite
-#' \item PostGISRaster - PostGIS Raster driver
-#' \item SAGA - SAGA GIS Binary Grid (.sdat)
-#' \item KMLSUPEROVERLAY - Kml Super Overlay
-#' \item XYZ - ASCII Gridded XYZ
-#' \item HF2 - HF2/HFZ heightfield raster
-#' \item PDF - Geospatial PDF
-#' \item OZI - OziExplorer Image File
-#' \item CTG - USGS LULC Composite Theme Grid
-#' \item E00GRID - Arc/Info Export E00 GRID
-#' \item ZMap - ZMap Plus Grid
-#' \item NGSGEOID - NOAA NGS Geoid Height Grids
-#' \item MBTiles - MBTiles
-#' \item IRIS - IRIS data (.PPI, .CAPPi etc)
-#' \item PLMOSAIC - Planet Labs Mosaic
-#' \item CALS - CALS (Type 1)
-#' \item WMTS - OGC Web Map Tile Service
-#' \item ESRI Shapefile - ESRI Shapefile
-#' \item MapInfo File - MapInfo File
-#' \item UK .NTF - UK .NTF
-#' \item OGD_SDTS - SDTS
-#' \item S57 - IHO S-57 (ENC)
-#' \item DGN - Microstation DGN
-#' \item OGR_VRT - VRT - Virtual Datasource
-#' \item REC EPIInfo .REC
-#' \item Memory - Memory
-#' \item BNA - Atlas BNA
-#' \item CSV - Comma Separated Value (.csv)
-#' \item NAS - NAS - ALKIS
-#' \item GML - Geography Markup Language
-#' \item GPX - GPX
-#' \item LIBKML - Keyhole Markup Language (LIBKML)
-#' \item KML - Keyhole Markup Language (KML)
-#' \item GeoJSON - GeoJSON
-#' \item Interlis 1 - Interlis 1
-#' \item Interlis 2 - Interlis 2
-#' \item OGR_GMT - GMT ASCII Vectors (.gmt)
-#' \item GPKG - GeoPackage
-#' \item SQLite - SQLite / Spatialite
-#' \item ODBC - ODBC
-#' \item WAsP - WAsP .map format
-#' \item PGeo - ESRI Personal GeoDatabase
-#' \item MSSQLSpatial - Microsoft SQL Server Spatial Database
-#' \item MySQL - MySQL
-#' \item OpenFileGDB - ESRI FileGDB
-#' \item XPlane - X-Plane/Flightgear aeronautical data
-#' \item DXF - AutoCAD DXF
-#' \item Geoconcept - Geoconcept
-#' \item GeoRSS - GeoRSS
-#' \item GPSTrackMaker - GPSTrackMaker
-#' \item VFK - Czech Cadastral Exchange Data Format
-#' \item PGDUMP - PostgreSQL SQL dump
-#' \item OSM - OpenStreetMap XML and PDF
-#' \item GPSBabel - GPSBabel
-#' \item SUA - Tim Newport-Peace's Special Use Airspace Format
-#' \item OpenAir - OpenAir
-#' \item OGR_PDS - Planetary Data Systems TABLE
-#' \item WFS - OGC WFS (Web Feature Service)
-#' \item HTF - Hydrographic Transfer Vector
-#' \item AeronavFAA - Aeronav FAA
-#' \item Geomedia - Geomedia .mdb
-#' \item EDIGEO - French EDIGEO exchange format
-#' \item GFT - Google Fusion Tables
-#' \item GME - Google Maps Engine
-#' \item SVG - Scalable Vector Graphics
-#' \item CouchDB - CouchDB / GeoCouch
-#' \item Cloudant - Cloudant / CouchDB
-#' \item Idrisi - Idrisi Vector (.vct)
-#' \item ARCGEN - Arc/Info Generate
-#' \item SEGUKOOA - SEG-P1 / UKOOA P1/90
-#' \item SEG-Y - SEG-Y
-#' \item ODS - Open Document/ LibreOffice / OpenOffice Spreadsheet
-#' \item XLSX - MS Office Open XML spreadsheet
-#' \item ElasticSearch - Elastic Search
-#' \item Walk - Walk
-#' \item CartoDB - CartoDB
-#' \item SXF - Storage and eXchange Format
-#' \item Selafin - Selafin
-#' \item JML - OpenJUMP JML
-#' \item PLSCENES - Planet Labs Scenes API
-#' \item CSW - OGC CSW (Catalog Search for the Web)
-#' \item IDF - INTREST Data Format
-#' \item TIGER - U.S. Census TIGER/Line
-#' \item AVCBin - Arc/Info Binary Coverage
-#' \item AVCE00 - Arc/Info E00 (ASCII) Coverage
-#' \item HTTP - HTTP Fetching Wrapper
-#' }
-#' @references GDAL website: \url{http://www.gdal.org/}
+#' `rsaga.html.help("io_gdal","GDAL: Import Raster", env =
+#' rsaga.env(path="SAGA_Version_to_Test"))`
+#' + BAG - Bathymetry Attributed Grid
+#' + ECW - ERDAS Compressed Wavelets (SDK 3.x)
+#' + JP2ECW - ERDAS JPEG2000 (SDK 3.x)
+#' + FITS - Flexible Image Transport System
+#' + GMT - GMT NetCDF Grid Format
+#' + HDF4 - Hierarchical Data Format Release 4
+#' + HDF4Image - HDF4 Dataset
+#' + HDF5 - Hierarchical Data Format Release 5
+#' + HDF5Image - HDF5 Dataset
+#' + KEA - KEA Image Format (.kea)
+#' + MG4Lidar - MrSID Generation 4 / Lidar (.sid)
+#' + MrSID - Multi-resolution Seamless Image Database (MrSID)
+#' + netCDF - Network Common Data Format
+#' + PostgreSQL - PostgreSQL/PostGIS
+#' + VRT - Virtual Raster
+#' + GTiff - GeoTIFF
+#' + NITF - National Imagery Transmission Format
+#' + RPFTOC - Raster Product Format TOC format
+#' + ECRGTOC - ECRG TOC format
+#' + HFA - Erdas Imagine Images (.img)
+#' + SAR_CEOS - CEOS SAR Image
+#' + CEOS - CEOS Image
+#' + JAXAPALSAR - JAXA PALSAR Product Reader (Level 1.1/1.5)
+#' + GFF - Ground-based SAR Applications Testbed File Format (.gff)
+#' + ELAS - ELAS
+#' + AIG - Arc/Info Binary Grid
+#' + AAIGrid - Arc/Info ASCII Grid
+#' + GRASSASCIIGrid - GRASS ASCII Grid
+#' + SDTS - SDTS Raster
+#' + DTED - DTED Elevation Raster
+#' + PNG - Portable Network Graphics
+#' + JPEG - JPEG JFIF
+#' + MEM - In Memory Raster
+#' + JDEM - Japanese DEM (.mem)
+#' + GIF - Graphics Interchange Format (.gif)
+#' + BIGGIF - Graphics Interchange Format (.gif)
+#' + ESAT - Envisat Image Format
+#' + BSB - Maptech BSB Nautical Charts
+#' + XPM - X11 PixMap Format
+#' + BMP - MS Windows Device Independent Bitmap
+#' + DIMAP - SPOT DIMAP
+#' + AirSAR - AirSAR Polarimetric Image
+#' + RS2 - RadarSat 2 XML Product
+#' + SAFE - Sentinel SAFE Product
+#' + PCIDSK - PCIDSK Database File
+#' + PCRaster - PCRaster Raster File
+#' + ILWIS - ILWIS Raster Map
+#' + SGI - SGI Image File Format 1.0
+#' + SRTMHGT - SRTMHGT File Format
+#' + Leveller - Leveller heightfield
+#' + Terragen - Terragen heightfield
+#' + ISIS3 - USGS Astrogeology ISIS cube (Version 3)
+#' + ISIS2 - USGS Astrogeology ISIS cube (Version 2)
+#' + PDS - NASA Planetary Data System
+#' + VICAR - MIPL VICAR file
+#' + TIL - EarthWatch .TIL
+#' + ERS - ERMapper .ers Labelled
+#' + JP2OpenJPEG - JPEG-2000 driver based on OpenJPEG library
+#' + L1B - NOAA Polar Orbiter Level 1b Data Set
+#' + FIT - FIT Image
+#' + GRIB - GRIdded Binary (.grb)
+#' + RMF - Raster Matrix Format
+#' + WCS - OGC Web Coverage Service
+#' + WMS - OGC Web Map Service
+#' + MSGN - EUMETSAT Archive native (.nat)
+#' + RST - Idrisi Raster A.1
+#' + INGR - Intergraph Raster
+#' + GSAG - Golden Software ASCII Grid (.grd)
+#' + GSBG - Golden Software Binary Grid (.grd)
+#' + GS7BG - Golden Software 7 Binary Grid (.grd)
+#' + COSAR - COSAR Annotated Binary Matrix (TerraSAR-X)
+#' + TSX - TerraSAR-X Product
+#' + COASP - DRDC COASP SAR Processor Raster
+#' + R - R Object Data Store
+#' + MAP - OziExplorer .MAP
+#' + PNM - Portable Pixmap Format (netpbm)
+#' + DOQ1 - USGS DOQ (Old Style)
+#' + DOQ2 - USGS DOQ (New Style)
+#' + ENVI - ENVI .hdr Labelled
+#' + EHdr - ESRI .hdr Labelled
+#' + GenBin - Generic Binary (.hdr Labelled)
+#' + PAux - PCI .aux Labelled
+#' + MFF - Vexcel MFF Raster
+#' + MFF2 - Vexcel MFF2 (HKV) Raster
+#' + FujiBAS - Fuji BAS Scanner Image
+#' + GSC - GSC Geogrid
+#' + FAST - EOSAT FAST Format
+#' + BT - VTP .bt (Binary Terrain) 1.3 Format
+#' + LAN - Erdas .LAN/.GIS
+#' + CPG - Convair PolGASP
+#' + IDA - Image Data and Analysis
+#' + NDF - NLAPS Data Format
+#' + EIR - Erdas Imagine Raw
+#' + DIPEx - DIPEx
+#' + LCP - FARSITE v.4 Landscape File (.lcp)
+#' + GTX - NOAA Vertical Datum .GTX
+#' + LOSLAS - NADCON .los/.las Datum Grid Shift
+#' + NTv2 - NTv2 Datum Grid Shift
+#' + CTable2 - CTable2 Datum Grid Shift
+#' + ACE2 - ACE2
+#' + SNODAS - Snow Data Assimilation System
+#' + KRO - KOLOR Raw
+#' + ROI_PAC - ROI_PAC raster
+#' + ISCE - ISCE raster
+#' + ARG - Azavea Raster Grid format
+#' + RIK - Swedish Grid RIK (.rik)
+#' + USGSDEM - USGS Optional ASCII DEM (and CDED)
+#' + GXF - GeoSoft Grid Exchange Format
+#' + NWT_GRD - Northwood Numeric Grid Format .grd/.tab
+#' + NWT_GRC - Northwood Classified Grid Format .grc/.tab
+#' + ADRG - ARC Digitized Raster Graphics
+#' + SRP - Standard Raster Product (ASRP/USRP)
+#' + BLX - Magellan topo (.blx)
+#' + Rasterlite - Rasterlite
+#' + PostGISRaster - PostGIS Raster driver
+#' + SAGA - SAGA GIS Binary Grid (.sdat)
+#' + KMLSUPEROVERLAY - Kml Super Overlay
+#' + XYZ - ASCII Gridded XYZ
+#' + HF2 - HF2/HFZ heightfield raster
+#' + PDF - Geospatial PDF
+#' + OZI - OziExplorer Image File
+#' + CTG - USGS LULC Composite Theme Grid
+#' + E00GRID - Arc/Info Export E00 GRID
+#' + ZMap - ZMap Plus Grid
+#' + NGSGEOID - NOAA NGS Geoid Height Grids
+#' + MBTiles - MBTiles
+#' + IRIS - IRIS data (.PPI, .CAPPi etc)
+#' + PLMOSAIC - Planet Labs Mosaic
+#' + CALS - CALS (Type 1)
+#' + WMTS - OGC Web Map Tile Service
+#' + ESRI Shapefile - ESRI Shapefile
+#' + MapInfo File - MapInfo File
+#' + UK .NTF - UK .NTF
+#' + OGD_SDTS - SDTS
+#' + S57 - IHO S-57 (ENC)
+#' + DGN - Microstation DGN
+#' + OGR_VRT - VRT - Virtual Datasource
+#' + REC EPIInfo .REC
+#' + Memory - Memory
+#' + BNA - Atlas BNA
+#' + CSV - Comma Separated Value (.csv)
+#' + NAS - NAS - ALKIS
+#' + GML - Geography Markup Language
+#' + GPX - GPX
+#' + LIBKML - Keyhole Markup Language (LIBKML)
+#' + KML - Keyhole Markup Language (KML)
+#' + GeoJSON - GeoJSON
+#' + Interlis 1 - Interlis 1
+#' + Interlis 2 - Interlis 2
+#' + OGR_GMT - GMT ASCII Vectors (.gmt)
+#' + GPKG - GeoPackage
+#' + SQLite - SQLite / Spatialite
+#' + ODBC - ODBC
+#' + WAsP - WAsP .map format
+#' + PGeo - ESRI Personal GeoDatabase
+#' + MSSQLSpatial - Microsoft SQL Server Spatial Database
+#' + MySQL - MySQL
+#' + OpenFileGDB - ESRI FileGDB
+#' + XPlane - X-Plane/Flightgear aeronautical data
+#' + DXF - AutoCAD DXF
+#' + Geoconcept - Geoconcept
+#' + GeoRSS - GeoRSS
+#' + GPSTrackMaker - GPSTrackMaker
+#' + VFK - Czech Cadastral Exchange Data Format
+#' + PGDUMP - PostgreSQL SQL dump
+#' + OSM - OpenStreetMap XML and PDF
+#' + GPSBabel - GPSBabel
+#' + SUA - Tim Newport-Peace's Special Use Airspace Format
+#' + OpenAir - OpenAir
+#' + OGR_PDS - Planetary Data Systems TABLE
+#' + WFS - OGC WFS (Web Feature Service)
+#' + HTF - Hydrographic Transfer Vector
+#' + AeronavFAA - Aeronav FAA
+#' + Geomedia - Geomedia .mdb
+#' + EDIGEO - French EDIGEO exchange format
+#' + GFT - Google Fusion Tables
+#' + GME - Google Maps Engine
+#' + SVG - Scalable Vector Graphics
+#' + CouchDB - CouchDB / GeoCouch
+#' + Cloudant - Cloudant / CouchDB
+#' + Idrisi - Idrisi Vector (.vct)
+#' + ARCGEN - Arc/Info Generate
+#' + SEGUKOOA - SEG-P1 / UKOOA P1/90
+#' + SEG-Y - SEG-Y
+#' + ODS - Open Document/ LibreOffice / OpenOffice Spreadsheet
+#' + XLSX - MS Office Open XML spreadsheet
+#' + ElasticSearch - Elastic Search
+#' + Walk - Walk
+#' + CartoDB - CartoDB
+#' + SXF - Storage and eXchange Format
+#' + Selafin - Selafin
+#' + JML - OpenJUMP JML
+#' + PLSCENES - Planet Labs Scenes API
+#' + CSW - OGC CSW (Catalog Search for the Web)
+#' + IDF - INTREST Data Format
+#' + TIGER - U.S. Census TIGER/Line
+#' + AVCBin - Arc/Info Binary Coverage
+#' + AVCE00 - Arc/Info E00 (ASCII) Coverage
+#' + HTTP - HTTP Fetching Wrapper
+#' @references GDAL website: <http://www.gdal.org/>
 #' @author Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
-#' @seealso \code{read.ascii.grid}, \code{rsaga.esri.to.sgrd}, \code{read.sgrd}, \code{read.Rd.grid}
+#' @seealso `read.ascii.grid`, `rsaga.esri.to.sgrd`, `read.sgrd`, `read.Rd.grid`
 #' @keywords spatial interface file
 #' @export
 rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
@@ -357,18 +354,18 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
 
 #' Convert ESRI ASCII/binary grids to SAGA grids
 #' 
-#' \code{rsaga.esri.to.sgrd} converts grid files from ESRI's ASCII (.asc) and binary (.flt) format to SAGA's (version 2) grid format (.sgrd).
+#' `rsaga.esri.to.sgrd` converts grid files from ESRI's ASCII (.asc) and binary (.flt) format to SAGA's (version 2) grid format (.sgrd).
 #' @name rsaga.esri.to.sgrd
-#' @param in.grids character vector of ESRI ASCII/binary grid files (default file extension: \code{.asc}); files should be located in folder \code{in.path}
-#' @param out.sgrds character vector of output SAGA grid files; defaults to \code{in.grids} with file extension being replaced by \code{.sgrd}, which is also the default extension if file names without extension are specified; files will be placed in the current SAGA workspace (default: \code{\link{rsaga.env}()$workspace}, or \code{env$workspace} if an \code{env} argument is provided
-#' @param in.path folder with \code{in.grids}
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @param in.grids character vector of ESRI ASCII/binary grid files (default file extension: `.asc`); files should be located in folder `in.path`
+#' @param out.sgrds character vector of output SAGA grid files; defaults to `in.grids` with file extension being replaced by `.sgrd`, which is also the default extension if file names without extension are specified; files will be placed in the current SAGA workspace (default: \code{\link{rsaga.env}()$workspace}, or `env$workspace` if an `env` argument is provided
+#' @param in.path folder with `in.grids`
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' 
-#' If multiple \code{in.grids} are converted, the result will be a vector of numerical error codes of the same length, or the combination of the console outputs with \code{c()}.
+#' If multiple `in.grids` are converted, the result will be a vector of numerical error codes of the same length, or the combination of the console outputs with `c()`.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This function uses module 1 from the SAGA library \code{io_grid}.
-#' @seealso \code{\link{rsaga.esri.wrapper}} for an efficient way of applying RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}} 
+#' @note This function uses module 1 from the SAGA library `io_grid`.
+#' @seealso [rsaga.esri.wrapper()] for an efficient way of applying RSAGA to ESRI ASCII/binary grids; [rsaga.env()] 
 #' @keywords spatial interface file
 #' @export
 rsaga.esri.to.sgrd = function( in.grids, 
@@ -391,39 +388,39 @@ rsaga.esri.to.sgrd = function( in.grids,
 
 #' Convert SAGA grids to ESRI ASCII/binary grids
 #' 
-#' \code{rsaga.sgrd.to.esri} converts grid files from SAGA's (version 2) grid
+#' `rsaga.sgrd.to.esri` converts grid files from SAGA's (version 2) grid
 #' format (.sgrd) to ESRI's ASCII (.asc)  and binary (.flt) format.
 #' @name rsaga.sgrd.to.esri
-#' @param in.sgrds character vector of SAGA grid files (\code{.sgrd}) to be
+#' @param in.sgrds character vector of SAGA grid files (`.sgrd`) to be
 #'   converted;  files are expected to be found in folder
-#'   \code{\link{rsaga.env}()$workspace}, or, if an optional \code{env} argument
-#'   is provided, in \code{env$workspace}
+#'   \code{\link{rsaga.env}()$workspace}, or, if an optional `env` argument
+#'   is provided, in `env$workspace`
 #' @param out.grids character vector of ESRI ASCII/float output file names;
-#'   defaults to \code{in.sgrds} with the file extension being replaced by
-#'   \code{.asc} or \code{.flt}, depending on \code{format}. Files will be
-#'   placed in folder \code{out.path}, existing files will be overwritten
-#' @param out.path folder for \code{out.grids}
-#' @param format output file format, either \code{"ascii"} (default; equivalent:
-#'   \code{format=1}) for ASCII grids or \code{"binary"} (equivalent: \code{0})
-#'   for binary ESRI grids (\code{.flt}).
-#' @param georef character: \code{"corner"} (equivalent numeric code: \code{0})
-#'   or \code{"center"} (default; equivalent: \code{1}). Determines whether the
+#'   defaults to `in.sgrds` with the file extension being replaced by
+#'   `.asc` or `.flt`, depending on `format`. Files will be
+#'   placed in folder `out.path`, existing files will be overwritten
+#' @param out.path folder for `out.grids`
+#' @param format output file format, either `"ascii"` (default; equivalent:
+#'   `format=1`) for ASCII grids or `"binary"` (equivalent: `0`)
+#'   for binary ESRI grids (`.flt`).
+#' @param georef character: `"corner"` (equivalent numeric code: `0`)
+#'   or `"center"` (default; equivalent: `1`). Determines whether the
 #'   georeference will be related to the center or corner of its extreme lower
 #'   left grid cell.
 #' @param prec number of digits when writing floating point values to ASCII grid
 #'   files; either a single number (to be replicated if necessary), or a numeric
-#'   vector of length \code{length(in.grids)}
+#'   vector of length `length(in.grids)`
 #' @param ... optional arguments to be passed to
-#'   \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA
+#'   [rsaga.geoprocessor()], including the `env` RSAGA
 #'   geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument
-#'   passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it
+#' @return The type of object returned depends on the `intern` argument
+#'   passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it
 #'   is a numerical error code (0: success), or otherwise (default) a character
 #'   vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This function uses module 0 from the SAGA library \code{io_grid}.
-#' @seealso \code{\link{rsaga.esri.wrapper}} for an efficient way of applying
-#'   RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
+#' @note This function uses module 0 from the SAGA library `io_grid`.
+#' @seealso [rsaga.esri.wrapper()] for an efficient way of applying
+#'   RSAGA to ESRI ASCII/binary grids; [rsaga.env()]
 #' @keywords spatial interface file
 #' @export
 rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
@@ -457,9 +454,9 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 
 #' Slope, Aspect, Curvature
 #' 
-#' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link{rsaga.local.morphometry}}.
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use [rsaga.local.morphometry()].
 #' @name rsaga.slope.asp.curv
-#' @param in.dem input: digital elevation model as SAGA grid file (\code{.sgrd})
+#' @param in.dem input: digital elevation model as SAGA grid file (`.sgrd`)
 #' @param out.slope optional output: slope
 #' @param out.aspect optional output: aspect
 #' @param out.cgene optional output: general curvature
@@ -473,28 +470,25 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' @param out.ctota optional output: total curvature (degrees)
 #' @param out.croto optional output: flow line curvature (degrees)
 #' @param method character algorithm (see References):
-#' \itemize{
-#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
-#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
-#' \item [2] Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
-#' \item [3] Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
-#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
-#' \item [5] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
-#' \item [6] default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
-#' \item [7] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}
-#' @param unit.slope character or numeric (default \code{"radians"}):
-#' \itemize{
-#' \item [0] \code{"radians"}
-#' \item [1] \code{"degrees"}
-#' \item [2] \code{"percent"}}
-#' @param unit.aspect character or numeric (default is 0, or \code{"radians"}):
-#' \itemize{
-#' \item [0] \code{"radians"}
-#' \item [1] \code{"degrees"}}
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
-#' @details Profile and plan curvature calculation (\code{out.cprof}, \code{out.cplan}) changed in SAGA GIS 2.1.1+ compared to earlier versions. See the following thread on sourceforge.net for an ongoing discussion: \url{http://sourceforge.net/p/saga-gis/discussion/354013/thread/e9d07075/#5727}
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' - 0 Maximum Slope - Travis et al. (1975) (`"maxslope"`)
+#' - 1 Max. Triangle Slope - Tarboton (1997) (`"maxtriangleslope"`)
+#' - 2 Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (`"lsqfitplane"`)
+#' - 3 Fit 2nd Degree Polynomial - Evans (1979) (`"poly2evans"`)
+#' - 4 Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (`"poly2heerdegen"`)
+#' - 5 Fit 2nd Degree Polynomial - Bauer et al. (1985) (`"poly2bauer"`)
+#' - 6 default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (`"poly2zevenbergen"`)
+#' - 7 Fit 3rd Degree Polynomial - Haralick (1983) (`"poly3haralick"`)
+#' @param unit.slope character or numeric (default `"radians"`):
+#' - 0 `"radians"`
+#' - 1 `"degrees"`
+#' - 2 `"percent"`
+#' @param unit.aspect character or numeric (default is 0, or `"radians"`):
+#' - 0 `"radians"`
+#' - 1 `"degrees"`
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... further arguments to [rsaga.geoprocessor()]
+#' @details Profile and plan curvature calculation (`out.cprof`, `out.cplan`) changed in SAGA GIS 2.1.1+ compared to earlier versions. See the following thread on sourceforge.net for an ongoing discussion: <http://sourceforge.net/p/saga-gis/discussion/354013/thread/e9d07075/#5727>
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @references General references:
 #'
 #' Jones KH (1998) A comparison of algorithms used to compute hill slope as a property of the DEM. Computers and Geosciences. 24 (4): 315-323.
@@ -531,11 +525,11 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' For a discussion on the calculation of slope by ArcGIS check these links:
 #'
-#' \url{http://forums.esri.com/Thread.asp?c=93&f=1734&t=239914}
+#' <http://forums.esri.com/Thread.asp?c=93&f=1734&t=239914>
 #'
-#' \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
+#' <http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works>
 #' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso [rsaga.local.morphometry()], [rsaga.parallel.processing()], [rsaga.geoprocessor()],  [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # Simple slope, aspect, and general curvature in degrees:
@@ -640,29 +634,28 @@ rsaga.slope.asp.curv = function(in.dem,
 
 #' Local Morphometry
 #' 
-#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use \code{\link{rsaga.slope.asp.curv}} for SAGA 2.1.1+
+#' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use [rsaga.slope.asp.curv()] for SAGA 2.1.1+
 #' @name rsaga.local.morphometry
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param out.slope optional output: slope (in radians)
 #' @param out.aspect optional output: aspect (in radians; north=0, clockwise angles)
 #' @param out.curv optional output: curvature
 #' @param out.hcurv optional output: horizontal curvature (plan curvature)
 #' @param out.vcurv optional output: vertical curvature (profile curvature)
 #' @param method character (or numeric): algorithm (see References):
-#' \itemize{
-#' \item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
-#' \item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
-#' \item [2] Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
-#' \item [3] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
-#' \item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
-#' \item [5] default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
-#' \item [6] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
-#' @references For references and algorithm changes in SAGA GIS 2.1.1+ see \code{\link{rsaga.slope.asp.curv}}.
+#' - 0 Maximum Slope - Travis et al. (1975) (`"maxslope"`, or 0)
+#' - 1 Max. Triangle Slope - Tarboton (1997) (`"maxtriangleslope"`, or 1)
+#' - 2 Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (`"lsqfitplane"`, or 2)
+#' - 3 Fit 2nd Degree Polynomial - Bauer et al. (1985) (`"poly2bauer"`, or 3)
+#' - 4 Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (`"poly2heerdegen"`, or 4)
+#' - 5 default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (`"poly2zevenbergen"`, or 5)
+#' - 6 Fit 3rd Degree Polynomial - Haralick (1983) (`"poly3haralick"`, or 6).
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... further arguments to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @references For references and algorithm changes in SAGA GIS 2.1.1+ see [rsaga.slope.asp.curv()].
 #' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.slope.asp.curv}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+#' @seealso [rsaga.slope.asp.curv()], [rsaga.parallel.processing()], [rsaga.geoprocessor()],  [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # a simple slope algorithm:
@@ -793,21 +786,21 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #'
 #' Several methods for filling closed depressions in digital elevation models that would affect hydrological modeling.
 #' @name rsaga.fill.sinks
-#' @param in.dem Input: digital elevation model (DEM) as SAGA grid file (default extension: \code{.sgrd}).
+#' @param in.dem Input: digital elevation model (DEM) as SAGA grid file (default extension: `.sgrd`).
 #' @param out.dem Output: filled, depression-free DEM (SAGA grid file). Existing files will be overwritten!
-#' @param method The depression filling algorithm to be used (character). One of \code{"planchon.darboux.2001"} (default), \code{"wang.liu.2006"}, or \code{"xxl.wang.liu.2006"}.
-#' @param out.flowdir (only for \code{"wang.liu.2001"}): Optional output grid file for computed flow directions (see Notes).
-#' @param out.wshed (only for \code{"wang.liu.2001"}): Optional output grid file for watershed basins.
-#' @param minslope Minimum slope angle (in degree) preserved between adjacent grid cells (default value of \code{0.01} only for \code{method="planchon.darboux.2001"}, otherwise no default).
-#' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
-#' @details This function bundles three SAGA modules for filling sinks using three different algorithms (\code{method} argument).
+#' @param method The depression filling algorithm to be used (character). One of `"planchon.darboux.2001"` (default), `"wang.liu.2006"`, or `"xxl.wang.liu.2006"`.
+#' @param out.flowdir (only for `"wang.liu.2001"`): Optional output grid file for computed flow directions (see Notes).
+#' @param out.wshed (only for `"wang.liu.2001"`): Optional output grid file for watershed basins.
+#' @param minslope Minimum slope angle (in degree) preserved between adjacent grid cells (default value of `0.01` only for `method="planchon.darboux.2001"`, otherwise no default).
+#' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
+#' @details This function bundles three SAGA modules for filling sinks using three different algorithms (`method` argument).
 #'
-#' \code{"planchon.darboux.2001"}: The algorithm of Planchon and Darboux (2001) consists of increasing the elevation of pixels in closed depressions until the sink disappears and a mininum slope angle of \code{minslope} (default: \code{0.01} degree) is established.
+#' `"planchon.darboux.2001"`: The algorithm of Planchon and Darboux (2001) consists of increasing the elevation of pixels in closed depressions until the sink disappears and a mininum slope angle of `minslope` (default: `0.01` degree) is established.
 #'
-#' \code{"wang.liu.2006"}: This module uses an algorithm proposed by Wang and Liu (2006) to identify and fill surface depressions in DEMs. The method was enhanced to allow the creation of hydrologically sound elevation models, i.e. not only to fill the depressions but also to  preserve a downward slope along the flow path.  If desired, this  is accomplished by preserving a minimum slope gradient (and thus elevation difference) between cells. This is the fully featured version of the module creating a depression-free DEM, a flow path grid and a grid with watershed basins. If you encounter problems processing large data sets (e.g. LIDAR data) with this module try the basic version (\code{xxl.wang.lui.2006}).
+#' `"wang.liu.2006"`: This module uses an algorithm proposed by Wang and Liu (2006) to identify and fill surface depressions in DEMs. The method was enhanced to allow the creation of hydrologically sound elevation models, i.e. not only to fill the depressions but also to  preserve a downward slope along the flow path.  If desired, this  is accomplished by preserving a minimum slope gradient (and thus elevation difference) between cells. This is the fully featured version of the module creating a depression-free DEM, a flow path grid and a grid with watershed basins. If you encounter problems processing large data sets (e.g. LIDAR data) with this module try the basic version (`xxl.wang.lui.2006`).
 #' 
-#' \code{"xxl.wang.liu.2006"}: This modified algorithm after Wang and Liu (2006) is designed to work on large data sets.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' `"xxl.wang.liu.2006"`: This modified algorithm after Wang and Liu (2006) is designed to work on large data sets.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #'
 #' The function writes SAGA grid files containing of the depression-free preprocessed DEM, and optionally the flow directions and watershed basins.
 #' @references Planchon, O., and F. Darboux (2001): A fast, simple and versatile algorithm to fill the depressions of digital elevation models. Catena 46: 159-176.
@@ -816,8 +809,8 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #' @author Alexander Brenning (R interface), Volker Wichmann (SAGA module)
 #' @note The flow directions are coded as 0 = north, 1 = northeast, 2 = east, ..., 7 = northwest.
 #' 
-#' If \code{minslope=0}, depressions will only be filled until a horizontal surface is established, which may not be helpful for hydrological modeling.
-#' @seealso \code{\link{rsaga.sink.removal}}, \code{\link{rsaga.sink.route}}.
+#' If `minslope=0`, depressions will only be filled until a horizontal surface is established, which may not be helpful for hydrological modeling.
+#' @seealso [rsaga.sink.removal()], [rsaga.sink.route()].
 #' @keywords spatial interface
 #' @export
 rsaga.fill.sinks = function(in.dem,out.dem,
@@ -872,15 +865,15 @@ rsaga.fill.sinks = function(in.dem,out.dem,
 #' 
 #' Sink drainage route detection.
 #' @name rsaga.sink.route
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param out.sinkroute output: sink route grid file: non-sinks obtain a value of 0, sinks are assigned an integer between 0 and 8 indicating the direction to which flow from this sink should be routed
 #' @param threshold logical: use a threshold value?
-#' @param thrsheight numeric: threshold value (default: \code{100})
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @param thrsheight numeric: threshold value (default: `100`)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note I assume that flow directions are coded as 0 = north, 1 = northeast,  2 = east, ..., 7 = northwest, as in \code{\link{rsaga.fill.sinks}}.
-#' @seealso  \code{\link{rsaga.sink.removal}}
+#' @note I assume that flow directions are coded as 0 = north, 1 = northeast,  2 = east, ..., 7 = northwest, as in [rsaga.fill.sinks()].
+#' @seealso  [rsaga.sink.removal()]
 #' @examples
 #' \dontrun{rsaga.sink.route("dem","sinkroute")
 #' rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
@@ -907,15 +900,15 @@ rsaga.sink.route = function(in.dem, out.sinkroute,
 #' Sink Removal
 #' Remove sinks from a digital elevation model by deepening drainage routes or filling sinks.
 #' @name rsaga.sink.removal
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param in.sinkroute optional input: sink route grid file
 #' @param out.dem output: modified DEM
-#' @param method character string or numeric value specifying the algorithm (partial string matching will be applied): \code{"deepen drainage route"} (or 0): reduce the elevation of pixels in order to achieve drainage out of the former sinks \code{"fill sinks"} (or 1): fill sinks until none are left
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @param method character string or numeric value specifying the algorithm (partial string matching will be applied): `"deepen drainage route"` (or 0): reduce the elevation of pixels in order to achieve drainage out of the former sinks `"fill sinks"` (or 1): fill sinks until none are left
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This function uses module 1 from SAGA library \code{ta_preprocessor}.
-#' @seealso  \code{\link{rsaga.sink.route}}, \code{\link{rsaga.fill.sinks}}
+#' @note This function uses module 1 from SAGA library `ta_preprocessor`.
+#' @seealso  [rsaga.sink.route()], [rsaga.fill.sinks()]
 #' @examples
 #' \dontrun{rsaga.sink.route("dem","sinkroute")
 #' rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
@@ -949,22 +942,22 @@ rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 #'
 #' Close (Interpolate) Gaps
 #' @name rsaga.close.gaps
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param out.dem output: DEM grid file without no-data values (gaps). Existing files will be overwritten!
 #' @param threshold tension threshold for adjusting the interpolator (default: 0.1)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @details \code{rsaga.close.one.cell.gaps} only fill gaps whose neighbor grid cells have non-missing data.
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @details `rsaga.close.one.cell.gaps` only fill gaps whose neighbor grid cells have non-missing data.
 #'
-#' In \code{rsaga.close.gaps}, larger tension thresholds can be used to reduce overshoots and undershoots in the surfaces used to fill (interpolate) the gaps.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' In `rsaga.close.gaps`, larger tension thresholds can be used to reduce overshoots and undershoots in the surfaces used to fill (interpolate) the gaps.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This function uses modules 7 (\code{rsaga.close.gaps} and 6 \code{rsaga.close.one.cell.gaps} from the SAGA library \code{grid_tools}.
+#' @note This function uses modules 7 (`rsaga.close.gaps` and 6 `rsaga.close.one.cell.gaps` from the SAGA library `grid_tools`.
 #'
-#' SAGA GIS 2.0.5+ has a new additional module \code{Close Gaps with Spline}, which 
-#' can be accessed using \code{\link{rsaga.geoprocessor}} (currently no R wrapper 
-#' available). See \code{rsaga.get.usage("grid_tools","Close Gaps with Spline")}
-#' or in version 2.1.0+ call \code{rsaga.html.help("grid_tools","Close Gaps with Spline")}.
-#' @seealso \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' SAGA GIS 2.0.5+ has a new additional module `Close Gaps with Spline`, which 
+#' can be accessed using [rsaga.geoprocessor()] (currently no R wrapper 
+#' available). See `rsaga.get.usage("grid_tools","Close Gaps with Spline")`
+#' or in version 2.1.0+ call `rsaga.html.help("grid_tools","Close Gaps with Spline")`.
+#' @seealso [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # using SAGA grids:
@@ -1005,18 +998,18 @@ rsaga.close.one.cell.gaps = function(in.dem,out.dem,...)
 #' Analytical hillshading
 #' Analytical hillshading calculation.
 #' @name rsaga.hillshade
-#' @param in.dem Input digital elevation model (DEM) as SAGA grid file (default extension: \code{.sgrd}).
+#' @param in.dem Input digital elevation model (DEM) as SAGA grid file (default extension: `.sgrd`).
 #' @param out.grid Output hillshading grid (SAGA grid file). Existing files will be overwritten!
-#' @param method Available choices (character or numeric): \code{"standard"} (or \code{0} - default), \code{"max90deg.standard"} (\code{1}), \code{"combined.shading"} (\code{2}), \code{"ray.tracing"} (\code{3}). See Details.
+#' @param method Available choices (character or numeric): `"standard"` (or `0` - default), `"max90deg.standard"` (`1`), `"combined.shading"` (`2`), `"ray.tracing"` (`3`). See Details.
 #' @param azimuth Direction of the light source, measured in degree  clockwise from the north direction; default 315, i.e. northwest.
 #' @param declination Declination of the light source, measured in degree above the horizon (default 45).
 #' @param exaggeration Vertical exaggeration of elevation (default: 4). The terrain exaggeration factor allows to increase the shading contrasts in flat areas.
-#' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
+#' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
 #' @details The Analytical Hillshading algorithm is based on the angle between the surface and the incoming light beams, measured in radians.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @note While the default azimuth of 315 degree (northwest) is not physically meaningful on the northern hemisphere, a northwesterly light source is required to properly depict relief in hillshading images. Physically correct southerly light sources results a hillshade that would be considered by most people as inverted: hills look like depressions, mountain chains like troughs.
-#' @seealso \code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.insolation}}
+#' @seealso [rsaga.solar.radiation()], [rsaga.insolation()]
 #' @examples
 #' \dontrun{rsaga.hillshade("dem.sgrd","hillshade")}
 #' @keywords spatial interface
@@ -1040,43 +1033,43 @@ rsaga.hillshade = function(in.dem, out.grid,
 #'
 #' This function calculates the potential incoming solar radiation in an area using different atmospheric models; module available in SAGA GIS 2.0.6+.
 #' @name rsaga.pisr
-#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})
-#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also \code{local.svf} 
-#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar); see also argument \code{hgt.water.vapour.pressure} 
+#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
+#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf` 
+#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar); see also argument `hgt.water.vapour.pressure` 
 #' @param in.latitude.grid Optional input grid in SAGA format: Latitude (degree) of each grid cell
-#' @param in.longitude.grid see \code{in.latitude.grid}
-#' @param out.direct.grid Output grid: Direct insolation (unit selected by \code{unit} argument)
+#' @param in.longitude.grid see `in.latitude.grid`
+#' @param out.direct.grid Output grid: Direct insolation (unit selected by `unit` argument)
 #' @param out.diffuse.grid Output grid: Diffuse insolation
 #' @param out.total.grid Optional output grid: Total insolation, i.e. sum of direct and diffuse incoming solar radiation
 #' @param out.ratio.grid Optional output grid: Direct to diffuse ratio
 #' @param out.duration Optional output grid: Duration of insolation
 #' @param out.sunrise Optional output grid: time of sunrise; only calculated if time span is set to single day
-#' @param out.sunset Time of sunset; see \code{out.sunrise}
-#' @param local.svf logical (default: \code{TRUE}; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in \code{in.svf.grid}
+#' @param out.sunset Time of sunset; see `out.sunrise`
+#' @param local.svf logical (default: `TRUE`; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in `in.svf.grid`
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
-#' @param unit unit of insolation output grids: \code{"kWh/m2"} (default) \code{"kJ/m2"}, or \code{"J/cm2"}
+#' @param unit unit of insolation output grids: `"kWh/m2"` (default) `"kJ/m2"`, or `"J/cm2"`
 #' @param solconst solar constant, defaults to 1367 W/m2
-#' @param enable.bending logical (default: \code{FALSE}): incorporate effects of planetary bending?
-#' @param bending.radius Planetary radius, default \code{6366737.96}
-#' @param bending.lat.offset if bending is enabled: latitudinal reference  is \code{"user"}-defined (default), or relative to \code{"top"}, \code{"center"} or \code{"bottom"} of grid?
-#' @param bending.lat.ref.user user-defined lat. reference for bending, see \code{bending.lat.offset} 
-#' @param bending.lon.offset longitudinal reference, i.e. local time,  is \code{"user"}-defined, or relative to \code{"top"}, \code{"center"} (default) or \code{"bottom"} of grid?
+#' @param enable.bending logical (default: `FALSE`): incorporate effects of planetary bending?
+#' @param bending.radius Planetary radius, default `6366737.96`
+#' @param bending.lat.offset if bending is enabled: latitudinal reference  is `"user"`-defined (default), or relative to `"top"`, `"center"` or `"bottom"` of grid?
+#' @param bending.lat.ref.user user-defined lat. reference for bending, see `bending.lat.offset` 
+#' @param bending.lon.offset longitudinal reference, i.e. local time,  is `"user"`-defined, or relative to `"top"`, `"center"` (default) or `"bottom"` of grid?
 #' @param bending.lon.ref.user  user-defined reference for local time (Details??) 
-#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (\code{"height"}, or numeric code 0), or air pressure, water and dust content (\code{"components"}, code 1), or lumped atmospheric transmittance (\code{"lumped"}, code \code{0}) 
+#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `0`) 
 #' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m
-#' @param hgt.water.vapour.pressure Water vapour pressure in mbar (default 10 mbar); This value is used if no vapour pressure grid is given in  argument \code{in.vapour.grid}
+#' @param hgt.water.vapour.pressure Water vapour pressure in mbar (default 10 mbar); This value is used if no vapour pressure grid is given in  argument `in.vapour.grid`
 #' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar
 #' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default)
 #' @param cmp.dust dust factor in ppm; defaults to 100 ppm
 #' @param lmp.transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
 #' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
 #' @param time.step time step in hours for numerical integration
-#' @param start.date list of length two, giving the start date in \code{day} and \code{month} components as numbers; these numbers are one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st is \code{list(day=1,month=1)}
-#' @param end.date see \code{start.date}
-#' @param day.step if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
-#' @param env RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
-#' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with \code{method = "components"} and \code{method = "lumped"}.
+#' @param start.date list of length two, giving the start date in `day` and `month` components as numbers; these numbers are one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st is `list(day=1,month=1)`
+#' @param end.date see `start.date`
+#' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
+#' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
 #' @references 
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
 #' 
@@ -1088,8 +1081,8 @@ rsaga.hillshade = function(in.dem, out.grid,
 #'
 #' SAGA_CMD uses zero-based days and months, but this R function uses the standard one-based days and months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 #'
-#' This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
-#' @seealso \code{\link{rsaga.hillshade}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}
+#' This function uses module Potential Incoming Solar Radiation from SAGA library `ta_lighting` in SAGA version 2.0.6+.
+#' @seealso [rsaga.hillshade()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]
 #' @keywords spatial interface
 #' @export
 rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL, 
@@ -1273,38 +1266,38 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' Potential incoming solar radiation SAGA 2.2.2+
 #'
 #' This function calculates the potential incoming solar radiation in an area using different atmospheric models; This function reflects changes to the module with SAGA 2.2.2+.
-#' For SAGA versions 2.0.6 to 2.2.1 please see \code{\link{rsaga.pisr}}.
+#' For SAGA versions 2.0.6 to 2.2.1 please see [rsaga.pisr()].
 #' @name rsaga.pisr2
-#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})
-#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also \code{local.svf} 
-#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar), for use with \code{method = "height"}; default 10 mbar
-#' @param in.linke.grid Optional input grid in SAGA format: Linke turbidity coefficient, for use with \code{method = "hofierka"}; default 3.0
-#' @param out.direct.grid Output grid: Direct insolation (unit selected by \code{unit} argument)
+#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
+#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf` 
+#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar), for use with `method = "height"`; default 10 mbar
+#' @param in.linke.grid Optional input grid in SAGA format: Linke turbidity coefficient, for use with `method = "hofierka"`; default 3.0
+#' @param out.direct.grid Output grid: Direct insolation (unit selected by `unit` argument)
 #' @param out.diffuse.grid Output grid: Diffuse insolation
 #' @param out.total.grid Optional output grid: Total insolation, i.e. sum of direct and diffuse incoming solar radiation
 #' @param out.ratio.grid Optional output grid: Direct to diffuse ratio
 #' @param out.duration Optional output grid: Duration of insolation
 #' @param out.sunrise Optional output grid: time of sunrise; only calculated if time span is set to single day
-#' @param out.sunset Time of sunset; see \code{out.sunrise}
-#' @param local.svf logical (default: \code{TRUE}; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in \code{in.svf.grid}
-#' @param location specified whether to use constant latitude supplied by \code{latitude} below (\code{"latitude"} or code \code{0}; default) or as calculated from the grid system (\code{"grid"} or code \code{1})
+#' @param out.sunset Time of sunset; see `out.sunrise`
+#' @param local.svf logical (default: `TRUE`; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in `in.svf.grid`
+#' @param location specified whether to use constant latitude supplied by `latitude` below (`"latitude"` or code `0`; default) or as calculated from the grid system (`"grid"` or code `1`)
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
-#' @param unit unit of insolation output grids: \code{"kWh/m2"} (default) \code{"kJ/m2"}, or \code{"J/cm2"}
+#' @param unit unit of insolation output grids: `"kWh/m2"` (default) `"kJ/m2"`, or `"J/cm2"`
 #' @param solconst solar constant, defaults to 1367 W/m2
-#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (\code{"height"}, or numeric code 0), or air pressure, water and dust content (\code{"components"}, code 1), or lumped atmospheric transmittance (\code{"lumped"}, code \code{2}), or by the method of Hofierka and Suri, 2009 (\code{"hofierka"}, code \code{3}). Default: \code{"lumped"}. 
-#' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with \code{method = "height"}
-#' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with \code{method = "components"}
-#' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with \code{method = "components"}
-#' @param cmp.dust dust factor in ppm; defaults to 100 ppm. For use with \code{method = "components"}
+#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`. 
+#' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with `method = "height"`
+#' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with `method = "components"`
+#' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with `method = "components"`
+#' @param cmp.dust dust factor in ppm; defaults to 100 ppm. For use with `method = "components"`
 #' @param lmp.transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
 #' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
 #' @param time.step time step in hours for numerical integration
-#' @param start.date list of length three, giving the start date in \code{day}, \code{month}, and \code{year} components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is \code{list(day=1,month=1,year=2015)}
-#' @param end.date see \code{start.date}
-#' @param day.step if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
-#' @param env RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
-#' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with \code{method = "components"} and \code{method = "lumped"}.
+#' @param start.date list of length three, giving the start date in `day`, `month`, and `year` components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is `list(day=1,month=1,year=2015)`
+#' @param end.date see `start.date`
+#' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
+#' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
 #' @references 
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
 #' 
@@ -1317,11 +1310,11 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @note
 #' SAGA_CMD uses zero-based months, but this R function uses the standard one-based months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 #'
-#' This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
-#' Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \code{*.date} arguments to allow calculation across years.
+#' This function uses module Potential Incoming Solar Radiation from SAGA library `ta_lighting` in SAGA version 2.0.6+.
+#' Changes to the module with SAGA 2.2.2+ include adding `year` to the `*.date` arguments to allow calculation across years.
 #' The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
-#' Duration of insolation (\code{"out.duration"}) is only calculated when the time period is set to a single day.
-#' @seealso \code{\link{rsaga.pisr}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}; \code{\link{rsaga.hillshade}}
+#' Duration of insolation (`"out.duration"`) is only calculated when the time period is set to a single day.
+#' @seealso [rsaga.pisr()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]; [rsaga.hillshade()]
 #' @keywords spatial interface
 #' @export
 rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL, 
@@ -1525,37 +1518,37 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 
 #' Potential incoming solar radiation
 #'
-#' This function calculates the potential incoming solar radiation in an area either using a lumped atmospheric transmittance model or estimating it based on water and dust content. Use \code{\link{rsaga.pisr}} instead with SAGA GIS 2.0.6+.
+#' This function calculates the potential incoming solar radiation in an area either using a lumped atmospheric transmittance model or estimating it based on water and dust content. Use [rsaga.pisr()] instead with SAGA GIS 2.0.6+.
 #' @name rsaga.solar.radiation
-#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})
+#' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
 #' @param out.grid output grid file for potential incoming solar radiation sums
 #' @param out.duration Optional output grid file for duration of insolation
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
-#' @param unit unit of the \code{out.grid} output: \code{"kWh/m2"} (default) or \code{"J/m2"}
+#' @param unit unit of the `out.grid` output: `"kWh/m2"` (default) or `"J/m2"`
 #' @param solconst solar constant, defaults to 1367 W/m2
-#' @param method specifies how the atmospheric components should be accounted for: either based on a lumped atmospheric transmittance as specified by argument \code{transmittance} (\code{"lumped"}, or numeric code \code{0}; default); or by calculating the components corresponding to water and dust (\code{"components"}, code \code{1})
+#' @param method specifies how the atmospheric components should be accounted for: either based on a lumped atmospheric transmittance as specified by argument `transmittance` (`"lumped"`, or numeric code `0`; default); or by calculating the components corresponding to water and dust (`"components"`, code `1`)
 #' @param transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
 #' @param pressure atmospheric pressure in mbar
 #' @param water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default)
 #' @param dust dust factor in ppm; defaults to 100ppm
 #' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
 #' @param time.step time step in hours for numerical integration
-#' @param days either a list with components \code{day} and \code{month} specifying a single day of the year for radiation modeling; OR a numeric vector of length 2 specifying the start and end date (see Note below)
-#' @param day.step if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
-#' @param env RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
+#' @param days either a list with components `day` and `month` specifying a single day of the year for radiation modeling; OR a numeric vector of length 2 specifying the start and end date (see Note below)
+#' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
+#' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
 #' @references Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley & Sons.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more flexible) module Potential Solar Radiation that is interfaced by \code{\link{rsaga.pisr}}.
+#' @note This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more flexible) module Potential Solar Radiation that is interfaced by [rsaga.pisr()].
 #'
 #' SAGA_CMD uses zero-based days and months, but this R function uses the standard one-based days and months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 #'
-#' In SAGA 2.0.2, solar radiation sums calculated for a range of days, say \code{days=c(a,b)} actually calculate radiation only for days \code{a,...,b-1} (in steps of \code{day.step} - I used \code{day.step=1} in this example).  The setting \code{a=b} however gives the same result as \code{b=a+1}, and indeed \code{b=a+2} gives twice the radiation sums and potential sunshine duration that \code{a=b} and \code{b=a+1} both give.
+#' In SAGA 2.0.2, solar radiation sums calculated for a range of days, say `days=c(a,b)` actually calculate radiation only for days `a,...,b-1` (in steps of `day.step` - I used `day.step=1` in this example).  The setting `a=b` however gives the same result as `b=a+1`, and indeed `b=a+2` gives twice the radiation sums and potential sunshine duration that `a=b` and `b=a+1` both give.
 #'
-#' The solar radiation module of SAGA 2.0.1 had a bug that made it impossible to pass a range of \code{days} of the year or a range of hours of the day (\code{time.range}) to SAGA. These options work in SAGA 2.0.1.
+#' The solar radiation module of SAGA 2.0.1 had a bug that made it impossible to pass a range of `days` of the year or a range of hours of the day (`time.range`) to SAGA. These options work in SAGA 2.0.1.
 #'
-#' This function uses module Incoming Solar Radiation from SAGA GIS library \code{ta_lighting}.
-#' @seealso \code{\link{rsaga.hillshade}}, \code{\link{rsaga.insolation}}
+#' This function uses module Incoming Solar Radiation from SAGA GIS library `ta_lighting`.
+#' @seealso [rsaga.hillshade()], [rsaga.insolation()]
 #' @examples
 #' \dontrun{
 #' # potential solar radiation on Nov 7 in Southern Ontario...
@@ -1625,35 +1618,35 @@ rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
 #'
 #' This function calculates the amount of incoming solar radiation (insolation) depending on slope, aspect, and atmospheric properties. Module not available in SAGA GIS 2.0.6 and 2.0.7.
 #' @name rsaga.insolation
-#' @param in.dem Name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})
+#' @param in.dem Name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
 #' @param in.vapour Optional input: SAGA grid file giving the water vapour pressure in mbar
 #' @param in.latitude Optional input: SAGA grid file giving for each pixel the latitude in degree
 #' @param in.longitude Optional input: SAGA grid file giving for each pixel the longitude in degree
 #' @param out.direct Optional output grid file for direct insolation
 #' @param out.diffuse Optional output grid file for diffuse insolation
 #' @param out.total Optional output grid file for total insolation, i.e. the sum of direct and diffuse insolation
-#' @param horizontal logical; project radiation onto a horizontal surface? (default: \code{FALSE}, i.e. use the actual inclined surface as a reference area) 
+#' @param horizontal logical; project radiation onto a horizontal surface? (default: `FALSE`, i.e. use the actual inclined surface as a reference area) 
 #' @param solconst solar constant in Joule; default: 8.164 J/cm2/min (=1360.7 kWh/m2; the more commonly used solar constant of 1367 kWh/m2 corresponds to 8.202 J/cm2/min)
 #' @param atmosphere height of atmosphere in m; default: 12000m
 #' @param water.vapour.pressure if no water vapour grid is given, this argument specifies a constant water vapour pressure that is uniform in space; in mbar, default 10 mbar
-#' @param type type of time period: \code{"moment"} (equivalent: \code{0}) for a single instant, \code{"day"} (or \code{1}) for a single day, \code{"range.of.days"} (or \code{2}), or \code{"same.moment.range.of.days"} (or \code{3}) for the same moment in a range of days; default: \code{"moment"} 
+#' @param type type of time period: `"moment"` (equivalent: `0`) for a single instant, `"day"` (or `1`) for a single day, `"range.of.days"` (or `2`), or `"same.moment.range.of.days"` (or `3`) for the same moment in a range of days; default: `"moment"` 
 #' @param time.step time resolution in hours for discretization within a day
 #' @param day.step time resolution in days for a range of days
-#' @param days numeric vector of length 2, specifying the first and last day of a range of days (for \code{type}s 2 and 3)
-#' @param moment if \code{type="moment"} or \code{"same.moment.range.of.days"}, \code{moment} specifies the time of the day (hour between 0 and 24) for which the insolation is to be calculated
-#' @param latitude if no \code{in.latitude} grid is given, this will specify a fixed geographical latitude for the entire grid
-#' @param bending should planetary bending be modeled? (default: \code{FALSE})
+#' @param days numeric vector of length 2, specifying the first and last day of a range of days (for `type`s 2 and 3)
+#' @param moment if `type="moment"` or `"same.moment.range.of.days"`, `moment` specifies the time of the day (hour between 0 and 24) for which the insolation is to be calculated
+#' @param latitude if no `in.latitude` grid is given, this will specify a fixed geographical latitude for the entire grid
+#' @param bending should planetary bending be modeled? (default: `FALSE`)
 #' @param radius planetary radius
-#' @param lat.offset \code{latitude} relates to grids \code{"bottom"}(equivalent code: \code{0}), \code{"center"} (1), \code{"top"} (2), or \code{"user"}-defined reference (default: \code{"user"}); in the latter case, \code{lat.ref.user} defines the reference
-#' @param lat.ref.user if \code{in.latitude} is missing and \code{lat.offset="user"}, then this numeric value defines the latitudinal reference (details??)
-#' @param lon.offset local time refers to grid's \code{"left"} edge (code 0), \code{"center"} (1), \code{"right"} edge (2), or a  \code{"user"}-defined reference.
-#' @param lon.ref.user if \code{in.longitude} is missing and \code{lon.offset="user"}, then this numeric value defines the reference of the local time (details??)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
+#' @param lat.offset `latitude` relates to grids `"bottom"`(equivalent code: `0`), `"center"` (1), `"top"` (2), or `"user"`-defined reference (default: `"user"`); in the latter case, `lat.ref.user` defines the reference
+#' @param lat.ref.user if `in.latitude` is missing and `lat.offset="user"`, then this numeric value defines the latitudinal reference (details??)
+#' @param lon.offset local time refers to grid's `"left"` edge (code 0), `"center"` (1), `"right"` edge (2), or a  `"user"`-defined reference.
+#' @param lon.ref.user if `in.longitude` is missing and `lon.offset="user"`, then this numeric value defines the reference of the local time (details??)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
 #' @details Calculation of incoming solar radiation (insolation). Based on the SADO (System for the Analysis of Discrete Surfaces) routines developed  by Boehner & Trachinow.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @note This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link{rsaga.pisr}}.
-#' @seealso \code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.pisr}},  \code{\link{rsaga.hillshade}}
+#' @note This function uses module `Insolation` (code: 3) from SAGA library `ta_lighting`. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see [rsaga.pisr()].
+#' @seealso [rsaga.solar.radiation()], [rsaga.pisr()],  [rsaga.hillshade()]
 #' @keywords spatial interface
 #' @export
 rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
@@ -1738,16 +1731,16 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
 #'
 #' Apply a smoothing, sharpening or edge filter to a SAGA grid.
 #' @name rsaga.filter.simple
-#' @param in.grid input: SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.grid input: SAGA grid file (default file extension: `.sgrd`)
 #' @param out.grid output: SAGA grid file
-#' @param mode character or numeric: shape of moving window, either \code{"square"} (=0) or \code{"circle"} (=1, default)
-#' @param method character or numeric: \code{"smooth"} (=0), \code{"sharpen"} (=1), or \code{"edge"} (=2)
+#' @param mode character or numeric: shape of moving window, either `"square"` (=0) or `"circle"` (=1, default)
+#' @param method character or numeric: `"smooth"` (=0), `"sharpen"` (=1), or `"edge"` (=2)
 #' @param radius positive integer: radius of moving window
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.filter.gauss}}
+#' @seealso [rsaga.filter.gauss()]
 #' @examples \dontrun{rsaga.filter.simple("dem","dem-smooth",radius=4)}
 #' @keywords spatial interface
 #' @export
@@ -1791,15 +1784,15 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
 #' 
 #' Smooth a grid using a Gauss filter.
 #' @name rsaga.filter.gauss
-#' @param in.grid input: SAGA GIS grid file (default file extension: \code{.sgrd})
+#' @param in.grid input: SAGA GIS grid file (default file extension: `.sgrd`)
 #' @param out.grid output: SAGA GIS grid file
 #' @param sigma numeric, >0.0001: standard deviation parameter of Gauss filter
 #' @param radius positive integer: radius of moving window
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.filter.simple}}
+#' @seealso [rsaga.filter.simple()]
 #' @keywords spatial interface
 #' @export
 rsaga.filter.gauss = function(in.grid, out.grid, sigma,
@@ -1837,9 +1830,9 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 
 #' Parallel Processing
 #'
-#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See \code{\link{rsaga.topdown.processing}}.
+#' Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See [rsaga.topdown.processing()].
 #' @name rsaga.parallel.processing
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param in.sinkroute optional input: SAGA grid with sink routes
 #' @param in.weight optional intput: SAGA grid with weights
 #' @param out.carea output: catchment area grid
@@ -1848,13 +1841,13 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #' @param out.caspect optional output: catchment aspect grid
 #' @param out.flowpath optional output: flow path length grid
 #' @param step integer >=1: step parameter
-#' @param method character or numeric: choice of processing algorithm: Deterministic 8 (\code{"d8"} or 0), Rho 8 (\code{"rho8"} or 1), Braunschweiger Reliefmodell (\code{"braunschweig"} or 2), Deterministic Infinity (\code{"dinf"} or 3), Multiple Flow Direction (\code{"mfd"} or 4, the default), Multiple Triangular Flow Direction (\code{"mtfd"}, or 5).
-#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)
-#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @param method character or numeric: choice of processing algorithm: Deterministic 8 (`"d8"` or 0), Rho 8 (`"rho8"` or 1), Braunschweiger Reliefmodell (`"braunschweig"` or 2), Deterministic Infinity (`"dinf"` or 3), Multiple Flow Direction (`"mfd"` or 4, the default), Multiple Triangular Flow Direction (`"mtfd"`, or 5).
+#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for `linear.threshold=Inf` (the default)
+#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of `1.1` gives realistic results and should not be changed
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... further arguments to [rsaga.geoprocessor()]
 #' @details Refer to the references for details on the available algorithms.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @references
 #' Deterministic 8:
 #'
@@ -1883,14 +1876,14 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
 #'
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
-#' @note This function uses module \code{Parallel Processing} (version 2.0.7+: \code{Catchment Area (Parallel)} from SAGA library \code{ta_hydrology}.
+#' @note This function uses module `Parallel Processing` (version 2.0.7+: `Catchment Area (Parallel)` from SAGA library `ta_hydrology`.
 #'
 #' The SAGA GIS 2.0.6+ version of the module adds more (optional) input and 
 #' output grids that are currently not supported by this wrapper function.
-#' Use \code{\link{rsaga.geoprocessor}} for access to these options,
-#' and see \code{rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")}
+#' Use [rsaga.geoprocessor()] for access to these options,
+#' and see `rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")`
 #' for information on new arguments.
-#' @seealso \code{\link{rsaga.topdown.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [rsaga.topdown.processing()], [rsaga.wetness.index()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # SAGA GIS 2.0.6+:
@@ -1958,9 +1951,9 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 
 #' Top-Down Processing
 #' 
-#' Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See \code{\link{rsaga.parallel.processing}} with older versions.
+#' Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See [rsaga.parallel.processing()] with older versions.
 #' @name rsaga.topdown.processing
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param in.sinkroute optional input: SAGA grid with sink routes
 #' @param in.weight optional input: SAGA grid with weights
 #' @param in.mean optional input: SAGA grid for mean over catchment calculation
@@ -1975,21 +1968,20 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' @param out.acc.right optional output: accumulated material from right side grid
 #' @param out.flowpath optional output: flow path length grid
 #' @param step integer >=1: step parameter
-#' @param method character or numeric: choice of processing algorithm (default \code{"mfd"}, or 4):
-#' \itemize{
-#' \item [0] Deterministic 8 (\code{"d8"} or 0)
-#' \item [1] Rho 8 (\code{"rho8"}, or 1)
-#' \item [2] Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
-#' \item [3] Deterministic Infinity (\code{"dinf"} or 3)
-#' \item [4] Multiple Flow Direction (\code{"mfd"} or 4)
-#' \item [5] Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
-#' \item [6] Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)}
-#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)
-#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... further arguments to \code{\link{rsaga.geoprocessor}}
+#' @param method character or numeric: choice of processing algorithm (default `"mfd"`, or 4):
+#' - [\0 Deterministic 8 (`"d8"` or 0)
+#' - [\1 Rho 8 (`"rho8"`, or 1)
+#' - [\2 Braunschweiger Reliefmodell (`"braunschweig"` or 2)
+#' - [\3 Deterministic Infinity (`"dinf"` or 3)
+#' - [\4 Multiple Flow Direction (`"mfd"` or 4)
+#' - [\5 Multiple Triangular Flow Direction (`"mtfd"`, or 5)
+#' - [\6 Multiple Maximum Gradient Based Flow Direction (`"mdg"`, or 6)
+#' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for `linear.threshold=Inf` (the default)
+#' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of `1.1` gives realistic results and should not be changed
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... further arguments to [rsaga.geoprocessor()]
 #' @details Refer to the references for details on the available algorithms.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @references
 #' Deterministic 8:
 #'
@@ -2030,7 +2022,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' rsaga.topdown.processing(in.dem = "dem", out.carea = "carea",
 #'                          method = "mdg")
 #' }
-#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [rsaga.parallel.processing()], [rsaga.wetness.index()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @keywords spatial interface
 #' @export
 rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in.material, in.target,
@@ -2144,29 +2136,29 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
 #' 
 #' Calculate the SAGA Wetness Index (SWI), a modified topographic wetness index (TWI)
 #' @name rsaga.wetness.index
-#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param out.wetness.index output file (optional): wetness index grid file name. Existing files of the same name will be overwritten!
 #' @param out.carea output file (optional): catchment area grid file name
 #' @param out.cslope output file (optional): catchment slope grid file name
 #' @param out.mod.carea output file (optional): file name of modified catchment area grid
 #' @param suction SAGA GIS 2.1.0+: positive numeric value (optional): the lower this value is the stronger is the suction effect; defaults to a value of 10 (more detailed information is currently not available  in the SAGA GIS documentation
-#' @param area.type character or numeric (optional): type of area: \code{"absolute"} (or numeric code 0): absolute catchment area; \code{"square root"} (code 1; the default): square root of catchment area; \code{"specific"} (code 2): specific catchment area
-#' @param slope.type character or numeric (optional): type of slope: \code{"local"} (or numeric code 0): local slope; \code{"catchment"} (or code 1; the default): catchment slope.
+#' @param area.type character or numeric (optional): type of area: `"absolute"` (or numeric code 0): absolute catchment area; `"square root"` (code 1; the default): square root of catchment area; `"specific"` (code 2): specific catchment area
+#' @param slope.type character or numeric (optional): type of slope: `"local"` (or numeric code 0): local slope; `"catchment"` (or code 1; the default): catchment slope.
 #' @param slope.min numeric (optional): minimum slope; default: 0
 #' @param slope.offset numeric (optional): offset slope; default: 0.1
 #' @param slope.weight numeric (optional): weighting factor for slope in index calculation; default: 1
 #' @param t.param SAGA GIS up to version 2.0.8: positive numeric value (optional): undocumented
-#' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}.)
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}} 
-#' @details The SAGA Wetness Index is similar to the  Topographic Wetness Index (TWI), but it is based on a modified  catchment area calculation (\code{out.mod.carea}), which does not treat the flow as a thin film as done in the calculation of catchment areas in conventional algorithms. As a result, the SWI tends to assign a more realistic, higher potential soil wetness than the TWI to grid cells situated in valley floors with a small vertical distance to a channel.
+#' @param env A SAGA geoprocessing environment, see [rsaga.env()].)
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()] 
+#' @details The SAGA Wetness Index is similar to the  Topographic Wetness Index (TWI), but it is based on a modified  catchment area calculation (`out.mod.carea`), which does not treat the flow as a thin film as done in the calculation of catchment areas in conventional algorithms. As a result, the SWI tends to assign a more realistic, higher potential soil wetness than the TWI to grid cells situated in valley floors with a small vertical distance to a channel.
 #'
-#' This module and its arguments changed substantially from SAGA GIS 2.0.8 to version 2.1.0. It appears to me that the new algorithm is similar (but not identical) to the old one when using \code{area.type="absolute"} and \code{slope.type="local"} but I haven't tried out all possible options. This help file will be updated as soon as additional documentation becomes available.
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' This module and its arguments changed substantially from SAGA GIS 2.0.8 to version 2.1.0. It appears to me that the new algorithm is similar (but not identical) to the old one when using `area.type="absolute"` and `slope.type="local"` but I haven't tried out all possible options. This help file will be updated as soon as additional documentation becomes available.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @references Boehner, J., Koethe, R. Conrad, O., Gross, J.,  Ringeler, A., Selige, T. (2002): Soil Regionalisation by Means of Terrain Analysis and Process Parameterisation. In: Micheli, E., Nachtergaele, F., Montanarella, L. (ed.): Soil Classification 2001. European Soil Bureau, Research Report No. 7, EUR 20398 EN, Luxembourg. pp.213-222.
 #' 
-#' Boehner, J. and Selige, T. (2006): Spatial prediction of soil attributes using terrain analysis and climate regionalisation. In: Boehner, J., McCloy, K.R., Strobl, J. [Ed.]: SAGA - Analysis and Modelling Applications, Goettinger Geographische Abhandlungen, Goettingen: 13-28.
+#' Boehner, J. and Selige, T. (2006): Spatial prediction of soil attributes using terrain analysis and climate regionalisation. In: Boehner, J., McCloy, K.R., Strobl, J. \[Ed.: SAGA - Analysis and Modelling Applications, Goettinger Geographische Abhandlungen, Goettingen: 13-28.
 #' @author Alexander Brenning (R interface), Juergen Boehner and Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [rsaga.parallel.processing()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # using SAGA grids:
@@ -2263,44 +2255,42 @@ rsaga.wetness.index = function( in.dem,
 #'
 #' Perform Arithmetic Operations on Grids
 #' @name rsaga.grid.calculus
-#' @param in.grids input character vector: SAGA grid files (default file extension: \code{.sgrd})
+#' @param in.grids input character vector: SAGA grid files (default file extension: `.sgrd`)
 #' @param out.grid output: grid file resulting from the cell-by-cell application of 'formula' to the grids. Existing files will be overwritten!
-#' @param formula character string of formula specifying the arithmetic operation to be performed on the \code{in.grids} (see Details); if this is a formula, only the right hand side will be used.
-#' @param coef numeric: coefficient vector to be used for the linear combination of the \code{in.grids}. If \code{coef} as one more element than \code{in.grids}, the first one will be interpreted as an intercept.
-#' @param cf.digits integer: number of digits used when converting the \code{coef}ficients to character strings (trailing zeros will be removed)
-#' @param remove.zeros logical: if \code{TRUE}, terms (grids) with coefficient (numerically) equal to zero (after rounding to \code{cf.digits} digits) will be removed from the formula
-#' @param remove.ones logical: if \code{TRUE} (th edefault), factors equal to 1 (after rounding to \code{cf.digits} digits) will be removed from the formula
-#' @param env RSAGA geoprocessing environment, generated by a call to \code{\link{rsaga.env}}
-#' @param ... optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
-#' @details The \code{in.grids} are represented in the \code{formula} by the letters \code{a} (for \code{in.grids[1]}), \code{b} etc. Thus, if \code{in.grids[1]} is Landsat TM channel 3 and \code{in.grids[2]} is channel 4, the NDVI formula (TM3-TM4)/(TM3+TM4) can be represented  by the character string \code{"(a-b)/(a+b)"} (any spaces are removed) or the formula \code{~(a-b)/(a+b)} in the \code{formula} argument.
+#' @param formula character string of formula specifying the arithmetic operation to be performed on the `in.grids` (see Details); if this is a formula, only the right hand side will be used.
+#' @param coef numeric: coefficient vector to be used for the linear combination of the `in.grids`. If `coef` as one more element than `in.grids`, the first one will be interpreted as an intercept.
+#' @param cf.digits integer: number of digits used when converting the `coef`ficients to character strings (trailing zeros will be removed)
+#' @param remove.zeros logical: if `TRUE`, terms (grids) with coefficient (numerically) equal to zero (after rounding to `cf.digits` digits) will be removed from the formula
+#' @param remove.ones logical: if `TRUE` (th edefault), factors equal to 1 (after rounding to `cf.digits` digits) will be removed from the formula
+#' @param env RSAGA geoprocessing environment, generated by a call to [rsaga.env()]
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @details The `in.grids` are represented in the `formula` by the letters `a` (for `in.grids[1]`), `b` etc. Thus, if `in.grids[1]` is Landsat TM channel 3 and `in.grids[2]` is channel 4, the NDVI formula (TM3-TM4)/(TM3+TM4) can be represented  by the character string `"(a-b)/(a+b)"` (any spaces are removed) or the formula `~(a-b)/(a+b)` in the `formula` argument.
 #' 
-#' In addition to +, -, *, and /, the following operators and functions are available for the \code{formula} definition:
-#' \itemize{
-#'     \item \eqn{\hat{\ }}{^} power
-#'     \item \code{sin(a)} sine
-#'     \item \code{cos(a)} cosine
-#'     \item \code{tan(a)} tangent
-#'     \item \code{asin(a)} arc sine
-#'     \item \code{acos(a)} arc cosine
-#'     \item \code{atan(a)} arc tangent
-#'     \item \code{atan2(a,b)} arc tangent of b/a
-#'     \item \code{abs(a)} absolute value
-#'     \item \code{int(a)} convert to integer
-#'     \item \code{sqr(a)} square
-#'     \item \code{sqrt(a)} square root
-#'     \item \code{ln(a)} natural logarithm
-#'     \item \code{log(a)} base 10 logarithm
-#'     \item \code{mod(a,b)} modulo
-#'     \item \code{gt(a, b)} returns 1 if a greater b
-#'     \item \code{lt(a, b)} returns 1 if a lower b
-#'     \item \code{eq(a, b)} returns 1 if a equal b
-#'     \item \code{ifelse(switch, x, y)} returns x if switch equals 1 else y
-#' }
+#' In addition to +, -, *, and /, the following operators and functions are available for the `formula` definition:
+#'     + \eqn{\hat{\ }}{^} power
+#'     + `sin(a)` sine
+#'     + `cos(a)` cosine
+#'     + `tan(a)` tangent
+#'     + `asin(a)` arc sine
+#'     + `acos(a)` arc cosine
+#'     + `atan(a)` arc tangent
+#'     + `atan2(a,b)` arc tangent of b/a
+#'     + `abs(a)` absolute value
+#'     + `int(a)` convert to integer
+#'     + `sqr(a)` square
+#'     + `sqrt(a)` square root
+#'     + `ln(a)` natural logarithm
+#'     + `log(a)` base 10 logarithm
+#'     + `mod(a,b)` modulo
+#'     + `gt(a, b)` returns 1 if a greater b
+#'     + `lt(a, b)` returns 1 if a lower b
+#'     + `eq(a, b)` returns 1 if a equal b
+#'     + `ifelse(switch, x, y)` returns x if switch equals 1 else y
 #' 
-#' Using \code{remove.zeros=FALSE} might have the side effect that no data areas in the grid with coefficient 0 are passed on to the results grid. (To be confirmed.)
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' Using `remove.zeros=FALSE` might have the side effect that no data areas in the grid with coefficient 0 are passed on to the results grid. (To be confirmed.)
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{local.function}}, \code{\link{focal.function}}, and \code{\link{multi.focal.function}} for a more flexible framework for combining grids or applying local and focal functions; \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [local.function()], [focal.function()], and [multi.focal.function()] for a more flexible framework for combining grids or applying local and focal functions; [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # using SAGA grids:
@@ -2412,17 +2402,17 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
 #'
 #' Creates a contour lines shapefile from a grid file in SAGA grid format.
 #' @name rsaga.contour
-#' @param in.grid input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})
+#' @param in.grid input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
 #' @param out.shapefile output: contour line shapefile. Existing files will be overwritten!
 #' @param zstep,zmin,zmax lower limit, upper limit, and equidistance of contour lines
-#' @param vertex optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
-#' \item [0] \code{"xy"}
-#' \item [1] \code{"xyz"}}
-#' @param env A SAGA geoprocessing environment, see \code{\link{rsaga.env}}
-#' @param ... arguments to be passed to \code{\link{rsaga.geoprocessor}}
-#' @return The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+#' @param vertex optional parameter: vertex type for resulting contours. Default `"xy"` (or 0). Only available with SAGA GIS 2.1.3+.
+#' - 0 `"xy"`
+#' - 1 `"xyz"`
+#' @param env A SAGA geoprocessing environment, see [rsaga.env()]
+#' @param ... arguments to be passed to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
-#' @seealso \code{\link{rsaga.geoprocessor}}
+#' @seealso [rsaga.geoprocessor()]
 #' @keywords spatial interface
 #' @export
 rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=rsaga.env(),...) {
@@ -2460,14 +2450,14 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
 #' Pick values from SAGA grids and attach them as a new variables to a point shapefile.
 #' @name rsaga.add.grid.values.to.points
 #' @param in.grids Input: character vector with names of (one or more) SAGA GIS grid files to be converted into a point shapefile.
-#' @param in.shapefile Input point shapefile (default extension: \code{.shp}).
-#' @param out.shapefile Output point shapefile (default extension: \code{.shp}).
+#' @param in.shapefile Input point shapefile (default extension: `.shp`).
+#' @param out.shapefile Output point shapefile (default extension: `.shp`).
 #' @param method interpolation method to be used; choices: nearest neighbour interpolation (default), bilinear interpolation, inverse distance weighting, bicubic spline interpolation, B-splines.
-#' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
+#' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
 #' @details Retrieves information from the selected grids at the positions of the points of the selected points layer and adds it to the resulting layer.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-#' @note This function uses module \code{Add Grid Values to Points} in SAGA GIS library \code{shapes_grid}.
-#' @seealso \code{\link{pick.from.points}}, \code{\link{pick.from.ascii.grid}}, \code{\link{pick.from.saga.grid}}, \code{\link{rsaga.grid.to.points}}
+#' @note This function uses module `Add Grid Values to Points` in SAGA GIS library `shapes_grid`.
+#' @seealso [pick.from.points()], [pick.from.ascii.grid()], [pick.from.saga.grid()], [rsaga.grid.to.points()]
 #' @keywords spatial interface
 #' @export
 rsaga.add.grid.values.to.points = function(in.shapefile,
@@ -2495,18 +2485,18 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #' @name rsaga.grid.to.points
 #' @param in.grids Input: names of (possibly several) SAGA GIS grid files to be converted into a point shapefile.
 #' @param in.grid Input: SAGA grid file from which to sample.
-#' @param out.shapefile Output: point shapefile (default extension: \code{.shp}). Existing files will be overwritten!
+#' @param out.shapefile Output: point shapefile (default extension: `.shp`). Existing files will be overwritten!
 #' @param in.clip.polygons optional polygon shapefile to be used for clipping/masking an area
-#' @param exclude.nodata logical (default: \code{TRUE}): skip 'nodata' grid cells?
-#' @param type character string: \code{"nodes"}: create point shapefile of grid center points; \code{"cells"} (only supported by SAGA GIS 2.0.6+): create polygon shapefile with grid cell boundaries
+#' @param exclude.nodata logical (default: `TRUE`): skip 'nodata' grid cells?
+#' @param type character string: `"nodes"`: create point shapefile of grid center points; `"cells"` (only supported by SAGA GIS 2.0.6+): create polygon shapefile with grid cell boundaries
 #' @param freq integer >=1: sampling frequency: on average 1 out of 'freq' grid cells are selected
-#' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}; required by \code{rsaga.grid.to.points} to determine version-dependent SAGA module name and arguments
-#' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}
+#' @param env RSAGA geoprocessing environment created by [rsaga.env()]; required by `rsaga.grid.to.points` to determine version-dependent SAGA module name and arguments
+#' @param ... Optional arguments to be passed to [rsaga.geoprocessor()]
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-#' @note These functions use modules \code{Grid Values to Shapes} (pre-2.0.6 name: \code{Grid Values to Points}) and \code{Grid Values to Points (randomly)} in SAGA library \code{shapes_grid}.
+#' @note These functions use modules `Grid Values to Shapes` (pre-2.0.6 name: `Grid Values to Points`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
 #'
-#' The SAGA 2.0.6+ module \code{Grid Values to Shapes} is more flexible than the earlier versions as it allows to create grid cell polygons instead of center points (see argument \code{type}).
-#' @seealso \code{\link{rsaga.add.grid.values.to.points}}
+#' The SAGA 2.0.6+ module `Grid Values to Shapes` is more flexible than the earlier versions as it allows to create grid cell polygons instead of center points (see argument `type`).
+#' @seealso [rsaga.add.grid.values.to.points()]
 #' @examples
 #' \dontrun{
 #' # one point per grid cell, exclude nodata areas:
@@ -2568,26 +2558,26 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' 
 #' Spatial interpolation of point data using inverse distance to a power (inverse distance weighting, IDW), nearest neighbors, or modified quadratic shephard.
 #' @name rsaga.inverse.distance
-#' @param in.shapefile Input: point shapefile (default extension: \code{.shp}).
+#' @param in.shapefile Input: point shapefile (default extension: `.shp`).
 #' @param out.grid Output: filename for interpolated grid (SAGA grid file). Existing files will be overwritten!
 #' @param field numeric or character: number or name of attribute in the shapefile's attribute table to be interpolated; the first attribute is represented by a zero.
 #' @param power numeric (>0): exponent used in inverse distance  weighting (usually 1 or 2)
-#' @param maxdist numeric: maximum distance of points to be used for inverse distance interpolation (search radius); no search radius is applied when this argument is missing or equals \code{Inf}
-#' @param nmax Maximum number of nearest points to be used for interpolation; \code{nmax=Inf} is a valid value (no upper limit)
+#' @param maxdist numeric: maximum distance of points to be used for inverse distance interpolation (search radius); no search radius is applied when this argument is missing or equals `Inf`
+#' @param nmax Maximum number of nearest points to be used for interpolation; `nmax=Inf` is a valid value (no upper limit)
 #' @param quadratic.neighbors integer >=5; default 13.
 #' @param weighting.neighbors integer >=3; default 19.
-#' @param target required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see \code{\link{rsaga.target}}.
-#' @param env RSAGA geoprocessing environment created by \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA version
-#' @param ... Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.
-#' @details These functions use modules from the \code{grid_gridding} SAGA GIS library. They do not support SAGA GIS 2.0.4, which differs in some argument names and parameterizations. Target grid parameterization by grid file name currently doesn't work with SAGA GIS 2.1.0  Release Candidate 1 (see also \code{\link{rsaga.target}}); stay tuned for future updates and fixes.
+#' @param target required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see [rsaga.target()].
+#' @param env RSAGA geoprocessing environment created by [rsaga.env()], required because module(s) depend(s) on SAGA version
+#' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
+#' @details These functions use modules from the `grid_gridding` SAGA GIS library. They do not support SAGA GIS 2.0.4, which differs in some argument names and parameterizations. Target grid parameterization by grid file name currently doesn't work with SAGA GIS 2.1.0  Release Candidate 1 (see also [rsaga.target()]); stay tuned for future updates and fixes.
 #' @references QSHEP2D: Fortran routines implementing the Quadratic Shepard method for bivariate interpolation of scattered data  (see R. J. Renka, ACM TOMS 14 (1988) pp.149-150). Classes: E2b. Interpolation of scattered, non-gridded  multivariate data.
 #' @author Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)
-#' @note The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the \code{rsaga.geoprocessor}, if needed. See \code{rsaga.get.usage("grid_gridding","Inverse Distance Weighted")} for details.
+#' @note The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the `rsaga.geoprocessor`, if needed. See `rsaga.get.usage("grid_gridding","Inverse Distance Weighted")` for details.
 #'
-#' See the example section in the help file for \code{\link[shapefiles]{write.shapefile}} in package \code{shapefiles} to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
+#' See the example section in the help file for [shapefiles::write.shapefile()] in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
 #' 
 #' Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
-#' @seealso \code{\link{rsaga.target}}; \code{\link[gstat]{idw}} in package \code{gstat}.
+#' @seealso [rsaga.target()]; [gstat::idw()] in package `gstat`.
 #' @keywords spatial interface
 #' @export
 rsaga.inverse.distance = function(in.shapefile, out.grid, field, 
@@ -2809,30 +2799,30 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 ### Module shapes_polygons##########
 
 #' @title Spatial intersection of two polygon layers
-#' @description The function \code{rsaga.intersect.polygons} calculates the 
+#' @description The function `rsaga.intersect.polygons` calculates the 
 #'   geometric intersection of two overlayed polygon layers using SAGA module 
-#'   "\code{Intersect}".
-#' @param layer_a A \code{character}-string representing the path to a polygon 
+#'   "`Intersect`".
+#' @param layer_a A `character`-string representing the path to a polygon 
 #'   shapefile or a spatial object of class 
-#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
-#' @param layer_b A \code{character}-string representing the path to a polygon
+#'   [sp::SpatialPolygonsDataFrame()].
+#' @param layer_b A `character`-string representing the path to a polygon
 #'   shapefile or a spatial object of class 
-#'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to intersect layer_a.
-#' @param result A \code{character}-string indicating where the resulting 
+#'   [sp::SpatialPolygonsDataFrame()] with which to intersect layer_a.
+#' @param result A `character`-string indicating where the resulting 
 #'   shapefile should be stored.
-#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#' @param split If `TRUE`, multipart polygons become separated polygons 
 #'   (default: FALSE).
-#' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
+#' @param load If `TRUE`, the resulting output shapefile will be loaded 
 #'   into R (default: FALSE).
 #' @param env RSAGA geoprocessing environment created by 
-#'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
+#'   [rsaga.env()], required because module(s) depend(s) on SAGA 
 #'   version.
 #' @return The function saves the output shapefile to the path indicated in 
-#'   function argument \code{result} and loads the resulting shapefile into R
-#'   when function parameter \code{load} is set to TRUE.
-#' @details Function \code{\link[rgeos]{gIntersection}} can also be used to 
+#'   function argument `result` and loads the resulting shapefile into R
+#'   when function parameter `load` is set to TRUE.
+#' @details Function [rgeos::gIntersection()] can also be used to 
 #'   define the intersection between two polygon layers. However, 
-#'   \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
+#'   [rsaga.intersect.polygons()] will be usually much faster, 
 #'   especially when intersecting thousands of polygons.
 #' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
 #'   modules)
@@ -2904,31 +2894,31 @@ rsaga.intersect.polygons <-
   }
 
 #' @title Spatial union of two polygon layers
-#' @description The function \code{rsaga.union.polygons} uses SAGA function 
-#'   "\code{Union}" to calculate the geometric union of two polygon layers. This
+#' @description The function `rsaga.union.polygons` uses SAGA function 
+#'   "`Union`" to calculate the geometric union of two polygon layers. This
 #' corresponds to the intersection and the symmetrical difference of the two 
 #' layers.
-#' @param layer_a A \code{character}-string representing the path to a polygon 
+#' @param layer_a A `character`-string representing the path to a polygon 
 #'   shapefile or a spatial object of class 
-#'   \code{\link[sp]{SpatialPolygonsDataFrame}}.
-#' @param layer_b A \code{character}-string representing the path to a polygon 
+#'   [sp::SpatialPolygonsDataFrame()].
+#' @param layer_b A `character`-string representing the path to a polygon 
 #'   shapefile or a spatial object of class 
-#'   \code{\link[sp]{SpatialPolygonsDataFrame}} with which to union layer_a.
-#' @param result \code{character}, path indicating where to store the output 
+#'   [sp::SpatialPolygonsDataFrame()] with which to union layer_a.
+#' @param result `character`, path indicating where to store the output 
 #'   shapefile.
-#' @param split If \code{TRUE}, multipart polygons become separated polygons 
+#' @param split If `TRUE`, multipart polygons become separated polygons 
 #'   (default: FALSE).
-#' @param load If \code{TRUE}, the resulting output shapefile will be loaded 
+#' @param load If `TRUE`, the resulting output shapefile will be loaded 
 #'   into R (default: FALSE).
 #' @param env RSAGA geoprocessing environment created by 
-#'   \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
+#'   [rsaga.env()], required because module(s) depend(s) on SAGA 
 #'   version.
 #' @return The function saves the output shapefile to the path indicated in 
-#'   function argument \code{result} and loads the resulting shapefile into R 
-#'   when function parameter \code{load} is set to TRUE.
-#' @details Function \code{\link[rgeos]{gUnion}} can also be used for joining
+#'   function argument `result` and loads the resulting shapefile into R 
+#'   when function parameter `load` is set to TRUE.
+#' @details Function [rgeos::gUnion()] can also be used for joining
 #'   intersecting polygon geometries. However, 
-#'   \code{\link{rsaga.union.polygons}} will be usually much faster, 
+#'   [rsaga.union.polygons()] will be usually much faster, 
 #'   especially when joining thousands of polygons.
 #' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
 #'   modules)

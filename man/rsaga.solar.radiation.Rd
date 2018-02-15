@@ -42,15 +42,15 @@ rsaga.solar.radiation(in.dem, out.grid, out.duration, latitude,
 
 \item{day.step}{if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation}
 
-\item{env}{RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)}
+\item{env}{RSAGA geoprocessing environment obtained with \code{\link[=rsaga.env]{rsaga.env()}}; this argument is required for version control (see Note)}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \description{
-This function calculates the potential incoming solar radiation in an area either using a lumped atmospheric transmittance model or estimating it based on water and dust content. Use \code{\link{rsaga.pisr}} instead with SAGA GIS 2.0.6+.
+This function calculates the potential incoming solar radiation in an area either using a lumped atmospheric transmittance model or estimating it based on water and dust content. Use \code{\link[=rsaga.pisr]{rsaga.pisr()}} instead with SAGA GIS 2.0.6+.
 }
 \note{
-This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more flexible) module Potential Solar Radiation that is interfaced by \code{\link{rsaga.pisr}}.
+This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more flexible) module Potential Solar Radiation that is interfaced by \code{\link[=rsaga.pisr]{rsaga.pisr()}}.
 
 SAGA_CMD uses zero-based days and months, but this R function uses the standard one-based days and months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 
@@ -71,7 +71,7 @@ rsaga.solar.radiation("dem","solrad","soldur",latitude=43,
 Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley & Sons.
 }
 \seealso{
-\code{\link{rsaga.hillshade}}, \code{\link{rsaga.insolation}}
+\code{\link[=rsaga.hillshade]{rsaga.hillshade()}}, \code{\link[=rsaga.insolation]{rsaga.insolation()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

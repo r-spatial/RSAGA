@@ -42,23 +42,24 @@ rsaga.profile.curvature(in.dem, out.vcurv, method = "poly2zevenbergen",
 
 \item{method}{character (or numeric): algorithm (see References):
 \itemize{
-\item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
-\item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
-\item [2] Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
-\item [3] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
-\item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
-\item [5] default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
-\item [6] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).}}
+\item 0 Maximum Slope - Travis et al. (1975) (\code{"maxslope"}, or 0)
+\item 1 Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"}, or 1)
+\item 2 Least Squares Fit Plane - Costa-Cabral and Burgess (1996) (\code{"lsqfitplane"}, or 2)
+\item 3 Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"}, or 3)
+\item 4 Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"}, or 4)
+\item 5 default: Fit 2nd Degree Polynomial - Zevenbergen and Thorne (1987) (\code{"poly2zevenbergen"}, or 5)
+\item 6 Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"}, or 6).
+}}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{further arguments to \code{\link{rsaga.geoprocessor}}}
+\item{...}{further arguments to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
-Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use \code{\link{rsaga.slope.asp.curv}} for SAGA 2.1.1+
+Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use \code{\link[=rsaga.slope.asp.curv]{rsaga.slope.asp.curv()}} for SAGA 2.1.1+
 }
 \examples{
 \dontrun{
@@ -69,10 +70,10 @@ rsaga.esri.wrapper(rsaga.slope,in.dem="lican",out.slope="slope",method="maxslope
 }
 }
 \references{
-For references and algorithm changes in SAGA GIS 2.1.1+ see \code{\link{rsaga.slope.asp.curv}}.
+For references and algorithm changes in SAGA GIS 2.1.1+ see \code{\link[=rsaga.slope.asp.curv]{rsaga.slope.asp.curv()}}.
 }
 \seealso{
-\code{\link{rsaga.slope.asp.curv}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+\code{\link[=rsaga.slope.asp.curv]{rsaga.slope.asp.curv()}}, \code{\link[=rsaga.parallel.processing]{rsaga.parallel.processing()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}},  \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)

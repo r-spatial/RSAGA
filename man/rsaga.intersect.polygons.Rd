@@ -8,42 +8,42 @@ rsaga.intersect.polygons(layer_a = NULL, layer_b = NULL, result = NULL,
   split = FALSE, load = FALSE, env = rsaga.env())
 }
 \arguments{
-\item{layer_a}{A \code{character}-string representing the path to a polygon 
-shapefile or a spatial object of class 
-\code{\link[sp]{SpatialPolygonsDataFrame}}.}
+\item{layer_a}{A \code{character}-string representing the path to a polygon
+shapefile or a spatial object of class
+\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}}.}
 
 \item{layer_b}{A \code{character}-string representing the path to a polygon
-shapefile or a spatial object of class 
-\code{\link[sp]{SpatialPolygonsDataFrame}} with which to intersect layer_a.}
+shapefile or a spatial object of class
+\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}} with which to intersect layer_a.}
 
-\item{result}{A \code{character}-string indicating where the resulting 
+\item{result}{A \code{character}-string indicating where the resulting
 shapefile should be stored.}
 
-\item{split}{If \code{TRUE}, multipart polygons become separated polygons 
+\item{split}{If \code{TRUE}, multipart polygons become separated polygons
 (default: FALSE).}
 
-\item{load}{If \code{TRUE}, the resulting output shapefile will be loaded 
+\item{load}{If \code{TRUE}, the resulting output shapefile will be loaded
 into R (default: FALSE).}
 
-\item{env}{RSAGA geoprocessing environment created by 
-\code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA 
+\item{env}{RSAGA geoprocessing environment created by
+\code{\link[=rsaga.env]{rsaga.env()}}, required because module(s) depend(s) on SAGA
 version.}
 }
 \value{
-The function saves the output shapefile to the path indicated in 
-  function argument \code{result} and loads the resulting shapefile into R
-  when function parameter \code{load} is set to TRUE.
+The function saves the output shapefile to the path indicated in
+function argument \code{result} and loads the resulting shapefile into R
+when function parameter \code{load} is set to TRUE.
 }
 \description{
-The function \code{rsaga.intersect.polygons} calculates the 
-  geometric intersection of two overlayed polygon layers using SAGA module 
-  "\code{Intersect}".
+The function \code{rsaga.intersect.polygons} calculates the
+geometric intersection of two overlayed polygon layers using SAGA module
+"\code{Intersect}".
 }
 \details{
-Function \code{\link[rgeos]{gIntersection}} can also be used to 
-  define the intersection between two polygon layers. However, 
-  \code{\link{rsaga.intersect.polygons}} will be usually much faster, 
-  especially when intersecting thousands of polygons.
+Function \code{\link[rgeos:gIntersection]{rgeos::gIntersection()}} can also be used to
+define the intersection between two polygon layers. However,
+\code{\link[=rsaga.intersect.polygons]{rsaga.intersect.polygons()}} will be usually much faster,
+especially when intersecting thousands of polygons.
 }
 \examples{
 \dontrun{
@@ -75,8 +75,8 @@ plot(res, col = "yellow", add = TRUE)
 }
 }
 \author{
-Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
-  modules)
+Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+modules)
 }
 \keyword{operations,}
 \keyword{polygons}

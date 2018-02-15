@@ -38,35 +38,38 @@ rsaga.slope.asp.curv(in.dem, out.slope, out.aspect, out.cgene, out.cprof,
 
 \item{method}{character algorithm (see References):
 \itemize{
-\item [0] Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
-\item [1] Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
-\item [2] Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
-\item [3] Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
-\item [4] Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
-\item [5] Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
-\item [6] default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
-\item [7] Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})}}
+\item 0 Maximum Slope - Travis et al. (1975) (\code{"maxslope"})
+\item 1 Max. Triangle Slope - Tarboton (1997) (\code{"maxtriangleslope"})
+\item 2 Least Squares Fit Plane - Costa-Cabral & Burgess (1996) (\code{"lsqfitplane"})
+\item 3 Fit 2nd Degree Polynomial - Evans (1979) (\code{"poly2evans"})
+\item 4 Fit 2nd Degree Polynomial - Heerdegen and Beran (1982) (\code{"poly2heerdegen"})
+\item 5 Fit 2nd Degree Polynomial - Bauer et al. (1985) (\code{"poly2bauer"})
+\item 6 default: Fit 2nd Degree Polynomial - Zevenbergen & Thorne (1987) (\code{"poly2zevenbergen"})
+\item 7 Fit 3rd Degree Polynomial - Haralick (1983) (\code{"poly3haralick"})
+}}
 
 \item{unit.slope}{character or numeric (default \code{"radians"}):
 \itemize{
-\item [0] \code{"radians"}
-\item [1] \code{"degrees"}
-\item [2] \code{"percent"}}}
+\item 0 \code{"radians"}
+\item 1 \code{"degrees"}
+\item 2 \code{"percent"}
+}}
 
 \item{unit.aspect}{character or numeric (default is 0, or \code{"radians"}):
 \itemize{
-\item [0] \code{"radians"}
-\item [1] \code{"degrees"}}}
+\item 0 \code{"radians"}
+\item 1 \code{"degrees"}
+}}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{further arguments to \code{\link{rsaga.geoprocessor}}}
+\item{...}{further arguments to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
-Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link{rsaga.local.morphometry}}.
+Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use \code{\link[=rsaga.local.morphometry]{rsaga.local.morphometry()}}.
 }
 \details{
 Profile and plan curvature calculation (\code{out.cprof}, \code{out.cplan}) changed in SAGA GIS 2.1.1+ compared to earlier versions. See the following thread on sourceforge.net for an ongoing discussion: \url{http://sourceforge.net/p/saga-gis/discussion/354013/thread/e9d07075/#5727}
@@ -125,7 +128,7 @@ For a discussion on the calculation of slope by ArcGIS check these links:
 \url{http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?topicname=how_slope_works}
 }
 \seealso{
-\code{\link{rsaga.local.morphometry}}, \code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.geoprocessor}},  \code{\link{rsaga.env}}
+\code{\link[=rsaga.local.morphometry]{rsaga.local.morphometry()}}, \code{\link[=rsaga.parallel.processing]{rsaga.parallel.processing()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}},  \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module)

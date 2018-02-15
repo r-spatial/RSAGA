@@ -3,59 +3,63 @@
 \name{landslides}
 \alias{landslides}
 \alias{dem}
+\alias{study_area}
 \title{Landslide inventory, study area mask and DEM}
 \format{The \code{landslides} dataset consists of three objects:
 \enumerate{
-  \item{\code{landslides}} {A dataframe of 1535 rows and 3 variables
-   representing landslide initiation points in the 
-   \emph{Reserva Biologica San Francisco} (RBSF) area of the tropical Andes 
-   in Southern Ecuador. The variables are:
-   \itemize{
-     \item{\code{lslpts}} {landslide initiation point (boolean)}
-     \item{\code{x} and \code{y}} {Coordinates of coordinate reference system
-      UTM zone 17S (EPSG: 32717)}
-      }
-   The landslide inventory was mapped by Stoyan (2000) in the field and by 
-   the presence of landslide scars in aerial imagery.}
-  \item \code{dem} {Digital elevation model given as a .Rd grid, i.e. a list
-  consisting of the elements \code{header} (nine properties) and \code{data}
-  (grid elevation values in m a.s.l.). The 10 m x 10 m digital elevation model
-  was triangulated from aerial imagery as described by Jordan \emph{et al.}
-  (2005) and provided as a courtesy of Lars Ungerechts (2010).}
-  \item \code{study_area} {An \code{sf}-object representing the outlines of 
-  the natural part of the RBSF study area.}
-  }}
+\item{\code{landslides}} {A dataframe of 1535 rows and 3 variables
+representing landslide initiation points in the
+\emph{Reserva Biologica San Francisco} (RBSF) area of the tropical Andes
+in Southern Ecuador. The variables are:
+\itemize{
+\item{\code{lslpts}} {landslide initiation point (boolean)}
+\item{\code{x} and \code{y}} {Coordinates of coordinate reference system
+UTM zone 17S (EPSG: 32717)}
+}
+The landslide inventory was mapped by Stoyan (2000) in the field and by
+the presence of landslide scars in aerial imagery.}
+\item \code{dem} {Digital elevation model given as a .Rd grid, i.e. a list
+consisting of the elements \code{header} (nine properties) and \code{data}
+(grid elevation values in m a.s.l.). The 10 m x 10 m digital elevation model
+was triangulated from aerial imagery as described by Jordan \emph{et al.}
+(2005) and provided as a courtesy of Lars Ungerechts (2010).}
+\item \code{study_area} {An \code{sf}-object representing the outlines of
+the natural part of the RBSF study area.}
+}}
 \source{
 \strong{DEM:}
 
-  Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w).
-  Available online:
+Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w).
+Available online:
 
-  \code{http://www.tropicalmountainforest.org/data_pre.do?citid=901}
+\code{http://www.tropicalmountainforest.org/data_pre.do?citid=901}
 
-  Jordan, E., Ungerechts, L., Caceres, B. Penafiel, A. and Francou, B.
-  (2005): Estimation by photogrammetry of the glacier recession on the
-  Cotopaxi Volcano (Ecuador) between 1956 and 1997. \emph{Hydrological
-  Sciences} 50, 949-961.
+Jordan, E., Ungerechts, L., Caceres, B. Penafiel, A. and Francou, B.
+(2005): Estimation by photogrammetry of the glacier recession on the
+Cotopaxi Volcano (Ecuador) between 1956 and 1997. \emph{Hydrological
+Sciences} 50, 949-961.
 
-  \strong{Landslide Data:}
+\strong{Landslide Data:}
 
-  Muenchow, J., Brenning, A., Richter, R. (2012): Geomorphic process rates of
-  landslides along a humidity gradient in the tropical Andes, Geomorphology
-  139-140, 271-284. DOI: 10.1016/j.geomorph.2011.10.029.
+Muenchow, J., Brenning, A., Richter, R. (2012): Geomorphic process rates of
+landslides along a humidity gradient in the tropical Andes, Geomorphology
+139-140, 271-284. DOI: 10.1016/j.geomorph.2011.10.029.
 
-  Stoyan, R. (2000): Aktivitaet, Ursachen und Klassifikation der Rutschungen
-  in San Francisco/Suedecuador. Unpublished diploma thesis, University of
-  Erlangen-Nuremberg, Germany.
+Stoyan, R. (2000): Aktivitaet, Ursachen und Klassifikation der Rutschungen
+in San Francisco/Suedecuador. Unpublished diploma thesis, University of
+Erlangen-Nuremberg, Germany.
+}
+\description{
+Landslide data
 }
 \details{
 Landslide data provided here are a subset of that used by Muenchow
-  \emph{et al.} (2012) to predict spatially landslide susceptibility using
-  generalized additive models (GAMs). Specifically, the here provided
-  landslides belong to the "natural" part of the \emph{RBSF} area. Please
-  refer also to the accompanying vignette for an introductory tutorial on the
-  use of the RSAGA package for terrain analysis, geoprocessing, and
-  model-building using these data.
+\emph{et al.} (2012) to predict spatially landslide susceptibility using
+generalized additive models (GAMs). Specifically, the here provided
+landslides belong to the "natural" part of the \emph{RBSF} area. Please
+refer also to the accompanying vignette for an introductory tutorial on the
+use of the RSAGA package for terrain analysis, geoprocessing, and
+model-building using these data.
 }
 \note{
 Please note that loading \code{landslides} overwrites existing objects named

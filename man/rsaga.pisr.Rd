@@ -87,9 +87,9 @@ rsaga.pisr(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 
 \item{day.step}{if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation}
 
-\item{env}{RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)}
+\item{env}{RSAGA geoprocessing environment obtained with \code{\link[=rsaga.env]{rsaga.env()}}; this argument is required for version control (see Note)}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \description{
 This function calculates the potential incoming solar radiation in an area using different atmospheric models; module available in SAGA GIS 2.0.6+.
@@ -112,7 +112,7 @@ Oke, T.R. (1988): Boundary layer climates. London, Taylor and Francis.
 Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley and Sons.
 }
 \seealso{
-\code{\link{rsaga.hillshade}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}
+\code{\link[=rsaga.hillshade]{rsaga.hillshade()}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link[=rsaga.solar.radiation]{rsaga.solar.radiation()}} and \code{\link[=rsaga.insolation]{rsaga.insolation()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

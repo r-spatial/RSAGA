@@ -46,9 +46,9 @@ pick.from.saga.grid(data, filename, path, varname, prec = 7,
 
 \item{radius}{numeric value specifying the radius of the local neighborhood to be used for interpolation; defaults to 200 map units (presumably meters), or, in the functions for grid files, \code{2.5*cellsize}.}
 
-\item{nmin}{numeric, for \code{method="krige"} only: see \code{\link[gstat]{krige}} function in package \pkg{gstat}}
+\item{nmin}{numeric, for \code{method="krige"} only: see \code{\link[gstat:krige]{gstat::krige()}} function in package \pkg{gstat}}
 
-\item{nmax}{numeric, for \code{method="krige"} only: see \code{\link[gstat]{krige}} function in package \pkg{gstat}}
+\item{nmax}{numeric, for \code{method="krige"} only: see \code{\link[gstat:krige]{gstat::krige()}} function in package \pkg{gstat}}
 
 \item{sill}{numeric, for \code{method="krige"} only: the overall sill parameter to be used for the variogram}
 
@@ -56,7 +56,7 @@ pick.from.saga.grid(data, filename, path, varname, prec = 7,
 
 \item{nugget}{numeric, for \code{method="krige"} only: the nugget effect}
 
-\item{model}{for \code{method="krige"} only: the variogram model to be used for interpolation; defaults to a spherical variogram with parameters specified by the \code{range}, \code{sill}, and \code{nugget} arguments; see \code{\link[gstat]{vgm}} in package \pkg{gstat} for details}
+\item{model}{for \code{method="krige"} only: the variogram model to be used for interpolation; defaults to a spherical variogram with parameters specified by the \code{range}, \code{sill}, and \code{nugget} arguments; see \code{\link[gstat:vgm]{gstat::vgm()}} in package \pkg{gstat} for details}
 
 \item{log}{logical vector, specifying for each variable in \code{pick} if interpolation should take place on the logarithmic scale (default: \code{FALSE})}
 
@@ -74,13 +74,13 @@ pick.from.saga.grid(data, filename, path, varname, prec = 7,
 
 \item{path}{optional path to \code{file}}
 
-\item{varname}{character string: a variable name for the variable interpolated from grid file \code{file} in \code{pick.from.*.grid}; if missing, variable name will be determined from \code{file}name by a call to \code{\link{create.variable.name}}}
+\item{varname}{character string: a variable name for the variable interpolated from grid file \code{file} in \code{pick.from.*.grid}; if missing, variable name will be determined from \code{file}name by a call to \code{\link[=create.variable.name]{create.variable.name()}}}
 
 \item{prefix}{an optional prefix to be added to the \code{varname}}
 
-\item{parallel}{logical (default: \code{FALSE}): enable parallel processing; requires additional packages such as \pkg{doSNOW} or \pkg{doMC}. See example below and \code{\link[plyr]{ddply}}}
+\item{parallel}{logical (default: \code{FALSE}): enable parallel processing; requires additional packages such as \pkg{doSNOW} or \pkg{doMC}. See example below and \code{\link[plyr:ddply]{plyr::ddply()}}}
 
-\item{nsplit}{split the data.frame \code{data} in \code{nsplit} disjoint subsets in order to increase efficiency by using \code{\link[plyr]{ddply}} in package \pkg{plyr}. The default seems to perform well in many situations.}
+\item{nsplit}{split the data.frame \code{data} in \code{nsplit} disjoint subsets in order to increase efficiency by using \code{\link[plyr:ddply]{plyr::ddply()}} in package \pkg{plyr}. The default seems to perform well in many situations.}
 
 \item{quiet}{logical: provide information on the progress of grid processing on screen? (only relevant if \code{at.once=FALSE} and \code{method="nearest.neighbour"})}
 
@@ -90,15 +90,15 @@ pick.from.saga.grid(data, filename, path, varname, prec = 7,
 
 \item{nlines}{numeric: stop after processing \code{nlines} lines of the input grid; useful for testing purposes}
 
-\item{na.strings}{passed on to \code{\link{scan}}}
+\item{na.strings}{passed on to \code{\link[=scan]{scan()}}}
 
 \item{filename}{character: name of a SAGA grid file, default extension \code{.sgrd}}
 
 \item{prec}{numeric, specifying the number of digits to be used in converting a SAGA grid to an ASCII grid in \code{pick.from.saga.grid}}
 
-\item{show.output.on.console}{a logical (default: \code{FALSE}), indicates whether to capture the output of the command and show it on the R console (see \code{\link{system}}, \code{\link{rsaga.geoprocessor}}).}
+\item{show.output.on.console}{a logical (default: \code{FALSE}), indicates whether to capture the output of the command and show it on the R console (see \code{\link[=system]{system()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}).}
 
-\item{env}{list: RSAGA geoprocessing environment created by \code{\link{rsaga.env}}}
+\item{env}{list: RSAGA geoprocessing environment created by \code{\link[=rsaga.env]{rsaga.env()}}}
 }
 \value{
 If \code{cbind=TRUE}, columns with the new, interpolated variables are added to the input data.frame \code{data}.
@@ -162,7 +162,7 @@ plot(meuse.kr$elev,meuse.nn$elev)
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
-\code{\link{grid.to.xyz}}, %\code{\link{vgm}}, \code{\link{krige}}, \code{\link{read.ascii.grid}}, \code{\link{write.ascii.grid}}
+\code{\link[=grid.to.xyz]{grid.to.xyz()}}, %\code{\link[=vgm]{vgm()}}, \code{\link[=krige]{krige()}}, \code{\link[=read.ascii.grid]{read.ascii.grid()}}, \code{\link[=write.ascii.grid]{write.ascii.grid()}}
 }
 \author{
 Alexander Brenning

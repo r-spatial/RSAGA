@@ -26,19 +26,19 @@ wind.shelter.prep(radius, direction, tolerance, cellsize = 90)
 }
 \value{
 The function \code{wind.shelter} returns the wind shelter index as described above if a numeric matrix \code{x} is provided. If it is missing, it returns the character string \code{"windshelter"}.
- 
+
 \code{wind.shelter.prep} returns a list with components \code{mask} and \code{dist}. Both are square matrices with \code{2*(ceiling(radius)+1)} columns and rows:
-  \item{mask}{indicates which grid cell in the moving window is within the specified circle segment (value \code{FALSE}) or not (\code{TRUE})}
-  \item{dist}{the precomputed distances of a grid cell to the center of the moving window, in map units}
+\item{mask}{indicates which grid cell in the moving window is within the specified circle segment (value \code{FALSE}) or not (\code{TRUE})}
+\item{dist}{the precomputed distances of a grid cell to the center of the moving window, in map units}
 }
 \description{
-\code{wind.shelter} is a function to be used with \code{\link{focal.function}} to calculate a topographic wind shelter index from a digital elevation model, which is a proxy for snow accumulation on the lee side of topographic obstacles. \code{wind.shelter.prep} performs some preparatory calculations to speed up repeated calls to \code{wind.shelter}.
+\code{wind.shelter} is a function to be used with \code{\link[=focal.function]{focal.function()}} to calculate a topographic wind shelter index from a digital elevation model, which is a proxy for snow accumulation on the lee side of topographic obstacles. \code{wind.shelter.prep} performs some preparatory calculations to speed up repeated calls to \code{wind.shelter}.
 }
 \details{
 \code{wind.shelter} implements a wind shelter index used by Plattner et al. (2004) for modeling snow accumulation patterns on a glacier in the Austrian Alps. It is a modified version of the algorithm of Winstral et al. (2002). The wind shelter index of Plattner et al. (2004) is defined as:
 
-   \code{Shelter index(S) = arctan( max( (z(x0)-z(x)) / |x0-x| : x in S ) ),}
-   
+\code{Shelter index(S) = arctan( max( (z(x0)-z(x)) / |x0-x| : x in S ) ),}
+
 where \code{S = S(x0,a,da,d)} is the set of grid nodes within a distance \code{<=d} from \code{x0}, only considering grid nodes in directions between \code{a-da} and \code{a+da} from \code{x0}.
 
 The present implementation generalizes this index by replacing \code{max} by the \code{quantile} function; the \code{max} function is used if \code{prob=NULL}, and the same result is obtained for \code{prob=1} using the \code{quantile} function.
@@ -46,7 +46,7 @@ The present implementation generalizes this index by replacing \code{max} by the
 \note{
 The wind shelter index only makes sense if elevation is measured in the same units as the horizontal map units used for the \code{cellsize} argument (i.e. usually meters).
 
-\code{wind.shelter} and \code{wind.shelter.prep} do not restrict the calculation to a circular area; this is done by \code{\link{focal.function}} when used in combination with that function (assuming \code{search.mode="circle"}).
+\code{wind.shelter} and \code{wind.shelter.prep} do not restrict the calculation to a circular area; this is done by \code{\link[=focal.function]{focal.function()}} when used in combination with that function (assuming \code{search.mode="circle"}).
 
 Note that the present definition of the wind shelter index returns negative values for surfaces that are completely exposed toward the specified direction. This may make sense if interpreted as a "wind exposure index", or it might be appropriate to set negative wind shelter values to 0.
 }
@@ -62,7 +62,7 @@ Plattner, C., Braun, L.N., Brenning, A. (2004): Spatial variability of snow accu
 Winstral, A., Elder, K., Davis, R.E. (2002): Spatial snow modeling of wind-redistributed snow using terrain-based parameters. Journal of Hydrometeorology, 3: 524-538.
 }
 \seealso{
-\code{\link{focal.function}}, \code{\link{quantile}}
+\code{\link[=focal.function]{focal.function()}}, \code{\link[=quantile]{quantile()}}
 }
 \author{
 Alexander Brenning

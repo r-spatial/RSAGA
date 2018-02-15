@@ -10,7 +10,7 @@ grid.predict(fit, predfun, trafo, control.predict, predict.column, trace = 0,
 \arguments{
 \item{fit}{a model object for which prediction is desired}
 
-\item{predfun}{optional prediction function; if missing, the \code{fit}'s \code{\link{predict}} method is called. In some cases it may be convenient to define a wrapper function for the predict method that may be passed as \code{predfun} argument.}
+\item{predfun}{optional prediction function; if missing, the \code{fit}'s \code{\link[=predict]{predict()}} method is called. In some cases it may be convenient to define a wrapper function for the predict method that may be passed as \code{predfun} argument.}
 
 \item{trafo}{an optional \code{function(x)} that takes a \code{data.frame} \code{x} and returns a \code{data.frame} with the same number of rows; this is intended to perform transformations on the input variables, e.g. derive a log-transformed variable from the raw input read from the grids, or more complex variables such as the NDVI etc.; the \code{data.frame} resulting from a call to \code{trafo} (if provided) is passed to \code{predfun}}
 
@@ -22,19 +22,19 @@ grid.predict(fit, predfun, trafo, control.predict, predict.column, trace = 0,
 
 \item{location}{optional location data received from \code{multi.focal.function}; is added to the \code{newdata} object that is passed on to \code{predfun}.}
 
-\item{\dots}{these arguments are provided by the calling function, usually \code{\link{multi.local.function}} or \code{\link{multi.focal.function}}.  They contain the explanatory (predictor) variables required by the \code{fit} model.}
+\item{\dots}{these arguments are provided by the calling function, usually \code{\link[=multi.local.function]{multi.local.function()}} or \code{\link[=multi.focal.function]{multi.focal.function()}}.  They contain the explanatory (predictor) variables required by the \code{fit} model.}
 }
 \value{
-\code{grid.predict} returns the result of the call to \code{predfun} or the default \code{\link{predict}} method.
+\code{grid.predict} returns the result of the call to \code{predfun} or the default \code{\link[=predict]{predict()}} method.
 }
 \description{
-This function can be used to apply the predict method of hopefully any fitted predictive model pixel by pixel to a stack of grids representing the explanatory variables. It is intended to be called primarily by \code{\link{multi.local.function}} or \code{\link{multi.focal.function}}.
+This function can be used to apply the predict method of hopefully any fitted predictive model pixel by pixel to a stack of grids representing the explanatory variables. It is intended to be called primarily by \code{\link[=multi.local.function]{multi.local.function()}} or \code{\link[=multi.focal.function]{multi.focal.function()}}.
 }
 \details{
-\code{grid.predict} is a simple wrapper function. First it binds the arguments in \code{\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link{multi.local.function}} (or \code{\link{multi.focal.function}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link{predict}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
+\code{grid.predict} is a simple wrapper function. First it binds the arguments in \code{\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link[=multi.local.function]{multi.local.function()}} (or \code{\link[=multi.focal.function]{multi.focal.function()}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link[=predict]{predict()}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
 }
 \note{
-Though \code{grid.predict} can in principle deal with \code{predict} methods returning factor variables, its usual caller \code{\link{multi.local.function}} / \code{\link{multi.focal.function}} cannot; classification models should be dealt with by setting a \code{type="prob"} (for \code{rpart}) or \code{type="response"} (for logistic regression and logistic additive model) argument, for example (see second Example below).
+Though \code{grid.predict} can in principle deal with \code{predict} methods returning factor variables, its usual caller \code{\link[=multi.local.function]{multi.local.function()}} / \code{\link[=multi.focal.function]{multi.focal.function()}} cannot; classification models should be dealt with by setting a \code{type="prob"} (for \code{rpart}) or \code{type="response"} (for logistic regression and logistic additive model) argument, for example (see second Example below).
 }
 \examples{
 \dontrun{
@@ -71,7 +71,7 @@ multi.local.function(in.grids = c("a", "b", "c"),
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
-\code{\link{focal.function}}, \code{\link{multi.local.function}}, \code{\link{multi.focal.function}}
+\code{\link[=focal.function]{focal.function()}}, \code{\link[=multi.local.function]{multi.local.function()}}, \code{\link[=multi.focal.function]{multi.focal.function()}}
 }
 \author{
 Alexander Brenning

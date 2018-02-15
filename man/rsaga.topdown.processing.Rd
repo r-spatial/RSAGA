@@ -42,27 +42,28 @@ rsaga.topdown.processing(in.dem, in.sinkroute, in.weight, in.mean, in.material,
 
 \item{method}{character or numeric: choice of processing algorithm (default \code{"mfd"}, or 4):
 \itemize{
-\item [0] Deterministic 8 (\code{"d8"} or 0)
-\item [1] Rho 8 (\code{"rho8"}, or 1)
-\item [2] Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
-\item [3] Deterministic Infinity (\code{"dinf"} or 3)
-\item [4] Multiple Flow Direction (\code{"mfd"} or 4)
-\item [5] Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
-\item [6] Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)}}
+\item [\0 Deterministic 8 (\code{"d8"} or 0)
+\item [\1 Rho 8 (\code{"rho8"}, or 1)
+\item [\2 Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
+\item [\3 Deterministic Infinity (\code{"dinf"} or 3)
+\item [\4 Multiple Flow Direction (\code{"mfd"} or 4)
+\item [\5 Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
+\item [\6 Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)
+}}
 
 \item{linear.threshold}{numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)}
 
 \item{convergence}{numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{further arguments to \code{\link{rsaga.geoprocessor}}}
+\item{...}{further arguments to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 }
 \description{
-Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See \code{\link{rsaga.parallel.processing}} with older versions.
+Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See \code{\link[=rsaga.parallel.processing]{rsaga.parallel.processing()}} with older versions.
 }
 \details{
 Refer to the references for details on the available algorithms.
@@ -108,7 +109,7 @@ Multiple Flow Direction Based on Maximum Downslope Gradient:
 Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An approach to computing topographic wetness index based on maximum downslope gradient. Precision Agriculture, 12(1): 32-43.
 }
 \seealso{
-\code{\link{rsaga.parallel.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+\code{\link[=rsaga.parallel.processing]{rsaga.parallel.processing()}}, \code{\link[=rsaga.wetness.index]{rsaga.wetness.index()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)

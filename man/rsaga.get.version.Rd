@@ -7,9 +7,9 @@
 rsaga.get.version(env = rsaga.env(version = NA), ...)
 }
 \arguments{
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}. Note that \code{version=NA} ensures that \code{\link{rsaga.env}} won't call \code{rsaga.get.version} itself.}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}. Note that \code{version=NA} ensures that \code{\link[=rsaga.env]{rsaga.env()}} won't call \code{rsaga.get.version} itself.}
 
-\item{...}{additional arguments to \code{\link{rsaga.geoprocessor}}}
+\item{...}{additional arguments to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
 A character string defining the SAGA GIS (API) version. E.g., \code{"2.0.8"}.
@@ -34,7 +34,7 @@ rsaga.get.version(env = myenv05)
 }
 }
 \seealso{
-\code{\link{rsaga.env}}
+\code{\link[=rsaga.env]{rsaga.env()}}
 }
 \keyword{interface}
 \keyword{spatial}

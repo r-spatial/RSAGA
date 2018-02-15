@@ -16,10 +16,10 @@ rsaga.sink.removal(in.dem, in.sinkroute, out.dem, method = "fill", ...)
 
 \item{method}{character string or numeric value specifying the algorithm (partial string matching will be applied): \code{"deepen drainage route"} (or 0): reduce the elevation of pixels in order to achieve drainage out of the former sinks \code{"fill sinks"} (or 1): fill sinks until none are left}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
 Sink Removal
@@ -33,7 +33,7 @@ This function uses module 1 from SAGA library \code{ta_preprocessor}.
 rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
 }
 \seealso{
-\code{\link{rsaga.sink.route}}, \code{\link{rsaga.fill.sinks}}
+\code{\link[=rsaga.sink.route]{rsaga.sink.route()}}, \code{\link[=rsaga.fill.sinks]{rsaga.fill.sinks()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

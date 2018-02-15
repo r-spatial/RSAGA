@@ -18,12 +18,12 @@ rsaga.filter.simple(in.grid, out.grid, mode = "circle", method = c("smooth",
 
 \item{radius}{positive integer: radius of moving window}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 }
 \description{
 Apply a smoothing, sharpening or edge filter to a SAGA grid.
@@ -32,7 +32,7 @@ Apply a smoothing, sharpening or edge filter to a SAGA grid.
 \dontrun{rsaga.filter.simple("dem","dem-smooth",radius=4)}
 }
 \seealso{
-\code{\link{rsaga.filter.gauss}}
+\code{\link[=rsaga.filter.gauss]{rsaga.filter.gauss()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

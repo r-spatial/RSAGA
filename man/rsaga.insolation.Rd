@@ -59,10 +59,10 @@ rsaga.insolation(in.dem, in.vapour, in.latitude, in.longitude, out.direct,
 
 \item{lon.ref.user}{if \code{in.longitude} is missing and \code{lon.offset="user"}, then this numeric value defines the reference of the local time (details??)}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
 This function calculates the amount of incoming solar radiation (insolation) depending on slope, aspect, and atmospheric properties. Module not available in SAGA GIS 2.0.6 and 2.0.7.
@@ -71,10 +71,10 @@ This function calculates the amount of incoming solar radiation (insolation) dep
 Calculation of incoming solar radiation (insolation). Based on the SADO (System for the Analysis of Discrete Surfaces) routines developed  by Boehner & Trachinow.
 }
 \note{
-This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link{rsaga.pisr}}.
+This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link[=rsaga.pisr]{rsaga.pisr()}}.
 }
 \seealso{
-\code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.pisr}},  \code{\link{rsaga.hillshade}}
+\code{\link[=rsaga.solar.radiation]{rsaga.solar.radiation()}}, \code{\link[=rsaga.pisr]{rsaga.pisr()}},  \code{\link[=rsaga.hillshade]{rsaga.hillshade()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

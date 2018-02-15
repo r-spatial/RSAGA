@@ -33,15 +33,15 @@ rsaga.parallel.processing(in.dem, in.sinkroute, in.weight, out.carea,
 
 \item{convergence}{numeric >=0: a parameter for tuning convergent/ divergent flow; default value of \code{1.1} gives realistic results and should not be changed}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{further arguments to \code{\link{rsaga.geoprocessor}}}
+\item{...}{further arguments to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 }
 \description{
-Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See \code{\link{rsaga.topdown.processing}}.
+Calculate the size of the local catchment area (contributing area), the catchment height, catchment slope and aspect, and flow path length, using parallel processing algorithms including the recommended multiple flow direction algorithm. This set of algorithms processes a digital elevation model (DEM) downwards from the highest to the lowest cell.\cr No longer supported with SAGA GIS 2.1.3+. See \code{\link[=rsaga.topdown.processing]{rsaga.topdown.processing()}}.
 }
 \details{
 Refer to the references for details on the available algorithms.
@@ -49,9 +49,9 @@ Refer to the references for details on the available algorithms.
 \note{
 This function uses module \code{Parallel Processing} (version 2.0.7+: \code{Catchment Area (Parallel)} from SAGA library \code{ta_hydrology}.
 
-The SAGA GIS 2.0.6+ version of the module adds more (optional) input and 
+The SAGA GIS 2.0.6+ version of the module adds more (optional) input and
 output grids that are currently not supported by this wrapper function.
-Use \code{\link{rsaga.geoprocessor}} for access to these options,
+Use \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}} for access to these options,
 and see \code{rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")}
 for information on new arguments.
 }
@@ -97,7 +97,7 @@ Multiple Triangular Flow Direction:
 Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
 }
 \seealso{
-\code{\link{rsaga.topdown.processing}}, \code{\link{rsaga.wetness.index}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+\code{\link[=rsaga.topdown.processing]{rsaga.topdown.processing()}}, \code{\link[=rsaga.wetness.index]{rsaga.wetness.index()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)

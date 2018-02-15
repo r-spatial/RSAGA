@@ -14,10 +14,10 @@ rsaga.esri.to.sgrd(in.grids, out.sgrds = set.file.extension(in.grids,
 
 \item{in.path}{folder with \code{in.grids}}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 
 If multiple \code{in.grids} are converted, the result will be a vector of numerical error codes of the same length, or the combination of the console outputs with \code{c()}.
 }
@@ -28,7 +28,7 @@ If multiple \code{in.grids} are converted, the result will be a vector of numeri
 This function uses module 1 from the SAGA library \code{io_grid}.
 }
 \seealso{
-\code{\link{rsaga.esri.wrapper}} for an efficient way of applying RSAGA to ESRI ASCII/binary grids; \code{\link{rsaga.env}}
+\code{\link[=rsaga.esri.wrapper]{rsaga.esri.wrapper()}} for an efficient way of applying RSAGA to ESRI ASCII/binary grids; \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

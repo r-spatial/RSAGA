@@ -21,9 +21,9 @@ rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 
 \item{type}{character string: \code{"nodes"}: create point shapefile of grid center points; \code{"cells"} (only supported by SAGA GIS 2.0.6+): create polygon shapefile with grid cell boundaries}
 
-\item{env}{RSAGA geoprocessing environment created by \code{\link{rsaga.env}}; required by \code{rsaga.grid.to.points} to determine version-dependent SAGA module name and arguments}
+\item{env}{RSAGA geoprocessing environment created by \code{\link[=rsaga.env]{rsaga.env()}}; required by \code{rsaga.grid.to.points} to determine version-dependent SAGA module name and arguments}
 
-\item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}}
+\item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 
 \item{in.grid}{Input: SAGA grid file from which to sample.}
 
@@ -46,7 +46,7 @@ rsaga.grid.to.points.randomly("dem", "dempoints20", freq = 20)
 }
 }
 \seealso{
-\code{\link{rsaga.add.grid.values.to.points}}
+\code{\link[=rsaga.add.grid.values.to.points]{rsaga.add.grid.values.to.points()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA modules)

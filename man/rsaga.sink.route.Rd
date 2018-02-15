@@ -15,23 +15,23 @@ rsaga.sink.route(in.dem, out.sinkroute, threshold, thrsheight = 100, ...)
 
 \item{thrsheight}{numeric: threshold value (default: \code{100})}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
 Sink drainage route detection.
 }
 \note{
-I assume that flow directions are coded as 0 = north, 1 = northeast,  2 = east, ..., 7 = northwest, as in \code{\link{rsaga.fill.sinks}}.
+I assume that flow directions are coded as 0 = north, 1 = northeast,  2 = east, ..., 7 = northwest, as in \code{\link[=rsaga.fill.sinks]{rsaga.fill.sinks()}}.
 }
 \examples{
 \dontrun{rsaga.sink.route("dem","sinkroute")
 rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
 }
 \seealso{
-\code{\link{rsaga.sink.removal}}
+\code{\link[=rsaga.sink.removal]{rsaga.sink.removal()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

@@ -2,18 +2,19 @@
 % Please edit documentation in R/RSAGA-core.R
 \name{rsaga.get.modules.path}
 \alias{rsaga.get.modules.path}
-\title{Internal functions that determine OS-specific default path in which modules might be located.}
+\title{Internal functions that determine OS-specific path in which modules might be located.}
 \usage{
-rsaga.get.modules.path(sysname = Sys.info()["sysname"], saga.path,
-  root = "/usr", cmd)
+rsaga.get.modules.path(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 }
 \arguments{
-\item{sysname}{character: name of the operating system, determined by default by \code{\link[base]{Sys.info}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}}
+\item{sysname}{character: name of the operating system, determined by default by \code{\link[base:Sys.info]{base::Sys.info()}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}}
 
 \item{saga.path}{character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}}
 
-\item{root}{}
+\item{root}{root path to SAGA GIS installation}
+
+\item{cmd}{name of the SAGA command line program}
 }
 \description{
-Internal functions that determine OS-specific default path in which modules might be located.
+Internal functions that determine OS-specific path in which modules might be located.
 }

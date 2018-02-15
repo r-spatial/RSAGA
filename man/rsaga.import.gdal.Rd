@@ -13,7 +13,7 @@ rsaga.import.gdal(in.grid, out.grid, env = rsaga.env(), ...)
 the file extension being removed; file extension should not be specified,
 it defaults to \code{.sgrd}}
 
-\item{env}{RSAGA geoprocessing environment created by \code{\link{rsaga.env}}}
+\item{env}{RSAGA geoprocessing environment created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
 \item{...}{additional arguments to be passed to \code{rsaga.geoprocessor}}
 }
@@ -24,14 +24,15 @@ in lists.
 }
 \details{
 The GDAL Raster Import module of SAGA imports grid data from various
-  file formats using the Geospatial Data Abstraction Library (GDAL) by Frank
-  Warmerdam. GDAL Versions are specific to SAGA versions:
+file formats using the Geospatial Data Abstraction Library (GDAL) by Frank
+Warmerdam. GDAL Versions are specific to SAGA versions:
 \itemize{
 \item SAGA 2.0.7 - 2.0.8: GDAL v.1.8.0
 \item SAGA 2.1.0 - 2.1.1: GDAL v.1.10.0
 \item SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
-\item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev}
+\item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev
 More information is available at \url{http://www.gdal.org/}.
+}
 
 If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output
 grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd},
@@ -40,8 +41,7 @@ band.
 
 The following raster formats are currently supported. Last updated for SAGA
 GIS 2.2.3; for a list for a specific SAGA GIS version call
-\code{rsaga.html.help("io_gdal","GDAL: Import Raster", env =
-rsaga.env(path="SAGA_Version_to_Test"))}
+\code{rsaga.html.help("io_gdal","GDAL: Import Raster", env = rsaga.env(path="SAGA_Version_to_Test"))}
 \itemize{
 \item BAG - Bathymetry Attributed Grid
 \item ECW - ERDAS Compressed Wavelets (SDK 3.x)

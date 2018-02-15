@@ -1,10 +1,11 @@
-#' Internal functions that determine OS-specific default path in which modules might be located.
+#' Internal functions that determine OS-specific path in which modules might be located.
 #' 
 #' @name rsaga.get.modules.path
 #' @rdname rsaga.get.modules.path
-#' @param sysname character: name of the operating system, determined by default by \code{\link[base]{Sys.info}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}
-#' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}
-#' @param root 
+#' @param sysname character: name of the operating system, determined by default by [base::Sys.info()]: e.g., `"Windows"`, `"Linux"`, `"Darwin"` (for Mac OSX), or `"FreeBSD"`
+#' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by `rsaga.default.path`
+#' @param root root path to SAGA GIS installation
+#' @param cmd name of the SAGA command line program
 #' @export
 rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 {
@@ -51,13 +52,13 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
 
 #' Internal function that sets the RSAGA Geoprocessing Eviroment manually 
 #' @name rsaga.set.env
-#' @param workspace path of the working directory for SAGA; defaults to the current directory (\code{"."}).
-#' @param cmd name of the SAGA command line program; defaults to \code{saga_cmd.exe}, its name under Windows
-#' @param path path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.
+#' @param workspace path of the working directory for SAGA; defaults to the current directory (`"."`).
+#' @param cmd name of the SAGA command line program; defaults to `saga_cmd.exe`, its name under Windows
+#' @param path path in which to find `cmd`; `rsaga.env` is usually able to find SAGA on your system if it is installed; see Details.
 #' @param modules path in which to find SAGA libraries; see Details
-#' @param version optional character string: SAGA GIS (API) version, e.g. \code{"2.0.8"}; if missing, a call to \code{\link{rsaga.get.version}} is used to determine version number of SAGA API
-#' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
-#' @param parallel optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @param version optional character string: SAGA GIS (API) version, e.g. `"2.0.8"`; if missing, a call to [rsaga.get.version()] is used to determine version number of SAGA API
+#' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
+#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
 #' @export
 #' 
 
@@ -71,32 +72,32 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' Function to set up RSAGA geoprocessing environment:
 #' Set up the RSAGA Geoprocessing Environment
 #'
-#' \code{rsaga.env} creates a list with system-dependent information on SAGA path, module path and data (working) directory. This kind of a list is required by most RSAGA geoprocessing functions and is referred to as the 'RSAGA geoprocessing environment.'
+#' `rsaga.env` creates a list with system-dependent information on SAGA path, module path and data (working) directory. This kind of a list is required by most RSAGA geoprocessing functions and is referred to as the 'RSAGA geoprocessing environment.'
 #' @name rsaga.env
-#' @param workspace path of the working directory for SAGA; defaults to the current directory (\code{"."}).
-#' @param cmd name of the SAGA command line program; defaults to \code{saga_cmd.exe}, its name under Windows
-#' @param path path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.
+#' @param workspace path of the working directory for SAGA; defaults to the current directory (`"."`).
+#' @param cmd name of the SAGA command line program; defaults to `saga_cmd.exe`, its name under Windows
+#' @param path path in which to find `cmd`; `rsaga.env` is usually able to find SAGA on your system if it is installed; see Details.
 #' @param modules path in which to find SAGA libraries; see Details
-#' @param version optional character string: SAGA GIS (API) version, e.g. \code{"2.0.8"}; if missing, a call to \code{\link{rsaga.get.version}} is used to determine version number of SAGA API
-#' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
-#' @param parallel optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link{pick.from.ascii.grid}} or \code{\link{rsaga.get.modules}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
-#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. \code{search}).  If left empty, on Windoes \code{C:/} is used, on Linux \code{/usr} and on Mac OS  \code{/usr/local/Cellar}.
-#' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link{rsaga.lib.prefix}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)
+#' @param version optional character string: SAGA GIS (API) version, e.g. `"2.0.8"`; if missing, a call to [rsaga.get.version()] is used to determine version number of SAGA API
+#' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
+#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. `search`).  If left empty, on Windoes `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
+#' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to [rsaga.lib.prefix()] tries to determine the correct prefix, e.g. `""` on Windows systems and `"lib"` on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying `""` or `"lib"` manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your `Sys.info()["sysname"]` and your SAGA GIS version)
 #' 
-#' @details IMPORTANT: Unlike R functions such as \code{\link{options}},  which changes and saves settings somewhere in a global variable, \code{\link{rsaga.env}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
+#' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
 #' 
 #' 
-#' We strongly recommend to install SAGA GIS on Windows in \code{"C:/Program Files/SAGA-GIS"} , \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
+#' We strongly recommend to install SAGA GIS on Windows in `"C:/Program Files/SAGA-GIS"` , `"C:/SAGA-GIS"` and `"C:/OSGeo4W64/apps/saga"`. 
 #' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 #' 
-#' There are three ways to create a RSAGA environment with \code{rsaga.env}:
+#' There are three ways to create a RSAGA environment with `rsaga.env`:
 #' 
-#' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}. 
-#' On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders 
-#' \code{"C:/Progra~1/SAGA-GIS"}, \code{"C:/SAGA-GIS"} and \code{"C:/OSGeo4W64/apps/saga"}. 
-#' If this fails and attempt is being made to find the SAGA command line programm with a search on \code{C:/}
-#' The subfolder \code{tools} (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA modules. 
-#' On Unix a search for the SAGA command line program and the modules is performed on \code{"/usr"}. 
+#' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments `path` and `modules`. 
+#' On Windows `rsaga.env` tries to find the SAGA command line program in the following folders 
+#' `"C:/Progra~1/SAGA-GIS"`, `"C:/SAGA-GIS"` and `"C:/OSGeo4W64/apps/saga"`. 
+#' If this fails and attempt is being made to find the SAGA command line programm with a search on `C:/`
+#' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA modules. 
+#' On Unix a search for the SAGA command line program and the modules is performed on `"/usr"`. 
 #' If this fails please specify the paths as described in section 2.
 #' 
 #' 2) The user specifies both the path to the SAGA command line program and 
@@ -105,10 +106,10 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 #' 3) The user specifies only the path to the SAGA command line program. A search for the SAGA modules is performed as described in section 1.
 #'
-#' @return A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}, \code{version}, \code{cores} and \code{parallel} with values as passed to \code{rsaga.env} or default values as described in the Details section.
+#' @return A list with components `workspace`, `cmd`, `path`, `modules`, `version`, `cores` and `parallel` with values as passed to `rsaga.env` or default values as described in the Details section.
 #' @author Alexander Brenning and Marc Becker
-#' @note Note that the default \code{workspace} is \code{"."}, not \code{getwd()}; i.e. the default SAGA workspace folder is not fixed, it changes each time you change the R working directory using \code{setwd}.
-#' @seealso \code{\link{rsaga.get.version}}
+#' @note Note that the default `workspace` is `"."`, not `getwd()`; i.e. the default SAGA workspace folder is not fixed, it changes each time you change the R working directory using `setwd`.
+#' @seealso [rsaga.get.version()]
 #' @examples
 #' \dontrun{
 #' # Check the default RSAGA environment on your computer:
@@ -134,8 +135,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                     version = NULL, cores, parallel = FALSE, search = TRUE,
-                     root = NULL, lib.prefix)
+                     version = NULL, cores, parallel = FALSE, root = NULL, lib.prefix)
 {
   # Set root path depending on operating system
   if (is.null(root)) {
@@ -317,10 +317,10 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
 #' Internal function that determines the possible prefix for SAGA GIS library names - relevant for non-Windows SAGA GIS pre-2.1.0.
 #' 
 #' @name rsaga.lib.prefix
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}.
-#' @details Some non-Windows versions of \code{saga_cmd} require library names with a \code{"lib"} prefix, e.g. \code{libio_grid} instead of \code{io_grid}. This function, which is called by \code{\link{rsaga.env}} tries to guess this behaviour based on the operating system and SAGA GIS version.
-#' @return A character string, either \code{""} or \code{"lib"}.
-#' @seealso \code{\link{rsaga.env}}
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()].
+#' @details Some non-Windows versions of `saga_cmd` require library names with a `"lib"` prefix, e.g. `libio_grid` instead of `io_grid`. This function, which is called by [rsaga.env()] tries to guess this behaviour based on the operating system and SAGA GIS version.
+#' @return A character string, either `""` or `"lib"`.
+#' @seealso [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' env = rsaga.env()
@@ -350,11 +350,11 @@ rsaga.lib.prefix = function(env) {
 #' Determine SAGA GIS version.
 #' 
 #' @name rsaga.get.version
-#' @param env list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}. Note that \code{version=NA} ensures that \code{\link{rsaga.env}} won't call \code{rsaga.get.version} itself.
-#' @param ... additional arguments to \code{\link{rsaga.geoprocessor}}
-#' @details The function first attempts to determine the SAGA version directly through a system call \code{saga_cmd --version}, which is supported by SAGA GIS 2.0.8+. If this fails, \code{saga_cmd -h} is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4 - 2.0.7.
-#' @return A character string defining the SAGA GIS (API) version. E.g., \code{"2.0.8"}.
-#' @seealso \code{\link{rsaga.env}}
+#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]. Note that `version=NA` ensures that [rsaga.env()] won't call `rsaga.get.version` itself.
+#' @param ... additional arguments to [rsaga.geoprocessor()]
+#' @details The function first attempts to determine the SAGA version directly through a system call `saga_cmd --version`, which is supported by SAGA GIS 2.0.8+. If this fails, `saga_cmd -h` is called, and it is attempted to extract the version number of the SAGA API from the output generated, which works for 2.0.4 - 2.0.7.
+#' @return A character string defining the SAGA GIS (API) version. E.g., `"2.0.8"`.
+#' @seealso [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' myenv <- rsaga.env()
@@ -435,35 +435,35 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 
 #' Find SAGA libraries and modules
 #'
-#' These functions list the SAGA libraries (\code{rsaga.get.libraries}) and modules (\code{rsaga.get.lib.modules}, \code{rsaga.get.modules}) available in a SAGA installation, and allow to perform a full-text search among these functions.
+#' These functions list the SAGA libraries (`rsaga.get.libraries`) and modules (`rsaga.get.lib.modules`, `rsaga.get.modules`) available in a SAGA installation, and allow to perform a full-text search among these functions.
 #' @name rsaga.get.modules
 #' @param text character string to be searched for in the names of available libraries and/or modules
-#' @param search.libs logical (default \code{TRUE}); see \code{search.modules}
-#' @param search.modules logical (default \code{TRUE}): should \code{text} be searched for in library and/or module names?
-#' @param ignore.case logical (default \code{FALSE}): should the text search in library/module names be case sensitive?
+#' @param search.libs logical (default `TRUE`); see `search.modules`
+#' @param search.modules logical (default `TRUE`): should `text` be searched for in library and/or module names?
+#' @param ignore.case logical (default `FALSE`): should the text search in library/module names be case sensitive?
 #' @param lib character string with the name of the library in which to look for modules
 #' @param libs character vector with the names of libraries in which to look for modules; if missing, all libraries will be processed
 #' @param module module name or numeric code
-#' @param modules optional list: result of \code{rsaga.get.modules}; if missing, a list of available modules will be retrieved using that function
-#' @param env a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param path path of SAGA library files (\code{modules} subfolder in the SAGA installation folder); defaults to the path determined by \code{\link{rsaga.env}}.
+#' @param modules optional list: result of `rsaga.get.modules`; if missing, a list of available modules will be retrieved using that function
+#' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param path path of SAGA library files (`modules` subfolder in the SAGA installation folder); defaults to the path determined by [rsaga.env()].
 #' @param dll file extension of dynamic link libraries
-#' @param interactive logical (default \code{FALSE}): should modules be returned that can only be executed in interactive mode (i.e. using SAGA GUI)?
-#' @param parallel logical (defaults to \code{env$parallel}): if \code{TRUE}, run in parallel mode; requires a parallel backend such as \pkg{doSNOW} or \pkg{doMC}
-#' @param ... currently only \code{interactive} to be passed on to \code{rsaga.get.lib.modules}
-#' @return \code{rsaga.get.libraries} returns a character vector with the names of all SAGA libraries available in the folder \code{env$modules}.
+#' @param interactive logical (default `FALSE`): should modules be returned that can only be executed in interactive mode (i.e. using SAGA GUI)?
+#' @param parallel logical (defaults to `env$parallel`): if `TRUE`, run in parallel mode; requires a parallel backend such as \pkg{doSNOW} or \pkg{doMC}
+#' @param ... currently only `interactive` to be passed on to `rsaga.get.lib.modules`
+#' @return `rsaga.get.libraries` returns a character vector with the names of all SAGA libraries available in the folder `env$modules`.
 #'
-#' \code{rsaga.get.lib.modules} returns a \code{data.frame} with:
+#' `rsaga.get.lib.modules` returns a `data.frame` with:
 #' \itemize{
-#' \item{name} {the names of all modules in library \code{lib},}
+#' \item{name} {the names of all modules in library `lib`,}
 #' \item{code} {their numeric identifiers,}
 #' \item{interactive} {and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
 #' }
 #'
-#' \code{rsaga.get.modules} returns a list with, for each SAGA library in \code{libs}, a \code{data.frame} with module information as given by \code{rsaga.get.lib.modules}. If \code{libs} is missing, all modules in all libraries will be retrieved.
+#' `rsaga.get.modules` returns a list with, for each SAGA library in `libs`, a `data.frame` with module information as given by `rsaga.get.lib.modules`. If `libs` is missing, all modules in all libraries will be retrieved.
 #' 
-#' @note For information on the usage of SAGA command line modules, see \code{\link{rsaga.get.usage}}, or \code{\link{rsaga.html.help}} (in SAGA GIS 2.1.0+), or the RSAGA interface function, if available.
-#' @seealso \code{\link{rsaga.get.usage}}, \code{\link{rsaga.html.help}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @note For information on the usage of SAGA command line modules, see [rsaga.get.usage()], or [rsaga.html.help()] (in SAGA GIS 2.1.0+), or the RSAGA interface function, if available.
+#' @seealso [rsaga.get.usage()], [rsaga.html.help()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' # make sure that 'rsaga.env' can find 'saga_cmd.exe'
@@ -639,21 +639,21 @@ rsaga.search.modules = function(text, modules, search.libs=TRUE, search.modules=
 
 #' Usage of SAGA command line modules
 #' 
-#' \code{rsaga.get.usage} provides information on the usage of and arguments required by SAGA command line modules.
+#' `rsaga.get.usage` provides information on the usage of and arguments required by SAGA command line modules.
 #'
 #' @name rsaga.get.usage
 #' @param lib name of the SAGA library
-#' @param module name or numeric identifier of SAGA module in library \code{lib}
-#' @param env a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param show logical (default: \code{TRUE}); display usage in the R console?
+#' @param module name or numeric identifier of SAGA module in library `lib`
+#' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param show logical (default: `TRUE`); display usage in the R console?
 #'
 #' @details This function is intended to provide information required to use the 
-#' \code{\link{rsaga.geoprocessor}} and for writing your own high-level interface 
+#' [rsaga.geoprocessor()] and for writing your own high-level interface 
 #' function for SAGA modules. R--SAGA interfaces already exist for some SAGA modules, 
-#' e.g. \code{\link{rsaga.hillshade}}, \code{\link{rsaga.local.morphometry}}, but there 
+#' e.g. [rsaga.hillshade()], [rsaga.local.morphometry()], but there 
 #' are many more.
 #' @return The character vector with usage information is invisibly returned.
-#' @seealso \code{\link{rsaga.html.help}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}, \code{\link{rsaga.get.modules}}
+#' @seealso [rsaga.html.help()], [rsaga.geoprocessor()], [rsaga.env()], [rsaga.get.modules()]
 #' @examples
 #' \dontrun{
 #' rsaga.get.usage("io_grid",1)
@@ -744,12 +744,12 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 #' This function opens SAGA's HTML documentation for the specified library or module. Works with SAGA GIS 2.1.0(+), for earlier versions a web page with the SAGA GIS wiki is displayed.
 #'
 #' @name rsaga.html.help
-#' @param lib name of the SAGA library, or one of the \code{rsaga.} module functions such as \code{\link{rsaga.hillshade}}
-#' @param module name or numeric identifier of SAGA module in library \code{lib}; \code{module=NULL} takes you to the main help page of the SAGA library \code{lib}
-#' @param use.program.folder logical; if \code{TRUE} (the default), attempt to write SAGA GIS documentation to a \code{"help"} subfolder of \code{env$path}; the \code{"help"} folder is created if it doesn't exist. If \code{FALSE}, create SAGA GIS documentation files in this R session's temporary folder as obtained using \code{tempdir()}
-#' @param env a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @param ... additional arguments to \code{\link{browseURL}}
-#' @details Requires SAGA GIS 2.1.0(+), with earlier versions use \code{\link{rsaga.get.usage}}.
+#' @param lib name of the SAGA library, or one of the `rsaga.` module functions such as [rsaga.hillshade()]
+#' @param module name or numeric identifier of SAGA module in library `lib`; `module=NULL` takes you to the main help page of the SAGA library `lib`
+#' @param use.program.folder logical; if `TRUE` (the default), attempt to write SAGA GIS documentation to a `"help"` subfolder of `env$path`; the `"help"` folder is created if it doesn't exist. If `FALSE`, create SAGA GIS documentation files in this R session's temporary folder as obtained using `tempdir()`
+#' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @param ... additional arguments to [browseURL()]
+#' @details Requires SAGA GIS 2.1.0(+), with earlier versions use [rsaga.get.usage()].
 #' @examples
 #' \dontrun{
 #' # Requires SAGA GIS 2.1.0+:
@@ -757,7 +757,7 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 #' rsaga.html.help("io_grid",0)
 #' rsaga.html.help("io_grid","Import ESRI Arc/Info Grid")
 #' }
-#' @seealso \code{\link{rsaga.get.usage}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [rsaga.get.usage()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @keywords utilities interface
 #' @export
 rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsaga.env(), ...)
@@ -838,31 +838,31 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #'
 #' @name rsaga.geoprocessor
 #' @param lib Name of the SAGA library to be called (see Details).
-#' @param module Number (\code{>=0}) or name of the module to called within the library \code{lib} (see Details).
+#' @param module Number (`>=0`) or name of the module to called within the library `lib` (see Details).
 #' @param param A list of named arguments to be passed to the SAGA module (see Examples).
-#' @param show.output.on.console a logical (default: \code{TRUE}), indicates whether to capture the output of the command and show it on the R console (see \code{\link{system}}).
+#' @param show.output.on.console a logical (default: `TRUE`), indicates whether to capture the output of the command and show it on the R console (see [system()]).
 #' @param invisible a logical, indicates whether the command window  should be visible on the screen.
 #' @param intern a logical, indicates whether to make the output of the command an R object
-#' @param prefix optional character string: prefix such as \code{"-h"} used in the \code{saga_cmd} call; mostly for internal purposes; call \code{saga_cmd -h} from the command line for details; see also \code{flags}
-#' @param flags optional character string indicating any command line flags; supported only by SAGA GIS 2.1.0 (and higher), quietly ignored otherwise: \code{"q"}: no progress report (the default for \code{show.output.on.console=TRUE}); \code{"r"}: no messages report; \code{"s"}: silent mode, i.e. no progress and no messages report  (the default for \code{show.output.on.console=FALSE}); other flag options probably not relevant within RSAGA
-#' @param cores optional numeric argument, or \code{NA}: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning); overwrites the \code{cores} setting specified in the \code{env} argument (see \code{\link{rsaga.env}}). Multicore-enabled SAGA GIS modules such as the one used by \code{\link{rsaga.pisr}} seem to run in multicore mode by default when this argument is not specified, therefore \code{cores} should only be specified to use a smaller number of cores than available on a machine.
-#' @param env A SAGA geoprocessing environment, i.e. a list with information on the SAGA and SAGA modules paths and the name of the working directory in which to look for input and output files. (Defaults: see \code{\link{rsaga.env}}.)
-#' @param display.command Display the DOS command line for executing the SAGA module (including all the arguments to be passed). Default: \code{FALSE}.
-#' @param reduce.intern If \code{intern=TRUE}, reduce the text output of SAGA returned to R by eliminating redundant lines showing the progress of module execution etc. (default: \code{TRUE}).
-#' @param check.module.exists logical (default: \code{TRUE}): call \code{\link{rsaga.module.exists}} to determine if the specified module can be called in the current SAGA installation
-#' @param warn logical (default: \code{TRUE}): for internal purposes - can be used to suppress warning messages generated by failed SAGA_CMD calls; currently used by \code{\link{rsaga.get.lib.modules}} and related functions; see \code{\link{options}} argument \code{warn} for details
-#' @param argsep character (default: \code{" "}; currently for internal use): defines the character symbol used as a separator between each argument name and argument value passed to \code{saga_cmd}. SAGA GIS 2.1.0 (RC1) seems to move toward \code{"="} as a separator, but \code{" "} still works and some modules (e.g. the used by \code{rsaga.pisr}) don't seem to work with \code{argsep="="}. Future releases of RSAGA may change the default \code{argsep} value and/or delete or ignore this argument and/or move it to \code{\link{rsaga.env}}.
-#' @param ... Additional arguments to be passed to \code{\link[base]{system}}.
+#' @param prefix optional character string: prefix such as `"-h"` used in the `saga_cmd` call; mostly for internal purposes; call `saga_cmd -h` from the command line for details; see also `flags`
+#' @param flags optional character string indicating any command line flags; supported only by SAGA GIS 2.1.0 (and higher), quietly ignored otherwise: `"q"`: no progress report (the default for `show.output.on.console=TRUE`); `"r"`: no messages report; `"s"`: silent mode, i.e. no progress and no messages report  (the default for `show.output.on.console=FALSE`); other flag options probably not relevant within RSAGA
+#' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning); overwrites the `cores` setting specified in the `env` argument (see [rsaga.env()]). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
+#' @param env A SAGA geoprocessing environment, i.e. a list with information on the SAGA and SAGA modules paths and the name of the working directory in which to look for input and output files. (Defaults: see [rsaga.env()].)
+#' @param display.command Display the DOS command line for executing the SAGA module (including all the arguments to be passed). Default: `FALSE`.
+#' @param reduce.intern If `intern=TRUE`, reduce the text output of SAGA returned to R by eliminating redundant lines showing the progress of module execution etc. (default: `TRUE`).
+#' @param check.module.exists logical (default: `TRUE`): call [rsaga.module.exists()] to determine if the specified module can be called in the current SAGA installation
+#' @param warn logical (default: `TRUE`): for internal purposes - can be used to suppress warning messages generated by failed SAGA_CMD calls; currently used by [rsaga.get.lib.modules()] and related functions; see [options()] argument `warn` for details
+#' @param argsep character (default: `" "`; currently for internal use): defines the character symbol used as a separator between each argument name and argument value passed to `saga_cmd`. SAGA GIS 2.1.0 (RC1) seems to move toward `"="` as a separator, but `" "` still works and some modules (e.g. the used by `rsaga.pisr`) don't seem to work with `argsep="="`. Future releases of RSAGA may change the default `argsep` value and/or delete or ignore this argument and/or move it to [rsaga.env()].
+#' @param ... Additional arguments to be passed to [base::system()].
 #' 
-#' @details This workhorse function establishes the interface between the SAGA command line program and R by submitting a system call. This is a low-level function that may be used for directly accessing SAGA; specific functions such as \code{rsaga.hillshade} are intended to be more user-friendly interfaces to the most frequently used SAGA modules. These higher-level interfaces support default values for the arguments and perform some error checking; they should therefore be preferred if available.
+#' @details This workhorse function establishes the interface between the SAGA command line program and R by submitting a system call. This is a low-level function that may be used for directly accessing SAGA; specific functions such as `rsaga.hillshade` are intended to be more user-friendly interfaces to the most frequently used SAGA modules. These higher-level interfaces support default values for the arguments and perform some error checking; they should therefore be preferred if available.
 #' 
 #' A warning is issued if the RSAGA version is not one of 2.0.4-2.0.8 or 2.1.0-2.1.4
 #'
-#' @return The type of object returned depends on the \code{intern} argument passed to \code{\link{system}}.
+#' @return The type of object returned depends on the `intern` argument passed to [system()].
 #' 
-#' If \code{intern=FALSE}, a numerical error/success code is returned, where a value of \code{0} corresponds to success and a non-zero value indicates an error. Note however that the function always returns a success value of \code{0} if \code{wait=FALSE}, i.e. if it does not wait for SAGA to finish.
+#' If `intern=FALSE`, a numerical error/success code is returned, where a value of `0` corresponds to success and a non-zero value indicates an error. Note however that the function always returns a success value of `0` if `wait=FALSE`, i.e. if it does not wait for SAGA to finish.
 #' 
-#' If \code{intern=TRUE} (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be cancelled out by setting \code{reduce.intern=TRUE}.
+#' If `intern=TRUE` (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be cancelled out by setting `reduce.intern=TRUE`.
 #'
 #' @references Brenning, A., 2008. Statistical geocomputing combining R and
 #'  SAGA: The example of landslide susceptibility analysis with
@@ -874,10 +874,10 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #' @author Alexander Brenning (R interface); Olaf Conrad and the SAGA development team (SAGA development)
 #' @note Existing output files will be overwritten by SAGA without prompting!
 #' 
-#' If a terrain analysis function is not directly interfaced by one of the RSAGA functions, you might still find it in the growing set of SAGA libraries and modules. The names of all libraries available in your SAGA installation can be obtained using \code{\link{rsaga.get.libraries}} (or by checking the directory listing of the \code{modules} folder in the SAGA directory). The names and numeric codes of all available modules (globally or within a specific library) are retreived by \code{\link{rsaga.get.modules}}. Full-text search in library and module names is performed by \code{\link{rsaga.search.modules}}. For information on the usage of SAGA command line modules, see \code{\link{rsaga.get.usage}}, or the RSAGA interface function if available.
+#' If a terrain analysis function is not directly interfaced by one of the RSAGA functions, you might still find it in the growing set of SAGA libraries and modules. The names of all libraries available in your SAGA installation can be obtained using [rsaga.get.libraries()] (or by checking the directory listing of the `modules` folder in the SAGA directory). The names and numeric codes of all available modules (globally or within a specific library) are retreived by [rsaga.get.modules()]. Full-text search in library and module names is performed by [rsaga.search.modules()]. For information on the usage of SAGA command line modules, see [rsaga.get.usage()], or the RSAGA interface function if available.
 #' 
-#' \code{display.command=TRUE} is mainly intended for debugging purposes to check if all arguments are passed correctly to SAGA CMD.
-#' @seealso \code{\link{rsaga.env}}, \code{\link{rsaga.get.libraries}}, \code{\link{rsaga.get.modules}}, \code{\link{rsaga.search.modules}}, \code{\link{rsaga.get.usage}}; \code{\link{rsaga.esri.wrapper}} for a wrapper for ESRI ASCII/binary grids; \code{\link{rsaga.hillshade}} and other higher-level functions.
+#' `display.command=TRUE` is mainly intended for debugging purposes to check if all arguments are passed correctly to SAGA CMD.
+#' @seealso [rsaga.env()], [rsaga.get.libraries()], [rsaga.get.modules()], [rsaga.search.modules()], [rsaga.get.usage()]; [rsaga.esri.wrapper()] for a wrapper for ESRI ASCII/binary grids; [rsaga.hillshade()] and other higher-level functions.
 #' @examples
 #' \dontrun{
 #' rsaga.hillshade("dem","hillshade",exaggeration=2)
@@ -1080,27 +1080,27 @@ rsaga.geoprocessor = function(
 #'
 #' This wrapper converts input grid files provided in ESRI binary (.flt) or ASCII (.asc) formats to SAGA's (version 2) grid format, calls the RSAGA geoprocessing function, and converts the output grids back to the ESRI grid format. Conversion can also be limited to either input or output grids.
 #' @name rsaga.esri.wrapper
-#' @param fun function: one of the RSAGA geoprocessing functions, such as \code{\link{rsaga.close.gaps}} or \code{\link{rsaga.hillshade}} etc.
-#' @param in.esri logical: are input grids provided as ESRI grids (\code{in.esri=TRUE}) or as SAGA grids?
+#' @param fun function: one of the RSAGA geoprocessing functions, such as [rsaga.close.gaps()] or [rsaga.hillshade()] etc.
+#' @param in.esri logical: are input grids provided as ESRI grids (`in.esri=TRUE`) or as SAGA grids?
 #' @param out.esri logical: should output grids be converted to ESRI grids?
-#' @param env RSAGA environment as returned by \code{\link{rsaga.env}}
+#' @param env RSAGA environment as returned by [rsaga.env()]
 #' @param esri.workspace directory for the input and output ESRI ASCII/binary grids
-#' @param format output file format, either \code{"ascii"} (default; equivalent: \code{format=1}) for ASCII grids or \code{"binary"} (equivalent: \code{0}) for binary ESRI grids (\code{.flt}).
-#' @param georef character: \code{"corner"} (equivalent numeric code: \code{0}) or \code{"center"} (default; equivalent: \code{1}). Determines whether the georeference will be related to the center or corner of its extreme lower left grid cell.
-#' @param prec number of digits when writing floating point values to ASCII grid files (only relevant if \code{out.esri=TRUE}).
-#' @param esri.extension extension for input/output ESRI grids: defaults to \code{.asc} for \code{format="ascii"}, and to \code{.flt} for \code{format="binary"}
-#' @param condensed.res logical: return only results of the RSAGA geoprocessing function \code{fun} (\code{condensed.res=TRUE}), or include the results of the import and export operations, i.e. the calls to \code{\link{rsaga.esri.to.sgrd}} and \code{\link{rsaga.sgrd.to.esri}}? (see Value)
+#' @param format output file format, either `"ascii"` (default; equivalent: `format=1`) for ASCII grids or `"binary"` (equivalent: `0`) for binary ESRI grids (`.flt`).
+#' @param georef character: `"corner"` (equivalent numeric code: `0`) or `"center"` (default; equivalent: `1`). Determines whether the georeference will be related to the center or corner of its extreme lower left grid cell.
+#' @param prec number of digits when writing floating point values to ASCII grid files (only relevant if `out.esri=TRUE`).
+#' @param esri.extension extension for input/output ESRI grids: defaults to `.asc` for `format="ascii"`, and to `.flt` for `format="binary"`
+#' @param condensed.res logical: return only results of the RSAGA geoprocessing function `fun` (`condensed.res=TRUE`), or include the results of the import and export operations, i.e. the calls to [rsaga.esri.to.sgrd()] and [rsaga.sgrd.to.esri()]? (see Value)
 #' @param clean.up logical: delete intermediate SAGA grid files?
-#' @param intern \code{intern} argument to be passed to \code{\link{rsaga.geoprocessor}}; see Value
-#' @param ... additional arguments for \code{fun}; NOTE: ESRI ASCII/float raster file names should NOT include the file extension (.asc, .flt); the file extension is defined by the \code{esri.extension} and \code{format} arguments!
-#' @details ESRI ASCII/float raster file names should NOT include the file extension (.asc, .flt); the file extension is defined by the \code{esri.extension} and \code{format} arguments!
-#' @return The object returned depends on the \code{condensed.res} arguments and the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}.
+#' @param intern `intern` argument to be passed to [rsaga.geoprocessor()]; see Value
+#' @param ... additional arguments for `fun`; NOTE: ESRI ASCII/float raster file names should NOT include the file extension (.asc, .flt); the file extension is defined by the `esri.extension` and `format` arguments!
+#' @details ESRI ASCII/float raster file names should NOT include the file extension (.asc, .flt); the file extension is defined by the `esri.extension` and `format` arguments!
+#' @return The object returned depends on the `condensed.res` arguments and the `intern` argument passed to the [rsaga.geoprocessor()].
 #'
-#' If \code{condensed.res=TRUE} and \code{intern=FALSE}, a single numerical error code (0: success) is returned. If \code{condensed.res=TRUE} and \code{intern=TRUE} (default), a character vector with the module's console  output is returned (invisibly).
+#' If `condensed.res=TRUE` and `intern=FALSE`, a single numerical error code (0: success) is returned. If `condensed.res=TRUE` and `intern=TRUE` (default), a character vector with the module's console  output is returned (invisibly).
 #'
-#' If \code{condensed.res=FALSE} the result is a list with components \code{in.res}, \code{geoproc.res} and \code{out.res}. Each of these components is either an error code (for \code{intern=FALSE}) or  (for \code{intern=TRUE}) a character vector with the console output of the input (\code{\link{rsaga.esri.to.sgrd}}), the geoprocessing (\code{fun}), and the output conversion (\code{\link{rsaga.sgrd.to.esri}}) step, respectively. For \code{in.esri=FALSE} or \code{out.esri=FALSE}, the corresponding component is \code{NULL}.
+#' If `condensed.res=FALSE` the result is a list with components `in.res`, `geoproc.res` and `out.res`. Each of these components is either an error code (for `intern=FALSE`) or  (for `intern=TRUE`) a character vector with the console output of the input ([rsaga.esri.to.sgrd()]), the geoprocessing (`fun`), and the output conversion ([rsaga.sgrd.to.esri()]) step, respectively. For `in.esri=FALSE` or `out.esri=FALSE`, the corresponding component is `NULL`.
 #' @note Note that the intermediate grids as well as the output grids may overwrite existing files with the same file names without prompting the user. See example below.
-#' @seealso \code{\link{rsaga.esri.to.sgrd}}, \code{\link{rsaga.sgrd.to.esri}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+#' @seealso [rsaga.esri.to.sgrd()], [rsaga.sgrd.to.esri()], [rsaga.geoprocessor()], [rsaga.env()]
 #' @examples
 #' \dontrun{
 #' rsaga.esri.wrapper(rsaga.hillshade,in.dem="dem",out.grid="hshd",condensed.res=FALSE,intern=FALSE)
@@ -1184,13 +1184,13 @@ rsaga.esri.wrapper = function(fun, in.esri=TRUE, out.esri=TRUE,
 
 #' Create a copy of a SAGA grid file
 #' 
-#' Creates a copy of a SAGA grid file, optionally overwriting the target file if it already exists. Intended mainly for internal use by RSAGA functions, currently in particular \code{\link{rsaga.inverse.distance}}.
+#' Creates a copy of a SAGA grid file, optionally overwriting the target file if it already exists. Intended mainly for internal use by RSAGA functions, currently in particular [rsaga.inverse.distance()].
 #'
 #' @param in.grid name of a SAGA GIS grid file; file extension can be omitted
 #' @param out.grid name of a SAGA GIS grid file; file extension can be omitted
-#' @param overwrite logical; if \code{TRUE} (the default), overwrite \code{out.grid} if it already exists; if \code{FALSE} and the \code{out.grid} already exists, copying will be skipped without causing an error.
-#' @param env a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}
-#' @note SAGA grid files consist of three (or more) individual files with file extensions \code{.mgrd}, \code{.sgrd} and \code{.sdat}. The files with these three file extensions are copied, any additional files (e.g. a history file) are ignored.
+#' @param overwrite logical; if `TRUE` (the default), overwrite `out.grid` if it already exists; if `FALSE` and the `out.grid` already exists, copying will be skipped without causing an error.
+#' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @note SAGA grid files consist of three (or more) individual files with file extensions `.mgrd`, `.sgrd` and `.sdat`. The files with these three file extensions are copied, any additional files (e.g. a history file) are ignored.
 #' @keywords spatial interface
 #' @export
 rsaga.copy.sgrd = function(in.grid, out.grid, overwrite = TRUE, env = rsaga.env())

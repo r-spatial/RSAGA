@@ -21,10 +21,10 @@ rsaga.hillshade(in.dem, out.grid, method = "standard", azimuth = 315,
 
 \item{exaggeration}{Vertical exaggeration of elevation (default: 4). The terrain exaggeration factor allows to increase the shading contrasts in flat areas.}
 
-\item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.}
+\item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment.}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 }
 \description{
 Analytical hillshading
@@ -40,7 +40,7 @@ While the default azimuth of 315 degree (northwest) is not physically meaningful
 \dontrun{rsaga.hillshade("dem.sgrd","hillshade")}
 }
 \seealso{
-\code{\link{rsaga.solar.radiation}}, \code{\link{rsaga.insolation}}
+\code{\link[=rsaga.solar.radiation]{rsaga.solar.radiation()}}, \code{\link[=rsaga.insolation]{rsaga.insolation()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

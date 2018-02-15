@@ -33,11 +33,11 @@ rsaga.triangulation(in.shapefile, out.grid, field, target, env = rsaga.env(),
 
 \item{nmax}{Maximum number of nearest points to be used for interpolation; \code{nmax=Inf} is a valid value (no upper limit)}
 
-\item{target}{required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see \code{\link{rsaga.target}}.}
+\item{target}{required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see \code{\link[=rsaga.target]{rsaga.target()}}.}
 
-\item{env}{RSAGA geoprocessing environment created by \code{\link{rsaga.env}}, required because module(s) depend(s) on SAGA version}
+\item{env}{RSAGA geoprocessing environment created by \code{\link[=rsaga.env]{rsaga.env()}}, required because module(s) depend(s) on SAGA version}
 
-\item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.}
+\item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment.}
 
 \item{quadratic.neighbors}{integer >=5; default 13.}
 
@@ -47,12 +47,12 @@ rsaga.triangulation(in.shapefile, out.grid, field, target, env = rsaga.env(),
 Spatial interpolation of point data using inverse distance to a power (inverse distance weighting, IDW), nearest neighbors, or modified quadratic shephard.
 }
 \details{
-These functions use modules from the \code{grid_gridding} SAGA GIS library. They do not support SAGA GIS 2.0.4, which differs in some argument names and parameterizations. Target grid parameterization by grid file name currently doesn't work with SAGA GIS 2.1.0  Release Candidate 1 (see also \code{\link{rsaga.target}}); stay tuned for future updates and fixes.
+These functions use modules from the \code{grid_gridding} SAGA GIS library. They do not support SAGA GIS 2.0.4, which differs in some argument names and parameterizations. Target grid parameterization by grid file name currently doesn't work with SAGA GIS 2.1.0  Release Candidate 1 (see also \code{\link[=rsaga.target]{rsaga.target()}}); stay tuned for future updates and fixes.
 }
 \note{
 The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the \code{rsaga.geoprocessor}, if needed. See \code{rsaga.get.usage("grid_gridding","Inverse Distance Weighted")} for details.
 
-See the example section in the help file for \code{\link[shapefiles]{write.shapefile}} in package \code{shapefiles} to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
+See the example section in the help file for \code{\link[shapefiles:write.shapefile]{shapefiles::write.shapefile()}} in package \code{shapefiles} to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
 
 Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
 }
@@ -60,7 +60,7 @@ Modified Quadratic Shephard method: based on module 660 in TOMS (see references)
 QSHEP2D: Fortran routines implementing the Quadratic Shepard method for bivariate interpolation of scattered data  (see R. J. Renka, ACM TOMS 14 (1988) pp.149-150). Classes: E2b. Interpolation of scattered, non-gridded  multivariate data.
 }
 \seealso{
-\code{\link{rsaga.target}}; \code{\link[gstat]{idw}} in package \code{gstat}.
+\code{\link[=rsaga.target]{rsaga.target()}}; \code{\link[gstat:idw]{gstat::idw()}} in package \code{gstat}.
 }
 \author{
 Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)

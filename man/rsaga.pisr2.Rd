@@ -70,13 +70,13 @@ rsaga.pisr2(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 
 \item{day.step}{if \code{days} indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation}
 
-\item{env}{RSAGA geoprocessing environment obtained with \code{\link{rsaga.env}}; this argument is required for version control (see Note)}
+\item{env}{RSAGA geoprocessing environment obtained with \code{\link[=rsaga.env]{rsaga.env()}}; this argument is required for version control (see Note)}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \description{
 This function calculates the potential incoming solar radiation in an area using different atmospheric models; This function reflects changes to the module with SAGA 2.2.2+.
-For SAGA versions 2.0.6 to 2.2.1 please see \code{\link{rsaga.pisr}}.
+For SAGA versions 2.0.6 to 2.2.1 please see \code{\link[=rsaga.pisr]{rsaga.pisr()}}.
 }
 \details{
 According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with \code{method = "components"} and \code{method = "lumped"}.
@@ -99,7 +99,7 @@ Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and appl
 Hofierka, J., Suri, M. (2002): The solar radiation model for Open source GIS: implementation and applications. International GRASS users conference in Trento, Italy, September 2002
 }
 \seealso{
-\code{\link{rsaga.pisr}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link{rsaga.solar.radiation}} and \code{\link{rsaga.insolation}}; \code{\link{rsaga.hillshade}}
+\code{\link[=rsaga.pisr]{rsaga.pisr()}}; for similar modules in older SAGA versions (pre-2.0.6) see \code{\link[=rsaga.solar.radiation]{rsaga.solar.radiation()}} and \code{\link[=rsaga.insolation]{rsaga.insolation()}}; \code{\link[=rsaga.hillshade]{rsaga.hillshade()}}
 }
 \author{
 Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)

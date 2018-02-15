@@ -13,10 +13,10 @@ rsaga.copy.sgrd(in.grid, out.grid, overwrite = TRUE, env = rsaga.env())
 
 \item{overwrite}{logical; if \code{TRUE} (the default), overwrite \code{out.grid} if it already exists; if \code{FALSE} and the \code{out.grid} already exists, copying will be skipped without causing an error.}
 
-\item{env}{a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 }
 \description{
-Creates a copy of a SAGA grid file, optionally overwriting the target file if it already exists. Intended mainly for internal use by RSAGA functions, currently in particular \code{\link{rsaga.inverse.distance}}.
+Creates a copy of a SAGA grid file, optionally overwriting the target file if it already exists. Intended mainly for internal use by RSAGA functions, currently in particular \code{\link[=rsaga.inverse.distance]{rsaga.inverse.distance()}}.
 }
 \note{
 SAGA grid files consist of three (or more) individual files with file extensions \code{.mgrd}, \code{.sgrd} and \code{.sdat}. The files with these three file extensions are copied, any additional files (e.g. a history file) are ignored.

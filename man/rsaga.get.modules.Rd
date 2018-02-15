@@ -23,13 +23,13 @@ rsaga.search.modules(text, modules, search.libs = TRUE,
 \arguments{
 \item{libs}{character vector with the names of libraries in which to look for modules; if missing, all libraries will be processed}
 
-\item{env}{a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
 \item{interactive}{logical (default \code{FALSE}): should modules be returned that can only be executed in interactive mode (i.e. using SAGA GUI)?}
 
 \item{parallel}{logical (defaults to \code{env$parallel}): if \code{TRUE}, run in parallel mode; requires a parallel backend such as \pkg{doSNOW} or \pkg{doMC}}
 
-\item{path}{path of SAGA library files (\code{modules} subfolder in the SAGA installation folder); defaults to the path determined by \code{\link{rsaga.env}}.}
+\item{path}{path of SAGA library files (\code{modules} subfolder in the SAGA installation folder); defaults to the path determined by \code{\link[=rsaga.env]{rsaga.env()}}.}
 
 \item{dll}{file extension of dynamic link libraries}
 
@@ -65,7 +65,7 @@ rsaga.search.modules(text, modules, search.libs = TRUE,
 These functions list the SAGA libraries (\code{rsaga.get.libraries}) and modules (\code{rsaga.get.lib.modules}, \code{rsaga.get.modules}) available in a SAGA installation, and allow to perform a full-text search among these functions.
 }
 \note{
-For information on the usage of SAGA command line modules, see \code{\link{rsaga.get.usage}}, or \code{\link{rsaga.html.help}} (in SAGA GIS 2.1.0+), or the RSAGA interface function, if available.
+For information on the usage of SAGA command line modules, see \code{\link[=rsaga.get.usage]{rsaga.get.usage()}}, or \code{\link[=rsaga.html.help]{rsaga.html.help()}} (in SAGA GIS 2.1.0+), or the RSAGA interface function, if available.
 }
 \examples{
 \dontrun{
@@ -85,7 +85,7 @@ rsaga.search.modules("gap")
 }
 }
 \seealso{
-\code{\link{rsaga.get.usage}}, \code{\link{rsaga.html.help}}, \code{\link{rsaga.geoprocessor}}, \code{\link{rsaga.env}}
+\code{\link[=rsaga.get.usage]{rsaga.get.usage()}}, \code{\link[=rsaga.html.help]{rsaga.html.help()}}, \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, \code{\link[=rsaga.env]{rsaga.env()}}
 }
 \keyword{interface}
 \keyword{spatial}

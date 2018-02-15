@@ -43,7 +43,7 @@ write.Rd.grid(data, file, header = NULL, write.header = TRUE,
 
 \item{at.once}{logical: if \code{TRUE}, read the whole grid with one \code{scan} command; if \code{FALSE}, read it row by row using \code{scan} with option \code{nlines=1}.}
 
-\item{na.strings}{passed on to \code{\link{scan}}.}
+\item{na.strings}{passed on to \code{\link[=scan]{scan()}}.}
 
 \item{...}{\code{read.sgrd}, \code{write.sgrd}: additional arguments to be passed to \code{rsaga.geoprocessor}}
 
@@ -75,26 +75,26 @@ The \code{read.*} functions return either a list with components \code{data} (th
 The grid data matrix is a numeric matrix whose first column corrensponds to the first (i.e. northernmost) row of the grid. Columns run from left = West to right = East.
 
 The header information returned by the \code{read.ascii.grid[.header]} functions (if \code{return.header=TRUE}) is a list with the following components:
- \item{ncols}{Number of grid columns.}
- \item{nrows}{Number of grid rows.}
- \item{xllcorner}{x coordinate of the corner of the lower left grid cell.}
- \item{yllcorner}{y coordinate of the corner of the lower left grid cell.}
- \item{cellsize}{Single numeric value specifying the size of a grid cell or pixel in both x and y direction.}
- \item{nodata_value}{Single numeric value being interpreted as \code{NA} (typically \code{-9999}.}
- \item{xllcenter}{x coordinate of the center of the lower left grid cell}
- \item{yllcenter}{y coordinate of the center of the lower left grid cell}
+\item{ncols}{Number of grid columns.}
+\item{nrows}{Number of grid rows.}
+\item{xllcorner}{x coordinate of the corner of the lower left grid cell.}
+\item{yllcorner}{y coordinate of the corner of the lower left grid cell.}
+\item{cellsize}{Single numeric value specifying the size of a grid cell or pixel in both x and y direction.}
+\item{nodata_value}{Single numeric value being interpreted as \code{NA} (typically \code{-9999}.}
+\item{xllcenter}{x coordinate of the center of the lower left grid cell}
+\item{yllcenter}{y coordinate of the center of the lower left grid cell}
 Note: The order of the components, especially of \code{?llcorner} and \code{?llcenter}, may change, depending on the order in which they appear in the grid header and on the georeferencing method (center or corner) used for the grid. The \code{?llcorner} and \code{?llcenter} attributes differ only by \code{cellsize/2}.
 }
 \description{
 These functions provide simple interfaces for reading and writing grids from/to ASCII grids and Rd files. Grids are stored as matrices, their headers in lists.
 }
 \note{
-\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{readGDAL} and \code{\link[rgdal]{writeGDAL}} in package \code{rgdal} instead, which are likely more efficient but may require coercion of your gridded data to/from a \code{Spatial...DataFrame-class}.
+\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{readGDAL} and \code{\link[rgdal:writeGDAL]{rgdal::writeGDAL()}} in package \code{rgdal} instead, which are likely more efficient but may require coercion of your gridded data to/from a \code{Spatial...DataFrame-class}.
 
 The \code{read.Rd.grid} and \code{write.Rd.grid} functions use the \code{load} and \code{save} commands to store a grid. The variable name used is \code{data}, which is either a numeric matrix or a list with components \code{data} (the grid data matrix) and \code{header} (the grid header information).
 }
 \seealso{
-\code{readGDAL} and \code{\link[rgdal]{writeGDAL}} in package \code{rgdal}, and \code{readAsciiGrid} and \code{\link[maptools]{writeAsciiGrid}} in package \code{maptools}
+\code{readGDAL} and \code{\link[rgdal:writeGDAL]{rgdal::writeGDAL()}} in package \code{rgdal}, and \code{readAsciiGrid} and \code{\link[maptools:writeAsciiGrid]{maptools::writeAsciiGrid()}} in package \code{maptools}
 }
 \author{
 Alexander Brenning

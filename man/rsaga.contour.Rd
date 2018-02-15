@@ -14,22 +14,24 @@ rsaga.contour(in.grid, out.shapefile, zstep, zmin, zmax, vertex = "xy",
 
 \item{zstep, zmin, zmax}{lower limit, upper limit, and equidistance of contour lines}
 
-\item{vertex}{optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+. \itemize{
-\item [0] \code{"xy"}
-\item [1] \code{"xyz"}}}
+\item{vertex}{optional parameter: vertex type for resulting contours. Default \code{"xy"} (or 0). Only available with SAGA GIS 2.1.3+.
+\itemize{
+\item 0 \code{"xy"}
+\item 1 \code{"xyz"}
+}}
 
-\item{env}{A SAGA geoprocessing environment, see \code{\link{rsaga.env}}}
+\item{env}{A SAGA geoprocessing environment, see \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{arguments to be passed to \code{\link{rsaga.geoprocessor}}}
+\item{...}{arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 }
 \description{
 Creates a contour lines shapefile from a grid file in SAGA grid format.
 }
 \seealso{
-\code{\link{rsaga.geoprocessor}}
+\code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

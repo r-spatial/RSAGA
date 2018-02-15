@@ -16,18 +16,18 @@ rsaga.filter.gauss(in.grid, out.grid, sigma, radius = ceiling(2 * sigma),
 
 \item{radius}{positive integer: radius of moving window}
 
-\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link{rsaga.env}}}
+\item{env}{list, setting up a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 
-\item{...}{optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment}
+\item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 }
 \description{
 Smooth a grid using a Gauss filter.
 }
 \seealso{
-\code{\link{rsaga.filter.simple}}
+\code{\link[=rsaga.filter.simple]{rsaga.filter.simple()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA module)

@@ -28,12 +28,12 @@ If \code{numeric} is false but \code{arg} is numeric, \code{match.arg.ext} retur
 If \code{numeric} is true, the function returns the numeric index(es) of the partial match of \code{arg}, counted from \code{base} to \code{length(choices)+base-1}. If \code{arg} is already numeric, the function only checks whether it falls into the valid range from \code{arg} to \code{length(choices)+base-1} and returns \code{arg}.
 }
 \description{
-\code{match.arg.ext} matches \code{arg} against a set of candidate values as specified by \code{choices}; it extends \code{\link{match.arg}} by allowing \code{arg} to be a numeric identifier of the \code{choices}.
+\code{match.arg.ext} matches \code{arg} against a set of candidate values as specified by \code{choices}; it extends \code{\link[=match.arg]{match.arg()}} by allowing \code{arg} to be a numeric identifier of the \code{choices}.
 }
 \details{
 When \code{choices} are missing, they are obtained from a default setting for the formal argument \code{arg} of the function from which \code{match.arg.ext} was called.
 
-Matching is done using \code{\link{pmatch}} (indirectly through a call to \code{\link{match.arg}}, so \code{arg} may be abbreviated.
+Matching is done using \code{\link[=pmatch]{pmatch()}} (indirectly through a call to \code{\link[=match.arg]{match.arg()}}, so \code{arg} may be abbreviated.
 
 If \code{arg} is numeric, it may take values between \code{base} and \code{length(choices)+base-1}.  \code{base=1} will give standard 1-based R indices, \code{base=0} will give indices counted from zero as used to identify SAGA modules in library RSAGA.
 }
@@ -55,7 +55,7 @@ center(x, 1)         # Same, for base=0
 try(center(x, "m"))  # Error
 }
 \seealso{
-\code{\link{match.arg}}, \code{\link{pmatch}}
+\code{\link[=match.arg]{match.arg()}}, \code{\link[=pmatch]{pmatch()}}
 }
 \author{
 Alexander Brenning

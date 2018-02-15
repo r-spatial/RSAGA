@@ -17,7 +17,7 @@ rsaga.add.grid.values.to.points(in.shapefile, in.grids, out.shapefile,
 
 \item{method}{interpolation method to be used; choices: nearest neighbour interpolation (default), bilinear interpolation, inverse distance weighting, bicubic spline interpolation, B-splines.}
 
-\item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.}
+\item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment.}
 }
 \description{
 Pick values from SAGA grids and attach them as a new variables to a point shapefile.
@@ -29,7 +29,7 @@ Retrieves information from the selected grids at the positions of the points of 
 This function uses module \code{Add Grid Values to Points} in SAGA GIS library \code{shapes_grid}.
 }
 \seealso{
-\code{\link{pick.from.points}}, \code{\link{pick.from.ascii.grid}}, \code{\link{pick.from.saga.grid}}, \code{\link{rsaga.grid.to.points}}
+\code{\link[=pick.from.points]{pick.from.points()}}, \code{\link[=pick.from.ascii.grid]{pick.from.ascii.grid()}}, \code{\link[=pick.from.saga.grid]{pick.from.saga.grid()}}, \code{\link[=rsaga.grid.to.points]{rsaga.grid.to.points()}}
 }
 \author{
 Alexander Brenning (R interface), Olaf Conrad (SAGA modules)

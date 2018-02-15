@@ -7,9 +7,9 @@
 grid.to.xyz(data, header, varname = "z", colnames = c("x", "y", varname))
 }
 \arguments{
-\item{data}{grid data: either a grid data matrix, or a list with components \code{data} (a matrix with the grid data) and \code{header} (the grid header information); see \code{\link{read.ascii.grid}} for details}
+\item{data}{grid data: either a grid data matrix, or a list with components \code{data} (a matrix with the grid data) and \code{header} (the grid header information); see \code{\link[=read.ascii.grid]{read.ascii.grid()}} for details}
 
-\item{header}{optional list giving grid header information; see \code{\link{read.ascii.grid}} for details}
+\item{header}{optional list giving grid header information; see \code{\link[=read.ascii.grid]{read.ascii.grid()}} for details}
 
 \item{varname}{character: name to be assigned to the column with the z values in the output data.frame}
 
@@ -29,6 +29,6 @@ str(xyz)
 }
 }
 \seealso{
-\code{\link{read.ascii.grid}}, \code{\link{pick.from.ascii.grid}}
+\code{\link[=read.ascii.grid]{read.ascii.grid()}}, \code{\link[=pick.from.ascii.grid]{pick.from.ascii.grid()}}
 }
 \keyword{spatial}

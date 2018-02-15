@@ -20,10 +20,10 @@ rsaga.fill.sinks(in.dem, out.dem, method = "planchon.darboux.2001",
 
 \item{minslope}{Minimum slope angle (in degree) preserved between adjacent grid cells (default value of \code{0.01} only for \code{method="planchon.darboux.2001"}, otherwise no default).}
 
-\item{...}{Optional arguments to be passed to \code{\link{rsaga.geoprocessor}}, including the \code{env} RSAGA geoprocessing environment.}
+\item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment.}
 }
 \value{
-The type of object returned depends on the \code{intern} argument passed to the \code{\link{rsaga.geoprocessor}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 
 The function writes SAGA grid files containing of the depression-free preprocessed DEM, and optionally the flow directions and watershed basins.
 }
@@ -50,7 +50,7 @@ Planchon, O., and F. Darboux (2001): A fast, simple and versatile algorithm to f
 Wang, L. & H. Liu (2006): An efficient method for identifying and filling surface depressions in digital elevation models for hydrologic analysis and modelling. International Journal of Geographical Information Science, Vol. 20, No. 2: 193-213.
 }
 \seealso{
-\code{\link{rsaga.sink.removal}}, \code{\link{rsaga.sink.route}}.
+\code{\link[=rsaga.sink.removal]{rsaga.sink.removal()}}, \code{\link[=rsaga.sink.route]{rsaga.sink.route()}}.
 }
 \author{
 Alexander Brenning (R interface), Volker Wichmann (SAGA module)
