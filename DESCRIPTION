@@ -3,8 +3,16 @@ Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis in R
 Version: 1.0.0
 Date: 2018-02-01
-Author: Alexander Brenning, Donovan Bangs and Marc Becker
-Maintainer: Alexander Brenning <alexander.brenning@uni-jena.de>
+Author@R: c(
+    person("Alexander", "Brenning",
+    email = "alexander.brenning@uni-jena.de", 
+    role = c("aut", "cre"),
+    comment = c(ORCID = '0000-0001-6640-679X')),
+    person("Donovan", "Bangs",
+    role = "aut"),
+    person("Marc", "Becker",
+    role = "aut")
+    )
 Description: Provides access to geocomputing and terrain analysis functions
     of the geographical information system (GIS) 'SAGA' (System for Automated
     Geoscientific Analyses) from within R by running the command line version of
@@ -24,7 +32,8 @@ Depends:
 Imports:
   stats,
   utils,
-  rgdal
+  rgdal,
+  sf
 Suggests:
     knitr,
 LazyLoad: yes
