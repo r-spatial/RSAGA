@@ -3,7 +3,7 @@ Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis in R
 Version: 1.0.0
 Date: 2018-02-01
-Author@R: c(
+Authors@R: c(
     person("Alexander", "Brenning",
     email = "alexander.brenning@uni-jena.de", 
     role = c("aut", "cre"),
