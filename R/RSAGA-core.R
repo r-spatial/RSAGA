@@ -266,7 +266,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
         path = gsub(paste0(".{",nchar(cmd),"}$"), '', path)
         
         # Stop if no saga_cmd is found
-        if (length(path) == 0) {
+        if (is.na(path)) {
           stop("SAGA command line program not found on ", root, "\n")
         }
       }
