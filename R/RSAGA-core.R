@@ -6,7 +6,7 @@
 #' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by \code{rsaga.default.path}
 #' @param root 
 #' @export
-rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, root="/usr", cmd)
+rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 {
   modules = NULL
   if (sysname == "Windows") {
@@ -16,6 +16,13 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
     } else if (file.exists(file.path(saga.path, "tools"))){
       modules = file.path(saga.path, "tools")
     }
+    
+    # Stop if no modules folder found
+    if (is.null(modules)) {
+      stop("SAGA modules not found in the following windows default paths.\n",
+           paste0(saga.path, "/modules"), "\n", paste0(saga.path, "/tools"))
+    }
+    
   } else { # Linux, Unix, MacOS
     # Look in likely locations for modules folder
     module.defaults.paths = c("/usr/lib/x86_64-linux-gnu/saga", "/usr/lib/saga", 
@@ -33,6 +40,10 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
       
       # Clean modules path
       modules = gsub("/libio_gdal.*", x = modules, replacement = "")
+    }
+    
+    if (is.null(modules)) {
+      stop("SAGA modules not found")
     }
   }
   return(modules)
@@ -151,25 +162,22 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     stop("Invalid workspace path ", workspace)
   }
   
-  # Check paths specified by user
+  # Check paths specified by user. Option 2 und 3 s. details
   if (!is.null(path)) {
-    cat("Trying to find SAGA command line program in specified path... \n")
+    cat("Verify specified path to SAGA command line program...\n")
     # Check if SAGA command line path is valid
     if (!file.exists(file.path(path, cmd))) {
-      stop("SAGA command line program ", cmd, " not found in the specified path ",
-           path, ".")
+      stop("SAGA command line program ", cmd, " not found in the specified path:\n", path)
     }
     
     # Check if modules exists
     if (!is.null(modules)) {
-      cat("Try to find SAGA modules in specified path... \n")
+      cat("Verify specified path to SAGA modules...\n")
       # Check if modules path is valid
       if (!file.exists(file.path(modules))) {
-        stop("SAGA modules not found in the specified path:\n ",
-             modules,
-             ".")
+        stop("SAGA modules not found in the specified path:\n ", modules)
       }
-      cat("Done\n")
+      cat("Done")
       
       # If modules path is emtpy but cmd path is set, try to find modules path
     } else {
@@ -186,13 +194,13 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     }
   }
   
-  # Searching for SAGA command line program in default paths
+  # Searching for SAGA command line program in default paths. Option 1 s. details
   if (is.null(path)) {
-    cat("Searching for SAGA command line program and modules... \n")
-    # Try to find SAGA command line programm in windows default paths to speed things up
+    cat("Search for SAGA command line program and modules... \n")
+    # Try to find SAGA command line programm in windows default paths
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
-      windows.defaults.paths =  c(#"C:/Progra~1/SAGA-GIS", #"C:/SAGA-GIS",
+      windows.defaults.paths =  c(#"C:/Progra~1/SAGA-GIS", "C:/SAGA-GIS",
                                   "C:/OSGeo4W64/apps/saga", "C:/OSGeo4W64/apps/saga-ltr")
       
       # Check if one path is valid
@@ -202,58 +210,42 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
         }
       }
       
-      # Search for SAGA on entire drive
+      # If no default path is correct, search for SAGA GIS on entire drive
       if (is.null(path)) {
-        path.text = paste0(windows.defaults.paths, collapse = "\n")
-        cat("SAGA command line program not found in the following windows default paths:\n",
-            path.text, "\n\nTrying a search on the entire hard drive...\n",
-            "This could be slow. Consider to set the arguments path and module\n", sep="")
-      }
+        cat("SAGA command line program not found in the following default paths:\n",
+            paste0(windows.defaults.paths, collapse = "\n"), 
+            "\nSearch on the entire hard drive...\n", sep="")
         
         # Search starts in root directory
-        path_list = list.files(
-          path = root,
-          pattern = cmd,
-          recursive = TRUE,
-          full.names = TRUE
-        )
+        path.list = list.files(path = root, pattern = cmd, recursive = TRUE, full.names = TRUE)
         
         # Remove cmd name from path
-        path_list = gsub(paste0(".{",nchar(cmd),"}$"), "", path_list)
-      
-      # Stop if no saga_cmd.exe is found
-      if (length(path_list) == 0) {
-        stop("SAGA command line program not found on ", root, "\n")
-      }
-      
-      # If more than one version is available, select the one with the highest version numer
-      if (length(path_list) >= 2) {
-        cat(length(path_list), " SAGA GIS versions detected. Selecting SAGA GIS with the highest version number\n")
-        version_numbers = c()
-        for (pa in path_list) {
-          # It's a dummy enviroment to get the version number
-          dummy_env = rsaga.set.env(path = pa, cmd = cmd, workspace = ".",
-                                    modules = paste0(pa, "/NULL"))
-          version_numbers = c(version_numbers, rsaga.get.version(dummy_env))
+        path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)
+        
+        # Stop if no saga_cmd.exe is found
+        if (length(path.list) == 0) {
+          stop("SAGA command line program not found on ", root, "\n")
         }
-        # Select path with the latest SAGA GIS version
-        path = path_list[which(version_numbers == max(version_numbers))]
-        # Choose one if multiple versions with the same version number are available
-        path = path[1]
+        
+        # If more than one version is available, select SAGA GIS with highest version number
+        if (length(path.list) >= 2) {
+          cat(length(path.list), "SAGA GIS versions detected. Latest version is selected.\n")
+          version.numbers = c()
+          for (pa in path.list) {
+            # Dummy enviroment to get the version number
+            dummy.env = rsaga.set.env(path = pa, cmd = cmd, workspace = ".",
+                                      modules = paste0(pa, "/NULL"))
+            version.numbers = c(version.numbers, rsaga.get.version(dummy.env))
+          }
+          
+          # Select path with the latest SAGA GIS version
+          path = path.list[which(version.numbers == max(version.numbers))]
+          # Choose one if multiple versions with the same version number are available
+          path = path[1]
+        }
       }
-      
-      # Set modules path
-      modules = rsaga.get.modules.path(saga.path = path)
-      
-      # Stop if module path is invalid
-      if (!file.exists(modules)) {
-        stop("SAGA modules not found in the following windows default paths.\n",
-          paste0(path, "/modules"), "\n", paste0(path, "/tools"))
-      }
-      cat("Done\n")
-    }
-    else {
-      # Try default paths
+    } else {
+      # Try SAGA command line programm in unix default paths
       unix.defaults.paths = c("/usr/bin", "/usr/local/bin", 
                               "/usr/local/Cellar/saga-gis-lts/2.3.2/bin")
       
@@ -263,28 +255,26 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
           path = pa
         }
       }
-          
+      
+      # If no default path is correct, search for SAGA GIS on entire drive
       if(is.null(path)) {
         # Try to find SAGA command line programm on other os
         path = list.files(path = root, pattern = paste0(cmd,"$"), recursive = TRUE, 
                           full.names = TRUE)[1]
         
         # Remove cmd name from path
-        path = gsub(paste0(".{",nchar(cmd),"}$"), '', path_list)
+        path = gsub(paste0(".{",nchar(cmd),"}$"), '', path.list)
         
         # Stop if no saga_cmd is found
-        if (length(path_list) == 0) {
+        if (length(path.list) == 0) {
           stop("SAGA command line program not found on ", root, "\n")
         }
       }
-      # Try to find modules path
-      modules = rsaga.get.modules.path(saga.path = path, root=root, cmd=cmd)
-      
-      if (!file.exists(modules)) {
-        stop("SAGA modules not found\n")
-      }
-      cat("Done\n")
     }
+    # Try to find modules path
+    modules = rsaga.get.modules.path(saga.path = path, root = root, cmd = cmd)
+    
+    cat("Done\n")
   }
 
   # cmd has inheritted a 'sysname' name from the result of Sys.info()
