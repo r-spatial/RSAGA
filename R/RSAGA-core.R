@@ -263,7 +263,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
                           full.names = TRUE)[1]
         
         # Remove cmd name from path
-        path = gsub(paste0(".{",nchar(cmd),"}$"), '', path.list)
+        path = gsub(paste0(".{",nchar(cmd),"}$"), '', path)
         
         # Stop if no saga_cmd is found
         if (length(path.list) == 0) {
