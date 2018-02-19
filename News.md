@@ -1,7 +1,7 @@
 # RSAGA News
 
 # RSAGA 1.0.0
-RSAGA 1.0.0 is now available on CRAN. It is a major update that adds support for SAGA GIS 2.3.1 LTS - 6.2.0. Older SAGA GIS versions might still work but are not supported anymore. 
+RSAGA 1.0.0 is now available on CRAN. It is a major update that adds support for SAGA GIS 2.3.1 LTS - 6.2.0. Older SAGA GIS versions might still work but are not supported anymore. Please report bugs to https://github.com/be-marc/RSAGA.
 
 ## Features
 * RSAGA supports now the latest SAGA GIS versions up to 6.2.0

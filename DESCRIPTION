@@ -36,6 +36,7 @@ Imports:
   sf
 Suggests:
     knitr,
+    rmarkdown
 LazyLoad: yes
 Collate:
     'gridtools.R'

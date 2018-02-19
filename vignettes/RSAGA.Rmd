@@ -6,7 +6,7 @@ output:
     rmarkdown::html_vignette:
       fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction to Terrain Analysis with RSAGA: Landslide Susceptibility Modeling}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -271,7 +271,7 @@ Please be aware that some modules and calculations may change or be deprecated b
 ## References
 Conrad, O., Bechtel, M., Bock, M., Dietrich, H., Fischer, E., Gerlitz, L., Wichmann, V., & Bohner, J. (2015). System for Automated Geoscientific Analyses (SAGA) v. 2.1.4. _Geoscientific Model Development_, 8, 1991-2007
 
-Hastie, T. (2015). gam: Generalized Additive Models. R package version 1.12. http://CRAN.R-project.org/package=gam
+Hastie, T. (2015). gam: Generalized Additive Models. R package version 1.12. https://CRAN.R-project.org/package=gam
 
 Jordan, E., Ungerechts, L.; Caceres, B.; Penafiel, A. and Francou, B. (2005). Estimation by photogrammetry of the glacier recession on the Cotopaxi Volcano (Ecuador) between 1956 and 1997. _Hydrological Sciences_, 50, 949-961
 
