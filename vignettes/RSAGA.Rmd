@@ -20,14 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r, echo = FALSE, results = "hide", message = F, warning = F}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE, warning = FALSE)
-## Initialize geoprocessing environment
-library(RSAGA)
 library(knitr)
-data("landslides")
-```
-```{r, echo = FALSE, results = "hide", message = F, warning = F, eval = FALSE}
-env <- rsaga.env()
-write.sgrd(data = dem, file = "dem", header = dem$header, env=env)
 ```
 
 ## Introduction
@@ -52,9 +45,8 @@ RSAGA can be considered a collection of geocomputing functions in three general 
 ## Initializing the RSAGA Geoprocessing Environment
 Running the geoprocessing functions requires that SAGA is installed and can be found by RSAGA. The `rsaga.env()` function creates a list with system-dependent information on SAGA path, module path and data directory. The function should be called with the path to the SAGA executable:
 
-```{r, collapse=TRUE}
+```{r, collapse=TRUE, eval = FALSE}
 env <- rsaga.env()
-env
 ```
 The function tries to find SAGA in several default paths if no path parameter is provided.
 
