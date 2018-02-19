@@ -42,13 +42,13 @@ rsaga.topdown.processing(in.dem, in.sinkroute, in.weight, in.mean, in.material,
 
 \item{method}{character or numeric: choice of processing algorithm (default \code{"mfd"}, or 4):
 \itemize{
-\item [\0 Deterministic 8 (\code{"d8"} or 0)
-\item [\1 Rho 8 (\code{"rho8"}, or 1)
-\item [\2 Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
-\item [\3 Deterministic Infinity (\code{"dinf"} or 3)
-\item [\4 Multiple Flow Direction (\code{"mfd"} or 4)
-\item [\5 Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
-\item [\6 Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)
+\item 0 Deterministic 8 (\code{"d8"} or 0)
+\item 1 Rho 8 (\code{"rho8"}, or 1)
+\item 2 Braunschweiger Reliefmodell (\code{"braunschweig"} or 2)
+\item 3 Deterministic Infinity (\code{"dinf"} or 3)
+\item 4 Multiple Flow Direction (\code{"mfd"} or 4)
+\item 5 Multiple Triangular Flow Direction (\code{"mtfd"}, or 5)
+\item 6 Multiple Maximum Gradient Based Flow Direction (\code{"mdg"}, or 6)
 }}
 
 \item{linear.threshold}{numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for \code{linear.threshold=Inf} (the default)}

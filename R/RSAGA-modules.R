@@ -1969,13 +1969,13 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' @param out.flowpath optional output: flow path length grid
 #' @param step integer >=1: step parameter
 #' @param method character or numeric: choice of processing algorithm (default `"mfd"`, or 4):
-#' - [\0 Deterministic 8 (`"d8"` or 0)
-#' - [\1 Rho 8 (`"rho8"`, or 1)
-#' - [\2 Braunschweiger Reliefmodell (`"braunschweig"` or 2)
-#' - [\3 Deterministic Infinity (`"dinf"` or 3)
-#' - [\4 Multiple Flow Direction (`"mfd"` or 4)
-#' - [\5 Multiple Triangular Flow Direction (`"mtfd"`, or 5)
-#' - [\6 Multiple Maximum Gradient Based Flow Direction (`"mdg"`, or 6)
+#' - 0 Deterministic 8 (`"d8"` or 0)
+#' - 1 Rho 8 (`"rho8"`, or 1)
+#' - 2 Braunschweiger Reliefmodell (`"braunschweig"` or 2)
+#' - 3 Deterministic Infinity (`"dinf"` or 3)
+#' - 4 Multiple Flow Direction (`"mfd"` or 4)
+#' - 5 Multiple Triangular Flow Direction (`"mtfd"`, or 5)
+#' - 6 Multiple Maximum Gradient Based Flow Direction (`"mdg"`, or 6)
 #' @param linear.threshold numeric (number of grid cells): threshold above which linear flow (i.e. the Deterministic 8 algorithm) will be used; linear flow is disabled for `linear.threshold=Inf` (the default)
 #' @param convergence numeric >=0: a parameter for tuning convergent/ divergent flow; default value of `1.1` gives realistic results and should not be changed
 #' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()]
