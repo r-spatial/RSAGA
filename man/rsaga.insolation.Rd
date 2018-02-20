@@ -71,7 +71,7 @@ This function calculates the amount of incoming solar radiation (insolation) dep
 Calculation of incoming solar radiation (insolation). Based on the SADO (System for the Analysis of Discrete Surfaces) routines developed  by Boehner & Trachinow.
 }
 \note{
-This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is availble in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link[=rsaga.pisr]{rsaga.pisr()}}.
+This function uses module \code{Insolation} (code: 3) from SAGA library \code{ta_lighting}. It is available in SAGA GIS 2.0.4 and 2.0.5 but not 2.0.6 and 2.0.7; see \code{\link[=rsaga.pisr]{rsaga.pisr()}}.
 }
 \seealso{
 \code{\link[=rsaga.solar.radiation]{rsaga.solar.radiation()}}, \code{\link[=rsaga.pisr]{rsaga.pisr()}},  \code{\link[=rsaga.hillshade]{rsaga.hillshade()}}

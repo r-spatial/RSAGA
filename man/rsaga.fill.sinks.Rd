@@ -33,7 +33,7 @@ Several methods for filling closed depressions in digital elevation models that 
 \details{
 This function bundles three SAGA modules for filling sinks using three different algorithms (\code{method} argument).
 
-\code{"planchon.darboux.2001"}: The algorithm of Planchon and Darboux (2001) consists of increasing the elevation of pixels in closed depressions until the sink disappears and a mininum slope angle of \code{minslope} (default: \code{0.01} degree) is established.
+\code{"planchon.darboux.2001"}: The algorithm of Planchon and Darboux (2001) consists of increasing the elevation of pixels in closed depressions until the sink disappears and a minimum slope angle of \code{minslope} (default: \code{0.01} degree) is established.
 
 \code{"wang.liu.2006"}: This module uses an algorithm proposed by Wang and Liu (2006) to identify and fill surface depressions in DEMs. The method was enhanced to allow the creation of hydrologically sound elevation models, i.e. not only to fill the depressions but also to  preserve a downward slope along the flow path.  If desired, this  is accomplished by preserving a minimum slope gradient (and thus elevation difference) between cells. This is the fully featured version of the module creating a depression-free DEM, a flow path grid and a grid with watershed basins. If you encounter problems processing large data sets (e.g. LIDAR data) with this module try the basic version (\code{xxl.wang.lui.2006}).
 

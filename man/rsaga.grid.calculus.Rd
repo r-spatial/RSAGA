@@ -27,7 +27,7 @@ rsaga.linear.combination(in.grids, out.grid, coef, cf.digits = 16,
 
 \item{remove.zeros}{logical: if \code{TRUE}, terms (grids) with coefficient (numerically) equal to zero (after rounding to \code{cf.digits} digits) will be removed from the formula}
 
-\item{remove.ones}{logical: if \code{TRUE} (th edefault), factors equal to 1 (after rounding to \code{cf.digits} digits) will be removed from the formula}
+\item{remove.ones}{logical: if \code{TRUE} (the default), factors equal to 1 (after rounding to \code{cf.digits} digits) will be removed from the formula}
 }
 \value{
 The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
