@@ -81,7 +81,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' @param version optional character string: SAGA GIS (API) version, e.g. `"2.0.8"`; if missing, a call to [rsaga.get.version()] is used to determine version number of SAGA API
 #' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
 #' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
-#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line programm (s. `search`).  If left empty, on Windoes `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
+#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line program (s. `search`).  If left empty, on Windoes `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
 #' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to [rsaga.lib.prefix()] tries to determine the correct prefix, e.g. `""` on Windows systems and `"lib"` on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying `""` or `"lib"` manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your `Sys.info()["sysname"]` and your SAGA GIS version)
 #' 
 #' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
@@ -199,7 +199,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
   # Searching for SAGA command line program in default paths. Option 1 s. details
   if (is.null(path)) {
     cat("Search for SAGA command line program and modules... \n")
-    # Try to find SAGA command line programm in windows default paths
+    # Try to find SAGA command line program in windows default paths
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
       windows.defaults.paths =  c("C:/Progra~1/SAGA-GIS", "C:/SAGA-GIS",
@@ -247,7 +247,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
         }
       }
     } else {
-      # Try SAGA command line programm in unix default paths
+      # Try SAGA command line program in unix default paths
       unix.defaults.paths = c("/usr/bin", "/usr/local/bin", 
                               "/usr/local/Cellar/saga-gis-lts/2.3.2/bin")
       
@@ -260,7 +260,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
       
       # If no default path is correct, search for SAGA GIS on entire drive
       if(is.null(path)) {
-        # Try to find SAGA command line programm on other os
+        # Try to find SAGA command line program on other os
         path = list.files(path = root, pattern = paste0(cmd,"$"), recursive = TRUE, 
                           full.names = TRUE)[1]
         
@@ -876,7 +876,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #' @author Alexander Brenning (R interface); Olaf Conrad and the SAGA development team (SAGA development)
 #' @note Existing output files will be overwritten by SAGA without prompting!
 #' 
-#' If a terrain analysis function is not directly interfaced by one of the RSAGA functions, you might still find it in the growing set of SAGA libraries and modules. The names of all libraries available in your SAGA installation can be obtained using [rsaga.get.libraries()] (or by checking the directory listing of the `modules` folder in the SAGA directory). The names and numeric codes of all available modules (globally or within a specific library) are retreived by [rsaga.get.modules()]. Full-text search in library and module names is performed by [rsaga.search.modules()]. For information on the usage of SAGA command line modules, see [rsaga.get.usage()], or the RSAGA interface function if available.
+#' If a terrain analysis function is not directly interfaced by one of the RSAGA functions, you might still find it in the growing set of SAGA libraries and modules. The names of all libraries available in your SAGA installation can be obtained using [rsaga.get.libraries()] (or by checking the directory listing of the `modules` folder in the SAGA directory). The names and numeric codes of all available modules (globally or within a specific library) are retrieved by [rsaga.get.modules()]. Full-text search in library and module names is performed by [rsaga.search.modules()]. For information on the usage of SAGA command line modules, see [rsaga.get.usage()], or the RSAGA interface function if available.
 #' 
 #' `display.command=TRUE` is mainly intended for debugging purposes to check if all arguments are passed correctly to SAGA CMD.
 #' @seealso [rsaga.env()], [rsaga.get.libraries()], [rsaga.get.modules()], [rsaga.search.modules()], [rsaga.get.usage()]; [rsaga.esri.wrapper()] for a wrapper for ESRI ASCII/binary grids; [rsaga.hillshade()] and other higher-level functions.
