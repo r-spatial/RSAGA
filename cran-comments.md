@@ -14,4 +14,12 @@
 
 Reverse dependency to plotKML checked.
 
+## Resubmission
+
+This is a resubmission:
+
+* Removed the 'in R' from package title
+* Enclosed URLs in brackets
+
+
 ---
