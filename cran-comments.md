@@ -8,18 +8,15 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 note
 
 ## Reverse dependencies
 
 Reverse dependency to plotKML checked.
 
-## Resubmission
+## Note
 
-This is a resubmission:
-
-* Removed the 'in R' from package title
-* Enclosed URLs in brackets
-
-
+We got an email from cran about the note:
+Possibly mis-spelled words in DESCRIPTION: gis (23:19)
+Fixed that in the 1.0.1 release
 ---
