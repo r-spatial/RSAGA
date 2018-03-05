@@ -1,5 +1,13 @@
 # RSAGA News
 
+# RSAGA 1.0.1
+
+We integrated RSAGA into the r-spatial.org community. If you find any bugs please report them at our new development repository (https://github.com/r-spatial/RSAGA).
+
+## Features
+* Bug fixes for the describtion file
+* RSAGA supports SAGA GIS 6.3.0
+
 # RSAGA 1.0.0
 RSAGA 1.0.0 is now available on CRAN. It is a major update that adds support for SAGA GIS 2.3.1 LTS - 6.2.0. Older SAGA GIS versions might still work but are not supported anymore. Please report bugs to (https://github.com/be-marc/RSAGA).
 
