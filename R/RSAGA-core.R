@@ -87,9 +87,8 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 #' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
 #' 
-#' 
-#' We strongly recommend to install SAGA GIS on Windows in `C:/Program Files/SAGA-GIS` , `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` or `C:/OSGeo4W64/apps/saga`. 
-#' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
+#' We strongly recommend to install SAGA GIS on Windows in `C:/Program Files/SAGA-GIS`, `C:/Program Files (x86)/SAGA-GIS`,`C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` or `C:/OSGeo4W64/apps/saga`. 
+#' If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow. 
 #' 
 #' There are three ways to create a RSAGA environment with `rsaga.env`:
 #' 
@@ -98,15 +97,15 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' `C:/Progra~1/SAGA-GIS`, `C:/Progra~2/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`. 
 #' If this fails and attempt is being made to find the SAGA command line program with a search on `C:/`
 #' (The drive letter can be changed with the `root` argument).
-#' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA modules. 
+#' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA module libraries. 
 #' On Unix systems `rsaga.env` tries to find the SAGA command line program in various default paths. 
-#' Additionally, the PATH environment variable is checked for the path to the SAGA command line program 
+#' Additionally, on Unix systems the PATH environment variable is checked for the path to the SAGA command line program 
 #' and the SAGA_MLB environment variable is checked for the SAGA module libraries. 
 #' If this fails, a search for the SAGA command line program and the module libraries is performed on `/usr`. 
 #' If no SAGA command line program can be found, please specify the paths as described in section 2.
 #' 
 #' 2) The user specifies both the path to the SAGA command line program and 
-#' to the SAGA modules. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path 
+#' to the SAGA module libraries. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path 
 #' or if you use more than one SAGA GIS version.
 #' 
 #' 3) The user specifies only the path to the SAGA command line program. A search for the SAGA modules is performed as described in section 1.
@@ -140,7 +139,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                     version = NULL, cores, parallel = FALSE, root = NULL, check.PATH = TRUE, lib.prefix)
+                     version = NULL, cores, parallel = FALSE, root = NULL, lib.prefix)
 {
   # Set root path depending on operating system 
   if (is.null(root)) {
