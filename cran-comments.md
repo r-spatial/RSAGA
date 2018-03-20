@@ -18,5 +18,5 @@ Reverse dependency to plotKML checked.
 
 We got an email from cran about the note:
 Possibly mis-spelled words in DESCRIPTION: gis (23:19)
-Fixed that in the 1.0.1 release
+Fixed that in the 1.1.0 release
 ---
