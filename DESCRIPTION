@@ -32,8 +32,7 @@ Depends:
 Imports:
   stats,
   utils,
-  rgdal,
-  sf
+  rgdal
 Suggests:
     knitr,
     rmarkdown
