@@ -28,9 +28,10 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
     # Look in likely locations for modules folder
     module.defaults.paths = c("/usr/lib/x86_64-linux-gnu/saga", "/usr/lib/saga", 
                               "/usr/lib64/saga", "/usr/local/lib/saga", "/usr/local/lib64/saga",
-                              "/usr/local/Cellar/saga-gis-lts/2.3.2/lib/saga")
+                              "/usr/local/Cellar/saga-gis-lts/2.3.2/lib/saga", Sys.getenv("SAGA_MLB")[[1]])
+    
     for (pa in module.defaults.paths) {
-      if (file.exists(file.path(pa))) {
+      if (dir.exists(file.path(pa))) {
         modules = pa
       }
     }
@@ -94,12 +95,14 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 #' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments `path` and `modules`. 
 #' On Windows `rsaga.env` tries to find the SAGA command line program in the following folders 
-#' `C:/Progra~1/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`. 
+#' `C:/Progra~1/SAGA-GIS`, `C:/Progra~2/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`. 
 #' If this fails and attempt is being made to find the SAGA command line program with a search on `C:/`
 #' (The drive letter can be changed with the `root` argument).
 #' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA modules. 
-#' On Unix systems `rsaga.env` tries to find the SAGA command line program in various default paths.
-#' If this fails, a search for the SAGA command line program and the modules is performed on `/usr`. 
+#' On Unix systems `rsaga.env` tries to find the SAGA command line program in various default paths. 
+#' Additionally, the PATH environment variable is checked for the path to the SAGA command line program 
+#' and the SAGA_MLB environment variable is checked for the SAGA module libraries. 
+#' If this fails, a search for the SAGA command line program and the module libraries is performed on `/usr`. 
 #' If no SAGA command line program can be found, please specify the paths as described in section 2.
 #' 
 #' 2) The user specifies both the path to the SAGA command line program and 
@@ -137,9 +140,9 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' 
 rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                     version = NULL, cores, parallel = FALSE, root = NULL, lib.prefix)
+                     version = NULL, cores, parallel = FALSE, root = NULL, check.PATH = TRUE, lib.prefix)
 {
-  # Set root path depending on operating system
+  # Set root path depending on operating system 
   if (is.null(root)) {
     if (Sys.info()["sysname"] == "Windows") {
       root = "C:/"
@@ -202,7 +205,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     # Try to find SAGA command line program in windows default paths
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
-      windows.defaults.paths =  c("C:/Progra~1/SAGA-GIS", "C:/SAGA-GIS",
+      windows.defaults.paths =  c("C:/Progra~1/SAGA-GIS", "C:/Progra~2/SAGA-GIS", "C:/SAGA-GIS",
                                   "C:/OSGeo4W64/apps/saga", "C:/OSGeo4W64/apps/saga-ltr")
       
       # Check if one path is valid
@@ -247,9 +250,10 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
         }
       }
     } else {
-      # Try SAGA command line program in unix default paths
+      # Unix default paths and path from PATH environment varibale
       unix.defaults.paths = c("/usr/bin", "/usr/local/bin", 
-                              "/usr/local/Cellar/saga-gis-lts/2.3.2/bin")
+                              "/usr/local/Cellar/saga-gis-lts/2.3.2/bin",
+                              sub(paste0('/', cmd), '', system2('which', args = cmd, stdout = TRUE)))
       
       # Check if one path is valid
       for (pa in unix.defaults.paths) {
