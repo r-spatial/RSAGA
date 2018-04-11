@@ -459,16 +459,16 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' @param in.dem input: digital elevation model as SAGA grid file (`.sgrd`)
 #' @param out.slope optional output: slope
 #' @param out.aspect optional output: aspect
-#' @param out.cgene optional output: general curvature
-#' @param out.cprof optional output: profile curvature (vertical curvature; degrees)
-#' @param out.cplan optional output: plan curvature (horizontal curvature; degrees)
-#' @param out.ctang optional output: tangential curvature (degrees)
-#' @param out.clong optional output: longitudinal curvature (degrees) Zevenbergen & Thorne (1987) refer to this as profile curvature
-#' @param out.ccros optional output: cross-sectional curvature (degrees) Zevenbergen & Thorne (1987) refer to this as the plan curvature
-#' @param out.cmini optional output: minimal curvature (degrees)
-#' @param out.cmaxi optional output: maximal curvature (degrees)
-#' @param out.ctota optional output: total curvature (degrees)
-#' @param out.croto optional output: flow line curvature (degrees)
+#' @param out.cgene optional output: general curvature (1 / map units)
+#' @param out.cprof optional output: profile curvature (vertical curvature; 1 / map units)
+#' @param out.cplan optional output: plan curvature (horizontal curvature; 1 / map units)
+#' @param out.ctang optional output: tangential curvature (1 / map units)
+#' @param out.clong optional output: longitudinal curvature (1 / map units) Zevenbergen & Thorne (1987) refer to this as profile curvature
+#' @param out.ccros optional output: cross-sectional curvature (1 / map units) Zevenbergen & Thorne (1987) refer to this as the plan curvature
+#' @param out.cmini optional output: minimal curvature (1 / map units)
+#' @param out.cmaxi optional output: maximal curvature (1 / map units)
+#' @param out.ctota optional output: total curvature (1 / map units)
+#' @param out.croto optional output: flow line curvature (1 / map units)
 #' @param method character algorithm (see References):
 #' - 0 Maximum Slope - Travis et al. (1975) (`"maxslope"`)
 #' - 1 Max. Triangle Slope - Tarboton (1997) (`"maxtriangleslope"`)
