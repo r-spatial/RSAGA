@@ -16,25 +16,25 @@ rsaga.slope.asp.curv(in.dem, out.slope, out.aspect, out.cgene, out.cprof,
 
 \item{out.aspect}{optional output: aspect}
 
-\item{out.cgene}{optional output: general curvature}
+\item{out.cgene}{optional output: general curvature (1 / map units)}
 
-\item{out.cprof}{optional output: profile curvature (vertical curvature; degrees)}
+\item{out.cprof}{optional output: profile curvature (vertical curvature; 1 / map units)}
 
-\item{out.cplan}{optional output: plan curvature (horizontal curvature; degrees)}
+\item{out.cplan}{optional output: plan curvature (horizontal curvature; 1 / map units)}
 
-\item{out.ctang}{optional output: tangential curvature (degrees)}
+\item{out.ctang}{optional output: tangential curvature (1 / map units)}
 
-\item{out.clong}{optional output: longitudinal curvature (degrees) Zevenbergen & Thorne (1987) refer to this as profile curvature}
+\item{out.clong}{optional output: longitudinal curvature (1 / map units) Zevenbergen & Thorne (1987) refer to this as profile curvature}
 
-\item{out.ccros}{optional output: cross-sectional curvature (degrees) Zevenbergen & Thorne (1987) refer to this as the plan curvature}
+\item{out.ccros}{optional output: cross-sectional curvature (1 / map units) Zevenbergen & Thorne (1987) refer to this as the plan curvature}
 
-\item{out.cmini}{optional output: minimal curvature (degrees)}
+\item{out.cmini}{optional output: minimal curvature (1 / map units)}
 
-\item{out.cmaxi}{optional output: maximal curvature (degrees)}
+\item{out.cmaxi}{optional output: maximal curvature (1 / map units)}
 
-\item{out.ctota}{optional output: total curvature (degrees)}
+\item{out.ctota}{optional output: total curvature (1 / map units)}
 
-\item{out.croto}{optional output: flow line curvature (degrees)}
+\item{out.croto}{optional output: flow line curvature (1 / map units)}
 
 \item{method}{character algorithm (see References):
 \itemize{
