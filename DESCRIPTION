@@ -15,7 +15,10 @@ Authors@R: c(
     person("Patrick", "Schratz",
     email = "patrick.schratz@gmail.com", 
     role = c("ctb"),
-    comment = c(ORCID = '0000-0003-0748-6624'))
+    comment = c(ORCID = '0000-0003-0748-6624')),
+    person("Fabian", "Polakowski",
+    role = c("ctb"),
+    email = "fabian.polakowski@gmail.com")
     )
 Description: Provides access to geocomputing and terrain analysis functions
     of the geographical information system (GIS) 'SAGA' (System for Automated

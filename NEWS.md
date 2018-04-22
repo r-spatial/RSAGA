@@ -6,6 +6,10 @@
 * RSAGA supports SAGA GIS 6.3.0
 * RSAGA locates the SAGA command line program and the SAGA module libraries on Unix systems also with the PATH and SAGA_MLB environment variable
 
+## Bug fixes
+
+* change curvature units form degrees to 1 / map units #4
+
 # RSAGA 1.0.0
 
 ## General
