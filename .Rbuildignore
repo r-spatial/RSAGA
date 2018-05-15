@@ -6,3 +6,4 @@
 README.*
 NEWS.*
 ^cran-comments\.md$
+tic.R
