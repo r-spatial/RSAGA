@@ -14,7 +14,8 @@ test_that("Write DEM to disc", {
              env = env, check.module.exists=FALSE)
   test <- read.sgrd(file.path(tempdir(), "dem.sgrd"), env=env, check.module.exists=FALSE)
 
-  expect_true(digest(test, algo="md5") %in% c("137181ee7294515ceb6ccf04fe975cfd"))
+  expect_true(digest(test, algo="md5") %in% c("137181ee7294515ceb6ccf04fe975cfd",
+                                              "01f326d452d4173cc4001cc13ba5d4b6"))
 
 })
 
@@ -28,7 +29,8 @@ test_that("Slope", {
   test <- read.sgrd(file.path(tempdir(), "slope.sgrd"), env=env, check.module.exists=FALSE)
 
   expect_true(digest(test, algo="md5") %in% c("b2852c8fa289636908e1322ee33c3c0b",
-                                              "b1b0c8c02db274cad530d2021abd7032"))
+                                              "b1b0c8c02db274cad530d2021abd7032",
+                                              "b24fcbf184d5b6bbe0056dd3a1f68408"))
 })
 
 test_that("Fill Sinks", {
@@ -111,7 +113,8 @@ test_that("PISR2", {
 
   expect_true(digest(test, algo="md5") %in% c("ef3290bb060d890a4c07430c7ef9bf24",
                                               "4249dcc756f3bcc80d05e5224959e66d",
-                                              "e204a7c8ff803575b0e4c0371600038b"))
+                                              "e204a7c8ff803575b0e4c0371600038b",
+                                              "dadd3b96e2ca4be53ea8e9f18e3ed6ef"))
 })
 
 test_that("Topdown Processing", {
