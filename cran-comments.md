@@ -15,6 +15,10 @@
 Reverse dependency to plotKML checked.
 
 ## Note
+We get on some Linux distributions on CRAN check:
+"Namespace in Imports field not imported from: ‘sf’ 
+All declared Imports should be used."
+We cannot reproduce this note locally or on r-hub
 
 We got an email from cran about the note:
 Possibly mis-spelled words in DESCRIPTION: gis (23:19)
