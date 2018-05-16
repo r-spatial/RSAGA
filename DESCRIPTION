@@ -43,7 +43,8 @@ Imports:
   rgdal
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 LazyLoad: yes
 Collate:
     'gridtools.R'
