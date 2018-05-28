@@ -12,7 +12,7 @@ addons:
       - libgdal-dev
       - saga
 
-before_install: -R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+before_install: R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 install: R -q -e 'tic::install()'
 afterr_install: R -q -e 'tic::after_install()'
 script: R -q -e 'tic::script()'
