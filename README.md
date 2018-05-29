@@ -6,8 +6,7 @@
 [![Travis build
 status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
 
-Latest RSAGA version with support for SAGA GIS 2.3 LTS - 6.3.0 This
-version is currently not available on CRAN.
+Latest RSAGA version with support for SAGA GIS 2.3 LTS - 6.3.0
 
 Provides access to geocomputing and terrain analysis functions of the
 geographical information system (GIS) [‘SAGA’ (System for Automated
