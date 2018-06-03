@@ -1,3 +1,9 @@
+# RSAGA 1.1.1
+
+## Bug fixes
+
+* Fix for CRAN warning about digest package
+
 # RSAGA 1.1.0
 
 ## General
