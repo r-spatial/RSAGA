@@ -13,8 +13,8 @@
 ## Note
 We got an email about CRAN Warning:
 
-checking for unstated dependencies in ‘tests’ ... WARNING
-'library' or 'require' call not declared from: ‘digest’
+checking for unstated dependencies in 'tests' ... WARNING
+'library' or 'require' call not declared from: 'digest'
 
 Unfortunately we could not reproduce this warning on r-hub or locally. 
 
