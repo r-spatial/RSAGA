@@ -10,11 +10,10 @@ test_that("Write DEM to disc", {
 
   data(landslides)
 
-    write.sgrd(data = dem, file = file.path(tempdir(), "dem.sgrd"), header = dem$header,
+    write.sgrd(data = dem, file = "/usr/local/dem.sgrd", header = dem$header,
              env = env, check.module.exists=FALSE)
 
-    print(file.path(tempdir(), "dem.sgrd"))
-    expect_true(file.exists(file.path(tempdir(), "dem.sgrd")))
+    expect_true(file.exists("/usr/local/dem.sgrd"))
 })
 
 test_that("Slope", {
