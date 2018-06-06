@@ -7,6 +7,7 @@ library(rgdal)
 test_that("RGDAL", {
   testthat::skip_on_cran()
 
+  print('Test')
 
   expect_true("rdgal" %in% (.packages()))
 
