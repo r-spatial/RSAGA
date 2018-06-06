@@ -1,7 +1,7 @@
-context("RSAGA-modules")
-
 library(digest)
 library(rgdal)
+
+context("RSAGA-modules")
 
 test_that("Write DEM to disc", {
   testthat::skip_on_cran()

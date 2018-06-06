@@ -1,8 +1,8 @@
 Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis
-Version: 1.1.0
-Date: 2018-05-15
+Version: 1.1.1
+Date: 2018-06-03
 Authors@R: c(
     person("Alexander", "Brenning",
     email = "alexander.brenning@uni-jena.de", 
@@ -44,7 +44,10 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    digest,
+    maptools,
+    rgeos
 LazyLoad: yes
 Collate:
     'gridtools.R'
