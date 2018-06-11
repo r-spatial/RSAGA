@@ -7,8 +7,8 @@ test_that("Slope", {
 
   print(env)
 
-  rsaga.slope.asp.curv("./data/dem.sgrd", out.slope = file.path(tempdir(), "slope.sgrd"),
-                       method = "poly2zevenbergen",env = env, check.module.exists=FALSE, display.command=TRUE)
+ rsaga.slope.asp.curv("./data/dem.sgrd", out.slope = file.path(tempdir(), "slope.sgrd"),
+                       method = "poly2zevenbergen",env = env, check.module.exists=FALSE, display.command=TRUE, show.output.on.console=TRUE)
 
   expect_true(file.exists(file.path(tempdir(), "slope.sgrd")))
 
