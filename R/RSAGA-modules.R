@@ -47,9 +47,9 @@ rsaga.target = function(
             "2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
         stop("rsaga.target doesn't support SAGA GIS Versions older than 2.3.1 any longer")
     }
-    
+
     target = match.arg.ext(target, base = 0, numeric = TRUE)
-    
+
     if (target == 2) {
         stopifnot(missing(user.x.extent) & missing(user.y.extent) & missing(target.grid))
         target = 0
@@ -63,7 +63,7 @@ rsaga.target = function(
     }
 
     param = list(TARGET_DEFINITION = target)
-    
+
     if (target == 0) {
         param = c(param,
             TARGET_USER_SIZE = user.cellsize,
@@ -86,7 +86,7 @@ rsaga.target = function(
 
 
 #' Import Grid Files to SAGA grid format using GDAL
-#' 
+#'
 #' These functions provide simple interfaces for reading and writing grids
 #' from/to ASCII grids and Rd files. Grids are stored in matrices, their headers
 #' in lists.
@@ -105,12 +105,12 @@ rsaga.target = function(
 #' + SAGA 2.1.2 - 2.2.0: GDAL v.1.11.0
 #' + SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev
 #' More information is available at <http://www.gdal.org/>.
-#' 
+#'
 #' If `in.grid` has more than one band (e.g. RGB GEOTIFF), then output
 #' grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd},
 #' \eqn{in.grid{\_}02.sgrd}{in.grid_02.sgrd} etc. are written, one for each
 #' band.
-#' 
+#'
 #' The following raster formats are currently supported. Last updated for SAGA
 #' GIS 2.2.3; for a list for a specific SAGA GIS version call
 #' `rsaga.html.help("io_gdal","GDAL: Import Raster", env =
@@ -320,29 +320,29 @@ rsaga.target = function(
 #' @keywords spatial interface file
 #' @export
 rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
-{   
+{
     if(!missing(out.grid)) {
       out.grid = default.file.extension(out.grid, ".sgrd")
     }
     if (missing(out.grid)) {
         out.grid = set.file.extension(in.grid, "")
         out.grid = substr(out.grid, 1, nchar(out.grid) - 1)
-    } 
+    }
     if (env$version == "2.0.4") {
         param = list( GRIDS = out.grid, FILE = in.grid )
     } else {
         param = list( GRIDS = out.grid, FILES = in.grid)
     }
-    
+
     module = "Import Raster"
-    
+
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
               "2.2.0","2.2.1","2.2.2") == env$version)) {
       module = "GDAL: Import Raster"
     }
-    
-    rsaga.geoprocessor("io_gdal", module = module, 
+
+    rsaga.geoprocessor("io_gdal", module = module,
         param = param, env = env, ...)
 }
 
@@ -353,7 +353,7 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
 
 
 #' Convert ESRI ASCII/binary grids to SAGA grids
-#' 
+#'
 #' `rsaga.esri.to.sgrd` converts grid files from ESRI's ASCII (.asc) and binary (.flt) format to SAGA's (version 2) grid format (.sgrd).
 #' @name rsaga.esri.to.sgrd
 #' @param in.grids character vector of ESRI ASCII/binary grid files (default file extension: `.asc`); files should be located in folder `in.path`
@@ -361,14 +361,14 @@ rsaga.import.gdal = function( in.grid, out.grid, env = rsaga.env(), ... )
 #' @param in.path folder with `in.grids`
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
 #' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
-#' 
+#'
 #' If multiple `in.grids` are converted, the result will be a vector of numerical error codes of the same length, or the combination of the console outputs with `c()`.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @note This function uses module 1 from the SAGA library `io_grid`.
-#' @seealso [rsaga.esri.wrapper()] for an efficient way of applying RSAGA to ESRI ASCII/binary grids; [rsaga.env()] 
+#' @seealso [rsaga.esri.wrapper()] for an efficient way of applying RSAGA to ESRI ASCII/binary grids; [rsaga.env()]
 #' @keywords spatial interface file
 #' @export
-rsaga.esri.to.sgrd = function( in.grids, 
+rsaga.esri.to.sgrd = function( in.grids,
     out.sgrds=set.file.extension(in.grids,".sgrd"), in.path, ... )
 {
     in.grids = default.file.extension(in.grids,".asc")
@@ -387,7 +387,7 @@ rsaga.esri.to.sgrd = function( in.grids,
 
 
 #' Convert SAGA grids to ESRI ASCII/binary grids
-#' 
+#'
 #' `rsaga.sgrd.to.esri` converts grid files from SAGA's (version 2) grid
 #' format (.sgrd) to ESRI's ASCII (.asc)  and binary (.flt) format.
 #' @name rsaga.sgrd.to.esri
@@ -453,7 +453,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 ########    Module ta_morphometry   ########
 
 #' Slope, Aspect, Curvature
-#' 
+#'
 #' Calculates local morphometric terrain attributes (i.e. slope, aspect, and curvatures). Intended for use with SAGA v 2.1.1+. For older versions use [rsaga.local.morphometry()].
 #' @name rsaga.slope.asp.curv
 #' @param in.dem input: digital elevation model as SAGA grid file (`.sgrd`)
@@ -492,15 +492,15 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' @references General references:
 #'
 #' Jones KH (1998) A comparison of algorithms used to compute hill slope as a property of the DEM. Computers and Geosciences. 24 (4): 315-323.
-#' 
+#'
 #' References on specific methods:
-#' 
+#'
 #' Maximum Slope:
-#' 
+#'
 #' Travis, M.R., Elsner, G.H., Iverson, W.D., Johnson, C.G. (1975): VIEWIT: computation of seen areas, slope, and aspect for land-use planning. USDA F.S. Gen. Tech. Rep. PSW-11/1975, 70 p. Berkeley, California, U.S.A.
 #'
 #' Maximum Triangle Slope:
-#' 
+#'
 #' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
 #'
 #' Least Squares or Best Fit Plane:
@@ -510,9 +510,9 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #' Costa-Cabral, M., Burges, S.J. (1994): Digital Elevation Model Networks (DEMON): a model of flow over hillslopes for computation of contributing and dispersal areas. Water Resources Research, 30(6): 1681-1692.
 #'
 #' Fit 2nd Degree Polynomial:
-#' 
+#'
 #' Evans, I.S. (1979): An integrated system of terrain analysis and slope mapping. Final Report on grant DA-ERO-591-73-G0040. University of Durham, England.
-#' 
+#'
 #' Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vorraussetzung fuer ein deterministisches  Modell der Wasser- und Stoff-Fluesse. Landschaftsgenese und Landschaftsoekologie, H. 10, Parameteraufbereitung fuer deterministische Gebiets-Wassermodelle, Grundlagenarbeiten zur Analyse von Agrar-Oekosystemen, eds.: Bork, H.-R., Rohdenburg, H., p. 1-15.
 #'
 #' Heerdegen, R.G., Beran, M.A. (1982): Quantifying source areas through land surface curvature. Journal of Hydrology, 57.
@@ -548,37 +548,37 @@ rsaga.slope.asp.curv = function(in.dem,
                               out.cprof, out.cplan, out.ctang,
                               out.clong, out.ccros, out.cmini,
                               out.cmaxi, out.ctota, out.croto,
-                              method = "poly2zevenbergen", 
+                              method = "poly2zevenbergen",
                               unit.slope = "radians", unit.aspect = "radians",
                               env = rsaga.env(), ...) {
-  
+
   if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0") == env$version)) {
     stop("rsaga.slope.asp.curv only for SAGA GIS 2.1.1+;\n",
          "use rsaga.local.morphometry for older versions of SAGA GIS")
   }
-  
+
   in.dem = default.file.extension(in.dem, ".sgrd")
-  
+
   if(!missing(out.slope)){
     out.slope = default.file.extension(out.slope, ".sgrd")
   }
   if(!missing(out.aspect)){
     out.aspect = default.file.extension(out.aspect, ".sgrd")
   }
-  
+
   method.choices = c("maxslope","maxtriangleslope","lsqfitplane", "poly2evans",
                      "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
   if(is.numeric(method) == TRUE)
     stop("Numeric 'method' argument not supported with SAGA GIS 2.1.1+;\n",
          "Use character name of methods - see help(rsaga.slope.asp.curv) for options")
   method = match.arg.ext(method, method.choices, numeric=TRUE, base=0)
-  
+
   unit.slope.choices = c("radians", "degrees", "percent")
   unit.slope = match.arg.ext(unit.slope, unit.slope.choices, numeric=TRUE, base=0)
-  
+
   unit.aspect.choices = c("radians", "degrees")
   unit.aspect = match.arg.ext(unit.aspect, unit.aspect.choices, numeric=TRUE, base=0)
-  
+
   if (missing(out.aspect)) {
     out.aspect = tempfile()
     on.exit(unlink(paste(out.aspect,".*",sep="")), add = TRUE)
@@ -587,7 +587,7 @@ rsaga.slope.asp.curv = function(in.dem,
     out.slope = tempfile()
     on.exit(unlink(paste(out.slope,".*",sep="")), add = TRUE)
   }
-  
+
   param = list(ELEVATION=in.dem, SLOPE=out.slope, ASPECT = out.aspect)
   if(!missing(out.cgene)) {
     out.cgene = default.file.extension(out.cgene, ".sgrd")
@@ -621,11 +621,11 @@ rsaga.slope.asp.curv = function(in.dem,
     param = c(param, C_ROTO = out.croto)}
 
   param = c(param, METHOD=method, UNIT_SLOPE=unit.slope, UNIT_ASPECT=unit.aspect)
-  
+
   module = "Slope, Aspect, Curvature"
-  
+
   rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
-  
+
   if (!missing(out.cprof) | !missing(out.cplan))
     warning("Plan and profile curvature calculations have changed with SAGA 2.1.1+\n",
             "See help(rsaga.slope.asp.curv) for more information")
@@ -633,7 +633,7 @@ rsaga.slope.asp.curv = function(in.dem,
 
 
 #' Local Morphometry
-#' 
+#'
 #' Calculates local morphometric terrain attributes (i.e. slope, aspect and curvatures). Intended for use with SAGA versions 2.1.0 and older. Use [rsaga.slope.asp.curv()] for SAGA 2.1.1+
 #' @name rsaga.local.morphometry
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
@@ -665,19 +665,19 @@ rsaga.slope.asp.curv = function(in.dem,
 #' }
 #' @keywords spatial interface
 #' @export
-rsaga.local.morphometry = function( in.dem, 
+rsaga.local.morphometry = function( in.dem,
     out.slope, out.aspect, out.curv, out.hcurv, out.vcurv,
     method = "poly2zevenbergen", env = rsaga.env(), ...)
 {
   if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-    rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, out.aspect=out.aspect, 
-        out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv, 
+    rsaga.slope.asp.curv( in.dem=in.dem, out.slope=out.slope, out.aspect=out.aspect,
+        out.cgene=out.curv, out.cplan=out.hcurv, out.cprof=out.vcurv,
         method=method, env=env, ... )
     warning("rsaga.local.morphometry specific to SAGA versions < 2.1.1\n",
             "Translating provided arguments and using rsaga.slope.asp.curv\n",
             "Note: order of numeric methods have changed with SAGA 2.1.1+")
   } else {
-  
+
     in.dem = default.file.extension(in.dem,".sgrd")
     choices = c("maxslope","maxtriangleslope","lsqfitplane",
         "poly2bauer","poly2heerdegen","poly2zevenbergen","poly3haralick")
@@ -698,10 +698,10 @@ rsaga.local.morphometry = function( in.dem,
     if (!missing(out.vcurv))
         param = c(param, VCURV=out.vcurv)
     param = c(param, METHOD=method)
-    
+
     module = "Slope, Aspect, Curvature"
     if (any(c("2.0.4","2.0.5","2.0.6") == env$version)) module = "Local Morphometry"
-    
+
     rsaga.geoprocessor("ta_morphometry", module, param, env = env, ...)
   }
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))){
@@ -730,7 +730,7 @@ rsaga.slope = function( in.dem, out.slope, method = "poly2zevenbergen", env = rs
 rsaga.aspect = function( in.dem, out.aspect, method = "poly2zevenbergen", env = rsaga.env(), ... ) {
     stopifnot(!missing(out.aspect))
     if (!(env$version %in% c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8","2.0.9","2.1.0"))) {
-      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )      
+      rsaga.slope.asp.curv( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )
     }
     else {
       rsaga.local.morphometry( in.dem=in.dem, out.aspect=out.aspect, method=method, env = env, ... )
@@ -776,7 +776,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
       rsaga.local.morphometry( in.dem=in.dem, out.vcurv=out.vcurv, method=method, env = env, ... )
     }
 }
-  
+
 
 ########   Module ta_preprocessor   ########
 
@@ -798,7 +798,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #' `"planchon.darboux.2001"`: The algorithm of Planchon and Darboux (2001) consists of increasing the elevation of pixels in closed depressions until the sink disappears and a minimum slope angle of `minslope` (default: `0.01` degree) is established.
 #'
 #' `"wang.liu.2006"`: This module uses an algorithm proposed by Wang and Liu (2006) to identify and fill surface depressions in DEMs. The method was enhanced to allow the creation of hydrologically sound elevation models, i.e. not only to fill the depressions but also to  preserve a downward slope along the flow path.  If desired, this  is accomplished by preserving a minimum slope gradient (and thus elevation difference) between cells. This is the fully featured version of the module creating a depression-free DEM, a flow path grid and a grid with watershed basins. If you encounter problems processing large data sets (e.g. LIDAR data) with this module try the basic version (`xxl.wang.lui.2006`).
-#' 
+#'
 #' `"xxl.wang.liu.2006"`: This modified algorithm after Wang and Liu (2006) is designed to work on large data sets.
 #' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #'
@@ -808,7 +808,7 @@ rsaga.profile.curvature = function( in.dem, out.vcurv, method = "poly2zevenberge
 #' Wang, L. & H. Liu (2006): An efficient method for identifying and filling surface depressions in digital elevation models for hydrologic analysis and modelling. International Journal of Geographical Information Science, Vol. 20, No. 2: 193-213.
 #' @author Alexander Brenning (R interface), Volker Wichmann (SAGA module)
 #' @note The flow directions are coded as 0 = north, 1 = northeast, 2 = east, ..., 7 = northwest.
-#' 
+#'
 #' If `minslope=0`, depressions will only be filled until a horizontal surface is established, which may not be helpful for hydrological modeling.
 #' @seealso [rsaga.sink.removal()], [rsaga.sink.route()].
 #' @keywords spatial interface
@@ -820,19 +820,19 @@ rsaga.fill.sinks = function(in.dem,out.dem,
     method = match.arg.ext(method, ignore.case=TRUE, numeric=TRUE, base=2,
         choices=c("planchon.darboux.2001","wang.liu.2006","xxl.wang.liu.2006"))
     in.dem = default.file.extension(in.dem,".sgrd")
-    
+
     if(!missing("out.dem")){
       out.dem = default.file.extension(out.dem, "sgrd")
     }
-    
+
     if(!missing("out.flowdir")){
       out.flowdir = default.file.extension(out.flowdir, "sgrd")
     }
-    
+
     if(!missing("out.wshed")){
       out.wshed = default.file.extension(out.wshed, "sgrd")
     }
-    
+
     stopifnot(!missing(out.dem))
     if (missing(minslope)) minslope = NULL
     if (method==2) {
@@ -862,7 +862,7 @@ rsaga.fill.sinks = function(in.dem,out.dem,
 
 
 #' Sink Drainage Route Detection
-#' 
+#'
 #' Sink drainage route detection.
 #' @name rsaga.sink.route
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
@@ -879,12 +879,12 @@ rsaga.fill.sinks = function(in.dem,out.dem,
 #' rsaga.sink.removal("dem","sinkroute","dem-preproc",method="deepen")}
 #' @keywords spatial interface
 #' @export
-rsaga.sink.route = function(in.dem, out.sinkroute, 
+rsaga.sink.route = function(in.dem, out.sinkroute,
     threshold, thrsheight = 100, ...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
     out.sinkroute = default.file.extension(out.sinkroute,".sgrd")
-    
+
     param = list( ELEVATION=in.dem, SINKROUTE=out.sinkroute )
     if (!missing(threshold)) {
         if (threshold)   param = c( param, THRESHOLD="" )
@@ -918,7 +918,7 @@ rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
     out.dem = default.file.extension(out.dem, ".sgrd")
-    
+
     method = match.arg.ext(method,c("deepen drainage routes","fill sinks"),ignore.case=TRUE,numeric=TRUE)
     param = list( DEM=in.dem )
     if (!missing(in.sinkroute)) {
@@ -953,8 +953,8 @@ rsaga.sink.removal = function(in.dem,in.sinkroute,out.dem,method="fill",...)
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @note This function uses modules 7 (`rsaga.close.gaps` and 6 `rsaga.close.one.cell.gaps` from the SAGA library `grid_tools`.
 #'
-#' SAGA GIS 2.0.5+ has a new additional module `Close Gaps with Spline`, which 
-#' can be accessed using [rsaga.geoprocessor()] (currently no R wrapper 
+#' SAGA GIS 2.0.5+ has a new additional module `Close Gaps with Spline`, which
+#' can be accessed using [rsaga.geoprocessor()] (currently no R wrapper
 #' available). See `rsaga.get.usage("grid_tools","Close Gaps with Spline")`
 #' or in version 2.1.0+ call `rsaga.html.help("grid_tools","Close Gaps with Spline")`.
 #' @seealso [rsaga.geoprocessor()], [rsaga.env()]
@@ -985,7 +985,7 @@ rsaga.close.one.cell.gaps = function(in.dem,out.dem,...)
     in.dem = default.file.extension(in.dem,".sgrd")
     out.dem = default.file.extension(out.dem, ".sgrd")
     param = list( INPUT = in.dem, RESULT = out.dem )
-    rsaga.geoprocessor("grid_tools", "Close One Cell Gaps", 
+    rsaga.geoprocessor("grid_tools", "Close One Cell Gaps",
         param, ...)
 }
 
@@ -1034,8 +1034,8 @@ rsaga.hillshade = function(in.dem, out.grid,
 #' This function calculates the potential incoming solar radiation in an area using different atmospheric models; module available in SAGA GIS 2.0.6+.
 #' @name rsaga.pisr
 #' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
-#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf` 
-#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar); see also argument `hgt.water.vapour.pressure` 
+#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf`
+#' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar); see also argument `hgt.water.vapour.pressure`
 #' @param in.latitude.grid Optional input grid in SAGA format: Latitude (degree) of each grid cell
 #' @param in.longitude.grid see `in.latitude.grid`
 #' @param out.direct.grid Output grid: Direct insolation (unit selected by `unit` argument)
@@ -1052,10 +1052,10 @@ rsaga.hillshade = function(in.dem, out.grid,
 #' @param enable.bending logical (default: `FALSE`): incorporate effects of planetary bending?
 #' @param bending.radius Planetary radius, default `6366737.96`
 #' @param bending.lat.offset if bending is enabled: latitudinal reference  is `"user"`-defined (default), or relative to `"top"`, `"center"` or `"bottom"` of grid?
-#' @param bending.lat.ref.user user-defined lat. reference for bending, see `bending.lat.offset` 
+#' @param bending.lat.ref.user user-defined lat. reference for bending, see `bending.lat.offset`
 #' @param bending.lon.offset longitudinal reference, i.e. local time,  is `"user"`-defined, or relative to `"top"`, `"center"` (default) or `"bottom"` of grid?
-#' @param bending.lon.ref.user  user-defined reference for local time (Details??) 
-#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `0`) 
+#' @param bending.lon.ref.user  user-defined reference for local time (Details??)
+#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `0`)
 #' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m
 #' @param hgt.water.vapour.pressure Water vapour pressure in mbar (default 10 mbar); This value is used if no vapour pressure grid is given in  argument `in.vapour.grid`
 #' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar
@@ -1070,9 +1070,9 @@ rsaga.hillshade = function(in.dem, out.grid,
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
 #' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
-#' @references 
+#' @references
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
-#' 
+#'
 #' Oke, T.R. (1988): Boundary layer climates. London, Taylor and Francis.
 #'
 #' Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley and Sons.
@@ -1085,12 +1085,12 @@ rsaga.hillshade = function(in.dem, out.grid,
 #' @seealso [rsaga.hillshade()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]
 #' @keywords spatial interface
 #' @export
-rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL, 
+rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     in.latitude.grid = NULL, in.longitude.grid = NULL,
-    out.direct.grid, out.diffuse.grid, out.total.grid = NULL, 
+    out.direct.grid, out.diffuse.grid, out.total.grid = NULL,
     out.ratio.grid = NULL, out.duration, out.sunrise, out.sunset,
-    local.svf = TRUE, latitude, 
-    unit=c("kWh/m2","kJ/m2","J/cm2"), solconst=1367.0, 
+    local.svf = TRUE, latitude,
+    unit=c("kWh/m2","kJ/m2","J/cm2"), solconst=1367.0,
     enable.bending = FALSE, bending.radius = 6366737.96,
     bending.lat.offset = "user", bending.lat.ref.user = 0,
     bending.lon.offset = "center", bending.lon.ref.user = 0,
@@ -1106,7 +1106,8 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1;\n",
              " use rsaga.solar.radiation for older versions of SAGA GIS")
     }
-    if ( (env$version == "2.2.2" | env$version == "2.2.3") ) {
+    if (!any(c("2.0.6","2.0.7","2.0.8", "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
+               "2.2.0","2.2.1") == env$version)) {
         stop("rsaga.pisr only for SAGA GIS 2.0.6 - 2.2.1:\n",
              " use rsaga.pisr2 for newer versions of SAGA GIS")
     }
@@ -1147,9 +1148,9 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 
     unit = match.arg.ext(unit,numeric=TRUE,ignore.case=TRUE,base=0)
     method = match.arg.ext(method, numeric = TRUE, ignore.case = TRUE, base = 0)
-    bending.lat.offset = match.arg.ext(bending.lat.offset, c("bottom","center","top","user"), 
+    bending.lat.offset = match.arg.ext(bending.lat.offset, c("bottom","center","top","user"),
         numeric = TRUE, ignore.case = TRUE, base = 0)
-    bending.lon.offset = match.arg.ext(bending.lon.offset, c("left","center","right","user"), 
+    bending.lon.offset = match.arg.ext(bending.lon.offset, c("left","center","right","user"),
         numeric = TRUE, ignore.case = TRUE, base = 0)
 
     if (!is.null(latitude))
@@ -1161,23 +1162,23 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     stopifnot( is.logical(local.svf) )
     stopifnot( is.logical(enable.bending) )
 
-    param = list( GRD_DEM=in.dem, 
+    param = list( GRD_DEM=in.dem,
         GRD_DIRECT = out.direct.grid, GRD_DIFFUS = out.diffuse.grid,
         GRD_TOTAL = out.total.grid, GRD_RATIO = out.ratio.grid,
-        DURATION = out.duration, 
+        DURATION = out.duration,
         SUNRISE = out.sunrise, SUNSET = out.sunset,
         UNITS = unit, SOLARCONST = as.numeric(solconst), LOCALSVF = local.svf,
         BENDING_BENDING = enable.bending,
         METHOD = method,
         #LATITUDE = as.numeric(latitude),  # removed 27 Dec 2011
         DHOUR = time.step )
-     
-    # Added 27 Dec 2011:   
+
+    # Added 27 Dec 2011:
     if (!is.null(latitude)) {
         stopifnot((latitude >= -90) & (latitude <= 90))
         param = c(param, LATITUDE = as.numeric(latitude))
     }
-        
+
     if (!is.null(in.svf.grid)) param = c( param, GRD_SVF=in.svf.grid )
     if (!is.null(in.vapour.grid)) param = c( param, GRD_VAPOUR=in.vapour.grid )
     stopifnot( !is.null(latitude) | !is.null(in.latitude.grid) ) # added 27 Dec 2011
@@ -1192,18 +1193,18 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
             BENDING_LON_OFFSET = bending.lon.offset,
             BENDING_LON_REF_USER = bending.lon.ref.user )
     }
-    
+
     if (method == 0) {
         param = c(param, ATMOSPHERE = as.numeric(hgt.atmosphere),
             VAPOUR = as.numeric(hgt.water.vapour.pressure))
     } else if (method == 1) {
-        param = c(param, PRESSURE = as.numeric(cmp.pressure), 
+        param = c(param, PRESSURE = as.numeric(cmp.pressure),
             WATER = as.numeric(cmp.water.content), DUST = as.numeric(cmp.dust))
     } else if (method == 2) {
         stopifnot( (lmp.transmittance>=0) & (lmp.transmittance<=100) )
         param = c(param, LUMPED = as.numeric(lmp.transmittance))
     } else stopifnot( method %in% c(0:2) )
-        
+
     if (is.null(start.date)) { # one year
         stopifnot( is.null(end.date) )
         param = c( param, PERIOD = 2, DAY_A = 0, MONTH_A = 0,
@@ -1257,8 +1258,8 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                 HOUR_RANGE_MAX = time.range[2])
         }
     }
-    
-    rsaga.geoprocessor(lib = "ta_lighting", 
+
+    rsaga.geoprocessor(lib = "ta_lighting",
         module = "Potential Incoming Solar Radiation",  # = 2
         param = param, env = env, ...)
 }
@@ -1269,7 +1270,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' For SAGA versions 2.0.6 to 2.2.1 please see [rsaga.pisr()].
 #' @name rsaga.pisr2
 #' @param in.dem name of input digital elevation model (DEM) grid in SAGA grid format (default extension: `.sgrd`)
-#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf` 
+#' @param in.svf.grid Optional input grid in SAGA format:  Sky View Factor; see also `local.svf`
 #' @param in.vapour.grid Optional input grid in SAGA format:  Water vapour pressure (mbar), for use with `method = "height"`; default 10 mbar
 #' @param in.linke.grid Optional input grid in SAGA format: Linke turbidity coefficient, for use with `method = "hofierka"`; default 3.0
 #' @param out.direct.grid Output grid: Direct insolation (unit selected by `unit` argument)
@@ -1284,7 +1285,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
 #' @param unit unit of insolation output grids: `"kWh/m2"` (default) `"kJ/m2"`, or `"J/cm2"`
 #' @param solconst solar constant, defaults to 1367 W/m2
-#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`. 
+#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`.
 #' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with `method = "height"`
 #' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with `method = "components"`
 #' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with `method = "components"`
@@ -1298,13 +1299,13 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
 #' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
-#' @references 
+#' @references
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
-#' 
+#'
 #' Oke, T.R. (1988): Boundary layer climates. London, Taylor and Francis.
 #'
 #' Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley and Sons.
-#' 
+#'
 #' Hofierka, J., Suri, M. (2002): The solar radiation model for Open source GIS: implementation and applications. International GRASS users conference in Trento, Italy, September 2002
 #' @author Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)
 #' @note
@@ -1317,11 +1318,11 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @seealso [rsaga.pisr()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]; [rsaga.hillshade()]
 #' @keywords spatial interface
 #' @export
-rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL, 
+rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        in.linke.grid = NULL,
-                       out.direct.grid, out.diffuse.grid, out.total.grid = NULL, 
+                       out.direct.grid, out.diffuse.grid, out.total.grid = NULL,
                        out.ratio.grid = NULL, out.duration, out.sunrise, out.sunset,
-                       local.svf = TRUE, location = c("latitude", "grid"), latitude = 53, 
+                       local.svf = TRUE, location = c("latitude", "grid"), latitude = 53,
                        unit=c("kWh/m2","kJ/m2","J/cm2"), solconst=1367.0,
                        method = c("height","components","lumped","hofierka"),
                        hgt.atmosphere = 12000,
@@ -1337,7 +1338,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
              " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
     }
-    
+
     in.dem = default.file.extension(in.dem,".sgrd")
     if (!is.null(in.svf.grid)) in.svf.grid = default.file.extension(in.svf.grid,".sgrd")
     if (!is.null(in.vapour.grid)) in.vapour.grid = default.file.extension(in.vapour.grid,".sgrd")
@@ -1384,11 +1385,11 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     } else {
       out.sunset = default.file.extension(out.sunset, ".sgrd")
     }
-    
+
     unit = match.arg.ext(unit,numeric=TRUE,ignore.case=TRUE,base=0)
     method = match.arg.ext(method, numeric = TRUE, ignore.case = TRUE, base = 0)
     location = match.arg.ext(location, numeric = TRUE, ignore.case = TRUE, base = 0)
-    
+
     if (!is.null(latitude))
         stopifnot( (latitude>=-90) & (latitude<=90) )
     stopifnot( length(time.range)==2 )
@@ -1396,16 +1397,16 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     stopifnot( (time.step>0) & (time.step<=12) )
     stopifnot( (day.step>0) & (day.step<=100) )
     stopifnot( is.logical(local.svf) )
-    
-    param = list( GRD_DEM=in.dem, 
+
+    param = list( GRD_DEM=in.dem,
                   GRD_DIRECT = out.direct.grid, GRD_DIFFUS = out.diffuse.grid,
                   GRD_TOTAL = out.total.grid, GRD_RATIO = out.ratio.grid,
-                  GRD_DURATION = out.duration, 
+                  GRD_DURATION = out.duration,
                   GRD_SUNRISE = out.sunrise, GRD_SUNSET = out.sunset,
                   UNITS = unit, SOLARCONST = as.numeric(solconst), LOCALSVF = local.svf,
                   METHOD = method,
                   HOUR_STEP = time.step )
-    
+
     if (location == 0) {
         if (!is.null(latitude)) {
             stopifnot((latitude >= -90) & (latitude <= 90))
@@ -1414,15 +1415,15 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     } else {
         param = c(param, LOCATION = as.numeric(location))
     }
-    
+
     if (!is.null(in.svf.grid)) param = c( param, GRD_SVF=in.svf.grid )
     if (!is.null(in.vapour.grid)) param = c( param, GRD_VAPOUR=in.vapour.grid )
     if (!is.null(in.linke.grid)) param = c( param, GRD_LINKE=in.linke.grid )
-    
+
     if (method == 0) {
         param = c(param, ATMOSPHERE = as.numeric(hgt.atmosphere))
     } else if (method == 1) {
-        param = c(param, PRESSURE = as.numeric(cmp.pressure), 
+        param = c(param, PRESSURE = as.numeric(cmp.pressure),
                   WATER = as.numeric(cmp.water.content), DUST = as.numeric(cmp.dust))
     } else if (method == 2) {
         stopifnot( (lmp.transmittance>=0) & (lmp.transmittance<=100) )
@@ -1430,9 +1431,9 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     } else if (method == 3) {
         param = param
     } else stopifnot( method %in% c(0:3) )
-  
-    
-    
+
+
+
 
     if (is.null(end.date)) { # Just Start Date but no end date
         param = c( param, PERIOD = 1 ) # single day ... or moment (later)
@@ -1442,13 +1443,13 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     stopifnot(all(names(start.date %in% c("day","month","year"))))
     stopifnot( (start.date$day>=1) & (start.date$day<=31) )
     stopifnot( (start.date$month>=1) & (start.date$month<=12) )
-    
+
     if (any(c("2.2.2","2.2.3") == env$version)){
       param = c( param, DAY_A = start.date$day ,
                  MON_A = start.date$month - 1,
                  YEAR_A = start.date$year )
     } else {
-      # Add leading zeros too archieve SAGA date format 
+      # Add leading zeros too archieve SAGA date format
       if (nchar(start.date$day) == 1) {
         start.date$day <- paste0("0", start.date$day)
       }
@@ -1483,23 +1484,23 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         stopifnot(all(names(end.date %in% c("day","month","year"))))
         stopifnot( (end.date$day>=1) & (end.date$day<=31) )
         stopifnot( (end.date$month>=1) & (end.date$month<=12) )
-        
+
         if (any(c("2.2.2","2.2.3") == env$version)){
         param = c( param, DAY_B = end.date$day,
                    MON_B = end.date$month - 1,
                    YEAR_B = end.date$year,
                    DAYS_STEP = day.step )
         } else {
-           # Add leading zeros too archieve SAGA date format 
+           # Add leading zeros too archieve SAGA date format
            if (nchar(end.date$day) == 1) {
               end.date$day <- paste0("0", end.date$day)
            }
            if (nchar(end.date$month) == 1) {
               end.date$month <- paste0("0", end.date$month-1)
-           }   
-         param = c( param, DAY_STOP = paste0(end.date$day, "/", end.date$month, "/", end.date$year)) 
+           }
+         param = c( param, DAY_STOP = paste0(end.date$day, "/", end.date$month, "/", end.date$year))
         }
-        
+
         if (is.null(time.range)) time.range = c(0,24)
         stopifnot(length(time.range) == 2)
         stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
@@ -1508,9 +1509,9 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         param = c(param, HOUR_RANGE_MIN = time.range[1],
                   HOUR_RANGE_MAX = time.range[2])
     }
-    
-    
-    rsaga.geoprocessor(lib = "ta_lighting", 
+
+
+    rsaga.geoprocessor(lib = "ta_lighting",
                        module = "Potential Incoming Solar Radiation",  # = 2
                        param = param, env = env, ...)
 }
@@ -1557,7 +1558,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' }
 #' @keywords spatial interface
 #' @export
-rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude, 
+rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
     unit=c("kWh/m2","J/m2"), solconst=1367.0, method=c("lumped","components"),
     transmittance=70, pressure=1013, water.content=1.68, dust=100,
     time.range=c(0,24), time.step=1,
@@ -1585,12 +1586,12 @@ rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
 
     param = list( ELEVATION=in.dem, INSOLAT=out.grid, DURATION=out.duration,
         UNIT=unit, SOLCONST=as.numeric(solconst), METHOD=method,
-        TRANSMITT=as.numeric(transmittance), PRESSURE=as.numeric(pressure), 
+        TRANSMITT=as.numeric(transmittance), PRESSURE=as.numeric(pressure),
         WATER=as.numeric(water.content), DUST=as.numeric(dust),
-        LATITUDE=as.numeric(latitude), 
-        HOUR_RANGE_MIN=time.range[1], HOUR_RANGE_MAX=time.range[2], 
+        LATITUDE=as.numeric(latitude),
+        HOUR_RANGE_MIN=time.range[1], HOUR_RANGE_MAX=time.range[2],
         HOUR_STEP=time.step )
-        
+
     if (is.null(days)) { # one year
         param = c( param, TIMESPAN=2 )
     } else if (is.list(days)) { # single day
@@ -1603,11 +1604,11 @@ rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
         stopifnot(length(days)==2)
         stopifnot( days[1] <= days[2] )
         stopifnot( (days[1]>=1) & (days[2]<=366) )
-        param = c( param, TIMESPAN=1, 
-            DAY_RANGE_MIN=days[1], DAY_RANGE_MAX=days[2], 
+        param = c( param, TIMESPAN=1,
+            DAY_RANGE_MIN=days[1], DAY_RANGE_MAX=days[2],
             DAY_STEP=day.step )
     }
-    rsaga.geoprocessor(lib = "ta_lighting", 
+    rsaga.geoprocessor(lib = "ta_lighting",
         module = "Incoming Solar Radiation",  # = 2
         param = param, env = env, ...)
 }
@@ -1625,11 +1626,11 @@ rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
 #' @param out.direct Optional output grid file for direct insolation
 #' @param out.diffuse Optional output grid file for diffuse insolation
 #' @param out.total Optional output grid file for total insolation, i.e. the sum of direct and diffuse insolation
-#' @param horizontal logical; project radiation onto a horizontal surface? (default: `FALSE`, i.e. use the actual inclined surface as a reference area) 
+#' @param horizontal logical; project radiation onto a horizontal surface? (default: `FALSE`, i.e. use the actual inclined surface as a reference area)
 #' @param solconst solar constant in Joule; default: 8.164 J/cm2/min (=1360.7 kWh/m2; the more commonly used solar constant of 1367 kWh/m2 corresponds to 8.202 J/cm2/min)
 #' @param atmosphere height of atmosphere in m; default: 12000m
 #' @param water.vapour.pressure if no water vapour grid is given, this argument specifies a constant water vapour pressure that is uniform in space; in mbar, default 10 mbar
-#' @param type type of time period: `"moment"` (equivalent: `0`) for a single instant, `"day"` (or `1`) for a single day, `"range.of.days"` (or `2`), or `"same.moment.range.of.days"` (or `3`) for the same moment in a range of days; default: `"moment"` 
+#' @param type type of time period: `"moment"` (equivalent: `0`) for a single instant, `"day"` (or `1`) for a single day, `"range.of.days"` (or `2`), or `"same.moment.range.of.days"` (or `3`) for the same moment in a range of days; default: `"moment"`
 #' @param time.step time resolution in hours for discretization within a day
 #' @param day.step time resolution in days for a range of days
 #' @param days numeric vector of length 2, specifying the first and last day of a range of days (for `type`s 2 and 3)
@@ -1714,8 +1715,8 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
         #stopifnot(!missing(lon.ref.user))
         param = c(param, LON_REF_USER=as.numeric(lon.ref.user))
     }
-    rsaga.geoprocessor(lib = "ta_lighting", 
-        module = "Insolation", # = 3 
+    rsaga.geoprocessor(lib = "ta_lighting",
+        module = "Insolation", # = 3
         param = param, ...)
 }
 
@@ -1761,7 +1762,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
         warning("'radius' must be an integer >=1 (# pixels); setting 'radius=1'...")
         radius = 1
     }
-    
+
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
               "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
@@ -1772,8 +1773,8 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
       param = list(INPUT=in.grid, RESULT=out.grid, KERNEL_TYPE=mode,
                    METHOD=method, KERNEL_RADIUS=radius)
     }
-    
-    rsaga.geoprocessor(lib = "grid_filter", 
+
+    rsaga.geoprocessor(lib = "grid_filter",
         module = "Simple Filter",
         param = param, env = env, ...)
 }
@@ -1781,7 +1782,7 @@ rsaga.filter.simple = function(in.grid, out.grid, mode="circle",
 
 
 #' Gauss Filter
-#' 
+#'
 #' Smooth a grid using a Gauss filter.
 #' @name rsaga.filter.gauss
 #' @param in.grid input: SAGA GIS grid file (default file extension: `.sgrd`)
@@ -1804,7 +1805,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     stopifnot(sigma>0.0001)
     if (round(radius) != radius) stop("'radius' must be an integer (# pixels)")
     stopifnot(radius>=1)
-    
+
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
               "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
@@ -1813,10 +1814,10 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
     } else {
       param = list(INPUT=in.grid, RESULT=out.grid, SIGMA=sigma, KERNEL_RADIUS=radius)
     }
-    
-    
-    rsaga.geoprocessor(lib = "grid_filter", 
-        module = "Gaussian Filter", # = 1, 
+
+
+    rsaga.geoprocessor(lib = "grid_filter",
+        module = "Gaussian Filter", # = 1,
         param, env = env, ...)
 }
 
@@ -1878,7 +1879,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
 #' @note This function uses module `Parallel Processing` (version 2.0.7+: `Catchment Area (Parallel)` from SAGA library `ta_hydrology`.
 #'
-#' The SAGA GIS 2.0.6+ version of the module adds more (optional) input and 
+#' The SAGA GIS 2.0.6+ version of the module adds more (optional) input and
 #' output grids that are currently not supported by this wrapper function.
 #' Use [rsaga.geoprocessor()] for access to these options,
 #' and see `rsaga.get.usage("ta_hydrology","Catchment Area (Parallel)")`
@@ -1908,7 +1909,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     if (env$version == "2.1.3" | env$version == "2.1.4" | env$version == "2.2.0" | env$version == "2.2.1" |
         env$version == "2.2.2" | env$version == "2.2.3") {
       stop("Parallel processing not supported with SAGA GIS 2.1.3 and higher;\n",
-           "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")  
+           "See help(rsaga.topdown.processing) for similar function with SAGA 2.1.3+")
     }
     in.dem = default.file.extension(in.dem,".sgrd")
     pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd")
@@ -1927,7 +1928,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
         param = c(param, CAREA=out.carea)
     if (!missing(out.cheight))
         param = c(param, CHEIGHT=out.cheight)
-    if (!missing(out.cslope))  
+    if (!missing(out.cslope))
         param = c(param, CSLOPE=out.cslope)
     if (!missing(step))
         param = c(param, STEP=step)
@@ -1939,18 +1940,18 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
     if (is.finite(linear.threshold)) {
         param = c(param, DOLINEAR=TRUE, LINEARTHRS=linear.threshold)
     } else param = c(param, DOLINEAR=FALSE)
-    
+
     param = c(param, CONVERGENCE=convergence)
-    
+
     module = "Catchment Area (Parallel)"
     if (env$version == "2.0.4" | env$version == "2.0.5" | env$version == "2.0.6")
         module = "Parallel Processing"
-    
+
     rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...)
 }
 
 #' Top-Down Processing
-#' 
+#'
 #' Calculate the size of the local catchment area (contributing area), accumulated material, and flow path length, using top-down processing algorithms from the highest to the lowest cell. \cr Top-Down Processing is new with SAGA GIS 2.1.3. See [rsaga.parallel.processing()] with older versions.
 #' @name rsaga.topdown.processing
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
@@ -2010,9 +2011,9 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
 #'
 #' Multiple Flow Direction Based on Maximum Downslope Gradient:
-#' 
+#'
 #' Qin, C.Z., Zhu, A-X., Pei, T., Li, B.L., Scholten, T., Zhou, C.H. (2011): An approach to computing topographic wetness index based on maximum downslope gradient. Precision Agriculture, 12(1): 32-43.
-#' 
+#'
 #' @author Alexander Brenning and Donovan Bangs (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
 #' @examples
 #' \dontrun{
@@ -2030,14 +2031,14 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
                                     out.carea, out.mean, out.tot.mat, out.acc.left, out.acc.right,
                                     out.flowpath, step, method = "mfd", linear.threshold = Inf, convergence = 1.1,
                                     env = rsaga.env(), ...) {
-  
+
     ## Version Stop - SAGA GIS Version < 2.1.3
     if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
               "2.1.0","2.1.1","2.1.2") == env$version)) {
         stop("rsaga.topdown.processing requires SAGA GIS 2.1.3 or higher;\n",
              "see help(rsaga.parallel.processing) for similar function in earlier versions")
     }
-    
+
     in.dem = default.file.extension(in.dem,".sgrd")
     pp.choices = c("d8","rho8","braunschweig","dinf","mfd", "mtfd", "mdg")
     method = match.arg.ext(method, choices=pp.choices,
@@ -2057,7 +2058,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     }
     if (!missing(in.material)) {
         in.material = default.file.extension(in.material, ".sgrd")
-        
+
         if (any(c("2.1.3","2.1.4","2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
           param = c(param, MATERIAL=in.material)
         } else {
@@ -2066,13 +2067,13 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     }
     if (!missing(in.target)) {
         in.target = default.file.extension(in.target, ".sgrd")
-        
+
         if (any(c("2.1.3","2.1.4","2.2.0","2.2.1","2.2.2","2.2.3") == env$version)){
           param = c(param, TARGET=in.target)
         } else {
           param = c(param, ACCU_TARGET=in.target)
         }
-        
+
     }
     if (!missing(in.lin.val)) {
         in.lin.val = default.file.extension(in.lin.val, ".sgrd")
@@ -2104,7 +2105,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
     if (!missing(out.acc.left)){
         out.acc.left = default.file.extension(out.acc.left, ".sgrd")
         param = c(param, ACCU_LEFT=out.acc.left)}
-    if (!missing(out.acc.right)){ 
+    if (!missing(out.acc.right)){
         out.acc.right = default.file.extension(out.acc.right, ".sgrd")
         param = c(param, ACCU_RIGHT=out.acc.right)}
     if (!missing(out.flowpath)) {
@@ -2115,25 +2116,25 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
         param = c(param, FLOW_LENGTH=out.flowpath)
       }
     }
-        
+
     param = c(param, METHOD=method)
     if (is.finite(linear.threshold)) {
         param = c(param, LINEAR_DO=TRUE, LINEAR_MIN=linear.threshold)
     } else param = c(param, LINEAR_DO=FALSE)
-    
+
     param = c(param, CONVERGENCE=convergence)
-    
+
     if (any(c("2.1.3","2.1.4") == env$version)) {
       module = "Catchment Area (Top-Down)"
     } else {
       module = "Flow Accumulation (Top-Down)"
     }
-    
-    rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...) 
+
+    rsaga.geoprocessor(lib = "ta_hydrology", module = module, param, env = env, ...)
 }
 
 #' SAGA Modules SAGA Wetness Index
-#' 
+#'
 #' Calculate the SAGA Wetness Index (SWI), a modified topographic wetness index (TWI)
 #' @name rsaga.wetness.index
 #' @param in.dem input: digital elevation model (DEM) as SAGA grid file (default file extension: `.sgrd`)
@@ -2149,13 +2150,13 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
 #' @param slope.weight numeric (optional): weighting factor for slope in index calculation; default: 1
 #' @param t.param SAGA GIS up to version 2.0.8: positive numeric value (optional): undocumented
 #' @param env A SAGA geoprocessing environment, see [rsaga.env()].)
-#' @param ... optional arguments to be passed to [rsaga.geoprocessor()] 
+#' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
 #' @details The SAGA Wetness Index is similar to the  Topographic Wetness Index (TWI), but it is based on a modified  catchment area calculation (`out.mod.carea`), which does not treat the flow as a thin film as done in the calculation of catchment areas in conventional algorithms. As a result, the SWI tends to assign a more realistic, higher potential soil wetness than the TWI to grid cells situated in valley floors with a small vertical distance to a channel.
 #'
 #' This module and its arguments changed substantially from SAGA GIS 2.0.8 to version 2.1.0. It appears to me that the new algorithm is similar (but not identical) to the old one when using `area.type="absolute"` and `slope.type="local"` but I haven't tried out all possible options. This help file will be updated as soon as additional documentation becomes available.
 #' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @references Boehner, J., Koethe, R. Conrad, O., Gross, J.,  Ringeler, A., Selige, T. (2002): Soil Regionalisation by Means of Terrain Analysis and Process Parameterisation. In: Micheli, E., Nachtergaele, F., Montanarella, L. (ed.): Soil Classification 2001. European Soil Bureau, Research Report No. 7, EUR 20398 EN, Luxembourg. pp.213-222.
-#' 
+#'
 #' Boehner, J. and Selige, T. (2006): Spatial prediction of soil attributes using terrain analysis and climate regionalisation. In: Boehner, J., McCloy, K.R., Strobl, J. \[Ed.: SAGA - Analysis and Modelling Applications, Goettinger Geographische Abhandlungen, Goettingen: 13-28.
 #' @author Alexander Brenning (R interface), Juergen Boehner and Olaf Conrad (SAGA module)
 #' @seealso [rsaga.parallel.processing()], [rsaga.geoprocessor()], [rsaga.env()]
@@ -2166,9 +2167,9 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
 #' }
 #' @keywords spatial interface
 #' @export
-rsaga.wetness.index = function( in.dem, 
-    out.wetness.index, out.carea, out.cslope, 
-    out.mod.carea, 
+rsaga.wetness.index = function( in.dem,
+    out.wetness.index, out.carea, out.cslope,
+    out.mod.carea,
     # since SAGA GIS 2.1.0:
     suction, area.type, slope.type, slope.min, slope.offset, slope.weight,
     # up to SAGA GIS 2.0.8:
@@ -2196,7 +2197,7 @@ rsaga.wetness.index = function( in.dem,
       out.mod.carea = default.file.extension(out.mod.carea, ".sgrd")
     }
     if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8") == env$version)) {
-        param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope, 
+        param = list(DEM=in.dem, AREA=out.carea, SLOPE=out.cslope,
                      AREA_MOD=out.mod.carea, TWI=out.wetness.index)
         if (!missing(suction)) {
             suction = as.numeric(suction)
@@ -2229,7 +2230,7 @@ rsaga.wetness.index = function( in.dem,
         if (!missing(t.param))
             warning("argument 't.param' (in saga_cmd: T) supported only up to SAGA GIS 2.0.8")
     } else {
-        param = list(DEM=in.dem, C=out.carea, GN=out.cslope, 
+        param = list(DEM=in.dem, C=out.carea, GN=out.cslope,
                      CS=out.mod.carea, SB=out.wetness.index)
         if (!missing(t.param))
             param = c(param, T=as.numeric(t.param))
@@ -2265,7 +2266,7 @@ rsaga.wetness.index = function( in.dem,
 #' @param env RSAGA geoprocessing environment, generated by a call to [rsaga.env()]
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
 #' @details The `in.grids` are represented in the `formula` by the letters `a` (for `in.grids[1]`), `b` etc. Thus, if `in.grids[1]` is Landsat TM channel 3 and `in.grids[2]` is channel 4, the NDVI formula (TM3-TM4)/(TM3+TM4) can be represented  by the character string `"(a-b)/(a+b)"` (any spaces are removed) or the formula `~(a-b)/(a+b)` in the `formula` argument.
-#' 
+#'
 #' In addition to +, -, *, and /, the following operators and functions are available for the `formula` definition:
 #'     + \eqn{\hat{\ }}{^} power
 #'     + `sin(a)` sine
@@ -2286,7 +2287,7 @@ rsaga.wetness.index = function( in.dem,
 #'     + `lt(a, b)` returns 1 if a lower b
 #'     + `eq(a, b)` returns 1 if a equal b
 #'     + `ifelse(switch, x, y)` returns x if switch equals 1 else y
-#' 
+#'
 #' Using `remove.zeros=FALSE` might have the side effect that no data areas in the grid with coefficient 0 are passed on to the results grid. (To be confirmed.)
 #' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (the default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
@@ -2309,7 +2310,7 @@ rsaga.wetness.index = function( in.dem,
 #' @export
 rsaga.grid.calculus = function(in.grids, out.grid, formula,
     env = rsaga.env(), ...)
-{   
+{
     out.grid = default.file.extension(out.grid, ".sgrd")
     in.grids = default.file.extension(in.grids, ".sgrd")
     in.grids = paste(in.grids, collapse = ";")
@@ -2323,7 +2324,7 @@ rsaga.grid.calculus = function(in.grids, out.grid, formula,
         param = list( GRIDS = in.grids, RESULT = out.grid,
                     FORMULA = formula )
     }
-    rsaga.geoprocessor(lib = "grid_calculus", 
+    rsaga.geoprocessor(lib = "grid_calculus",
         module = "Grid Calculator", # was = 1
         param = param, env = env, ...)
 }
@@ -2333,10 +2334,10 @@ rsaga.grid.calculus = function(in.grids, out.grid, formula,
 #' @rdname rsaga.grid.calculus
 #' @name rsaga.linear.combination
 #' @export
-rsaga.linear.combination = function(in.grids, out.grid, coef, 
-    cf.digits = 16, remove.zeros = FALSE, remove.ones = TRUE, 
+rsaga.linear.combination = function(in.grids, out.grid, coef,
+    cf.digits = 16, remove.zeros = FALSE, remove.ones = TRUE,
     env = rsaga.env(), ...)
-{   
+{
     out.grid = default.file.extension(out.grid, ".sgrd")
     fmt = paste("%.", cf.digits, "f", sep = "")
     coef = sprintf(fmt, coef)
@@ -2377,7 +2378,7 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
     # Set up the formula:
     ltrs = letters[ 1 : sum(!omit[-1]) ]
     if (!omit[1]) ltrs = c("intercept", ltrs)
-    formula = paste(coef[ !omit ], ltrs, 
+    formula = paste(coef[ !omit ], ltrs,
                     collapse = "+", sep = "*")
     formula = gsub("*intercept", "", formula, fixed = TRUE)
     formula = gsub("+-", "-", formula, fixed = TRUE)
@@ -2385,7 +2386,7 @@ rsaga.linear.combination = function(in.grids, out.grid, coef,
         formula = gsub("-1*", "-", formula, fixed = TRUE)
         formula = gsub("+1*", "+", formula, fixed = TRUE)
     }
-    
+
     rsaga.grid.calculus(in.grids = in.grids[!omit[-1]], out.grid = out.grid,
         formula = formula, env = env, ...)
 }
@@ -2438,7 +2439,7 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
             param = c(param, VERTEX=vertex)
         }
     }
-    rsaga.geoprocessor(lib = "shapes_grid", 
+    rsaga.geoprocessor(lib = "shapes_grid",
         module = "Contour Lines from Grid",
         param, env = env,...)
 }
@@ -2461,7 +2462,7 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
 #' @keywords spatial interface
 #' @export
 rsaga.add.grid.values.to.points = function(in.shapefile,
-    in.grids, out.shapefile, 
+    in.grids, out.shapefile,
     method = c("nearest.neighbour", "bilinear",
       "idw", "bicubic.spline", "b.spline"), ...)
 {
@@ -2473,14 +2474,14 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
     method = match.arg.ext(method, base = 0, ignore.case = TRUE, numeric = TRUE)
     param = list(SHAPES = in.shapefile, GRIDS = in.grids,
                 RESULT = out.shapefile, INTERPOL = method)
-    rsaga.geoprocessor(lib = "shapes_grid", 
+    rsaga.geoprocessor(lib = "shapes_grid",
         module = "Add Grid Values to Points", # was: = 0
         param, ...)
 }
 
 
 #' Convert SAGA grid file to point shapefile
-#' 
+#'
 #' Convert SAGA grid file to point (or polygon) shapefile - either completely or only a random sample of grid cells.
 #' @name rsaga.grid.to.points
 #' @param in.grids Input: names of (possibly several) SAGA GIS grid files to be converted into a point shapefile.
@@ -2506,7 +2507,7 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #' }
 #' @keywords spatial interface
 #' @export
-rsaga.grid.to.points = function(in.grids, out.shapefile, 
+rsaga.grid.to.points = function(in.grids, out.shapefile,
     in.clip.polygons, exclude.nodata = TRUE,
     type = "nodes", env = rsaga.env(), ...)
 {
@@ -2531,7 +2532,7 @@ rsaga.grid.to.points = function(in.grids, out.shapefile,
     if (!rsaga.module.exists("shapes_grid",module,env=env))
     #if (env$version == "2.0.4" | env$version == "2.0.5")
         module = "Grid Values to Points"
-    rsaga.geoprocessor(lib = "shapes_grid", 
+    rsaga.geoprocessor(lib = "shapes_grid",
         module = module, # was: = 3
         param, env = env, ...)
 }
@@ -2547,7 +2548,7 @@ rsaga.grid.to.points.randomly = function(in.grid,
     out.shapefile = default.file.extension(out.shapefile, ".shp")
     if (freq < 1) stop("'freq' must be an integer >=1")
     param = list(GRID = in.grid, FREQ = freq, POINTS = out.shapefile)
-    rsaga.geoprocessor(lib = "shapes_grid", 
+    rsaga.geoprocessor(lib = "shapes_grid",
         module = "Grid Values to Points (randomly)", # was: = 4
         param, ...)
 }
@@ -2555,7 +2556,7 @@ rsaga.grid.to.points.randomly = function(in.grid,
 
 
 #' Spatial Interpolation Methods
-#' 
+#'
 #' Spatial interpolation of point data using inverse distance to a power (inverse distance weighting, IDW), nearest neighbors, or modified quadratic shephard.
 #' @name rsaga.inverse.distance
 #' @param in.shapefile Input: point shapefile (default extension: `.shp`).
@@ -2575,12 +2576,12 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @note The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the `rsaga.geoprocessor`, if needed. See `rsaga.get.usage("grid_gridding","Inverse Distance Weighted")` for details.
 #'
 #' See the example section in the help file for [shapefiles::write.shapefile()] in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
-#' 
+#'
 #' Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
 #' @seealso [rsaga.target()]; [gstat::idw()] in package `gstat`.
 #' @keywords spatial interface
 #' @export
-rsaga.inverse.distance = function(in.shapefile, out.grid, field, 
+rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         power = 1, maxdist, nmax = 100,
         target, env = rsaga.env(), ...)
 {
@@ -2590,13 +2591,13 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         stop("rsaga.inverse.distance doesn't support SAGA GIS Versions older than 2.3.1 any longer")
 
     stopifnot(!missing(target))
-    
+
     if (power <= 0) stop("'power' must be >0")
     if (field < 0) stop("'field' must be an integer >=0")
 
     in.shapefile = default.file.extension(in.shapefile, ".shp")
     out.grid = default.file.extension(out.grid, ".sgrd")
-    
+
     if (target$TARGET_DEFINITION== 1) {
         if (target$TARGET_TEMPLATE != out.grid) {
             rsaga.copy.sgrd(target$TARGET_TEMPLATE, out.grid, env = env)
@@ -2611,7 +2612,7 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
         DW_WEIGHTING = 0,
         SEARCH_DIRECTION = 0,
         DW_IDW_POWER = power)
-    
+
 
     is.global = (missing(maxdist))
     if (!missing(maxdist)) {
@@ -2631,17 +2632,17 @@ rsaga.inverse.distance = function(in.shapefile, out.grid, field,
     } else
         param = c(param, list(SEARCH_POINTS_ALL = 0, SEARCH_POINTS_MAX = nmax))
 
-    param = c(param, target) 
-    
+    param = c(param, target)
+
     if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
-      
+
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
-      
+
       names(param) = nm
-    } 
-    
-    rsaga.geoprocessor(lib = "grid_gridding", 
+    }
+
+    rsaga.geoprocessor(lib = "grid_gridding",
         module = "Inverse Distance Weighted",
         param = param, env = env, ...)
 }
@@ -2657,7 +2658,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
             "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
             "2.2.0","2.2.1","2.2.2","2.2.3") == env$version))
       stop("rsaga.inverse.distance doesn't support SAGA GIS Versions older than 2.3.1 any longer")
-   
+
    stopifnot(!missing(target))
 
     if (field < 0)
@@ -2665,7 +2666,7 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
 
     in.shapefile = default.file.extension(in.shapefile, ".shp")
     out.grid = default.file.extension(out.grid, ".sgrd")
-    
+
     if (target$TARGET_DEFINITION== 1) {
       if (target$TARGET_TEMPLATE != out.grid) {
         rsaga.copy.sgrd(target$TARGET_TEMPLATE, out.grid, env = env)
@@ -2678,18 +2679,18 @@ rsaga.nearest.neighbour = function(in.shapefile, out.grid, field,
         POINTS = in.shapefile,
         FIELD = field)
     param = c(param, target)
-    
-    
+
+
     if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
-      
+
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
-      
-      names(param) = nm
-    } 
-    
 
-    rsaga.geoprocessor(lib = "grid_gridding", 
+      names(param) = nm
+    }
+
+
+    rsaga.geoprocessor(lib = "grid_gridding",
         module = "Nearest Neighbour",
         param, env = env, ...)
 }
@@ -2705,8 +2706,8 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
             "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
             "2.2.0","2.2.1","2.2.2","2.2.3") == env$version))
         stop("rsaga.modified.quadratic.shephard doesn't support SAGA GIS Versions older than 2.3.1 any longer")
-  
-  
+
+
     stopifnot(!missing(target))
 
     if (field < 0)
@@ -2718,32 +2719,32 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
 
     in.shapefile = default.file.extension(in.shapefile, ".shp")
     out.grid = default.file.extension(out.grid, ".sgrd")
-    
+
     if (target$TARGET_DEFINITION== 1) {
       if (target$TARGET_TEMPLATE != out.grid) {
         rsaga.copy.sgrd(target$TARGET_TEMPLATE, out.grid, env = env)
         target$TARGET_TEMPLATE = out.grid
       }
     }
-    
+
     param = list(
         TARGET_OUT_GRID = out.grid,
         POINTS = in.shapefile,
         FIELD = field,
         QUADRATIC_NEIGHBORS = quadratic.neighbors,
         WEIGHTING_NEIGHBORS = weighting.neighbors)
-    
+
     param = c(param, target)
-    
+
     if (any(c("2.3.1","2.3.1", "3.0.0") == env$version)) {
-      
+
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
-      
+
       names(param) = nm
-    } 
-    
-    rsaga.geoprocessor(lib = "grid_gridding", 
+    }
+
+    rsaga.geoprocessor(lib = "grid_gridding",
         module = "Modifed Quadratic Shepard",
         param, env = env, ...)
 }
@@ -2759,7 +2760,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
             "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
             "2.2.0","2.2.1","2.2.2","2.2.3") == env$version))
     stop("rsaga.modified.quadratic.shephard doesn't support SAGA GIS Versions older than 2.3.1 any longer")
-  
+
     stopifnot(!missing(target))
 
     if (field < 0)
@@ -2767,7 +2768,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 
     in.shapefile = default.file.extension(in.shapefile, ".shp")
     out.grid = default.file.extension(out.grid, ".sgrd")
-    
+
     if (target$TARGET_DEFINITION== 1) {
       if (target$TARGET_TEMPLATE != out.grid) {
         rsaga.copy.sgrd(target$TARGET_TEMPLATE, out.grid, env = env)
@@ -2779,18 +2780,18 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
       TARGET_OUT_GRID = out.grid,
       POINTS = in.shapefile,
       FIELD = field)
-    
+
     param = c(param, target)
-    
+
     if (any(c("2.3.1","2.3.2", "3.0.0") == env$version)) {
-      
+
       nm = names(param)
       nm[ nm == "POINTS" ] = "SHAPES"
-      
+
       names(param) = nm
-    } 
-        
-    rsaga.geoprocessor(lib = "grid_gridding", 
+    }
+
+    rsaga.geoprocessor(lib = "grid_gridding",
         module = "Triangulation",
         param, env = env, ...)
 }
@@ -2799,32 +2800,32 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 ### Module shapes_polygons##########
 
 #' @title Spatial intersection of two polygon layers
-#' @description The function `rsaga.intersect.polygons` calculates the 
-#'   geometric intersection of two overlayed polygon layers using SAGA module 
+#' @description The function `rsaga.intersect.polygons` calculates the
+#'   geometric intersection of two overlayed polygon layers using SAGA module
 #'   "`Intersect`".
-#' @param layer_a A `character`-string representing the path to a polygon 
-#'   shapefile or a spatial object of class 
+#' @param layer_a A `character`-string representing the path to a polygon
+#'   shapefile or a spatial object of class
 #'   [sp::SpatialPolygonsDataFrame()].
 #' @param layer_b A `character`-string representing the path to a polygon
-#'   shapefile or a spatial object of class 
+#'   shapefile or a spatial object of class
 #'   [sp::SpatialPolygonsDataFrame()] with which to intersect layer_a.
-#' @param result A `character`-string indicating where the resulting 
+#' @param result A `character`-string indicating where the resulting
 #'   shapefile should be stored.
-#' @param split If `TRUE`, multipart polygons become separated polygons 
+#' @param split If `TRUE`, multipart polygons become separated polygons
 #'   (default: FALSE).
-#' @param load If `TRUE`, the resulting output shapefile will be loaded 
+#' @param load If `TRUE`, the resulting output shapefile will be loaded
 #'   into R (default: FALSE).
-#' @param env RSAGA geoprocessing environment created by 
-#'   [rsaga.env()], required because module(s) depend(s) on SAGA 
+#' @param env RSAGA geoprocessing environment created by
+#'   [rsaga.env()], required because module(s) depend(s) on SAGA
 #'   version.
-#' @return The function saves the output shapefile to the path indicated in 
+#' @return The function saves the output shapefile to the path indicated in
 #'   function argument `result` and loads the resulting shapefile into R
 #'   when function parameter `load` is set to TRUE.
-#' @details Function [rgeos::gIntersection()] can also be used to 
-#'   define the intersection between two polygon layers. However, 
-#'   [rsaga.intersect.polygons()] will be usually much faster, 
+#' @details Function [rgeos::gIntersection()] can also be used to
+#'   define the intersection between two polygon layers. However,
+#'   [rsaga.intersect.polygons()] will be usually much faster,
 #'   especially when intersecting thousands of polygons.
-#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA 
+#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
 #'   modules)
 #' @keywords vector operations, polygons
 #' @examples
@@ -2835,7 +2836,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' # construct coordinates of two squares
 #' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
 #'                  ncol = 2, byrow = TRUE)
-#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
 #'                             -0.5, -0.5),
 #'                  ncol = 2, byrow = TRUE)
 #' # convert the coordinates into polygons
@@ -2856,15 +2857,15 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' plot(res, col = "yellow", add = TRUE)
 #' }
 #' @export
-#' 
-rsaga.intersect.polygons <- 
+#'
+rsaga.intersect.polygons <-
   function(layer_a = NULL, layer_b = NULL, result = NULL,
            split = FALSE, load = FALSE, env = rsaga.env()) {
     # check if all necessary function arguments were supplied
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
     }
-    
+
     # define a temporary folder
     dir_tmp <- tempdir()
     if (class(layer_a) == "SpatialPolygonsDataFrame") {
@@ -2872,53 +2873,53 @@ rsaga.intersect.polygons <-
                       driver = "ESRI Shapefile", overwrite_layer = TRUE)
       layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
     }
-    
+
     if (class(layer_b) == "SpatialPolygonsDataFrame") {
       rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
                       driver = "ESRI Shapefile", overwrite_layer = TRUE)
       layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
     }
-    
+
     # execute the 'Intersect'-function
-    rsaga.geoprocessor(lib = "shapes_polygons", module = "Intersect", 
+    rsaga.geoprocessor(lib = "shapes_polygons", module = "Intersect",
                        list(A = layer_a,
                             B = layer_b,
                             RESULT = result,
-                            SPLIT = split), 
+                            SPLIT = split),
                        env = env)
     # if requested, load the resulting shapefile
     if (load) {
-      rgdal::readOGR(dsn = dirname(result), 
-                     layer = gsub(".shp", "", basename(result)))  
+      rgdal::readOGR(dsn = dirname(result),
+                     layer = gsub(".shp", "", basename(result)))
     }
   }
 
 #' @title Spatial union of two polygon layers
-#' @description The function `rsaga.union.polygons` uses SAGA function 
+#' @description The function `rsaga.union.polygons` uses SAGA function
 #'   "`Union`" to calculate the geometric union of two polygon layers. This
-#' corresponds to the intersection and the symmetrical difference of the two 
+#' corresponds to the intersection and the symmetrical difference of the two
 #' layers.
-#' @param layer_a A `character`-string representing the path to a polygon 
-#'   shapefile or a spatial object of class 
+#' @param layer_a A `character`-string representing the path to a polygon
+#'   shapefile or a spatial object of class
 #'   [sp::SpatialPolygonsDataFrame()].
-#' @param layer_b A `character`-string representing the path to a polygon 
-#'   shapefile or a spatial object of class 
+#' @param layer_b A `character`-string representing the path to a polygon
+#'   shapefile or a spatial object of class
 #'   [sp::SpatialPolygonsDataFrame()] with which to union layer_a.
-#' @param result `character`, path indicating where to store the output 
+#' @param result `character`, path indicating where to store the output
 #'   shapefile.
-#' @param split If `TRUE`, multipart polygons become separated polygons 
+#' @param split If `TRUE`, multipart polygons become separated polygons
 #'   (default: FALSE).
-#' @param load If `TRUE`, the resulting output shapefile will be loaded 
+#' @param load If `TRUE`, the resulting output shapefile will be loaded
 #'   into R (default: FALSE).
-#' @param env RSAGA geoprocessing environment created by 
-#'   [rsaga.env()], required because module(s) depend(s) on SAGA 
+#' @param env RSAGA geoprocessing environment created by
+#'   [rsaga.env()], required because module(s) depend(s) on SAGA
 #'   version.
-#' @return The function saves the output shapefile to the path indicated in 
-#'   function argument `result` and loads the resulting shapefile into R 
+#' @return The function saves the output shapefile to the path indicated in
+#'   function argument `result` and loads the resulting shapefile into R
 #'   when function parameter `load` is set to TRUE.
 #' @details Function [rgeos::gUnion()] can also be used for joining
-#'   intersecting polygon geometries. However, 
-#'   [rsaga.union.polygons()] will be usually much faster, 
+#'   intersecting polygon geometries. However,
+#'   [rsaga.union.polygons()] will be usually much faster,
 #'   especially when joining thousands of polygons.
 #' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
 #'   modules)
@@ -2930,13 +2931,13 @@ rsaga.intersect.polygons <-
 #' # construct coordinates of two squares
 #' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
 #'                  ncol = 2, byrow = TRUE)
-#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
 #'                             -0.5, -0.5),
 #'                  ncol = 2, byrow = TRUE)
 #' # convert the coordinates into polygons
 #' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
 #' poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
-#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) 
+#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1)))
 #' poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
 #' # union the two polygons using SAGA and load the output
 #' dir_tmp <- paste0(tempdir(), "/out.shp")
@@ -2951,7 +2952,7 @@ rsaga.intersect.polygons <-
 #' }
 #' @export
 
-rsaga.union.polygons <- 
+rsaga.union.polygons <-
   function(layer_a = NULL, layer_b = NULL,
            result = NULL, split = FALSE, load = FALSE,
            env = rsaga.env()) {
@@ -2959,7 +2960,7 @@ rsaga.union.polygons <-
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
       }
-    
+
     # define a temporary folder
     dir_tmp <- tempdir()
     # if layer_a and layer_b are SpatialObjects, save them as shapefiles
@@ -2975,17 +2976,17 @@ rsaga.union.polygons <-
     }
 
   # execute SAGA function "Union"
-  rsaga.geoprocessor(lib = "shapes_polygons", module = "Union", 
+  rsaga.geoprocessor(lib = "shapes_polygons", module = "Union",
                      list(A = layer_a,
                           B = layer_b,
                           RESULT = result,
-                          SPLIT = split), 
+                          SPLIT = split),
                      env = env)
-  
+
   # if requested, load the resulting output shapefile
   if (load) {
-    rgdal::readOGR(dsn = dirname(result), 
-                   layer = gsub(".shp", "", basename(result)))  
+    rgdal::readOGR(dsn = dirname(result),
+                   layer = gsub(".shp", "", basename(result)))
     }
 }
 
