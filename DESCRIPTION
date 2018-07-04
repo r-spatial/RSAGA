@@ -45,7 +45,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    digest,
     maptools,
     rgeos
 LazyLoad: yes
