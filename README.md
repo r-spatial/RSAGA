@@ -12,13 +12,13 @@ Provides access to geocomputing and terrain analysis functions of the geographic
 Installation
 ------------
 
-You can install RSAGA 1.1.1 from CRAN with:
+You can install RSAGA 1.2.0 from CRAN with:
 
 ``` r
 install.packages("RSAGA", dependencies = TRUE)
 ```
 
-Or you can get the latest version 1.2.0 from github with:
+Or you can get the latest version from github with:
 
 ``` r
 devtools::install_github("r-spatial/RSAGA")
