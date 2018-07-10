@@ -1,3 +1,13 @@
+# RSAGA 1.2.0
+
+## General
+
+* RSAGA supports SAGA GIS 6.4.0
+
+## Bug fixes
+
+* Warning messages for RSAGA functions that are not supported by certain SAGA GIS versions
+
 # RSAGA 1.1.1
 
 ## Bug fixes
