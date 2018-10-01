@@ -9,7 +9,7 @@ rsaga.geoprocessor(lib, module = NULL, param = list(),
   prefix = NULL, flags = ifelse(show.output.on.console, "q", "s"), cores,
   env = rsaga.env(), display.command = FALSE, reduce.intern = TRUE,
   check.module.exists = TRUE, warn = options("warn")$warn, argsep = " ",
-  ...)
+  check.parameters = TRUE, ...)
 }
 \arguments{
 \item{lib}{Name of the SAGA library to be called (see Details).}
@@ -42,6 +42,8 @@ rsaga.geoprocessor(lib, module = NULL, param = list(),
 
 \item{argsep}{character (default: \code{" "}; currently for internal use): defines the character symbol used as a separator between each argument name and argument value passed to \code{saga_cmd}. SAGA GIS 2.1.0 (RC1) seems to move toward \code{"="} as a separator, but \code{" "} still works and some modules (e.g. the used by \code{rsaga.pisr}) don't seem to work with \code{argsep="="}. Future releases of RSAGA may change the default \code{argsep} value and/or delete or ignore this argument and/or move it to \code{\link[=rsaga.env]{rsaga.env()}}.}
 
+\item{check.parameters}{logical(default: \code{TRUE}): Check if correct parameters are used.}
+
 \item{...}{Additional arguments to be passed to \code{\link[base:system]{base::system()}}.}
 }
 \value{
@@ -72,7 +74,7 @@ rsaga.hillshade("dem","hillshade",exaggeration=2)
 # using the RSAGA geoprocessor:
 rsaga.geoprocessor("ta_lighting",0,list(ELEVATION="dem.sgrd",SHADE="hillshade",EXAGGERATION=2))
 # equivalent DOS command line call:
-# saga_cmd.exe ta_lighting 0 -ELEVATION dem.sgrd -SHADE hillshade -EXAGGERATION 2 
+# saga_cmd.exe ta_lighting 0 -ELEVATION dem.sgrd -SHADE hillshade -EXAGGERATION 2
 }
 }
 \references{
