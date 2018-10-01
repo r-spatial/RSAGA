@@ -2177,7 +2177,12 @@ rsaga.wetness.index = function( in.dem,
     env = rsaga.env(), ...)
 {
     in.dem = default.file.extension(in.dem,".sgrd")
-    out.wetness.index = default.file.extension(out.wetness.index, ".sgrd")
+    if(missing(out.wetness.index)) {
+      out.wetness.index = tempfile()
+      on.exit(unlink(paste(out.wetness.index,".*",sep="")), add = TRUE)
+    } else {
+      out.wetness.index = default.file.extension(out.wetness.index, ".sgrd")
+    }
     if (missing(out.carea)) {
         out.carea = tempfile()
         on.exit(unlink(paste(out.carea,".*",sep="")), add = TRUE)
