@@ -1,3 +1,13 @@
+# RSAGA 1.3.0
+
+## General
+
+* RSAGA checks if the correct parameters are used in `rsaga.geoprocessor`
+
+## Bug fixes
+
+* Fixed `out.wetness` optional parameter bug in `rsaga.wetness.index`
+
 # RSAGA 1.2.0
 
 ## General
