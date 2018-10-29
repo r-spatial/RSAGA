@@ -40,7 +40,9 @@ Depends:
 Imports:
   stats,
   utils,
-  rgdal
+  rgdal,
+  stringr,
+  magrittr
 Suggests:
     knitr,
     rmarkdown,
@@ -56,5 +58,5 @@ Collate:
     'RSAGA-package.R'
     'landslides.R'
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0.9000
 Roxygen: list(markdown = TRUE)

@@ -388,7 +388,7 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
     # Added 27-Dec-2011:
     # saga_cmd --version (only works in SAGA GIS 2.0.8+)
     out = rsaga.geoprocessor(lib = NULL, prefix = "--version", show.output.on.console = FALSE,
-        flags = NULL, warn = -1, env = env, ...)
+        flags = NULL, warn = -1, env = env, check.parameters = FALSE, ...)
     if (all(out != "error: module library not found [--version]")) {
         if (length(out >= 1)) {
             if (any(sel <- (substr(out,1,9) == "SAGA API:"))) {
@@ -414,7 +414,7 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
     #### check if this function works on unix????
     # Retrieve basic help page of saga_cmd:
     out = rsaga.geoprocessor(lib = NULL, prefix = "-h", show.output.on.console = FALSE,
-        flags = NULL, warn = -1, env = env, ...)
+        flags = NULL, warn = -1, env = env, check.parameters = FALSE, ...)
 
     # Process the help page line by line in order to find lines starting
     # with "SAGA API " (or "SAGA CMD ", if no "SAGA API " line available)
@@ -535,7 +535,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
 
     rawres = rsaga.geoprocessor(lib, module=NULL, env=env,
         intern=TRUE, show.output.on.console=FALSE, flags=NULL, invisible=TRUE,
-        reduce.intern=FALSE, check.module.exists=FALSE, warn = -1)
+        reduce.intern=FALSE, check.module.exists=FALSE, check.parameters = FALSE, warn = -1)
 
     wh = which( gsub(" ","",tolower(rawres)) %in% c("availablemodules:","executablemodules:","modules:", "tools:") )
 
@@ -711,7 +711,7 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 
     usage = rsaga.geoprocessor(lib, module, param = list(h=""), env = env,
         intern = TRUE, show.output.on.console = FALSE, flags = NULL,
-        check.module.exists = FALSE, warn = -1)
+        check.module.exists = FALSE, check.parameters = FALSE, warn = -1)
 
     skip = 0
     while ((length(usage)>(1+skip)) & (substr(usage[1+skip],1,6)!="Usage:")) {
@@ -814,7 +814,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
         # Create help files in the SAGA GIS program folder if they don't yet exist:
         if (!file.exists(fnm)) {
             cat("Calling SAGA GIS to create documentation files in the program folder...\n")
-            rsaga.geoprocessor(lib = NULL, module = NULL, prefix = "-d", env = env)
+            rsaga.geoprocessor(lib = NULL, module = NULL, prefix = "-d", env = env, check.parameters = FALSE)
         }
 
         # Issue a warning if documentation file still can't be accessed:
@@ -896,6 +896,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #' }
 #' @keywords spatial interface
 #' @export
+#' @importFrom magrittr "%>%"
 rsaga.geoprocessor = function(
     lib, module = NULL, param = list(),
     show.output.on.console = TRUE, invisible = TRUE, intern = TRUE,
@@ -911,7 +912,7 @@ rsaga.geoprocessor = function(
                        "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
                        "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
                        "2.3.2", "3.0.0", "4.0.0", "4.0.1", "4.1.0",
-                       "5.0.0", "6.0.0", "6.1.0", "6.2.0", "6.3.0", "6.4.0", NULL) == env$version))
+                       "5.0.0", "6.0.0", "6.1.0", "6.2.0", "6.3.0", "6.4.0", "7.0.0", NULL) == env$version))
                 warning("This RSAGA version has been tested with SAGA GIS versions 2.3.1 - 6.3.0.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
@@ -1007,20 +1008,21 @@ rsaga.geoprocessor = function(
           i <- grep("Usage:", res)
 
           # Extract parameter list
-          unlist(str_extract_all(res[i], "\\[(.*?)\\]")) %>%
-            str_remove("\\[-") %>%
-            str_remove("\\]") %>%
-            str_remove("<(.*?)>") %>%
-            str_remove("\\s") -> param_list
+          param_list <-
+            unlist(stringr::str_extract_all(res[i], "\\[(.*?)\\]")) %>%
+            stringr::str_remove("\\[-") %>%
+            stringr::str_remove("\\]") %>%
+            stringr::str_remove("<(.*?)>") %>%
+            stringr::str_remove("\\s")
 
           # Print error message
           if(!all(names(params) %in% param_list)) {
             #Get false parameter names
-            false_paramters <- names(params) %in% param_list
+            false_parameters <- names(params) %in% param_list
             # Get all paramter names
             paramters <- names(params)
             stop(paste0("Wrong paramters used: ",
-                        paste(paramters[!false_paramter], collapse = " "),
+                        paste(paramters[!false_parameters], collapse = " "),
                         ". ",
                         "Possible parameters:",
                         paste(param_list, collapse = " ")))
