@@ -40,7 +40,8 @@ Depends:
 Imports:
   stats,
   utils,
-  rgdal
+  rgdal,
+  stringr
 Suggests:
     knitr,
     rmarkdown,
