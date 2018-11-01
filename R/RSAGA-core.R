@@ -994,15 +994,10 @@ rsaga.geoprocessor = function(
 
         # Check parameters
         if(check.parameters) {
-          # Some rsaga core calls need to suppress warnings
-          # related to non-zero exit codes of saga_cmd:
-          oldwarn = options("warn")$warn
-          on.exit(options(warn = oldwarn), add = TRUE)
-          options(warn = -1)
-
           # Get console output
-          res <- system(paste0(command, " \"", module, "\""), intern = TRUE)
-          options(warn = oldwarn)
+          # Warning is intentionally generated
+          res <- suppressWarnings(
+            system(paste0(command, " \"", module, "\""), intern = TRUE))
 
           # Get parameters
           i <- grep("Usage:", res)
