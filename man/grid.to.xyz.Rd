@@ -4,7 +4,8 @@
 \alias{grid.to.xyz}
 \title{Convert Grid Matrix to (x,y,z) data.frame}
 \usage{
-grid.to.xyz(data, header, varname = "z", colnames = c("x", "y", varname))
+grid.to.xyz(data, header, varname = "z", colnames = c("x", "y",
+  varname))
 }
 \arguments{
 \item{data}{grid data: either a grid data matrix, or a list with components \code{data} (a matrix with the grid data) and \code{header} (the grid header information); see \code{\link[=read.ascii.grid]{read.ascii.grid()}} for details}

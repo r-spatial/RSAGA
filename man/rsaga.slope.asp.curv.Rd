@@ -5,9 +5,10 @@
 \title{Slope, Aspect, Curvature}
 \usage{
 rsaga.slope.asp.curv(in.dem, out.slope, out.aspect, out.cgene, out.cprof,
-  out.cplan, out.ctang, out.clong, out.ccros, out.cmini, out.cmaxi, out.ctota,
-  out.croto, method = "poly2zevenbergen", unit.slope = "radians",
-  unit.aspect = "radians", env = rsaga.env(), ...)
+  out.cplan, out.ctang, out.clong, out.ccros, out.cmini, out.cmaxi,
+  out.ctota, out.croto, method = "poly2zevenbergen",
+  unit.slope = "radians", unit.aspect = "radians", env = rsaga.env(),
+  ...)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model as SAGA grid file (\code{.sgrd})}

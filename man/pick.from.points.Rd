@@ -9,26 +9,26 @@
 \alias{pick.from.saga.grid}
 \title{Pick Variable from Spatial Dataset}
 \usage{
-pick.from.points(data, src, pick, method = c("nearest.neighbour", "krige"),
-  set.na = FALSE, radius = 200, nmin = 0, nmax = 100, sill = 1,
-  range = radius, nugget = 0, model = vgm(sill - nugget, "Sph", range =
-  range, nugget = nugget), log = rep(FALSE, length(pick)), X.name = "x",
-  Y.name = "y", cbind = TRUE)
+pick.from.points(data, src, pick, method = c("nearest.neighbour",
+  "krige"), set.na = FALSE, radius = 200, nmin = 0, nmax = 100,
+  sill = 1, range = radius, nugget = 0, model = vgm(sill - nugget,
+  "Sph", range = range, nugget = nugget), log = rep(FALSE, length(pick)),
+  X.name = "x", Y.name = "y", cbind = TRUE)
 
 pick.from.shapefile(data, shapefile, X.name = "x", Y.name = "y", ...)
 
 pick.from.ascii.grid(data, file, path = NULL, varname = NULL,
-  prefix = NULL, method = c("nearest.neighbour", "krige"), cbind = TRUE,
-  parallel = FALSE, nsplit, quiet = TRUE, ...)
+  prefix = NULL, method = c("nearest.neighbour", "krige"),
+  cbind = TRUE, parallel = FALSE, nsplit, quiet = TRUE, ...)
 
 pick.from.ascii.grids(data, file, path = NULL, varname = NULL,
   prefix = NULL, cbind = TRUE, quiet = TRUE, ...)
 
 internal.pick.from.ascii.grid(data, file, path = NULL, varname = NULL,
   prefix = NULL, method = c("nearest.neighbour", "krige"),
-  nodata.values = c(-9999, -99999), at.once, quiet = TRUE, X.name = "x",
-  Y.name = "y", nlines = Inf, cbind = TRUE, range, radius,
-  na.strings = "NA", ...)
+  nodata.values = c(-9999, -99999), at.once, quiet = TRUE,
+  X.name = "x", Y.name = "y", nlines = Inf, cbind = TRUE, range,
+  radius, na.strings = "NA", ...)
 
 pick.from.saga.grid(data, filename, path, varname, prec = 7,
   show.output.on.console = FALSE, env = rsaga.env(), ...)
@@ -148,7 +148,7 @@ stopCluster(cl)
 require(gstat)
 data(meuse)
 data(meuse.grid)
-meuse.nn = pick.from.points(data=meuse.grid, src=meuse, 
+meuse.nn = pick.from.points(data=meuse.grid, src=meuse,
     pick=c("cadmium","copper","elev"), method="nearest.neighbour")
 meuse.kr = pick.from.points(data=meuse.grid, src=meuse,
     pick=c("cadmium","copper","elev"), method="krige", radius=100)

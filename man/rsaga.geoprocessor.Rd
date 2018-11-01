@@ -6,10 +6,11 @@
 \usage{
 rsaga.geoprocessor(lib, module = NULL, param = list(),
   show.output.on.console = TRUE, invisible = TRUE, intern = TRUE,
-  prefix = NULL, flags = ifelse(show.output.on.console, "q", "s"), cores,
-  env = rsaga.env(), display.command = FALSE, reduce.intern = TRUE,
-  check.module.exists = TRUE, warn = options("warn")$warn, argsep = " ",
-  check.parameters = TRUE, ...)
+  prefix = NULL, flags = ifelse(show.output.on.console, "q", "s"),
+  cores, env = rsaga.env(), display.command = FALSE,
+  reduce.intern = TRUE, check.module.exists = TRUE,
+  warn = options("warn")$warn, argsep = " ", check.parameters = TRUE,
+  ...)
 }
 \arguments{
 \item{lib}{Name of the SAGA library to be called (see Details).}

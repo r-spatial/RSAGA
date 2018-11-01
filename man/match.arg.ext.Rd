@@ -4,8 +4,8 @@
 \alias{match.arg.ext}
 \title{Extended Argument Matching}
 \usage{
-match.arg.ext(arg, choices, base = 1, several.ok = FALSE, numeric = FALSE,
-  ignore.case = FALSE)
+match.arg.ext(arg, choices, base = 1, several.ok = FALSE,
+  numeric = FALSE, ignore.case = FALSE)
 }
 \arguments{
 \item{arg}{a character string or numeric value}

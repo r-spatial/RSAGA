@@ -4,17 +4,17 @@
 \alias{rsaga.intersect.polygons}
 \title{Spatial intersection of two polygon layers}
 \usage{
-rsaga.intersect.polygons(layer_a = NULL, layer_b = NULL, result = NULL,
-  split = FALSE, load = FALSE, env = rsaga.env())
+rsaga.intersect.polygons(layer_a = NULL, layer_b = NULL,
+  result = NULL, split = FALSE, load = FALSE, env = rsaga.env())
 }
 \arguments{
 \item{layer_a}{A \code{character}-string representing the path to a polygon
 shapefile or a spatial object of class
-\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}}.}
+\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.}
 
 \item{layer_b}{A \code{character}-string representing the path to a polygon
 shapefile or a spatial object of class
-\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}} with which to intersect layer_a.}
+\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to intersect layer_a.}
 
 \item{result}{A \code{character}-string indicating where the resulting
 shapefile should be stored.}
@@ -40,7 +40,7 @@ geometric intersection of two overlayed polygon layers using SAGA module
 "\code{Intersect}".
 }
 \details{
-Function \code{\link[rgeos:gIntersection]{rgeos::gIntersection()}} can also be used to
+Function \code{gIntersection} in \code{rgeos} package can also be used to
 define the intersection between two polygon layers. However,
 \code{\link[=rsaga.intersect.polygons]{rsaga.intersect.polygons()}} will be usually much faster,
 especially when intersecting thousands of polygons.
@@ -53,7 +53,7 @@ library("magrittr")
 # construct coordinates of two squares
 coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
                  ncol = 2, byrow = TRUE)
-coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
                             -0.5, -0.5),
                  ncol = 2, byrow = TRUE)
 # convert the coordinates into polygons

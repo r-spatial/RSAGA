@@ -8,12 +8,14 @@
 \usage{
 focal.function(in.grid, in.factor.grid, out.grid.prefix, path = NULL,
   in.path = path, out.path = path, fun, varnames, radius = 0,
-  is.pixel.radius = TRUE, na.strings = "NA", valid.range = c(-Inf, Inf),
-  nodata.values = c(), out.nodata.value, search.mode = c("circle",
-  "square"), digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE,
-  nlines = Inf, mw.to.vector = FALSE, mw.na.rm = FALSE, ...)
+  is.pixel.radius = TRUE, na.strings = "NA", valid.range = c(-Inf,
+  Inf), nodata.values = c(), out.nodata.value,
+  search.mode = c("circle", "square"), digits = 4, hdr.digits = 10,
+  dec = ".", quiet = TRUE, nlines = Inf, mw.to.vector = FALSE,
+  mw.na.rm = FALSE, ...)
 
-gapply(in.grid, fun, varnames, mw.to.vector = TRUE, mw.na.rm = TRUE, ...)
+gapply(in.grid, fun, varnames, mw.to.vector = TRUE, mw.na.rm = TRUE,
+  ...)
 
 local.function(...)
 }

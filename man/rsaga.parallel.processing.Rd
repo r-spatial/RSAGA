@@ -5,8 +5,9 @@
 \title{Parallel Processing}
 \usage{
 rsaga.parallel.processing(in.dem, in.sinkroute, in.weight, out.carea,
-  out.cheight, out.cslope, out.caspect, out.flowpath, step, method = "mfd",
-  linear.threshold = Inf, convergence = 1.1, env = rsaga.env(), ...)
+  out.cheight, out.cslope, out.caspect, out.flowpath, step,
+  method = "mfd", linear.threshold = Inf, convergence = 1.1,
+  env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}

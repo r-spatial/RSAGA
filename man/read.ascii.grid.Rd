@@ -16,15 +16,16 @@ read.ascii.grid(file, return.header = TRUE, print = 0,
 
 read.ascii.grid.header(file, ...)
 
-read.sgrd(fname, return.header = TRUE, print = 0, nodata.values = c(),
-  at.once = TRUE, prec = 7, ...)
+read.sgrd(fname, return.header = TRUE, print = 0,
+  nodata.values = c(), at.once = TRUE, prec = 7, ...)
 
 read.Rd.grid(fname, return.header = TRUE)
 
-write.ascii.grid(data, file, header = NULL, write.header = TRUE, digits,
-  hdr.digits = 10, dec = ".", georef = "corner")
+write.ascii.grid(data, file, header = NULL, write.header = TRUE,
+  digits, hdr.digits = 10, dec = ".", georef = "corner")
 
-write.ascii.grid.header(file, header, georef, dec = ".", hdr.digits = 10)
+write.ascii.grid.header(file, header, georef, dec = ".",
+  hdr.digits = 10)
 
 write.sgrd(data, file, header = NULL, prec = 7, hdr.prec = 10,
   georef = "corner", ...)
@@ -89,12 +90,12 @@ Note: The order of the components, especially of \code{?llcorner} and \code{?llc
 These functions provide simple interfaces for reading and writing grids from/to ASCII grids and Rd files. Grids are stored as matrices, their headers in lists.
 }
 \note{
-\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{readGDAL} and \code{\link[rgdal:writeGDAL]{rgdal::writeGDAL()}} in package \code{rgdal} instead, which are likely more efficient but may require coercion of your gridded data to/from a \code{Spatial...DataFrame-class}.
+\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{readGDAL} and \link[rgdal:readGDAL]{writeGDAL()} in package \code{rgdal} instead, which are likely more efficient but may require coercion of your gridded data to/from a \code{Spatial...DataFrame-class}.
 
 The \code{read.Rd.grid} and \code{write.Rd.grid} functions use the \code{load} and \code{save} commands to store a grid. The variable name used is \code{data}, which is either a numeric matrix or a list with components \code{data} (the grid data matrix) and \code{header} (the grid header information).
 }
 \seealso{
-\code{readGDAL} and \code{\link[rgdal:writeGDAL]{rgdal::writeGDAL()}} in package \code{rgdal}, and \code{readAsciiGrid} and \code{\link[maptools:writeAsciiGrid]{maptools::writeAsciiGrid()}} in package \code{maptools}
+\code{readGDAL} and \link[rgdal:readGDAL]{writeGDAL()} in package \code{rgdal}, and \code{readAsciiGrid} and \code{writeAsciiGrid} in package \code{maptools}
 }
 \author{
 Alexander Brenning

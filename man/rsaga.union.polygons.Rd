@@ -10,11 +10,11 @@ rsaga.union.polygons(layer_a = NULL, layer_b = NULL, result = NULL,
 \arguments{
 \item{layer_a}{A \code{character}-string representing the path to a polygon
 shapefile or a spatial object of class
-\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}}.}
+\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.}
 
 \item{layer_b}{A \code{character}-string representing the path to a polygon
 shapefile or a spatial object of class
-\code{\link[sp:SpatialPolygonsDataFrame]{sp::SpatialPolygonsDataFrame()}} with which to union layer_a.}
+\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to union layer_a.}
 
 \item{result}{\code{character}, path indicating where to store the output
 shapefile.}
@@ -41,7 +41,7 @@ corresponds to the intersection and the symmetrical difference of the two
 layers.
 }
 \details{
-Function \code{\link[rgeos:gUnion]{rgeos::gUnion()}} can also be used for joining
+Function \code{gUnion()} in \code{rgeos} package can also be used for joining
 intersecting polygon geometries. However,
 \code{\link[=rsaga.union.polygons]{rsaga.union.polygons()}} will be usually much faster,
 especially when joining thousands of polygons.
@@ -53,13 +53,13 @@ library("sp")
 # construct coordinates of two squares
 coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
                  ncol = 2, byrow = TRUE)
-coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 
+coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
                             -0.5, -0.5),
                  ncol = 2, byrow = TRUE)
 # convert the coordinates into polygons
 poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
 poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
-poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) 
+poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1)))
 poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
 # union the two polygons using SAGA and load the output
 dir_tmp <- paste0(tempdir(), "/out.shp")

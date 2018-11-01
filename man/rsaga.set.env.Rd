@@ -4,8 +4,8 @@
 \alias{rsaga.set.env}
 \title{Internal function that sets the RSAGA Geoprocessing Eviroment manually}
 \usage{
-rsaga.set.env(workspace = NULL, cmd = NULL, path = NULL, modules = NULL,
-  version = NA, cores = NULL, parallel = NULL)
+rsaga.set.env(workspace = NULL, cmd = NULL, path = NULL,
+  modules = NULL, version = NA, cores = NULL, parallel = NULL)
 }
 \arguments{
 \item{workspace}{path of the working directory for SAGA; defaults to the current directory (\code{"."}).}

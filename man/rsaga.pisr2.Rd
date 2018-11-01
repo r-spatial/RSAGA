@@ -6,14 +6,15 @@
 \usage{
 rsaga.pisr2(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
   in.linke.grid = NULL, out.direct.grid, out.diffuse.grid,
-  out.total.grid = NULL, out.ratio.grid = NULL, out.duration, out.sunrise,
-  out.sunset, local.svf = TRUE, location = c("latitude", "grid"),
-  latitude = 53, unit = c("kWh/m2", "kJ/m2", "J/cm2"), solconst = 1367,
-  method = c("height", "components", "lumped", "hofierka"),
-  hgt.atmosphere = 12000, cmp.pressure = 1013, cmp.water.content = 1.68,
-  cmp.dust = 100, lmp.transmittance = 70, time.range = c(0, 24),
-  time.step = 0.5, start.date = list(day = 31, month = 10, year = 2015),
-  end.date = NULL, day.step = 5, env = rsaga.env(), ...)
+  out.total.grid = NULL, out.ratio.grid = NULL, out.duration,
+  out.sunrise, out.sunset, local.svf = TRUE, location = c("latitude",
+  "grid"), latitude = 53, unit = c("kWh/m2", "kJ/m2", "J/cm2"),
+  solconst = 1367, method = c("height", "components", "lumped",
+  "hofierka"), hgt.atmosphere = 12000, cmp.pressure = 1013,
+  cmp.water.content = 1.68, cmp.dust = 100, lmp.transmittance = 70,
+  time.range = c(0, 24), time.step = 0.5, start.date = list(day = 31,
+  month = 10, year = 2015), end.date = NULL, day.step = 5,
+  env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.dem}{name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}

@@ -4,8 +4,8 @@
 \alias{grid.predict}
 \title{Helper function for applying predict methods to stacks of grids.}
 \usage{
-grid.predict(fit, predfun, trafo, control.predict, predict.column, trace = 0,
-  location, ...)
+grid.predict(fit, predfun, trafo, control.predict, predict.column,
+  trace = 0, location, ...)
 }
 \arguments{
 \item{fit}{a model object for which prediction is desired}

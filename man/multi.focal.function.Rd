@@ -5,19 +5,20 @@
 \alias{multi.local.function}
 \title{Local and Focal Grid Function with Multiple Grids as Inputs}
 \usage{
-multi.focal.function(in.grids, in.grid.prefix, in.factor.grid, out.grid.prefix,
-  path = NULL, in.path = path, out.path = path, fun, in.varnames,
-  out.varnames, radius = 0, is.pixel.radius = TRUE, na.strings = "NA",
-  valid.ranges, nodata.values = c(), out.nodata.value,
-  search.mode = c("circle", "square"), digits = 4, hdr.digits = 10,
-  dec = ".", quiet = TRUE, nlines = Inf, mw.to.vector = FALSE,
-  mw.na.rm = FALSE, pass.location = FALSE, ...)
+multi.focal.function(in.grids, in.grid.prefix, in.factor.grid,
+  out.grid.prefix, path = NULL, in.path = path, out.path = path, fun,
+  in.varnames, out.varnames, radius = 0, is.pixel.radius = TRUE,
+  na.strings = "NA", valid.ranges, nodata.values = c(),
+  out.nodata.value, search.mode = c("circle", "square"), digits = 4,
+  hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
+  mw.to.vector = FALSE, mw.na.rm = FALSE, pass.location = FALSE, ...)
 
-multi.local.function(in.grids, in.grid.prefix, out.grid.prefix, path = NULL,
-  in.path = path, out.path = path, fun, in.varnames, out.varnames,
-  na.strings = "NA", valid.ranges, nodata.values = c(), out.nodata.value,
-  digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-  na.action = stats::na.exclude, pass.location = FALSE, ...)
+multi.local.function(in.grids, in.grid.prefix, out.grid.prefix,
+  path = NULL, in.path = path, out.path = path, fun, in.varnames,
+  out.varnames, na.strings = "NA", valid.ranges, nodata.values = c(),
+  out.nodata.value, digits = 4, hdr.digits = 10, dec = ".",
+  quiet = TRUE, nlines = Inf, na.action = stats::na.exclude,
+  pass.location = FALSE, ...)
 }
 \arguments{
 \item{in.grids}{character vector: file names of input ASCII grids, relative to \code{in.path}; \code{in.grid.prefix} will be used as a prefix to the file name if specified; default file extension: \code{.asc}}
@@ -46,10 +47,7 @@ multi.local.function(in.grids, in.grid.prefix, out.grid.prefix, path = NULL,
 
 \item{na.strings}{passed on to \code{\link[=scan]{scan()}}}
 
-\item{valid.ranges}{optional list of length \code{length(in.grids)} with numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \code{<valid.ranges[[i]][1]} or \code{>valid.ranges[[i]][1]} will be converted to \code{NA}.
-
-[[i]: R:[i
-[[i]: R:[i}
+\item{valid.ranges}{optional list of length \code{length(in.grids)} with numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \code{<valid.ranges[[i]][1]} or \code{>valid.ranges[[i]][1]} will be converted to \code{NA}.}
 
 \item{nodata.values}{numeric vector: any values from the input grid file that should be converted to \code{NA}, in addition to the nodata value specified in the grid header}
 

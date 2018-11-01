@@ -2580,10 +2580,10 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @author Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)
 #' @note The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the `rsaga.geoprocessor`, if needed. See `rsaga.get.usage("grid_gridding","Inverse Distance Weighted")` for details.
 #'
-#' See the example section in the help file for [shapefiles::write.shapefile()] in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
+#' See the example section in the help file for \link[shapefiles:shapefiles]{write.shapefile()} in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
 #'
 #' Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
-#' @seealso [rsaga.target()]; [gstat::idw()] in package `gstat`.
+#' @seealso [rsaga.target()]; \link[gstat:krige]{idw()} in package `gstat`.
 #' @keywords spatial interface
 #' @export
 rsaga.inverse.distance = function(in.shapefile, out.grid, field,
@@ -2810,10 +2810,10 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #'   "`Intersect`".
 #' @param layer_a A `character`-string representing the path to a polygon
 #'   shapefile or a spatial object of class
-#'   [sp::SpatialPolygonsDataFrame()].
+#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.
 #' @param layer_b A `character`-string representing the path to a polygon
 #'   shapefile or a spatial object of class
-#'   [sp::SpatialPolygonsDataFrame()] with which to intersect layer_a.
+#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to intersect layer_a.
 #' @param result A `character`-string indicating where the resulting
 #'   shapefile should be stored.
 #' @param split If `TRUE`, multipart polygons become separated polygons
@@ -2826,7 +2826,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' @return The function saves the output shapefile to the path indicated in
 #'   function argument `result` and loads the resulting shapefile into R
 #'   when function parameter `load` is set to TRUE.
-#' @details Function [rgeos::gIntersection()] can also be used to
+#' @details Function `gIntersection` in `rgeos` package can also be used to
 #'   define the intersection between two polygon layers. However,
 #'   [rsaga.intersect.polygons()] will be usually much faster,
 #'   especially when intersecting thousands of polygons.
@@ -2906,10 +2906,10 @@ rsaga.intersect.polygons <-
 #' layers.
 #' @param layer_a A `character`-string representing the path to a polygon
 #'   shapefile or a spatial object of class
-#'   [sp::SpatialPolygonsDataFrame()].
+#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.
 #' @param layer_b A `character`-string representing the path to a polygon
 #'   shapefile or a spatial object of class
-#'   [sp::SpatialPolygonsDataFrame()] with which to union layer_a.
+#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to union layer_a.
 #' @param result `character`, path indicating where to store the output
 #'   shapefile.
 #' @param split If `TRUE`, multipart polygons become separated polygons
@@ -2922,7 +2922,7 @@ rsaga.intersect.polygons <-
 #' @return The function saves the output shapefile to the path indicated in
 #'   function argument `result` and loads the resulting shapefile into R
 #'   when function parameter `load` is set to TRUE.
-#' @details Function [rgeos::gUnion()] can also be used for joining
+#' @details Function `gUnion()` in `rgeos` package can also be used for joining
 #'   intersecting polygon geometries. However,
 #'   [rsaga.union.polygons()] will be usually much faster,
 #'   especially when joining thousands of polygons.

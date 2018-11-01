@@ -5,9 +5,9 @@
 \title{Use RSAGA functions for ESRI grids}
 \usage{
 rsaga.esri.wrapper(fun, in.esri = TRUE, out.esri = TRUE,
-  env = rsaga.env(), esri.workspace = env$workspace, format = "ascii",
-  georef = "corner", prec = 5, esri.extension, condensed.res = TRUE,
-  clean.up = TRUE, intern = TRUE, ...)
+  env = rsaga.env(), esri.workspace = env$workspace,
+  format = "ascii", georef = "corner", prec = 5, esri.extension,
+  condensed.res = TRUE, clean.up = TRUE, intern = TRUE, ...)
 }
 \arguments{
 \item{fun}{function: one of the RSAGA geoprocessing functions, such as \code{\link[=rsaga.close.gaps]{rsaga.close.gaps()}} or \code{\link[=rsaga.hillshade]{rsaga.hillshade()}} etc.}

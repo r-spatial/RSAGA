@@ -1,6 +1,6 @@
 
 #' Determine or modify file name extensions
-#' 
+#'
 #' Function `get.file.extension` determines the file extension, `set.file.extension` changes it, and `default.file.extension` changes it only if it is not already specified.
 #' @name set.file.extension
 #' @param filename character vector: file name(s), possibly including paths and extensions; a file name ending with a `"."` is interpreted as having extension `""`, while a file name that doesn't contain a `"."` is interpreted has having no extension.
@@ -8,7 +8,7 @@
 #' @param fsep character: separator between paths
 #' @param force logical argument to `default.file.extension`: force the file extension to be `extension` (same result as `set.file.extension`), or only set it to extension if it has not been specified?
 #' @return character vector of same length as `filename`
-#' @examples 
+#' @examples
 #' fnm = c("C:/TEMP.DIR/temp","C:/TEMP.DIR/tmp.txt","tempfile.")
 #' get.file.extension(fnm)
 #' set.file.extension(fnm,extension=".TMP")
@@ -68,7 +68,7 @@ default.file.extension = function(filename, extension, force=FALSE) {
 #' @param filename character string
 #' @param prefix character string: optional prefix to be added
 #' @param fsep character used to separate path components
-#' @examples 
+#' @examples
 #' \dontrun{
 #' create.variable.name("C:/my-path/my-file-name.Rd",prefix="res")
 #' }
@@ -89,7 +89,7 @@ create.variable.name = function( filename, prefix = NULL, fsep = .Platform$file.
         varname = paste(varname,collapse=".")
     }
     varname = gsub("-",".",gsub("_",".",varname))
-    if (!is.null(prefix)) if (prefix!="") 
+    if (!is.null(prefix)) if (prefix!="")
         varname = paste(prefix,".",varname,sep="")
     return(varname)
 }
@@ -108,7 +108,7 @@ create.variable.name = function( filename, prefix = NULL, fsep = .Platform$file.
 #' @param at.once logical: if `TRUE`, read the whole grid with one `scan` command; if `FALSE`, read it row by row using `scan` with option `nlines=1`.
 #' @param data grid data: a data matrix, or a list with components `data` (the grid data matrix) and `header` (the grid header information).
 #' @param header optional list argument specifying the grid header information as returned by the `read.ascii.grid` or `read.ascii.grid.header` function; see Details
-#' @param write.header logical: should the header be written with the grid data? (default: `TRUE`) 
+#' @param write.header logical: should the header be written with the grid data? (default: `TRUE`)
 #' @param digits numeric: if not missing, write data rounded to this many decimal places
 #' @param hdr.digits numeric: see `hdr.prec`
 #' @param hdr.prec numeric: write (non-integer) header data with this many decimal places; a value of 9 or higher is recommended for compatibility with SAGA GIS (default: 10)
@@ -120,9 +120,9 @@ create.variable.name = function( filename, prefix = NULL, fsep = .Platform$file.
 #' @param ... `read.sgrd`, `write.sgrd`: additional arguments to be passed to `rsaga.geoprocessor`
 #'
 #' @return The `read.*` functions return either a list with components `data` (the grid data matrix) and `header` (the grid header  information, see below), if `return.header=TRUE`, or otherwise  just the grid data matrix `return.header=FALSE`.
-#' 
+#'
 #' The grid data matrix is a numeric matrix whose first column corrensponds to the first (i.e. northernmost) row of the grid. Columns run from left = West to right = East.
-#' 
+#'
 #' The header information returned by the `read.ascii.grid[.header]` functions (if `return.header=TRUE`) is a list with the following components:
 #'  \item{ncols}{Number of grid columns.}
 #'  \item{nrows}{Number of grid rows.}
@@ -134,10 +134,10 @@ create.variable.name = function( filename, prefix = NULL, fsep = .Platform$file.
 #'  \item{yllcenter}{y coordinate of the center of the lower left grid cell}
 #' Note: The order of the components, especially of `?llcorner` and `?llcenter`, may change, depending on the order in which they appear in the grid header and on the georeferencing method (center or corner) used for the grid. The `?llcorner` and `?llcenter` attributes differ only by `cellsize/2`.
 #' @author Alexander Brenning
-#' @note `read.sgrd` and `write.sgrd` import/export grids indirectly by creating temporary ASCII grid files (this explains why `write.sgrd` has `prec` and `hdr.prec` arguments). Consider using `readGDAL` and [rgdal::writeGDAL()] in package `rgdal` instead, which are likely more efficient but may require coercion of your gridded data to/from a `Spatial...DataFrame-class`.
+#' @note `read.sgrd` and `write.sgrd` import/export grids indirectly by creating temporary ASCII grid files (this explains why `write.sgrd` has `prec` and `hdr.prec` arguments). Consider using `readGDAL` and \link[rgdal:readGDAL]{writeGDAL()} in package `rgdal` instead, which are likely more efficient but may require coercion of your gridded data to/from a `Spatial...DataFrame-class`.
 #'
 #' The `read.Rd.grid` and `write.Rd.grid` functions use the `load` and `save` commands to store a grid. The variable name used is `data`, which is either a numeric matrix or a list with components `data` (the grid data matrix) and `header` (the grid header information).
-#' @seealso `readGDAL` and [rgdal::writeGDAL()] in package `rgdal`, and `readAsciiGrid` and [maptools::writeAsciiGrid()] in package `maptools`
+#' @seealso `readGDAL` and \link[rgdal:readGDAL]{writeGDAL()} in package `rgdal`, and `readAsciiGrid` and `writeAsciiGrid` in package `maptools`
 #' @keywords file spatial interface
 #' @export
 read.ascii.grid = function( file, return.header = TRUE, print = 0,
@@ -190,7 +190,7 @@ read.ascii.grid.header = function(file,...)
         file = file(file,open="r")
         on.exit(close(file), add = TRUE)
     }
-    hdr = scan(file, what=list(attribute="",value=numeric(0)), 
+    hdr = scan(file, what=list(attribute="",value=numeric(0)),
             nlines=6, quiet=TRUE, ...)
     hdr$attribute = tolower(hdr$attribute)
     res = hdr$value
@@ -209,7 +209,7 @@ read.ascii.grid.header = function(file,...)
 #' @rdname read.ascii.grid
 #' @name read.sgrd
 #' @export
-read.sgrd = function( fname, return.header = TRUE, print = 0, 
+read.sgrd = function( fname, return.header = TRUE, print = 0,
                       nodata.values = c(), at.once = TRUE, prec = 7, ... )
 {
     temp.fname = paste(tempfile(),".asc",sep="")
@@ -232,12 +232,12 @@ read.Rd.grid = function( fname, return.header = TRUE )
     fname = default.file.extension(fname,".Rd")
     load(fname)
     stopifnot(exists("data", envir=parent.frame()))
-    if (is.list(data)) 
+    if (is.list(data))
         stopifnot( (names(data)==c("header","data")) | (names(data)==c("data","header")) )
-    if (return.header & !is.list(data)) { 
+    if (return.header & !is.list(data)) {
         warning("header missing")
         data = list(header=NA,data=data)
-    } else if (!return.header & is.list(data)) 
+    } else if (!return.header & is.list(data))
         data = data$data
     invisible(data)
 }
@@ -245,8 +245,8 @@ read.Rd.grid = function( fname, return.header = TRUE )
 #' @rdname read.ascii.grid
 #' @name write.ascii.grid
 #' @export
-write.ascii.grid = function( data, file, header = NULL, write.header = TRUE, 
-                             digits, hdr.digits = 10, dec = ".", georef = "corner" ) 
+write.ascii.grid = function( data, file, header = NULL, write.header = TRUE,
+                             digits, hdr.digits = 10, dec = ".", georef = "corner" )
 {
     if (is.character(file)) {
         file = default.file.extension(file, ".asc")
@@ -264,9 +264,9 @@ write.ascii.grid = function( data, file, header = NULL, write.header = TRUE,
         }
         data = data$data
     } else stopifnot(is.matrix(data))
-    if (!missing(digits)) 
+    if (!missing(digits))
         data = round(data,digits=digits)
-    if (write.header)  
+    if (write.header)
         write.ascii.grid.header(con, header, dec=dec, georef=georef, hdr.digits=hdr.digits)
     utils::write.table(data, file=con, append=TRUE, quote=FALSE,
                 na=as.character(header$nodata_value),
@@ -292,7 +292,7 @@ write.ascii.grid.header = function(file, header, georef, dec=".", hdr.digits=10)
     }
     # number of decimal places in header now determined by digits argument; 2013-02-07:
     my.fmt = paste("%-14s%-.",as.character(hdr.digits),"f",sep="")
-    fmt = c("%-14s%-.0f", "%-14s%-.0f", my.fmt, my.fmt, 
+    fmt = c("%-14s%-.0f", "%-14s%-.0f", my.fmt, my.fmt,
             my.fmt, my.fmt)
     nm = c( "ncols", "nrows", paste(c("xll","yll"),georef,sep=""), "cellsize", "nodata_value" )
     if (is.character(file))  {
@@ -313,13 +313,13 @@ write.ascii.grid.header = function(file, header, georef, dec=".", hdr.digits=10)
 #' @rdname read.ascii.grid
 #' @name write.sgrd
 #' @export
-write.sgrd = function( data, file, header = NULL, prec = 7,    
+write.sgrd = function( data, file, header = NULL, prec = 7,
                        hdr.prec = 10, georef = "corner", ... )
     # 'georef' argument was missing - bug fixed 2008-05-02
     # hdr.prec argument added - 2013-02-07
 {
     temp.fname = paste(tempfile(),".asc",sep="")
-    write.ascii.grid( data = data, file = temp.fname, header = header, 
+    write.ascii.grid( data = data, file = temp.fname, header = header,
                       digits = prec, hdr.digits = hdr.prec, georef = georef )
     on.exit(unlink(temp.fname), add = TRUE)
     res = rsaga.esri.to.sgrd( in.grids = temp.fname, out.sgrds = file,
@@ -330,7 +330,7 @@ write.sgrd = function( data, file, header = NULL, prec = 7,
 #' @rdname read.ascii.grid
 #' @name write.Rd.grid
 #' @export
-write.Rd.grid = function(data, file, header=NULL, write.header=TRUE, 
+write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
     compress=TRUE)
 {
     file = default.file.extension(file,".Rd")
@@ -348,7 +348,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 
 
 #' Pick Variable from Spatial Dataset
-#' 
+#'
 #' These functions pick (i.e. interpolate without worrying too much about theory) values of a spatial variables from a data stored in a data.frame, a point shapefile, or an ASCII or SAGA grid, using nearest neighbor or kriging interpolation. `pick.from.points` and `[internal.]pick.from.ascii.grid` are the core functions that are called by the different wrappers.
 #' @name pick.from.points
 #' @param data data.frame giving the coordinates (in columns specified by `X.name, Y.name`) of point locations at which to interpolate the specified variables or grid values
@@ -387,32 +387,32 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' @details `pick.from.points` interpolates the variables defined by `pick` in the `src` data.frame to the locations provided by the `data` data.frame. Only nearest neighbour and ordinary kriging interpolation are currently available. This function is intended for 'data-rich' situations in which not much thought needs to be put into a geostatistical analysis of the spatial structure of a variable. In particular, this function is supposed to provide a simple, 'quick-and-dirty' interface for situations where the `src` data points are very densely distributed compared to the `data` locations.
 #'
 #' `pick.from.shapefile` is a front-end of `pick.from.points` for point shapefiles.
-#' 
+#'
 #' `pick.from.ascii.grid` retrieves data values from an ASCII raster file using either nearest neighbour or ordinary kriging interpolation. The latter may not be possible for large raster data sets because the entire grid needs to be read into an R matrix. Split-apply-combine strategies are used to improve efficiency and allow for parallelization.
-#' 
+#'
 #' The optional parallelization of `pick.from.ascii.grid` computation requires the use of a *parallel backend* package such as \pkg{doSNOW} or \pkg{doMC}, and the parallel backend needs to be registered before calling this function with `parallel=TRUE`. The example section provides an example using \pkg{doSNOW} on Windows. I have seen 25-40% reduction in processing time by parallelization in some examples that I ran on a dual core Windows computer.
-#' 
+#'
 #' `pick.from.ascii.grids` performs multiple `pick.from.ascii.grid` calls. File `path` and `prefix` arguments may be specific to each `file` (i.e. each may be a character vector), but all interpolation settings will be the same for each `file`, limiting the flexibility a bit compared to individual `pick.from.ascii.grid` calls by the user. `pick.from.ascii.grids` currently processes the files sequentially (i.e. parallelization is limited to the `pick.from.ascii.grid` calls within this function).
-#' 
+#'
 #' `pick.from.saga.grid` is the equivalent to `pick.from.ascii.grid` for SAGA grid files. It simply converts the SAGA grid `file` to a (temporary) ASCII raster file and applies `pick.from.ascii.grid`.
-#' 
+#'
 #' `internal.pick.from.ascii.grid` is an internal 'workhorse' function that by itself would be very inefficient for large data sets `data`. This function is called by `pick.from.ascii.grid`, which uses a split-apply-combine strategy implemented in the \pkg{plyr} package.
-#' 
+#'
 #' @return If `cbind=TRUE`, columns with the new, interpolated variables are added to the input data.frame `data`.
 #'
 #' If `cbind=FALSE`, a data.frame only containing the new variables is returned (possibly coerced to a vector if only one variable is processed).
-#' 
+#'
 #' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #'
 #' @author Alexander Brenning
 #' @note `method="krige"` requires the \pkg{gstat} package.
-#' 
+#'
 #' `pick.from.shapefile` requires the \pkg{shapefiles} package.
-#' 
+#'
 #' The nearest neighbour interpolation currently randomly breaks ties if `pick.from.points` is used, and in a deterministic fashion (rounding towards greater grid indices, i.e. toward south and east) in the grid functions.
 #'
 #' @seealso  [grid.to.xyz()], %[vgm()], [krige()], [read.ascii.grid()], [write.ascii.grid()]
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # assume that 'dem' is an ASCII grid and d a data.frame with variables x and y
 #' pick.from.ascii.grid(d, "dem")
@@ -424,13 +424,13 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' # typically 25-40% faster than the above on my DualCore notebook
 #' stopCluster(cl)
 #' }
-#' 
+#'
 #' \dontrun{
 #' # use the meuse data for some tests:
 #' require(gstat)
 #' data(meuse)
 #' data(meuse.grid)
-#' meuse.nn = pick.from.points(data=meuse.grid, src=meuse, 
+#' meuse.nn = pick.from.points(data=meuse.grid, src=meuse,
 #'     pick=c("cadmium","copper","elev"), method="nearest.neighbour")
 #' meuse.kr = pick.from.points(data=meuse.grid, src=meuse,
 #'     pick=c("cadmium","copper","elev"), method="krige", radius=100)
@@ -442,7 +442,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' @keywords spatial
 #' @import gstat
 #' @export
-pick.from.points = function(data, src, pick, 
+pick.from.points = function(data, src, pick,
     method = c("nearest.neighbour","krige"), set.na = FALSE,
     radius = 200, nmin = 0, nmax = 100,
     sill = 1, range = radius, nugget = 0,
@@ -469,7 +469,7 @@ pick.from.points = function(data, src, pick,
         }
     }
     stopifnot(!any(is.na(nc)))
-    
+
     # prepare the source data.frame:
     src = src[ !is.na(src[,X.name]) & !is.na(src[,Y.name]) , ]
     if (nrow(src)==0) {
@@ -478,7 +478,7 @@ pick.from.points = function(data, src, pick,
     }
     the.src = src
     rm(src)
-    
+
     if (method=="krige") {
         loc = stats::as.formula(paste("~",X.name,"+",Y.name))
         for (p in 1:length(pick)) {
@@ -498,7 +498,7 @@ pick.from.points = function(data, src, pick,
             di = sqrt((the.src[,X.name]-data[i,X.name])^2+(the.src[,Y.name]-data[i,Y.name])^2)
             mindi = min(di)
             if ((mindi) > radius) next
-            
+
             wh = which(di == mindi)
             if (length(wh)>1) wh = sample(wh)[1]
             for (p in 1:length(pick))
@@ -546,11 +546,11 @@ pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix
                                  parallel = FALSE, nsplit, quiet = TRUE, ... )
 {
     method = match.arg(method)
-    
+
     # TO DO: parallel implementation not currently working:
     # it won't find the 'file' file unless the full path is specified
     parallel = FALSE
-    
+
     if (missing(nsplit)) {
         if (method == "krige") {
             nsplit = 1 + parallel
@@ -559,9 +559,9 @@ pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix
             if (parallel)  nsplit = max(2, nsplit)
         }
     }
-    
+
     if (nsplit == 1) {
-        return( internal.pick.from.ascii.grid(data = data, file = file, path = path, varname = varname, 
+        return( internal.pick.from.ascii.grid(data = data, file = file, path = path, varname = varname,
                                               prefix = prefix, method = method, quiet = quiet, ...))
     } else {
         progress = "none"
@@ -575,7 +575,7 @@ pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix
             op = options(warn=-1)
             on.exit(options(op))
             data = ddply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
-                          file = file, path = path, varname = varname, prefix = prefix, method = method, 
+                          file = file, path = path, varname = varname, prefix = prefix, method = method,
                           quiet = quiet, cbind = cbind, ...,
                           .progress = progress, .parallel = parallel )
             options(op)
@@ -585,7 +585,7 @@ pick.from.ascii.grid = function( data, file, path = NULL, varname = NULL, prefix
             op = options(warn=-1)
             on.exit(options(op))
             res = dlply( data, .variables = .(PICKSPLIT), .fun = internal.pick.from.ascii.grid,
-                         file = file, path = path, varname = varname, prefix = prefix, method = method, 
+                         file = file, path = path, varname = varname, prefix = prefix, method = method,
                          quiet = quiet, cbind = cbind, ...,
                          .progress = progress, .parallel = parallel )
             options(op)
@@ -614,12 +614,12 @@ pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefi
         if (length(prefix) == 1) prefix = rep(prefix, length(file))
         stopifnot(length(prefix) == length(file))
     }
-    
+
     if (length(file) == 1) {
-        return( pick.from.ascii.grid( data = data, file = file, path = path, varname = varname, 
+        return( pick.from.ascii.grid( data = data, file = file, path = path, varname = varname,
                                       prefix = prefix, cbind = cbind, quiet = quiet, ...) )
     }
-    
+
     if (is.null(varname)) {
         if (is.character(file)) {
             varname = unname( sapply(file, RSAGA::create.variable.name) )
@@ -629,13 +629,13 @@ pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefi
             } else varname = paste("X", c(1:length(file)), sep = "")
         }
     }
-    
+
     # add a prefix to the variable names?
     if (!is.null(prefix))
         for (i in 1:length(file))
             if (prefix!="")
                 varname[i] = paste(prefix[i],varname[i],sep=".")
-            
+
             for (i in 1:length(file)) {
                 if (!quiet) cat("Processing file '", file[i], "' (", i, " of ", length(file), ")...\n", sep="")
                 res = pick.from.ascii.grid( data = data, file = file[i], path = path[i], varname = varname[i],
@@ -659,7 +659,7 @@ pick.from.ascii.grids = function( data, file, path = NULL, varname = NULL, prefi
 #' @name internal.pick.from.ascii.grid
 #' @import gstat
 #' @export
-internal.pick.from.ascii.grid = function( data, file, 
+internal.pick.from.ascii.grid = function( data, file,
     path = NULL, varname = NULL, prefix = NULL,
     method = c("nearest.neighbour","krige"),
     nodata.values = c(-9999,-99999), at.once, quiet = TRUE,
@@ -687,10 +687,10 @@ internal.pick.from.ascii.grid = function( data, file,
         varname = paste(prefix,varname,sep=".")
 
     method = match.arg(method)
-    
+
     if (missing(at.once))
         at.once = (method != "nearest.neighbour")
-    
+
     if (is.character(file)) {
         file = RSAGA::default.file.extension(file,".asc")
         if (!is.null(path)) if (path!="") file = file.path(path,file)
@@ -718,7 +718,7 @@ internal.pick.from.ascii.grid = function( data, file,
         if (!at.once)
             warning("row-by-row processing of grids is not yet implemented for kriging interpolation\n",
                 "trying to process the whole grid at once...")
-        src = RSAGA::read.ascii.grid(con, nodata.values = nodata.values, 
+        src = RSAGA::read.ascii.grid(con, nodata.values = nodata.values,
                 na.strings = na.strings)
         src = RSAGA::grid.to.xyz(src, colnames=c(X.name,Y.name,varname))
         if (missing(radius)) radius = 2.5 * hdr$cellsize
@@ -735,12 +735,12 @@ internal.pick.from.ascii.grid = function( data, file,
 
         select = cbind( 1 + round( (data[,X.name] - (hdr$xllcorner+hdr$cellsize/2)) / hdr$cellsize ),
                         1 + round( hdr$nrows - (data[,Y.name] - (hdr$yllcorner-hdr$cellsize/2)) / hdr$cellsize )  )
-    
+
         if (any(!is.na(select)))
         {
             nr = nrow(select)
             nlines = max( 1, min( hdr$nrows, max(select[,2],na.rm=TRUE), nlines ) )
-        
+
             if (!at.once)
             {
                 for (i in 1:nlines) {
@@ -779,7 +779,7 @@ internal.pick.from.ascii.grid = function( data, file,
             warning("all 'data' points are outside grid area")
         }
     } # end if (method=="nearest.neighbour")
-    
+
     if (!cbind) data = data[,nc]
 ##print(str(data)); cat("----\n")
     return(data)
@@ -789,7 +789,7 @@ internal.pick.from.ascii.grid = function( data, file,
 #' @rdname pick.from.points
 #' @name pick.from.saga.grid
 #' @export
-pick.from.saga.grid = function( data, filename, path, varname, 
+pick.from.saga.grid = function( data, filename, path, varname,
                                 prec = 7, show.output.on.console = FALSE, env = rsaga.env(), ... )
 {
     if (!missing(path)) if (path!="") filename = file.path(path,filename)
@@ -805,16 +805,16 @@ pick.from.saga.grid = function( data, filename, path, varname,
 
 
 #' Convert Grid Matrix to (x,y,z) data.frame
-#' 
+#'
 #' Convert a grid matrix to a (x,y,z) data.frame.
 #' @name grid.to.xyz
-#' @param data grid data: either a grid data matrix, or a list with components `data` (a matrix with the grid data) and `header` (the grid header information); see [read.ascii.grid()] for details 
+#' @param data grid data: either a grid data matrix, or a list with components `data` (a matrix with the grid data) and `header` (the grid header information); see [read.ascii.grid()] for details
 #' @param header optional list giving grid header information; see [read.ascii.grid()] for details
 #' @param varname character: name to be assigned to the column with the z values in the output data.frame
 #' @param colnames names to be given to the columns corresponding to the x and y coordinates and the grid variable in the output data.frame
 #' @return a data.frame with three columns (names are specified in the `colnames` argument) giving the x and y coordinates and the attribute values at the locations given by the grid `data`.
 #' @seealso [read.ascii.grid()], [pick.from.ascii.grid()]
-#' @examples 
+#' @examples
 #' \dontrun{
 #' d = read.ascii.grid("dem")
 #' xyz = grid.to.xyz(d,varname="elevation")
@@ -856,7 +856,7 @@ grid.to.xyz = function(data,header,varname="z",colnames=c("x","y",varname)) {
 #' @param x a square matrix
 #' @details See for example the code of [resid.median()].
 #' @seealso [focal.function()], [resid.median()]
-#' @examples 
+#' @examples
 #' ( m <- matrix( round(runif(9,1,10)), ncol=3 ) )
 #' centervalue(m)
 #' @keywords utilities
@@ -875,7 +875,7 @@ centervalue = function(x) {
 #' @param x a square matrix with the grid data from the moving window, possibly containing `NA` values
 #' @param probs numeric vector of probabilities in \[0,1\] to be passed to [quantile()]
 #' @details These functions are designed for being called by [focal.function()], which repeatedly passes the contents of a square or circular moving window to these functions.
-#' 
+#'
 #' The `resid.median` function rests the value of the central grid cell from the median of the whole moving window. Thus, in terms of topography, a positive residual median indicates that this grid cell stands out compared to its surroundings. `resid.quantile` gives more flexibility in designing such residual attributes.
 #' @return If `x` is provided, a numeric vector of length 1 (`resid.median`), 3 (`resid.minmedmax` and `resid.quartiles`), or `length(probs)` (`resid.quantile`).
 #'
@@ -897,7 +897,7 @@ resid.minmedmax = function(x) {
 }
 
 #' Relative Topographic Position
-#' 
+#'
 #' `relative.position` and `relative.rank` are used with [focal.function()] to determine the relative value of a grid cell compared to its surroundings, either on a metric scale or based on ranks.
 #' @name relative.position
 #' @param x a square matrix with the grid data from the moving window, possibly containing `NA` values
@@ -905,8 +905,8 @@ resid.minmedmax = function(x) {
 #' @return If `x` is provided, a numeric value in the interval \[0,1\] is returned.
 #'
 #' If `x` is missing, a character vector of same length giving suggested variable (or file) names, here `"relpos"` and `"relrank"`, respectively. See [focal.function()] for details.
-#' @seealso [focal.function()], [rank()], [centervalue()] 
-#' @examples 
+#' @seealso [focal.function()], [rank()], [centervalue()]
+#' @examples
 #' m = matrix( round(runif(9,1,10)), ncol=3 )
 #' print(m)
 #' relative.position(m)
@@ -956,7 +956,7 @@ relative.rank = function(x,ties.method="average") {
 
 
 #' Wind Shelter Index
-#' 
+#'
 #' `wind.shelter` is a function to be used with [focal.function()] to calculate a topographic wind shelter index from a digital elevation model, which is a proxy for snow accumulation on the lee side of topographic obstacles. `wind.shelter.prep` performs some preparatory calculations to speed up repeated calls to `wind.shelter`.
 #' @name wind.shelter
 #' @param x square matrix of elevation data
@@ -969,12 +969,12 @@ relative.rank = function(x,ties.method="average") {
 #' @details `wind.shelter` implements a wind shelter index used by Plattner et al. (2004) for modeling snow accumulation patterns on a glacier in the Austrian Alps. It is a modified version of the algorithm of Winstral et al. (2002). The wind shelter index of Plattner et al. (2004) is defined as:
 #'
 #'    `Shelter index(S) = arctan( max( (z(x0)-z(x)) / |x0-x| : x in S ) ),`
-#'    
+#'
 #' where `S = S(x0,a,da,d)` is the set of grid nodes within a distance `<=d` from `x0`, only considering grid nodes in directions between `a-da` and `a+da` from `x0`.
 #'
 #' The present implementation generalizes this index by replacing `max` by the `quantile` function; the `max` function is used if `prob=NULL`, and the same result is obtained for `prob=1` using the `quantile` function.
 #' @return The function `wind.shelter` returns the wind shelter index as described above if a numeric matrix `x` is provided. If it is missing, it returns the character string `"windshelter"`.
-#'  
+#'
 #' `wind.shelter.prep` returns a list with components `mask` and `dist`. Both are square matrices with `2*(ceiling(radius)+1)` columns and rows:
 #'   \item{mask}{indicates which grid cell in the moving window is within the specified circle segment (value `FALSE`) or not (`TRUE`)}
 #'   \item{dist}{the precomputed distances of a grid cell to the center of the moving window, in map units}
@@ -987,8 +987,8 @@ relative.rank = function(x,ties.method="average") {
 #' `wind.shelter` and `wind.shelter.prep` do not restrict the calculation to a circular area; this is done by [focal.function()] when used in combination with that function (assuming `search.mode="circle"`).
 #'
 #' Note that the present definition of the wind shelter index returns negative values for surfaces that are completely exposed toward the specified direction. This may make sense if interpreted as a "wind exposure index", or it might be appropriate to set negative wind shelter values to 0.
-#' @seealso  [focal.function()], [quantile()] 
-#' @examples 
+#' @seealso  [focal.function()], [quantile()]
+#' @examples
 #' # Settings used by Plattner et al. (2004):
 #' ctrl = wind.shelter.prep(6,-pi/4,pi/12,10)
 #' \dontrun{focal.function("dem.asc",fun=wind.shelter,control=ctrl,
@@ -1044,12 +1044,12 @@ wind.shelter.prep = function(radius,direction,tolerance,cellsize=90) {
 
 
 #' Local and Focal Grid Functions
-#' 
+#'
 #' `focal.function` cuts out square or circular moving windows from a grid (matrix) and applies a user-defined matrix function to calculate e.g. a terrain attribute or filter the grid. The function is suitable for large grid files as it can process them row by row. `local.function` represents the special case of a moving window of radius 1. Users can define their own functions operating on moving windows, or use simple functions such as `median` to define filters.
 #' @name focal.function
 #' @param in.grid file name of input ASCII grid, relative to `in.path`
 #' @param in.factor.grid optional file name giving a gridded categorical variables defining zones; zone boundaries are used as breaklines for the moving window (see Details)
-#' @param out.grid.prefix character string (optional), defining a file name prefix to be used for the output file names; a dash (`-`) will separate the prefix and the `varnames` 
+#' @param out.grid.prefix character string (optional), defining a file name prefix to be used for the output file names; a dash (`-`) will separate the prefix and the `varnames`
 #' @param path path in which to look for `in.grid` and write output grid files; see also `in.path` and `out.path`, which overwrite `path` if they are specified
 #' @param in.path path in which to look for `in.grid` (defaults to `path`)
 #' @param out.path path in which to write output grid files; defaults to `path`
@@ -1085,13 +1085,13 @@ wind.shelter.prep = function(radius,direction,tolerance,cellsize=90) {
 #' Output:  `[<out.path>/][<out.grid.prefix>-]<varnames>.asc`
 #'
 #' For the input files, `.asc` is used as the default file extension, if it is not specified by the user.
-#' 
+#'
 #' @return `focal.function` and `local.function` return the character vector of output file names.
 #' @references Brenning, A. (2008): Statistical geocomputing combining R and SAGA: The example of landslide susceptibility analysis with generalized additive models.  In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 #' @author Alexander Brenning
 #' @note These functions are not very efficient ways of calculating e.g. (focal) terrain attributes compared to for example the SAGA modules, but the idea is that you can easily specify your own functions without starting to mess around with C code. For example try implementing a median filter as a SAGA module... or just use the code shown in the example!
 #' @seealso [multi.focal.function()], [multi.local.function()], [resid.median()], [resid.minmedmax()], [relative.position()], [resid.quantile()], [resid.quartiles()], [relative.rank()],  [wind.shelter()], [create.variable.name()]
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # A simple median filter applied to dem.asc:
 #' gapply("dem","median",radius=3)
@@ -1122,7 +1122,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
     fun, varnames,
     radius=0, is.pixel.radius=TRUE,
     na.strings = "NA",
-    valid.range=c(-Inf,Inf), nodata.values=c(), out.nodata.value, 
+    valid.range=c(-Inf,Inf), nodata.values=c(), out.nodata.value,
     search.mode=c("circle","square"),
     digits=4, hdr.digits=10, dec=".", quiet=TRUE, nlines=Inf,
     mw.to.vector = FALSE, mw.na.rm = FALSE, ... )
@@ -1133,7 +1133,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
             warning("'mw.na.rm=TRUE' only meaningful if moving window matrix is\n",
                 "converted to a vector ('mw.to.vector=TRUE')")
     }
-    
+
     # prepare input file:
     if (!is.null(in.path)) if (in.path!="")
         in.grid = file.path(in.path,in.grid)
@@ -1202,14 +1202,14 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
 
     if (radius <= 0) {
         # Apply 'fun' as a local function:
-    
+
         # Process one line at a time:
         for (i in 1:nlines) {
             if (!quiet) if ((i %% 10)==0) cat("*")
             if (!quiet) if ((i %% 100)==0) cat("\n")
-            
+
             # Read one line at a time:
-            v0 = scan(in.file, nlines = 1, quiet = TRUE, dec = dec, 
+            v0 = scan(in.file, nlines = 1, quiet = TRUE, dec = dec,
                     na.strings = na.strings)
             if (length(v0) != in.hdr$ncols) {
                 warning("grid line does not have NCOLS values")
@@ -1218,8 +1218,8 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
             for (na in nodata.values)  v0[ v0==na ] = NA
             v0[ v0 < valid.range[1] ] = NA
             v0[ v0 > valid.range[2] ] = NA
-             
-#            # With plyr package instead of for loop:   
+
+#            # With plyr package instead of for loop:
 #            require(plyr)
 #            mycall = function(x,...) do.call(fun,list(x,...))
 #            res = t(laply(.data = as.list(v0), .fun = mycall, .drop = FALSE, .parallel = parallel, ...))
@@ -1238,13 +1238,13 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
                 writeLines(txt,con=out.files[[k]])
             }
         }
-    
+
     } else { # if (radius > 0)
-    
+
         if (!is.pixel.radius) radius = radius / in.hdr$cellsize
         exact.radius = radius
         radius = ceiling(radius)
-    
+
         # 'v' is a matrix that will receive a set of rows copied from the grid;
         # it must be a bit wider than the grid so the moving window can move over
         # it without having to worry about edge effects:
@@ -1252,7 +1252,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
         # 'fac': same for in.factor.grid, if available:
         if (!is.null(in.factor.grid))
             fac = matrix( NA, ncol=in.hdr$ncols+2*radius, nrow=2*radius+1 )
-        # 'f' will be the mask of a moving window in case of a circular window:    
+        # 'f' will be the mask of a moving window in case of a circular window:
         if (search.mode=="circle") {
             f = matrix(FALSE,ncol=2*radius+1,nrow=2*radius+1)
             for (i in ((-1)*radius):radius)
@@ -1260,17 +1260,17 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
                     if (sqrt(i^2+j^2) > exact.radius)
                         f[ i+radius+1, j+radius+1 ] = TRUE
         }
-        
+
         # the look-ahead step:
         for (i in (radius+1):(2*radius)) {
-            v[i+1,] = c( rep(NA,radius), 
+            v[i+1,] = c( rep(NA,radius),
                 scan(in.file, nlines = 1, quiet = TRUE, dec = dec,
-                    na.strings = na.strings), 
+                    na.strings = na.strings),
                 rep(NA,radius) )
             if (!is.null(in.factor.grid))
-                fac[i+1,] = c( rep(NA,radius), 
+                fac[i+1,] = c( rep(NA,radius),
                     scan(in.factor.file, nlines = 1, quiet = TRUE,
-                        dec = dec, na.strings = na.strings), 
+                        dec = dec, na.strings = na.strings),
                     rep(NA,radius) )
         }
         # Process nodata values:
@@ -1282,12 +1282,12 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
             fac[ fac==in.factor.hdr$nodata_value ] = NA
             v[ is.na(fac) ] = NA
         }
-        
+
         # Process the grid line by line:
         for (i in 1:nlines) {
             if (!quiet) if ((i %% 10)==0) cat("*")
             if (!quiet) if ((i %% 100)==0) cat("\n")
-            
+
             if (i <= nlines - radius) {
                 # Read a line from the grid file:
                 v0 = scan(in.file, nlines = 1, quiet = TRUE, dec = dec,
@@ -1317,12 +1317,12 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
                 v0 = rep(NA,in.hdr$ncols)
                 if (!is.null(in.factor.grid))  fac0 = v0
             }
-            
+
             # Add new line to the look-ahead buffer:
             v = rbind( v[2:(2*radius+1),], t(c( rep(NA,radius), v0, rep(NA,radius) )) )
             if (!is.null(in.factor.grid))
                 fac = rbind( fac[2:(2*radius+1),], t(c( rep(NA,radius), fac0, rep(NA,radius) )) )
-            
+
             # Apply the 'fun'ction to each grid column:
             res = matrix(NA,ncol=in.hdr$ncol,nrow=N.out)
             for (j in 1:in.hdr$ncol) {
@@ -1353,7 +1353,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
             }
         }
     } # end if (radius > 0)
-    
+
     if (!quiet)  cat("\nDone.\n")
     return(out.filenames)
 }
@@ -1399,7 +1399,7 @@ local.function = function( ... ) {
 #' Local and Focal Grid Function with Multiple Grids as Inputs
 #'
 #' `multi.focal.function` cuts out square or circular moving windows from a stack of grids (matrices) and applies a user-defined matrix function that takes multiple arguments to this data. `multi.local.function` is a more efficiently coded special case of moving windows of size 0, i.e. functions applied to individual grid cells of a stack of grids. This is especially useful for applying `predict` methods of statistical models to a stack of grids containing the explanatory variables (see Examples and [grid.predict()]). The function is suitable for large grid files as it can process them row by row; but it may be slow because one call to the focal function is generated for each grid cell.
-#' 
+#'
 #' @name multi.focal.function
 #' @param in.grids character vector: file names of input ASCII grids, relative to `in.path`; `in.grid.prefix` will be used as a prefix to the file name if specified; default file extension: `.asc`
 #' @param in.factor.grid optional file name giving a gridded categorical variables defining zones; zone boundaries are used as breaklines for the moving window (see Details)
@@ -1431,9 +1431,9 @@ local.function = function( ... ) {
 #' @details `multi.local.function` is probably most useful for applying the `predict` method of a fitted model to a grids representing the predictor variables. An example is given below and in more detail in Brenning (2008) (who used `multi.focal.function` for the same purpose); see also [grid.predict()].
 #'
 #' `multi.local.function` is essentially the same as `multi.focal.function` for `radius=0`, but coded MUCH more efficiently. (The relevant code will eventually migrate into `multi.focal.function` as well, but requires further testing.) Applying a GAM to the data set of Brenning (2008) takes about 1/100th the time with `multi.local.function` compared to `multi.focal.function`.
-#' 
+#'
 #' `multi.focal.function` extends [focal.function()] by allowing multiple input grids to be passed to the focal function `fun` operating on moving windows. It passes square matrices of size `2*radius+1` to the function `fun` if `mw.to.vector=FALSE` (default), or a vector of length `<=(2*radius+1)^2` if `mw.to.vector=TRUE`; one such matrix or vector per input grid will be passed to `fun` as an argument whose name is specified by `in.varnames`.
-#' 
+#'
 #' These matrices or vectors will contain the content of the moving window, which may possibly contain `NA`s even if the `in.grid` has no nodata values, e.g. due to edge effects. If `search.mode="circle"`, values more than `radius` units (pixels or grid units, depending on `is.pixel.radius`) away from the center pixel / matrix entry will be set to `NA`. In addition, `valid.range`, `nodata.values`, and the nodata values specified in the `in.grid` are checked to assign further `NA`s to pixels in the moving window. Finally, if `in.factor.grid` specifies zones, all pixels in the moving window that belong to a different zone than the center pixel are set to `NA`, or, in other words, zone boundaries are used as breaklines.
 #'
 #' The function `fun` should return a single numeric value or a numeric vector, such as a regression result or a vector of class probabilities returned by a soft classifier. In addition to the named arguments receiving the moving window data, `fun` may have additional arguments; the `...` argument of `focal.function` is passed on to `fun`. [grid.predict()] uses this feature.
@@ -1449,7 +1449,7 @@ local.function = function( ... ) {
 #' @author Alexander Brenning
 #' @note `multi.focal.function` can do all the things [focal.function()] can do.
 #' @seealso [focal.function()], [grid.predict()]
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # Assume that d is a data.frame with point observations
 #' # of a numerical response variable y and predictor variables
@@ -1481,17 +1481,17 @@ local.function = function( ... ) {
 #' }
 #' @keywords spatial
 #' @export
-multi.focal.function = function( 
-    in.grids, in.grid.prefix, in.factor.grid, 
+multi.focal.function = function(
+    in.grids, in.grid.prefix, in.factor.grid,
     out.grid.prefix,
     path = NULL, in.path = path, out.path = path,
     fun, in.varnames, out.varnames,
     radius = 0, is.pixel.radius = TRUE,
     na.strings = "NA",
-    valid.ranges, nodata.values = c(), out.nodata.value, 
+    valid.ranges, nodata.values = c(), out.nodata.value,
     search.mode = c("circle","square"),
     digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-    mw.to.vector = FALSE, mw.na.rm = FALSE, pass.location = FALSE, 
+    mw.to.vector = FALSE, mw.na.rm = FALSE, pass.location = FALSE,
     ... )
 {
     if (radius > 0) {
@@ -1500,7 +1500,7 @@ multi.focal.function = function(
             warning("'mw.na.rm=TRUE' only meaningful if moving window matrix is\n",
                 "converted to a vector ('mw.to.vector=TRUE')")
     }
-    
+
     # build input filenames:
     if (missing(in.grid.prefix)) in.grid.prefix = ""
     if (is.null(in.grid.prefix)) in.grid.prefix = ""
@@ -1571,7 +1571,7 @@ multi.focal.function = function(
     if (is.null(out.grid.prefix)) out.grid.prefix = ""
     stopifnot(length(out.varnames) == length(unique(out.varnames)))
     do.paste = (out.varnames!="") & (out.grid.prefix!="")
-    out.filenames = paste( out.grid.prefix, c("","_")[do.paste+1], 
+    out.filenames = paste( out.grid.prefix, c("","_")[do.paste+1],
                     out.varnames, sep="" )
     out.filenames = default.file.extension(out.filenames,".asc")
     if (!is.null(out.path)) if (out.path!="")
@@ -1590,7 +1590,7 @@ multi.focal.function = function(
         write.ascii.grid.header(out.files[[k]],out.hdr,dec=dec,hdr.digits=hdr.digits)
     }
     on.exit( for (k in 1:N.out) close(out.files[[k]]), add=TRUE )
-    
+
     if (missing(valid.ranges)) {
         valid.ranges = list()
         for (k in 1:N.in) valid.ranges[[k]] = c(-Inf, Inf)
@@ -1601,30 +1601,30 @@ multi.focal.function = function(
 
     if (radius <= 0) {
         # Apply 'fun' as a local function:
-    
+
         # Process one line at a time:
         for (i in 1:nlines) {
             if (!quiet) if ((i %% 10)==0) cat("*")
             if (!quiet) if ((i %% 100)==0) cat("\n")
-            
+
             y.coord = in.hdr$yllcenter + (in.hdr$nrows - i) * in.hdr$cellsize
-            
+
             # Read one line at a time, file by file:
             vl0 = as.list(1:N.in)
             for (k in 1:N.in) {
-                vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE, 
+                vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE,
                     dec = dec, na.strings = na.strings)
                 if (length(vl0[[k]]) != in.hdr$ncols) {
                     warning("grid line does not have NCOLS values")
-                    vl0[[k]] = c( vl0[[k]], 
+                    vl0[[k]] = c( vl0[[k]],
                             rep(NA, in.hdr$ncols - length(vl0[[k]])) )
                 }
-                for (na in nodata.vals[[k]]) 
+                for (na in nodata.vals[[k]])
                     vl0[[k]][ vl0[[k]] == na ] = NA
                 vl0[[k]][ vl0[[k]] < valid.ranges[[k]][1] ] = NA
                 vl0[[k]][ vl0[[k]] > valid.ranges[[k]][2] ] = NA
             }
-                            
+
             res = matrix(NA, ncol = in.hdr$ncols, nrow = N.out)
 
             for (j in 1:in.hdr$ncol) {
@@ -1633,7 +1633,7 @@ multi.focal.function = function(
                     x.coord = in.hdr$xllcenter + (j-1) * in.hdr$cellsize
                     loc = list( location = c(x = x.coord, y = y.coord) )
                 }
-                
+
                 args = as.list(1:N.in)
                 skip = FALSE
                 for (k in 1:N.in)
@@ -1652,32 +1652,32 @@ multi.focal.function = function(
                 writeLines(txt,con = out.files[[k]])
             }
         }
-    
+
     } else { # if (radius > 0)
-    
+
         if (pass.location) {
             pass.location = FALSE
             warning("'pass.location=TRUE' is currently only implemented for 'radius=0'\n")
             # to do: set up moving window matrices with x and y coordinates, respectively??
         }
-    
+
         if (!is.pixel.radius) radius = radius / in.hdr$cellsize
         exact.radius = radius
         radius = ceiling(radius)
-    
+
         # 'vl' is a list of matrices, each of which
         # will receive a set of rows copied from the grid;
         # it must be a bit wider than the grid so the moving window can move over
         # it without having to worry about edge effects:
         vl = list(1:N.in)
         for (k in 1:N.in)
-            vl[[k]] = matrix( NA, ncol = in.hdr$ncols + 2*radius, 
+            vl[[k]] = matrix( NA, ncol = in.hdr$ncols + 2*radius,
                                   nrow = 2*radius + 1 )
         # 'fac': same for in.factor.grid, if available:
         if (!is.null(in.factor.grid))
-            fac = matrix( NA, ncol = in.hdr$ncols + 2*radius, 
+            fac = matrix( NA, ncol = in.hdr$ncols + 2*radius,
                               nrow = 2*radius + 1 )
-        # 'f' will be the mask of a moving window in case of a circular window:    
+        # 'f' will be the mask of a moving window in case of a circular window:
         if (search.mode=="circle") {
             f = matrix(FALSE, ncol = 2*radius + 1, nrow = 2*radius + 1)
             for (i in (-radius):radius)
@@ -1685,19 +1685,19 @@ multi.focal.function = function(
                     if (sqrt(i^2+j^2) > exact.radius)
                         f[ i + radius + 1, j + radius + 1 ] = TRUE
         }
-        
+
         # the look-ahead step:
         for (k in 1:N.in) {
             for (i in (radius+1):(2*radius)) {
-                vl[[k]][i+1,] = c( rep(NA, radius), 
+                vl[[k]][i+1,] = c( rep(NA, radius),
                         scan(in.files[[k]], nlines = 1, quiet = TRUE, dec = dec,
-                            na.strings = na.strings), 
+                            na.strings = na.strings),
                         rep(NA, radius) )
                 if (k == 1) {
                     if (!is.null(in.factor.grid)) {
-                        fac[i+1,] = c( rep(NA, radius), 
+                        fac[i+1,] = c( rep(NA, radius),
                             scan(in.factor.file, nlines = 1, quiet = TRUE,
-                                na.strings = na.strings), 
+                                na.strings = na.strings),
                             rep(NA, radius) )
                     }
                 }
@@ -1713,12 +1713,12 @@ multi.focal.function = function(
                 vl[[k]][ is.na(fac) ] = NA
             }
         }
-        
+
         # Process the grid line by line:
         for (i in 1:nlines) {
             if (!quiet) if ((i %% 10)==0) cat("*")
             if (!quiet) if ((i %% 100)==0) cat("\n")
-            
+
             y.coord = in.hdr$yllcenter + (in.hdr$nrows - i) * in.hdr$cellsize
 
             vl0 = as.list(1:N.in)
@@ -1726,7 +1726,7 @@ multi.focal.function = function(
             if (i <= nlines - radius) {
                 # Read a line from the grid file:
                 for (k in 1:N.in) {
-                    vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE, 
+                    vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE,
                             dec = dec, na.strings = na.strings)
                     if (length(vl0[[k]]) != in.hdr$ncols) { # check if corrupt
                         warning("grid line does not have NCOLS values")
@@ -1777,7 +1777,7 @@ multi.focal.function = function(
                     } else
                         wk = wk & wl[[k]]
                 }
-                
+
                 # Use only data from areas within the same zone
                 # as defined by the factor grid:
                 if (!is.null(in.factor.grid)) {
@@ -1787,32 +1787,32 @@ multi.focal.function = function(
                         wk = wk & NA
                     } else wk[ facw != the.fac ] = NA
                 }
-                
+
                 if (!all(is.na(wk))) {
                     # Mask NA areas in each of the layers:
-                    for (k in 1:N.in) 
+                    for (k in 1:N.in)
                         wl[[k]][ is.na(wk) ] = NA
-                        
+
                     # Convert to vector? Remove NAs?
                     if (mw.to.vector) {
                         for (k in 1:N.in) {
                             wl[[k]] = as.vector(wl[[k]])
-                            if (mw.na.rm) 
+                            if (mw.na.rm)
                                 wl[[k]] = wl[[k]][!is.na(wl[[k]])]
                         }
                     }
-                    
+
                     # Pass the (x,y) coordinates to the function?
                     if (pass.location) {
                         x.coord = in.hdr$xllcenter + (j-1) * in.hdr$cellsize
-                        loc = list( location = 
+                        loc = list( location =
                                 data.frame(x = x.coord, y = y.coord) )
                     }
-                    
+
                     # Set up list of arguments:
                     names(wl) = in.varnames
                     wl = c( wl, loc, alist(...) )
-                    
+
                     # Call the focal function:
                     r = do.call(fun, wl)
 
@@ -1820,10 +1820,10 @@ multi.focal.function = function(
                     res[,j] = r
                 }
             }
-            
+
             # Replace NA by the no-data value:
             res[ is.na(res) ] = out.nodata.value
-            
+
             # Write one line in each of the output grids:
             for (k in 1:N.out) {
                 txt = paste(sprintf(fmt,res[k,]),collapse=" ")
@@ -1832,7 +1832,7 @@ multi.focal.function = function(
             }
         }
     } # end if (radius > 0)
-    
+
     if (!quiet)  cat("\nDone.\n")
 
     return(out.filenames)
@@ -1859,7 +1859,7 @@ multi.focal.function = function(
 #' @author Alexander Brenning
 #' @note Though `grid.predict` can in principle deal with `predict` methods returning factor variables, its usual caller [multi.local.function()] / [multi.focal.function()] cannot; classification models should be dealt with by setting a `type="prob"` (for `rpart`) or `type="response"` (for logistic regression and logistic additive model) argument, for example (see second Example below).
 #' @seealso [focal.function()], [multi.local.function()], [multi.focal.function()]
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # Assume that d is a data.frame with point observations
 #' # of a numerical response variable y and predictor variables
@@ -1875,7 +1875,7 @@ multi.focal.function = function(
 #'     # predict method of 'fit'.
 #' # Model predictions are written to a file named pred.asc
 #' }
-#' 
+#'
 #' \dontrun{
 #' # A fake example of a logistic additive model:
 #' require(gam)
@@ -1892,13 +1892,13 @@ multi.focal.function = function(
 #' @keywords spatial
 #' @export
 grid.predict = function(fit, predfun, trafo, control.predict,
-    predict.column, trace = 0, location, ...) 
+    predict.column, trace = 0, location, ...)
 {
     if (missing(fit)) stop("'fit' object required\n")
 
     if (trace >= 2 & !missing(location))
         print(utils::str(location))
-    
+
     newdata = as.data.frame( list(...) )
 
     if (!missing(location)) {
@@ -1906,28 +1906,28 @@ grid.predict = function(fit, predfun, trafo, control.predict,
             location = as.data.frame(t(location))
         newdata = cbind(newdata, location)
     }
-    
+
     # Apply transformation function to predictor data.frame:
     if (!missing(trafo))
         newdata = trafo(newdata)
 
     if (trace >= 2)
         print(utils::str(newdata))
-    
+
     args = list(object = fit, newdata = newdata)
     args = c(args, control.predict)
-    
+
     if (missing(predfun)) {
         pred = do.call( stats::predict, args )
     } else
         pred = do.call( predfun, args )
-        
+
     if (!missing(predict.column))
         pred = pred[,predict.column]
-    
+
     if (trace >= 1)
         print(utils::str(pred))
-    
+
     return(pred)
 }
 
@@ -1937,15 +1937,15 @@ grid.predict = function(fit, predfun, trafo, control.predict,
 #' @rdname multi.focal.function
 #' @name multi.local.function
 #' @export
-multi.local.function = function( 
+multi.local.function = function(
     in.grids, in.grid.prefix,
     out.grid.prefix,
     path = NULL, in.path = path, out.path = path,
     fun, in.varnames, out.varnames,
     na.strings = "NA",
-    valid.ranges, nodata.values = c(), out.nodata.value, 
+    valid.ranges, nodata.values = c(), out.nodata.value,
     digits = 4, hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-    na.action = stats::na.exclude, pass.location = FALSE, 
+    na.action = stats::na.exclude, pass.location = FALSE,
     ... )
 {
     # build input filenames:
@@ -2001,7 +2001,7 @@ multi.local.function = function(
     if (is.null(out.grid.prefix)) out.grid.prefix = ""
     stopifnot(length(out.varnames) == length(unique(out.varnames)))
     do.paste = (out.varnames!="") & (out.grid.prefix!="")
-    out.filenames = paste( out.grid.prefix, c("","_")[do.paste+1], 
+    out.filenames = paste( out.grid.prefix, c("","_")[do.paste+1],
                     out.varnames, sep="" )
     out.filenames = default.file.extension(out.filenames,".asc")
     if (!is.null(out.path)) if (out.path!="")
@@ -2020,7 +2020,7 @@ multi.local.function = function(
         write.ascii.grid.header(out.files[[k]],out.hdr,dec=dec,hdr.digits=hdr.digits)
     }
     on.exit( for (k in 1:N.out) close(out.files[[k]]), add=TRUE )
-    
+
     if (missing(valid.ranges)) {
         valid.ranges = list()
         for (k in 1:N.in) valid.ranges[[k]] = c(-Inf, Inf)
@@ -2030,46 +2030,46 @@ multi.local.function = function(
     loc = NULL
 
     # Apply 'fun' as a local function:
-    
+
         # Process one line at a time:
         for (i in 1:nlines) {
             if (!quiet) if ((i %% 10)==0) cat("*")
             if (!quiet) if ((i %% 100)==0) cat("\n")
-            
+
             y.coord = in.hdr$yllcenter + (in.hdr$nrows - i) * in.hdr$cellsize
-            
+
             # Read one line at a time, file by file:
             vl0 = as.list(1:N.in)
             for (k in 1:N.in) {
-                vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE, 
+                vl0[[k]] = scan(in.files[[k]], nlines = 1, quiet = TRUE,
                     dec = dec, na.strings = na.strings)
                 if (length(vl0[[k]]) != in.hdr$ncols) {
                     warning("grid line does not have NCOLS values")
-                    vl0[[k]] = c( vl0[[k]], 
+                    vl0[[k]] = c( vl0[[k]],
                             rep(NA, in.hdr$ncols - length(vl0[[k]])) )
                 }
-                for (na in nodata.vals[[k]]) 
+                for (na in nodata.vals[[k]])
                     vl0[[k]][ vl0[[k]] == na ] = NA
                 vl0[[k]][ vl0[[k]] < valid.ranges[[k]][1] ] = NA
                 vl0[[k]][ vl0[[k]] > valid.ranges[[k]][2] ] = NA
             }
-                            
+
             # Pass the (x,y) coordinates to the function?
             if (pass.location) {
                 x.coord = c(0:(in.hdr$ncol-1)) * in.hdr$cellsize + in.hdr$xllcenter
                 loc = list( location = data.frame(x = x.coord, y = y.coord) )
             }
-              
+
             # Transfer data into argument list:
             args = as.list(1:N.in)
             for (k in 1:N.in) args[[k]] = vl0[[k]]
             ### can this be avoided: args <- vl0 ???
-            
-            # Remove missing data:               
+
+            # Remove missing data:
             args0 = na.action( as.data.frame(args) )
             names(args0) = in.varnames
             unsel = attr(args0, "na.action")
-                
+
             # Any data left?
             if (nrow(args0) > 0) {
                 args0 = c( as.list(args0), loc, alist(...) )
@@ -2093,7 +2093,7 @@ multi.local.function = function(
             }
             rm(res)
         }
-        
+
     if (!quiet)  cat("\nDone.\n")
 
     return(out.filenames)

@@ -17,10 +17,7 @@ relative.rank(x, ties.method = "average")
 \value{
 If \code{x} is provided, a numeric value in the interval [0,1] is returned.
 
-If \code{x} is missing, a character vector of same length giving suggested variable (or file) names, here \code{"relpos"} and \code{"relrank"}, respectively. See [focal.function()] for details.
-
-[0,1]: R:0,1%5C
-[focal.function()]: R:focal.function()
+If \code{x} is missing, a character vector of same length giving suggested variable (or file) names, here \code{"relpos"} and \code{"relrank"}, respectively. See \code{\link[=focal.function]{focal.function()}} for details.
 }
 \description{
 \code{relative.position} and \code{relative.rank} are used with \code{\link[=focal.function]{focal.function()}} to determine the relative value of a grid cell compared to its surroundings, either on a metric scale or based on ranks.

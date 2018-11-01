@@ -18,10 +18,7 @@
 \arguments{
 \item{x}{a square matrix with the grid data from the moving window, possibly containing \code{NA} values}
 
-\item{probs}{numeric vector of probabilities in [0,1] to be passed to [quantile()]
-
-[0,1]: R:0,1%5C
-[quantile()]: R:quantile()}
+\item{probs}{numeric vector of probabilities in [0,1] to be passed to \code{\link[=quantile]{quantile()}}}
 }
 \value{
 If \code{x} is provided, a numeric vector of length 1 (\code{resid.median}), 3 (\code{resid.minmedmax} and \code{resid.quartiles}), or \code{length(probs)} (\code{resid.quantile}).
