@@ -1,5 +1,6 @@
 context("RSAGA-modules")
 
+library(RSAGA)
 library(rgdal)
 
 test_that("Write DEM to disc", {
