@@ -1016,11 +1016,11 @@ rsaga.geoprocessor = function(
             stringr::str_remove("\\s")
 
           # Print error message
-          if(!all(names(params) %in% param_list)) {
+          if(!all(names(param) %in% param_list)) {
             #Get false parameter names
-            false_parameters <- names(params) %in% param_list
+            false_parameters <- names(param) %in% param_list
             # Get all paramter names
-            paramters <- names(params)
+            paramters <- names(param)
             stop(paste0("Wrong paramters used: ",
                         paste(paramters[!false_parameters], collapse = " "),
                         ". ",
