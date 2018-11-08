@@ -3,6 +3,7 @@
 ## General
 
 * RSAGA checks if the correct parameters are used in `rsaga.geoprocessor`
+* RSAGA supports SAGA GIS 7.0.0
 
 ## Bug fixes
 
