@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 [![Travis build status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
 
-Latest RSAGA version with support for SAGA GIS 2.3 LTS - 6.4.0
+Latest RSAGA version with support for SAGA GIS 2.3 LTS - 7.0.0
 
 Provides access to geocomputing and terrain analysis
 functions of the geographical information system (GIS) ['SAGA' (System for
@@ -29,20 +29,14 @@ http://sourceforge.net/projects/saga-gis/.
 
 ## Installation
 
-You can install RSAGA 1.2.0 from CRAN with:
+You can install RSAGA 1.3.0 from CRAN with:
 
 ```{r cran-installation, eval=FALSE}
 install.packages("RSAGA", dependencies = TRUE)
 ```
 
-Or you can get the latest version from github with:
-
-```{r gh-installation, eval = FALSE}
-devtools::install_github("r-spatial/RSAGA")
-```
-
-Or with dependencies:
+Or you can get the latest version from GitHub with:
 
 ```{r gh-installation-dep, eval = FALSE}
-devtools::install_github("r-spatial/RSAGA", dependencies = TRUE, force = TRUE)
+devtools::install_github("r-spatial/RSAGA", dependencies = TRUE)
 ```

@@ -1,31 +1,33 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-RSAGA
-=====
 
-[![Travis build status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
+# RSAGA
 
-Latest RSAGA version with support for SAGA GIS 2.3 LTS - 6.4.0
+[![Travis build
+status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
 
-Provides access to geocomputing and terrain analysis functions of the geographical information system (GIS) ['SAGA' (System for Automated Geoscientific Analyses)](http://saga-gis.org/en/index.html) from within R by running the command line version of SAGA. This package furthermore provides several R functions for handling ASCII grids, including a flexible framework for applying local functions (including predict methods of fitted models) and focal functions to multiple grids. SAGA GIS is available under GPLv2 / LGPLv2 licence from <http://sourceforge.net/projects/saga-gis/>.
+Latest RSAGA version with support for SAGA GIS 2.3 LTS - 7.0.0
 
-Installation
-------------
+Provides access to geocomputing and terrain analysis functions of the
+geographical information system (GIS) [‘SAGA’ (System for Automated
+Geoscientific Analyses)](http://saga-gis.org/en/index.html) from within
+R by running the command line version of SAGA. This package furthermore
+provides several R functions for handling ASCII grids, including a
+flexible framework for applying local functions (including predict
+methods of fitted models) and focal functions to multiple grids. SAGA
+GIS is available under GPLv2 / LGPLv2 licence from
+<http://sourceforge.net/projects/saga-gis/>.
 
-You can install RSAGA 1.2.0 from CRAN with:
+## Installation
+
+You can install RSAGA 1.3.0 from CRAN with:
 
 ``` r
 install.packages("RSAGA", dependencies = TRUE)
 ```
 
-Or you can get the latest version from github with:
+Or you can get the latest version from GitHub with:
 
 ``` r
-devtools::install_github("r-spatial/RSAGA")
-```
-
-Or with dependencies:
-
-``` r
-devtools::install_github("r-spatial/RSAGA", dependencies = TRUE, force = TRUE)
+devtools::install_github("r-spatial/RSAGA", dependencies = TRUE)
 ```
