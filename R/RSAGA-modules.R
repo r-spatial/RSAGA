@@ -1456,7 +1456,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
       if (nchar(start.date$month) == 1) {
         start.date$month <- paste0("0", start.date$month-1)
       }
-      param = c( param, DAY = paste0(start.date$day, "/", start.date$month, "/", start.date$year))
+      param = c( param, DAY = paste0(start.date$month, "/", start.date$day, "/", start.date$year))
     }
     if (is.null(end.date)) {
         # check if moment:
@@ -1498,7 +1498,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
            if (nchar(end.date$month) == 1) {
               end.date$month <- paste0("0", end.date$month-1)
            }
-         param = c( param, DAY_STOP = paste0(end.date$day, "/", end.date$month, "/", end.date$year))
+         param = c( param, DAY_STOP = paste0(end.date$month, "/", end.date$day, "/", end.date$year))
         }
 
         if (is.null(time.range)) time.range = c(0,24)
