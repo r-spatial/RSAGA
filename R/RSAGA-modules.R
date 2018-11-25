@@ -1291,6 +1291,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with `method = "components"`
 #' @param cmp.dust dust factor in ppm; defaults to 100 ppm. For use with `method = "components"`
 #' @param lmp.transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
+#' @param shadow Choose 'slim' to trace grid node's shadow, 'fat' to trace the whole cell's shadow, or ignore shadowing effects. The first is slightly faster but might show some artifacts.
 #' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
 #' @param time.step time step in hours for numerical integration
 #' @param start.date list of length three, giving the start date in `day`, `month`, and `year` components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is `list(day=1,month=1,year=2015)`
@@ -1328,6 +1329,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                        hgt.atmosphere = 12000,
                        cmp.pressure = 1013, cmp.water.content = 1.68, cmp.dust = 100,
                        lmp.transmittance = 70,
+                       shadow=c("slim", "fat", "none"),
                        time.range = c(0,24), time.step = 0.5,
                        start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
                        env = rsaga.env(), ...)
@@ -1405,7 +1407,9 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
                   GRD_SUNRISE = out.sunrise, GRD_SUNSET = out.sunset,
                   UNITS = unit, SOLARCONST = as.numeric(solconst), LOCALSVF = local.svf,
                   METHOD = method,
-                  HOUR_STEP = time.step )
+                  HOUR_STEP = time.step,
+                  SHADOW = shadow
+                  )
 
     if (location == 0) {
         if (!is.null(latitude)) {
@@ -1488,8 +1492,7 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
         if (any(c("2.2.2","2.2.3") == env$version)){
         param = c( param, DAY_B = end.date$day,
                    MON_B = end.date$month - 1,
-                   YEAR_B = end.date$year,
-                   DAYS_STEP = day.step )
+                   YEAR_B = end.date$year)
         } else {
            # Add leading zeros too archieve SAGA date format
            if (nchar(end.date$day) == 1) {
@@ -1498,7 +1501,8 @@ rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
            if (nchar(end.date$month) == 1) {
               end.date$month <- paste0("0", end.date$month-1)
            }
-         param = c( param, DAY_STOP = paste0(end.date$month, "/", end.date$day, "/", end.date$year))
+         param = c( param, DAY_STOP = paste0(end.date$month, "/", end.date$day, "/", end.date$year),
+                    DAYS_STEP = day.step)
         }
 
         if (is.null(time.range)) time.range = c(0,24)

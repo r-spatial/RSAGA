@@ -12,9 +12,9 @@ rsaga.pisr2(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
   solconst = 1367, method = c("height", "components", "lumped",
   "hofierka"), hgt.atmosphere = 12000, cmp.pressure = 1013,
   cmp.water.content = 1.68, cmp.dust = 100, lmp.transmittance = 70,
-  time.range = c(0, 24), time.step = 0.5, start.date = list(day = 31,
-  month = 10, year = 2015), end.date = NULL, day.step = 5,
-  env = rsaga.env(), ...)
+  shadow = c("slim", "fat", "none"), time.range = c(0, 24),
+  time.step = 0.5, start.date = list(day = 31, month = 10, year =
+  2015), end.date = NULL, day.step = 5, env = rsaga.env(), ...)
 }
 \arguments{
 \item{in.dem}{name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}
@@ -60,6 +60,8 @@ rsaga.pisr2(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 \item{cmp.dust}{dust factor in ppm; defaults to 100 ppm. For use with \code{method = "components"}}
 
 \item{lmp.transmittance}{transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)}
+
+\item{shadow}{Choose 'slim' to trace grid node's shadow, 'fat' to trace the whole cell's shadow, or ignore shadowing effects. The first is slightly faster but might show some artifacts.}
 
 \item{time.range}{numeric vector of length 2:  time span (hours of the day) for numerical integration}
 
