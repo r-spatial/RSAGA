@@ -83,7 +83,6 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
 #' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
 #' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line program (s. `search`).  If left empty, on Windoes `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
-#' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to [rsaga.lib.prefix()] tries to determine the correct prefix, e.g. `""` on Windows systems and `"lib"` on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying `""` or `"lib"` manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your `Sys.info()["sysname"]` and your SAGA GIS version)
 #'
 #' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
 #'
@@ -139,7 +138,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #'
 rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
                      cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
-                     version = NULL, cores, parallel = FALSE, root = NULL, lib.prefix)
+                     version = NULL, cores, parallel = FALSE, root = NULL)
 {
   # Set root path depending on operating system
   if (is.null(root)) {
@@ -309,45 +308,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     env$cores = NA
   }
 
-  if (missing(lib.prefix)) {
-    lib.prefix = rsaga.lib.prefix(env = env)
-    env$lib.prefix = lib.prefix
-  }
-
   return(env)
-}
-
-#' Determine prefix for SAGA GIS library names
-#'
-#' Internal function that determines the possible prefix for SAGA GIS library names - relevant for non-Windows SAGA GIS pre-2.1.0.
-#'
-#' @name rsaga.lib.prefix
-#' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()].
-#' @details Some non-Windows versions of `saga_cmd` require library names with a `"lib"` prefix, e.g. `libio_grid` instead of `io_grid`. This function, which is called by [rsaga.env()] tries to guess this behaviour based on the operating system and SAGA GIS version.
-#' @return A character string, either `""` or `"lib"`.
-#' @seealso [rsaga.env()]
-#' @examples
-#' \dontrun{
-#' env = rsaga.env()
-#' # obtained by a call to rsaga.lib.prefix:
-#' env$lib.prefix
-#'
-#' # more explicitly:
-#' rsaga.lib.prefix(env=env)
-#' }
-#' @keywords spatial interface
-#' @export
-rsaga.lib.prefix = function(env) {
-    lib.prefix = "lib"
-    if ((Sys.info()["sysname"] == "Windows")) {
-        lib.prefix = ""
-    } else if ((Sys.info()["sysname"] == "Darwin")) {
-        lib.prefix = ""
-    } else if (!is.na(env$version)) {
-        if (substr(env$version,1,4) == "2.1." | substr(env$version,1,4) == "2.2.")
-            lib.prefix = ""
-    }
-    return(lib.prefix)
 }
 
 #' Determine SAGA GIS version
@@ -966,17 +927,6 @@ rsaga.geoprocessor = function(
                 command = paste( command, " --cores=", env$cores, sep="" )
             }
         }
-    }
-
-    # Library - in the case of unix systems (until 2.0.9), it must be preceded by 'lib' -
-    # but not in the case of Mac OSX:
-    ###add.lib = (Sys.info()["sysname"] != "Windows") & (Sys.info()["sysname"] != "Darwin")
-    if (!is.null(lib)) {
-        # From 2.1.0 on, UNIX-like systems do not have preceding 'lib' any more
-        if (is.null(env$lib.prefix) |
-            !(env$version %in% c("2.0.4", "2.0.5", "2.0.6",
-                                 "2.0.7", "2.0.8", "2.0.9"))) env$lib.prefix = ""
-        command = paste( command, " ", env$lib.prefix, lib, sep = "")
     }
 
     if (!is.null(lib) & !is.null(module)) {
