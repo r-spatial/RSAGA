@@ -3,8 +3,20 @@
 
 # RSAGA
 
+<!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
+[![Lifecycle:
+retired](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
+<!-- badges: end -->
+
+# Status
+
+RSAGA is no longer under active development and no support is available.
+Try [Rsagacmd](https://github.com/stevenpawley/Rsagacmd).
+
+# Introduction
 
 Latest RSAGA version with support for SAGA GIS 2.3 LTS - 7.0.0
 
