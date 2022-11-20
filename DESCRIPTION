@@ -46,8 +46,7 @@ Suggests:
     sf,
     knitr,
     testthat,
-    rmarkdown,
-    qpdf
+    rmarkdown
 LazyLoad: yes
 Collate:
     'gridtools.R'
