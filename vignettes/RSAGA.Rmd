@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Terrain Analysis with RSAGA: Landslide Susceptibility Modeling"
 author: "Alexander Brenning, Donovan Bangs and Marc Becker"
-date: "01 February 2018"
+date: "20 November 2022"
 output:
     rmarkdown::html_vignette:
       fig_caption: yes
@@ -43,7 +43,7 @@ env <- rsaga.env()
 ```
 The function tries to find SAGA in several default paths if no path parameter is provided.
 
-The object `env` may now be used to direct RSAGA functions to use this specific version of SAGA. Version `6.2.0` will be used for this tutorial by specifying `env = env` in functions that use this SAGA environment.
+The object `env` may now be used to direct RSAGA functions to use this specific version of SAGA. Version `8.4.1` will be used for this tutorial by specifying `env = env` in functions that use this SAGA environment.
 
 ## RSAGA Function Calls
 RSAGA interfaces with the command line interpreter of SAGA-GIS. In most cases, `rsaga.*` functions take specified arguments and translate these to a system call that uses SAGA directly. For instance, slope may be calculated from a DEM by the SAGA command line call:
