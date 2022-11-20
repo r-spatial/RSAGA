@@ -518,7 +518,7 @@ pick.from.shapefile = function(data, shapefile, X.name="x", Y.name="y", ...)
 {
     shapefile = set.file.extension(shapefile,"")
     shapefile = substr(shapefile,1,nchar(shapefile)-1) # remove "." at the end
-    src = read.shapefile(shapefile)
+    src = shapefiles::read.shapefile(shapefile)
     src = add.xy(src)
     src = src$dbf[[1]]
     if (X.name != "XCOORD") {
