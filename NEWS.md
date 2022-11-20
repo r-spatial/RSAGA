@@ -1,3 +1,15 @@
+# RSAGA 1.4.0
+
+## General
+
+* Package was (successfully) tested with SAGA GIS 8.4.1, but continues to support earlier versions of SAGA GIS. No tests made with SAGA >7.0.0 and <=8.4.0.
+* Dependency on rgdal was removed by eliminating the support of spatial object from package sp by intersect and union functions.
+* Now also looks for SAGA installation in C:/Progra~?/SAGA, which seems to be used by SAGA 8.4.1 (and presumably by other recent versions) by default.
+
+## TO DO
+
+* Ensure that help file contents are still consistent with current SAGA GIS help files.
+
 # RSAGA 1.3.0
 
 ## General
