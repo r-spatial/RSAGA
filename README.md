@@ -8,17 +8,12 @@
 [![Travis build
 status](https://travis-ci.org/r-spatial/RSAGA.svg?branch=master)](https://travis-ci.org/r-spatial/RSAGA)
 [![Lifecycle:
-retired](https://img.shields.io/badge/lifecycle-dormant-blue.svg)](https://www.tidyverse.org/lifecycle/#dormant)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
-
-# Status
-
-RSAGA is no longer under active development and no support is available.
-Try [Rsagacmd](https://github.com/stevenpawley/Rsagacmd).
 
 # Introduction
 
-Latest RSAGA version with support for SAGA GIS 2.3 LTS - 7.0.0
+Latest RSAGA version with support for SAGA GIS 2.3 LTS - 8.4.1
 
 Provides access to geocomputing and terrain analysis functions of the
 geographical information system (GIS) [‘SAGA’ (System for Automated
@@ -32,7 +27,7 @@ GIS is available under GPLv2 / LGPLv2 licence from
 
 ## Installation
 
-You can install RSAGA 1.3.0 from CRAN with:
+You can install RSAGA from CRAN with:
 
 ``` r
 install.packages("RSAGA", dependencies = TRUE)
