@@ -4,8 +4,16 @@
 \alias{rsaga.contour}
 \title{Contour Lines from a Grid}
 \usage{
-rsaga.contour(in.grid, out.shapefile, zstep, zmin, zmax, vertex = "xy",
-  env = rsaga.env(), ...)
+rsaga.contour(
+  in.grid,
+  out.shapefile,
+  zstep,
+  zmin,
+  zmax,
+  vertex = "xy",
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.grid}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}

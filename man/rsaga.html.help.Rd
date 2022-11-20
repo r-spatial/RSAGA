@@ -4,8 +4,13 @@
 \alias{rsaga.html.help}
 \title{HTML help on a SAGA module or library}
 \usage{
-rsaga.html.help(lib, module = NULL, use.program.folder = TRUE,
-  env = rsaga.env(), ...)
+rsaga.html.help(
+  lib,
+  module = NULL,
+  use.program.folder = TRUE,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{lib}{name of the SAGA library, or one of the \code{rsaga.} module functions such as \code{\link[=rsaga.hillshade]{rsaga.hillshade()}}}

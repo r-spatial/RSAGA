@@ -4,10 +4,22 @@
 \alias{rsaga.parallel.processing}
 \title{Parallel Processing}
 \usage{
-rsaga.parallel.processing(in.dem, in.sinkroute, in.weight, out.carea,
-  out.cheight, out.cslope, out.caspect, out.flowpath, step,
-  method = "mfd", linear.threshold = Inf, convergence = 1.1,
-  env = rsaga.env(), ...)
+rsaga.parallel.processing(
+  in.dem,
+  in.sinkroute,
+  in.weight,
+  out.carea,
+  out.cheight,
+  out.cslope,
+  out.caspect,
+  out.flowpath,
+  step,
+  method = "mfd",
+  linear.threshold = Inf,
+  convergence = 1.1,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}
@@ -48,7 +60,7 @@ Calculate the size of the local catchment area (contributing area), the catchmen
 Refer to the references for details on the available algorithms.
 }
 \note{
-This function uses module \code{Parallel Processing} (version 2.0.7+: \code{Catchment Area (Parallel)} from SAGA library \code{ta_hydrology}.
+This function uses module \verb{Parallel Processing} (version 2.0.7+: \verb{Catchment Area (Parallel)} from SAGA library \code{ta_hydrology}.
 
 The SAGA GIS 2.0.6+ version of the module adds more (optional) input and
 output grids that are currently not supported by this wrapper function.

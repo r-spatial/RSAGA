@@ -4,9 +4,15 @@
 \alias{rsaga.target}
 \title{Define target grid for interpolation}
 \usage{
-rsaga.target(target = c("user.defined", "target.grid", "header"),
-  user.cellsize = 100, user.x.extent, user.y.extent, target.grid, header,
-  env = rsaga.env())
+rsaga.target(
+  target = c("user.defined", "target.grid", "header"),
+  user.cellsize = 100,
+  user.x.extent,
+  user.y.extent,
+  target.grid,
+  header,
+  env = rsaga.env()
+)
 }
 \arguments{
 \item{target}{character: method used for defining the target grid}

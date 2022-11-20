@@ -4,8 +4,12 @@
 \alias{rsaga.esri.to.sgrd}
 \title{Convert ESRI ASCII/binary grids to SAGA grids}
 \usage{
-rsaga.esri.to.sgrd(in.grids, out.sgrds = set.file.extension(in.grids,
-  ".sgrd"), in.path, ...)
+rsaga.esri.to.sgrd(
+  in.grids,
+  out.sgrds = set.file.extension(in.grids, ".sgrd"),
+  in.path,
+  ...
+)
 }
 \arguments{
 \item{in.grids}{character vector of ESRI ASCII/binary grid files (default file extension: \code{.asc}); files should be located in folder \code{in.path}}

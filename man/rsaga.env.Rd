@@ -5,10 +5,17 @@
 \title{Function to set up RSAGA geoprocessing environment:
 Set up the RSAGA Geoprocessing Environment}
 \usage{
-rsaga.env(path = NULL, modules = NULL, workspace = ".",
-  cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe",
-  "saga_cmd"), version = NULL, cores, parallel = FALSE, root = NULL,
-  lib.prefix)
+rsaga.env(
+  path = NULL,
+  modules = NULL,
+  workspace = ".",
+  cmd = ifelse(Sys.info()["sysname"] == "Windows", "saga_cmd.exe", "saga_cmd"),
+  version = NULL,
+  cores,
+  parallel = FALSE,
+  root = NULL,
+  lib.prefix
+)
 }
 \arguments{
 \item{path}{path in which to find \code{cmd}; \code{rsaga.env} is usually able to find SAGA on your system if it is installed; see Details.}
@@ -25,7 +32,7 @@ rsaga.env(path = NULL, modules = NULL, workspace = ".",
 
 \item{parallel}{optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link[=pick.from.ascii.grid]{pick.from.ascii.grid()}} or \code{\link[=rsaga.get.modules]{rsaga.get.modules()}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated}
 
-\item{root}{optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line program (s. \code{search}).  If left empty, on Windoes \code{C:/} is used, on Linux \code{/usr} and on Mac OS  \code{/usr/local/Cellar}.}
+\item{root}{optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line program (s. \code{search}).  If left empty, on Windoes \verb{C:/} is used, on Linux \verb{/usr} and on Mac OS  \verb{/usr/local/Cellar}.}
 
 \item{lib.prefix}{character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link[=rsaga.lib.prefix]{rsaga.lib.prefix()}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)}
 }
@@ -36,23 +43,23 @@ A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}
 \code{rsaga.env} creates a list with system-dependent information on SAGA path, module path and data (working) directory. This kind of a list is required by most RSAGA geoprocessing functions and is referred to as the 'RSAGA geoprocessing environment.'
 }
 \details{
-IMPORTANT: Unlike R functions such as \code{\link[=options]{options()}},  which changes and saves settings somewhere in a global variable, \code{\link[=rsaga.env]{rsaga.env()}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \code{rsaga.*} functions. See example below.
+IMPORTANT: Unlike R functions such as \code{\link[=options]{options()}},  which changes and saves settings somewhere in a global variable, \code{\link[=rsaga.env]{rsaga.env()}} does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other \verb{rsaga.*} functions. See example below.
 
-We strongly recommend to install SAGA GIS on Windows in \code{C:/Program Files/SAGA-GIS}, \code{C:/Program Files (x86)/SAGA-GIS},\code{C:/SAGA-GIS}, \code{C:/OSGeo4W64/apps/saga-lts} or \code{C:/OSGeo4W64/apps/saga}.
+We strongly recommend to install SAGA GIS on Windows in \verb{C:/Program Files/SAGA-GIS}, \verb{C:/Program Files (x86)/SAGA-GIS},\verb{C:/SAGA-GIS}, \verb{C:/OSGeo4W64/apps/saga-lts} or \verb{C:/OSGeo4W64/apps/saga}.
 If you use a standalone version of SAGA GIS in a different path, please refer to section 2 bellow.
 
 There are three ways to create a RSAGA environment with \code{rsaga.env}:
 \enumerate{
 \item No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments \code{path} and \code{modules}.
 On Windows \code{rsaga.env} tries to find the SAGA command line program in the following folders
-\code{C:/Progra~1/SAGA-GIS}, \code{C:/Progra~2/SAGA-GIS}, \code{C:/SAGA-GIS}, \code{C:/OSGeo4W64/apps/saga-lts} and \code{C:/OSGeo4W64/apps/saga}.
-If this fails and attempt is being made to find the SAGA command line program with a search on \code{C:/}
+\verb{C:/Progra~1/SAGA}, \verb{C:/Progra~2/SAGA}, \verb{C:/Progra~1/SAGA-GIS}, \verb{C:/Progra~2/SAGA-GIS}, \verb{C:/SAGA-GIS}, \verb{C:/OSGeo4W64/apps/saga-lts} and \verb{C:/OSGeo4W64/apps/saga}.
+If this fails and attempt is being made to find the SAGA command line program with a search on \verb{C:/}
 (The drive letter can be changed with the \code{root} argument).
 The subfolder \code{tools} (SAGA Version < 3.0.0 subfolder \code{modules}) is checked for the SAGA module libraries.
 On Unix systems \code{rsaga.env} tries to find the SAGA command line program in various default paths.
 Additionally, on Unix systems the PATH environment variable is checked for the path to the SAGA command line program
 and the SAGA_MLB environment variable is checked for the SAGA module libraries.
-If this fails, a search for the SAGA command line program and the module libraries is performed on \code{/usr}.
+If this fails, a search for the SAGA command line program and the module libraries is performed on \verb{/usr}.
 If no SAGA command line program can be found, please specify the paths as described in section 2.
 \item The user specifies both the path to the SAGA command line program and
 to the SAGA module libraries. Both paths are checked if they are valid. Use this if SAGA GIS is located in a non-standard path
@@ -79,7 +86,7 @@ rsaga.hillshade("dem","hillshade",env=myenv)
 # derived from digital elevation model "C:/sagadata/dem.sgrd"
 
 # Same calculation with different SAGA version:
-# (I keep several versions in SAGA-GIS_2.0.x folders:)
+# (I keep several versions in SAGA-GIS_x.x.x folders:)
 myenv05 = rsaga.env(path = "C:/Progra~1/SAGA-GIS_2.0.5")
 rsaga.hillshade("dem","hillshade205",env=myenv05)
 }

@@ -6,16 +6,33 @@
 \alias{local.function}
 \title{Local and Focal Grid Functions}
 \usage{
-focal.function(in.grid, in.factor.grid, out.grid.prefix, path = NULL,
-  in.path = path, out.path = path, fun, varnames, radius = 0,
-  is.pixel.radius = TRUE, na.strings = "NA", valid.range = c(-Inf,
-  Inf), nodata.values = c(), out.nodata.value,
-  search.mode = c("circle", "square"), digits = 4, hdr.digits = 10,
-  dec = ".", quiet = TRUE, nlines = Inf, mw.to.vector = FALSE,
-  mw.na.rm = FALSE, ...)
+focal.function(
+  in.grid,
+  in.factor.grid,
+  out.grid.prefix,
+  path = NULL,
+  in.path = path,
+  out.path = path,
+  fun,
+  varnames,
+  radius = 0,
+  is.pixel.radius = TRUE,
+  na.strings = "NA",
+  valid.range = c(-Inf, Inf),
+  nodata.values = c(),
+  out.nodata.value,
+  search.mode = c("circle", "square"),
+  digits = 4,
+  hdr.digits = 10,
+  dec = ".",
+  quiet = TRUE,
+  nlines = Inf,
+  mw.to.vector = FALSE,
+  mw.na.rm = FALSE,
+  ...
+)
 
-gapply(in.grid, fun, varnames, mw.to.vector = TRUE, mw.na.rm = TRUE,
-  ...)
+gapply(in.grid, fun, varnames, mw.to.vector = TRUE, mw.na.rm = TRUE, ...)
 
 local.function(...)
 }
@@ -36,13 +53,13 @@ local.function(...)
 
 \item{varnames}{character vector specifying the names of the variable(s) returned by \code{fun}; if missing, \code{focal.function} will try to determine the varnames from \code{fun} itself, or from a call to \code{fun} if this is a function (see Details)}
 
-\item{radius}{numeric value specifying the (circular or square) radius  of the moving window; see \code{is.pixel.radius} and \code{search.mode}; note that all data within distance \code{<=radius} will be included in the moving window, not \code{<radius}.}
+\item{radius}{numeric value specifying the (circular or square) radius  of the moving window; see \code{is.pixel.radius} and \code{search.mode}; note that all data within distance \verb{<=radius} will be included in the moving window, not \verb{<radius}.}
 
 \item{is.pixel.radius}{logical: if \code{TRUE} (default), the \code{radius} will be interpreted as a (possibly non-integer) number of pixels; if \code{FALSE}, it is interpreted as a radius measured in the grid (map) units.}
 
 \item{na.strings}{passed on to \code{\link[=scan]{scan()}}}
 
-\item{valid.range}{numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \code{<valid.range[1]} or \code{>valid.range[1]} will be converted to \code{NA}.}
+\item{valid.range}{numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \verb{<valid.range[1]} or \verb{>valid.range[1]} will be converted to \code{NA}.}
 
 \item{nodata.values}{numeric vector: any values from the input grid file that should be converted to \code{NA}, in addition to the nodata value specified in the grid header}
 
@@ -73,7 +90,7 @@ local.function(...)
 \code{focal.function} cuts out square or circular moving windows from a grid (matrix) and applies a user-defined matrix function to calculate e.g. a terrain attribute or filter the grid. The function is suitable for large grid files as it can process them row by row. \code{local.function} represents the special case of a moving window of radius 1. Users can define their own functions operating on moving windows, or use simple functions such as \code{median} to define filters.
 }
 \details{
-\code{focal.function} passes a square matrix of size \code{2*radius+1} to the function \code{fun} if \code{mw.to.vector=FALSE} (default), or a vector of length \code{<=(2*radius+1)^2} if \code{mw.to.vector=TRUE}. This matrix or vector will contain the content of the moving window, which may possibly contain \code{NA}s even if the \code{in.grid} has no nodata values, e.g. due to edge effects. If \code{search.mode="circle"}, values more than \code{radius} units (pixels or grid units, depending on \code{is.pixel.radius}) away from the center pixel / matrix entry will be set to \code{NA}. In addition, \code{valid.range}, \code{nodata.values}, and the nodata values specified in the \code{in.grid} are checked to assign further \code{NA}s to pixels in the moving window. Finally, if \code{in.factor.grid} specifies zones, all pixels in the moving window that belong to a different zone than the center pixel are set to \code{NA}, or, in other words, zone boundaries are used as breaklines.
+\code{focal.function} passes a square matrix of size \code{2*radius+1} to the function \code{fun} if \code{mw.to.vector=FALSE} (default), or a vector of length \verb{<=(2*radius+1)^2} if \code{mw.to.vector=TRUE}. This matrix or vector will contain the content of the moving window, which may possibly contain \code{NA}s even if the \code{in.grid} has no nodata values, e.g. due to edge effects. If \code{search.mode="circle"}, values more than \code{radius} units (pixels or grid units, depending on \code{is.pixel.radius}) away from the center pixel / matrix entry will be set to \code{NA}. In addition, \code{valid.range}, \code{nodata.values}, and the nodata values specified in the \code{in.grid} are checked to assign further \code{NA}s to pixels in the moving window. Finally, if \code{in.factor.grid} specifies zones, all pixels in the moving window that belong to a different zone than the center pixel are set to \code{NA}, or, in other words, zone boundaries are used as breaklines.
 
 The function \code{fun} should return a single numeric value or a numeric vector. As an example, the function \code{\link[=resid.minmedmax]{resid.minmedmax()}} returns the minimum, median and maximum of the difference between the values in the moving window and the value in the center grid cell. In addition to the (first) argument receiving the moving window data, \code{fun} may have additional arguments; the \code{...} argument of \code{focal.function} is passed on to \code{fun}. \code{\link[=resid.quantile]{resid.quantile()}} is a function that uses this feature.
 
@@ -81,11 +98,11 @@ Optionally, \code{fun} should support the following feature: If no argument is p
 
 Input and output file names are built according to the following schemes:
 
-Input:   \code{[<in.path>/]<in.grid>}
+Input:   \verb{[<in.path>/]<in.grid>}
 
-Zones:   \code{[<in.path>/]<in.factor.grid>} (if specified)
+Zones:   \verb{[<in.path>/]<in.factor.grid>} (if specified)
 
-Output:  \code{[<out.path>/][<out.grid.prefix>-]<varnames>.asc}
+Output:  \verb{[<out.path>/][<out.grid.prefix>-]<varnames>.asc}
 
 For the input files, \code{.asc} is used as the default file extension, if it is not specified by the user.
 }

@@ -4,12 +4,25 @@
 \alias{rsaga.solar.radiation}
 \title{Potential incoming solar radiation}
 \usage{
-rsaga.solar.radiation(in.dem, out.grid, out.duration, latitude,
-  unit = c("kWh/m2", "J/m2"), solconst = 1367, method = c("lumped",
-  "components"), transmittance = 70, pressure = 1013,
-  water.content = 1.68, dust = 100, time.range = c(0, 24),
-  time.step = 1, days = list(day = 21, month = 3), day.step = 5,
-  env = rsaga.env(), ...)
+rsaga.solar.radiation(
+  in.dem,
+  out.grid,
+  out.duration,
+  latitude,
+  unit = c("kWh/m2", "J/m2"),
+  solconst = 1367,
+  method = c("lumped", "components"),
+  transmittance = 70,
+  pressure = 1013,
+  water.content = 1.68,
+  dust = 100,
+  time.range = c(0, 24),
+  time.step = 1,
+  days = list(day = 21, month = 3),
+  day.step = 5,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}
@@ -54,7 +67,7 @@ This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more
 
 SAGA_CMD uses zero-based days and months, but this R function uses the standard one-based days and months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 
-In SAGA 2.0.2, solar radiation sums calculated for a range of days, say \code{days=c(a,b)} actually calculate radiation only for days \code{a,...,b-1} (in steps of \code{day.step} - I used \code{day.step=1} in this example).  The setting \code{a=b} however gives the same result as \code{b=a+1}, and indeed \code{b=a+2} gives twice the radiation sums and potential sunshine duration that \code{a=b} and \code{b=a+1} both give.
+In SAGA 2.0.2, solar radiation sums calculated for a range of days, say \code{days=c(a,b)} actually calculate radiation only for days \verb{a,...,b-1} (in steps of \code{day.step} - I used \code{day.step=1} in this example).  The setting \code{a=b} however gives the same result as \code{b=a+1}, and indeed \code{b=a+2} gives twice the radiation sums and potential sunshine duration that \code{a=b} and \code{b=a+1} both give.
 
 The solar radiation module of SAGA 2.0.1 had a bug that made it impossible to pass a range of \code{days} of the year or a range of hours of the day (\code{time.range}) to SAGA. These options work in SAGA 2.0.1.
 

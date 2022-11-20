@@ -4,18 +4,30 @@
 \alias{rsaga.geoprocessor}
 \title{Generic R interface for SAGA modules}
 \usage{
-rsaga.geoprocessor(lib, module = NULL, param = list(),
-  show.output.on.console = TRUE, invisible = TRUE, intern = TRUE,
-  prefix = NULL, flags = ifelse(show.output.on.console, "q", "s"),
-  cores, env = rsaga.env(), display.command = FALSE,
-  reduce.intern = TRUE, check.module.exists = TRUE,
-  warn = options("warn")$warn, argsep = " ", check.parameters = TRUE,
-  ...)
+rsaga.geoprocessor(
+  lib,
+  module = NULL,
+  param = list(),
+  show.output.on.console = TRUE,
+  invisible = TRUE,
+  intern = TRUE,
+  prefix = NULL,
+  flags = ifelse(show.output.on.console, "q", "s"),
+  cores,
+  env = rsaga.env(),
+  display.command = FALSE,
+  reduce.intern = TRUE,
+  check.module.exists = TRUE,
+  warn = options("warn")$warn,
+  argsep = " ",
+  check.parameters = TRUE,
+  ...
+)
 }
 \arguments{
 \item{lib}{Name of the SAGA library to be called (see Details).}
 
-\item{module}{Number (\code{>=0}) or name of the module to called within the library \code{lib} (see Details).}
+\item{module}{Number (\verb{>=0}) or name of the module to called within the library \code{lib} (see Details).}
 
 \item{param}{A list of named arguments to be passed to the SAGA module (see Examples).}
 

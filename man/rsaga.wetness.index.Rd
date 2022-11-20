@@ -4,9 +4,22 @@
 \alias{rsaga.wetness.index}
 \title{SAGA Modules SAGA Wetness Index}
 \usage{
-rsaga.wetness.index(in.dem, out.wetness.index, out.carea, out.cslope,
-  out.mod.carea, suction, area.type, slope.type, slope.min, slope.offset,
-  slope.weight, t.param, env = rsaga.env(), ...)
+rsaga.wetness.index(
+  in.dem,
+  out.wetness.index,
+  out.carea,
+  out.cslope,
+  out.mod.carea,
+  suction,
+  area.type,
+  slope.type,
+  slope.min,
+  slope.offset,
+  slope.weight,
+  t.param,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}

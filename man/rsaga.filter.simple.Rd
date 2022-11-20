@@ -4,9 +4,15 @@
 \alias{rsaga.filter.simple}
 \title{Simple Filters}
 \usage{
-rsaga.filter.simple(in.grid, out.grid, mode = "circle",
-  method = c("smooth", "sharpen", "edge"), radius, env = rsaga.env(),
-  ...)
+rsaga.filter.simple(
+  in.grid,
+  out.grid,
+  mode = "circle",
+  method = c("smooth", "sharpen", "edge"),
+  radius,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.grid}{input: SAGA grid file (default file extension: \code{.sgrd})}

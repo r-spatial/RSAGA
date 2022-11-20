@@ -4,35 +4,37 @@
 \alias{rsaga.intersect.polygons}
 \title{Spatial intersection of two polygon layers}
 \usage{
-rsaga.intersect.polygons(layer_a = NULL, layer_b = NULL,
-  result = NULL, split = FALSE, load = FALSE, env = rsaga.env())
+rsaga.intersect.polygons(
+  layer_a = NULL,
+  layer_b = NULL,
+  result = NULL,
+  split = FALSE,
+  load = NULL,
+  env = rsaga.env()
+)
 }
 \arguments{
-\item{layer_a}{A \code{character}-string representing the path to a polygon
-shapefile or a spatial object of class
-\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.}
+\item{layer_a}{A \code{character} string representing the path to a polygon
+shapefile.}
 
-\item{layer_b}{A \code{character}-string representing the path to a polygon
-shapefile or a spatial object of class
-\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to intersect layer_a.}
+\item{layer_b}{A \code{character} string representing the path to a polygon
+shapefile with which to intersect layer_a.}
 
-\item{result}{A \code{character}-string indicating where the resulting
+\item{result}{A \code{character} string indicating where the resulting
 shapefile should be stored.}
 
 \item{split}{If \code{TRUE}, multipart polygons become separated polygons
 (default: FALSE).}
 
-\item{load}{If \code{TRUE}, the resulting output shapefile will be loaded
-into R (default: FALSE).}
+\item{load}{Deprecated, will be removed in a future release. Ignored
+if \code{FALSE}, and causes an error if \code{TRUE} (default: NULL).}
 
 \item{env}{RSAGA geoprocessing environment created by
-\code{\link[=rsaga.env]{rsaga.env()}}, required because module(s) depend(s) on SAGA
-version.}
+\code{\link[=rsaga.env]{rsaga.env()}}.}
 }
 \value{
 The function saves the output shapefile to the path indicated in
-function argument \code{result} and loads the resulting shapefile into R
-when function parameter \code{load} is set to TRUE.
+function argument \code{result}.
 }
 \description{
 The function \code{rsaga.intersect.polygons} calculates the
@@ -45,37 +47,8 @@ define the intersection between two polygon layers. However,
 \code{\link[=rsaga.intersect.polygons]{rsaga.intersect.polygons()}} will be usually much faster,
 especially when intersecting thousands of polygons.
 }
-\examples{
-\dontrun{
-library("RSAGA")
-library("sp")
-library("magrittr")
-# construct coordinates of two squares
-coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
-                 ncol = 2, byrow = TRUE)
-coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-                            -0.5, -0.5),
-                 ncol = 2, byrow = TRUE)
-# convert the coordinates into polygons
-poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1))) \%>\%
-  as(., "SpatialPolygonsDataFrame")
-poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) \%>\%
-  as(., "SpatialPolygonsDataFrame")
-# intersect the two polygons using SAGA and load the output
-dir_tmp <- paste0(tempdir(), "/out.shp")
-res <- rsaga.intersect.polygons(layer_a = poly_1,
-                                layer_b = poly_2,
-                                result = dir_tmp,
-                                load = TRUE)
-# plot input polygons
-plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
-plot(poly_2, col = "blue", add = TRUE)
-# plot the intersection
-plot(res, col = "yellow", add = TRUE)
-}
-}
 \author{
-Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+Jannes Muenchow and Alexander Brenning (R interface), Olaf Conrad and Angus Johnson (SAGA
 modules)
 }
 \keyword{operations,}

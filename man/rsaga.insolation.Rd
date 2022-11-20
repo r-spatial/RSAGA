@@ -4,13 +4,33 @@
 \alias{rsaga.insolation}
 \title{Incoming Solar Radiation (Insolation)}
 \usage{
-rsaga.insolation(in.dem, in.vapour, in.latitude, in.longitude, out.direct,
-  out.diffuse, out.total, horizontal = FALSE, solconst = 8.164,
-  atmosphere = 12000, water.vapour.pressure = 10, type = c("moment",
-  "day", "range.of.days", "same.moment.range.of.days"), time.step = 1,
-  day.step = 5, days, moment, latitude, bending = FALSE,
-  radius = 6366737.96, lat.offset = "user", lat.ref.user = 0,
-  lon.offset = "center", lon.ref.user = 0, ...)
+rsaga.insolation(
+  in.dem,
+  in.vapour,
+  in.latitude,
+  in.longitude,
+  out.direct,
+  out.diffuse,
+  out.total,
+  horizontal = FALSE,
+  solconst = 8.164,
+  atmosphere = 12000,
+  water.vapour.pressure = 10,
+  type = c("moment", "day", "range.of.days", "same.moment.range.of.days"),
+  time.step = 1,
+  day.step = 5,
+  days,
+  moment,
+  latitude,
+  bending = FALSE,
+  radius = 6366737.96,
+  lat.offset = "user",
+  lat.ref.user = 0,
+  lon.offset = "center",
+  lon.ref.user = 0,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{Name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}
@@ -58,6 +78,8 @@ rsaga.insolation(in.dem, in.vapour, in.latitude, in.longitude, out.direct,
 \item{lon.offset}{local time refers to grid's \code{"left"} edge (code 0), \code{"center"} (1), \code{"right"} edge (2), or a  \code{"user"}-defined reference.}
 
 \item{lon.ref.user}{if \code{in.longitude} is missing and \code{lon.offset="user"}, then this numeric value defines the reference of the local time (details??)}
+
+\item{env}{RSAGA geoprocessing environment obtained with \code{\link[=rsaga.env]{rsaga.env()}}; this argument is required for version control (see Note)}
 
 \item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment}
 }

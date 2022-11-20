@@ -5,20 +5,58 @@
 \alias{multi.local.function}
 \title{Local and Focal Grid Function with Multiple Grids as Inputs}
 \usage{
-multi.focal.function(in.grids, in.grid.prefix, in.factor.grid,
-  out.grid.prefix, path = NULL, in.path = path, out.path = path, fun,
-  in.varnames, out.varnames, radius = 0, is.pixel.radius = TRUE,
-  na.strings = "NA", valid.ranges, nodata.values = c(),
-  out.nodata.value, search.mode = c("circle", "square"), digits = 4,
-  hdr.digits = 10, dec = ".", quiet = TRUE, nlines = Inf,
-  mw.to.vector = FALSE, mw.na.rm = FALSE, pass.location = FALSE, ...)
+multi.focal.function(
+  in.grids,
+  in.grid.prefix,
+  in.factor.grid,
+  out.grid.prefix,
+  path = NULL,
+  in.path = path,
+  out.path = path,
+  fun,
+  in.varnames,
+  out.varnames,
+  radius = 0,
+  is.pixel.radius = TRUE,
+  na.strings = "NA",
+  valid.ranges,
+  nodata.values = c(),
+  out.nodata.value,
+  search.mode = c("circle", "square"),
+  digits = 4,
+  hdr.digits = 10,
+  dec = ".",
+  quiet = TRUE,
+  nlines = Inf,
+  mw.to.vector = FALSE,
+  mw.na.rm = FALSE,
+  pass.location = FALSE,
+  ...
+)
 
-multi.local.function(in.grids, in.grid.prefix, out.grid.prefix,
-  path = NULL, in.path = path, out.path = path, fun, in.varnames,
-  out.varnames, na.strings = "NA", valid.ranges, nodata.values = c(),
-  out.nodata.value, digits = 4, hdr.digits = 10, dec = ".",
-  quiet = TRUE, nlines = Inf, na.action = stats::na.exclude,
-  pass.location = FALSE, ...)
+multi.local.function(
+  in.grids,
+  in.grid.prefix,
+  out.grid.prefix,
+  path = NULL,
+  in.path = path,
+  out.path = path,
+  fun,
+  in.varnames,
+  out.varnames,
+  na.strings = "NA",
+  valid.ranges,
+  nodata.values = c(),
+  out.nodata.value,
+  digits = 4,
+  hdr.digits = 10,
+  dec = ".",
+  quiet = TRUE,
+  nlines = Inf,
+  na.action = stats::na.exclude,
+  pass.location = FALSE,
+  ...
+)
 }
 \arguments{
 \item{in.grids}{character vector: file names of input ASCII grids, relative to \code{in.path}; \code{in.grid.prefix} will be used as a prefix to the file name if specified; default file extension: \code{.asc}}
@@ -41,13 +79,13 @@ multi.local.function(in.grids, in.grid.prefix, out.grid.prefix,
 
 \item{out.varnames}{character vector specifying the name(s) of the variable(s) returned by \code{fun}; if missing, \code{multi.focal.function} will try to determine the varnames from \code{fun} itself, or or from a call to \code{fun} if this is a function (see Details)}
 
-\item{radius}{numeric value specifying the (circular or square) radius  of the moving window; see \code{is.pixel.radius} and \code{search.mode}; note that all data within distance \code{<=radius} will be included in the moving window, not \code{<radius}.}
+\item{radius}{numeric value specifying the (circular or square) radius  of the moving window; see \code{is.pixel.radius} and \code{search.mode}; note that all data within distance \verb{<=radius} will be included in the moving window, not \verb{<radius}.}
 
 \item{is.pixel.radius}{logical: if \code{TRUE} (default), the \code{radius} will be interpreted as a (possibly non-integer) number of pixels; if \code{FALSE}, it is interpreted as a radius measured in the grid (map) units.}
 
 \item{na.strings}{passed on to \code{\link[=scan]{scan()}}}
 
-\item{valid.ranges}{optional list of length \code{length(in.grids)} with numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \code{<valid.ranges[[i]][1]} or \code{>valid.ranges[[i]][1]} will be converted to \code{NA}.}
+\item{valid.ranges}{optional list of length \code{length(in.grids)} with numeric vector of length 2, specifying minimum and maximum valid values read from input file; all values \verb{<valid.ranges[[i]][1]} or \verb{>valid.ranges[[i]][1]} will be converted to \code{NA}.}
 
 \item{nodata.values}{numeric vector: any values from the input grid file that should be converted to \code{NA}, in addition to the nodata value specified in the grid header}
 
@@ -86,7 +124,7 @@ multi.local.function(in.grids, in.grid.prefix, out.grid.prefix,
 
 \code{multi.local.function} is essentially the same as \code{multi.focal.function} for \code{radius=0}, but coded MUCH more efficiently. (The relevant code will eventually migrate into \code{multi.focal.function} as well, but requires further testing.) Applying a GAM to the data set of Brenning (2008) takes about 1/100th the time with \code{multi.local.function} compared to \code{multi.focal.function}.
 
-\code{multi.focal.function} extends \code{\link[=focal.function]{focal.function()}} by allowing multiple input grids to be passed to the focal function \code{fun} operating on moving windows. It passes square matrices of size \code{2*radius+1} to the function \code{fun} if \code{mw.to.vector=FALSE} (default), or a vector of length \code{<=(2*radius+1)^2} if \code{mw.to.vector=TRUE}; one such matrix or vector per input grid will be passed to \code{fun} as an argument whose name is specified by \code{in.varnames}.
+\code{multi.focal.function} extends \code{\link[=focal.function]{focal.function()}} by allowing multiple input grids to be passed to the focal function \code{fun} operating on moving windows. It passes square matrices of size \code{2*radius+1} to the function \code{fun} if \code{mw.to.vector=FALSE} (default), or a vector of length \verb{<=(2*radius+1)^2} if \code{mw.to.vector=TRUE}; one such matrix or vector per input grid will be passed to \code{fun} as an argument whose name is specified by \code{in.varnames}.
 
 These matrices or vectors will contain the content of the moving window, which may possibly contain \code{NA}s even if the \code{in.grid} has no nodata values, e.g. due to edge effects. If \code{search.mode="circle"}, values more than \code{radius} units (pixels or grid units, depending on \code{is.pixel.radius}) away from the center pixel / matrix entry will be set to \code{NA}. In addition, \code{valid.range}, \code{nodata.values}, and the nodata values specified in the \code{in.grid} are checked to assign further \code{NA}s to pixels in the moving window. Finally, if \code{in.factor.grid} specifies zones, all pixels in the moving window that belong to a different zone than the center pixel are set to \code{NA}, or, in other words, zone boundaries are used as breaklines.
 

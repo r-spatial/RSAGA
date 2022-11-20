@@ -4,17 +4,21 @@
 \alias{rsaga.union.polygons}
 \title{Spatial union of two polygon layers}
 \usage{
-rsaga.union.polygons(layer_a = NULL, layer_b = NULL, result = NULL,
-  split = FALSE, load = FALSE, env = rsaga.env())
+rsaga.union.polygons(
+  layer_a = NULL,
+  layer_b = NULL,
+  result = NULL,
+  split = FALSE,
+  load = NULL,
+  env = rsaga.env()
+)
 }
 \arguments{
-\item{layer_a}{A \code{character}-string representing the path to a polygon
-shapefile or a spatial object of class
-\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.}
+\item{layer_a}{A \code{character} string representing the path to a polygon
+shapefile.}
 
-\item{layer_b}{A \code{character}-string representing the path to a polygon
-shapefile or a spatial object of class
-\link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to union layer_a.}
+\item{layer_b}{A \code{character} string representing the path to a polygon
+shapefile with which to union layer_a.}
 
 \item{result}{\code{character}, path indicating where to store the output
 shapefile.}
@@ -22,8 +26,8 @@ shapefile.}
 \item{split}{If \code{TRUE}, multipart polygons become separated polygons
 (default: FALSE).}
 
-\item{load}{If \code{TRUE}, the resulting output shapefile will be loaded
-into R (default: FALSE).}
+\item{load}{Deprecated, will be removed in a future release. Ignored
+if \code{FALSE}, and causes an error if \code{TRUE}  (default: NULL)}
 
 \item{env}{RSAGA geoprocessing environment created by
 \code{\link[=rsaga.env]{rsaga.env()}}, required because module(s) depend(s) on SAGA
@@ -31,8 +35,7 @@ version.}
 }
 \value{
 The function saves the output shapefile to the path indicated in
-function argument \code{result} and loads the resulting shapefile into R
-when function parameter \code{load} is set to TRUE.
+function argument \code{result}.
 }
 \description{
 The function \code{rsaga.union.polygons} uses SAGA function
@@ -46,35 +49,8 @@ intersecting polygon geometries. However,
 \code{\link[=rsaga.union.polygons]{rsaga.union.polygons()}} will be usually much faster,
 especially when joining thousands of polygons.
 }
-\examples{
-\dontrun{
-library("RSAGA")
-library("sp")
-# construct coordinates of two squares
-coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
-                 ncol = 2, byrow = TRUE)
-coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-                            -0.5, -0.5),
-                 ncol = 2, byrow = TRUE)
-# convert the coordinates into polygons
-poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
-poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
-poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1)))
-poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
-# union the two polygons using SAGA and load the output
-dir_tmp <- paste0(tempdir(), "/out.shp")
-res <- rsaga.union.polygons(layer_a = poly_1,
-                            layer_b = poly_2,
-                            result = dir_tmp,
-                            load = TRUE)
-# output attribute table consists of three elements, i.e. the union of poly_1
-# and poly_2
-dim(res)
-res@data
-}
-}
 \author{
-Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+Jannes Muenchow and Alexander Brenning (R interface), Olaf Conrad and Angus Johnson (SAGA
 modules)
 }
 \keyword{operations,}

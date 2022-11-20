@@ -37,9 +37,9 @@ The function \code{wind.shelter} returns the wind shelter index as described abo
 \details{
 \code{wind.shelter} implements a wind shelter index used by Plattner et al. (2004) for modeling snow accumulation patterns on a glacier in the Austrian Alps. It is a modified version of the algorithm of Winstral et al. (2002). The wind shelter index of Plattner et al. (2004) is defined as:
 
-\code{Shelter index(S) = arctan( max( (z(x0)-z(x)) / |x0-x| : x in S ) ),}
+\verb{Shelter index(S) = arctan( max( (z(x0)-z(x)) / |x0-x| : x in S ) ),}
 
-where \code{S = S(x0,a,da,d)} is the set of grid nodes within a distance \code{<=d} from \code{x0}, only considering grid nodes in directions between \code{a-da} and \code{a+da} from \code{x0}.
+where \code{S = S(x0,a,da,d)} is the set of grid nodes within a distance \verb{<=d} from \code{x0}, only considering grid nodes in directions between \code{a-da} and \code{a+da} from \code{x0}.
 
 The present implementation generalizes this index by replacing \code{max} by the \code{quantile} function; the \code{max} function is used if \code{prob=NULL}, and the same result is obtained for \code{prob=1} using the \code{quantile} function.
 }

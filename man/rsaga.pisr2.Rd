@@ -4,17 +4,37 @@
 \alias{rsaga.pisr2}
 \title{Potential incoming solar radiation SAGA 2.2.2+}
 \usage{
-rsaga.pisr2(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
-  in.linke.grid = NULL, out.direct.grid, out.diffuse.grid,
-  out.total.grid = NULL, out.ratio.grid = NULL, out.duration,
-  out.sunrise, out.sunset, local.svf = TRUE, location = c("latitude",
-  "grid"), latitude = 53, unit = c("kWh/m2", "kJ/m2", "J/cm2"),
-  solconst = 1367, method = c("height", "components", "lumped",
-  "hofierka"), hgt.atmosphere = 12000, cmp.pressure = 1013,
-  cmp.water.content = 1.68, cmp.dust = 100, lmp.transmittance = 70,
-  time.range = c(0, 24), time.step = 0.5, start.date = list(day = 31,
-  month = 10, year = 2015), end.date = NULL, day.step = 5,
-  env = rsaga.env(), ...)
+rsaga.pisr2(
+  in.dem,
+  in.svf.grid = NULL,
+  in.vapour.grid = NULL,
+  in.linke.grid = NULL,
+  out.direct.grid,
+  out.diffuse.grid,
+  out.total.grid = NULL,
+  out.ratio.grid = NULL,
+  out.duration,
+  out.sunrise,
+  out.sunset,
+  local.svf = TRUE,
+  location = c("latitude", "grid"),
+  latitude = 53,
+  unit = c("kWh/m2", "kJ/m2", "J/cm2"),
+  solconst = 1367,
+  method = c("height", "components", "lumped", "hofierka"),
+  hgt.atmosphere = 12000,
+  cmp.pressure = 1013,
+  cmp.water.content = 1.68,
+  cmp.dust = 100,
+  lmp.transmittance = 70,
+  time.range = c(0, 24),
+  time.step = 0.5,
+  start.date = list(day = 31, month = 10, year = 2015),
+  end.date = NULL,
+  day.step = 5,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}
@@ -86,7 +106,7 @@ According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAP
 SAGA_CMD uses zero-based months, but this R function uses the standard one-based months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
 
 This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
-Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \code{*.date} arguments to allow calculation across years.
+Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \verb{*.date} arguments to allow calculation across years.
 The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
 Duration of insolation (\code{"out.duration"}) is only calculated when the time period is set to a single day.
 }

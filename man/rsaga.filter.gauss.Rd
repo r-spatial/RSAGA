@@ -4,8 +4,14 @@
 \alias{rsaga.filter.gauss}
 \title{Gauss Filter}
 \usage{
-rsaga.filter.gauss(in.grid, out.grid, sigma, radius = ceiling(2 * sigma),
-  env = rsaga.env(), ...)
+rsaga.filter.gauss(
+  in.grid,
+  out.grid,
+  sigma,
+  radius = ceiling(2 * sigma),
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.grid}{input: SAGA GIS grid file (default file extension: \code{.sgrd})}

@@ -5,7 +5,8 @@
 \alias{dem}
 \alias{study_area}
 \title{Landslide inventory, study area mask and DEM}
-\format{The \code{landslides} dataset consists of three objects:
+\format{
+The \code{landslides} dataset consists of three objects:
 \enumerate{
 \item{\code{landslides}} {A dataframe of 1535 rows and 3 variables
 representing landslide initiation points in the
@@ -25,14 +26,15 @@ was triangulated from aerial imagery as described by Jordan \emph{et al.}
 (2005) and provided as a courtesy of Lars Ungerechts (2010).}
 \item \code{study_area} {An \code{sf}-object representing the outlines of
 the natural part of the RBSF study area.}
-}}
+}
+}
 \source{
 \strong{DEM:}
 
 Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w).
 Available online:
 
-\code{http://www.tropicalmountainforest.org/data_pre.do?citid=901}
+\verb{http://www.tropicalmountainforest.org/data_pre.do?citid=901}
 
 Jordan, E., Ungerechts, L., Caceres, B. Penafiel, A. and Francou, B.
 (2005): Estimation by photogrammetry of the glacier recession on the

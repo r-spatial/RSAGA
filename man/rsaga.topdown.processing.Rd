@@ -4,11 +4,28 @@
 \alias{rsaga.topdown.processing}
 \title{Top-Down Processing}
 \usage{
-rsaga.topdown.processing(in.dem, in.sinkroute, in.weight, in.mean,
-  in.material, in.target, in.lin.val, in.lin.dir, out.carea, out.mean,
-  out.tot.mat, out.acc.left, out.acc.right, out.flowpath, step,
-  method = "mfd", linear.threshold = Inf, convergence = 1.1,
-  env = rsaga.env(), ...)
+rsaga.topdown.processing(
+  in.dem,
+  in.sinkroute,
+  in.weight,
+  in.mean,
+  in.material,
+  in.target,
+  in.lin.val,
+  in.lin.dir,
+  out.carea,
+  out.mean,
+  out.tot.mat,
+  out.acc.left,
+  out.acc.right,
+  out.flowpath,
+  step,
+  method = "mfd",
+  linear.threshold = Inf,
+  convergence = 1.1,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{input: digital elevation model (DEM) as SAGA grid file (default file extension: \code{.sgrd})}

@@ -32,7 +32,7 @@ In \code{rsaga.close.gaps}, larger tension thresholds can be used to reduce over
 \note{
 This function uses modules 7 (\code{rsaga.close.gaps} and 6 \code{rsaga.close.one.cell.gaps} from the SAGA library \code{grid_tools}.
 
-SAGA GIS 2.0.5+ has a new additional module \code{Close Gaps with Spline}, which
+SAGA GIS 2.0.5+ has a new additional module \verb{Close Gaps with Spline}, which
 can be accessed using \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}} (currently no R wrapper
 available). See \code{rsaga.get.usage("grid_tools","Close Gaps with Spline")}
 or in version 2.1.0+ call \code{rsaga.html.help("grid_tools","Close Gaps with Spline")}.

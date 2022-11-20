@@ -8,8 +8,12 @@
 \alias{rsaga.search.modules}
 \title{Find SAGA libraries and modules}
 \usage{
-rsaga.get.modules(libs, env = rsaga.env(), interactive = FALSE,
-  parallel = env$parallel)
+rsaga.get.modules(
+  libs,
+  env = rsaga.env(),
+  interactive = FALSE,
+  parallel = env$parallel
+)
 
 rsaga.get.libraries(path = rsaga.env()$modules, dll)
 
@@ -17,8 +21,15 @@ rsaga.get.lib.modules(lib, env = rsaga.env(), interactive = FALSE)
 
 rsaga.module.exists(libs, module, env = rsaga.env(), ...)
 
-rsaga.search.modules(text, modules, search.libs = TRUE,
-  search.modules = TRUE, env = rsaga.env(), ignore.case = TRUE, ...)
+rsaga.search.modules(
+  text,
+  modules,
+  search.libs = TRUE,
+  search.modules = TRUE,
+  env = rsaga.env(),
+  ignore.case = TRUE,
+  ...
+)
 }
 \arguments{
 \item{libs}{character vector with the names of libraries in which to look for modules; if missing, all libraries will be processed}

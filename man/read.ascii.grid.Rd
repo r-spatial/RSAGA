@@ -11,27 +11,53 @@
 \alias{write.Rd.grid}
 \title{Read/write ASCII, SAGA and Rd Grid Files}
 \usage{
-read.ascii.grid(file, return.header = TRUE, print = 0,
-  nodata.values = c(), at.once = TRUE, na.strings = "NA")
+read.ascii.grid(
+  file,
+  return.header = TRUE,
+  print = 0,
+  nodata.values = c(),
+  at.once = TRUE,
+  na.strings = "NA"
+)
 
 read.ascii.grid.header(file, ...)
 
-read.sgrd(fname, return.header = TRUE, print = 0,
-  nodata.values = c(), at.once = TRUE, prec = 7, ...)
+read.sgrd(
+  fname,
+  return.header = TRUE,
+  print = 0,
+  nodata.values = c(),
+  at.once = TRUE,
+  prec = 7,
+  ...
+)
 
 read.Rd.grid(fname, return.header = TRUE)
 
-write.ascii.grid(data, file, header = NULL, write.header = TRUE,
-  digits, hdr.digits = 10, dec = ".", georef = "corner")
+write.ascii.grid(
+  data,
+  file,
+  header = NULL,
+  write.header = TRUE,
+  digits,
+  hdr.digits = 10,
+  dec = ".",
+  georef = "corner"
+)
 
-write.ascii.grid.header(file, header, georef, dec = ".",
-  hdr.digits = 10)
+write.ascii.grid.header(file, header, georef, dec = ".", hdr.digits = 10)
 
-write.sgrd(data, file, header = NULL, prec = 7, hdr.prec = 10,
-  georef = "corner", ...)
+write.sgrd(
+  data,
+  file,
+  header = NULL,
+  prec = 7,
+  hdr.prec = 10,
+  georef = "corner",
+  ...
+)
 
-write.Rd.grid(data, file, header = NULL, write.header = TRUE,
-  compress = TRUE)
+write.Rd.grid(data, file, header = NULL, write.header = TRUE, compress = TRUE)
 }
 \arguments{
 \item{file}{file name of an ASCII grid (extension defaults to \code{.asc} if not specified), or a connection open for reading or writing, as required}
@@ -71,7 +97,7 @@ write.Rd.grid(data, file, header = NULL, write.header = TRUE,
 \item{compress}{logical: should the \code{.Rd} file written by \code{write.Rd.file} be compressed? (default: \code{TRUE})}
 }
 \value{
-The \code{read.*} functions return either a list with components \code{data} (the grid data matrix) and \code{header} (the grid header  information, see below), if \code{return.header=TRUE}, or otherwise  just the grid data matrix \code{return.header=FALSE}.
+The \verb{read.*} functions return either a list with components \code{data} (the grid data matrix) and \code{header} (the grid header  information, see below), if \code{return.header=TRUE}, or otherwise  just the grid data matrix \code{return.header=FALSE}.
 
 The grid data matrix is a numeric matrix whose first column corrensponds to the first (i.e. northernmost) row of the grid. Columns run from left = West to right = East.
 
@@ -90,12 +116,12 @@ Note: The order of the components, especially of \code{?llcorner} and \code{?llc
 These functions provide simple interfaces for reading and writing grids from/to ASCII grids and Rd files. Grids are stored as matrices, their headers in lists.
 }
 \note{
-\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{readGDAL} and \link[rgdal:readGDAL]{writeGDAL()} in package \code{rgdal} instead, which are likely more efficient but may require coercion of your gridded data to/from a \code{Spatial...DataFrame-class}.
+\code{read.sgrd} and \code{write.sgrd} import/export grids indirectly by creating temporary ASCII grid files (this explains why \code{write.sgrd} has \code{prec} and \code{hdr.prec} arguments). Consider using \code{\link[sf:st_read]{sf::read_sf()}} in package \code{sf} instead, which is likely more efficient but may require coercion of your gridded data to/from an object supported by \code{sf}.
 
 The \code{read.Rd.grid} and \code{write.Rd.grid} functions use the \code{load} and \code{save} commands to store a grid. The variable name used is \code{data}, which is either a numeric matrix or a list with components \code{data} (the grid data matrix) and \code{header} (the grid header information).
 }
 \seealso{
-\code{readGDAL} and \link[rgdal:readGDAL]{writeGDAL()} in package \code{rgdal}, and \code{readAsciiGrid} and \code{writeAsciiGrid} in package \code{maptools}
+\code{\link[sf:st_read]{sf::read_sf()}} and \code{\link[sf:st_write]{sf::write_sf()}} in package \code{sf}, and \code{readAsciiGrid} and \code{writeAsciiGrid} in package \code{maptools}
 }
 \author{
 Alexander Brenning

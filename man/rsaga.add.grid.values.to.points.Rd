@@ -4,9 +4,13 @@
 \alias{rsaga.add.grid.values.to.points}
 \title{Add Grid Values to Point Shapefile}
 \usage{
-rsaga.add.grid.values.to.points(in.shapefile, in.grids, out.shapefile,
-  method = c("nearest.neighbour", "bilinear", "idw", "bicubic.spline",
-  "b.spline"), ...)
+rsaga.add.grid.values.to.points(
+  in.shapefile,
+  in.grids,
+  out.shapefile,
+  method = c("nearest.neighbour", "bilinear", "idw", "bicubic.spline", "b.spline"),
+  ...
+)
 }
 \arguments{
 \item{in.shapefile}{Input point shapefile (default extension: \code{.shp}).}
@@ -26,7 +30,7 @@ Pick values from SAGA grids and attach them as a new variables to a point shapef
 Retrieves information from the selected grids at the positions of the points of the selected points layer and adds it to the resulting layer.
 }
 \note{
-This function uses module \code{Add Grid Values to Points} in SAGA GIS library \code{shapes_grid}.
+This function uses module \verb{Add Grid Values to Points} in SAGA GIS library \code{shapes_grid}.
 }
 \seealso{
 \code{\link[=pick.from.points]{pick.from.points()}}, \code{\link[=pick.from.ascii.grid]{pick.from.ascii.grid()}}, \code{\link[=pick.from.saga.grid]{pick.from.saga.grid()}}, \code{\link[=rsaga.grid.to.points]{rsaga.grid.to.points()}}

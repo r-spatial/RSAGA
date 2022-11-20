@@ -7,8 +7,16 @@
 \usage{
 rsaga.grid.calculus(in.grids, out.grid, formula, env = rsaga.env(), ...)
 
-rsaga.linear.combination(in.grids, out.grid, coef, cf.digits = 16,
-  remove.zeros = FALSE, remove.ones = TRUE, env = rsaga.env(), ...)
+rsaga.linear.combination(
+  in.grids,
+  out.grid,
+  coef,
+  cf.digits = 16,
+  remove.zeros = FALSE,
+  remove.ones = TRUE,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.grids}{input character vector: SAGA grid files (default file extension: \code{.sgrd})}

@@ -4,8 +4,15 @@
 \alias{rsaga.fill.sinks}
 \title{Fill Sinks}
 \usage{
-rsaga.fill.sinks(in.dem, out.dem, method = "planchon.darboux.2001",
-  out.flowdir, out.wshed, minslope, ...)
+rsaga.fill.sinks(
+  in.dem,
+  out.dem,
+  method = "planchon.darboux.2001",
+  out.flowdir,
+  out.wshed,
+  minslope,
+  ...
+)
 }
 \arguments{
 \item{in.dem}{Input: digital elevation model (DEM) as SAGA grid file (default extension: \code{.sgrd}).}

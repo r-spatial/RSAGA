@@ -4,8 +4,15 @@
 \alias{rsaga.sgrd.to.esri}
 \title{Convert SAGA grids to ESRI ASCII/binary grids}
 \usage{
-rsaga.sgrd.to.esri(in.sgrds, out.grids, out.path, format = "ascii",
-  georef = "corner", prec = 5, ...)
+rsaga.sgrd.to.esri(
+  in.sgrds,
+  out.grids,
+  out.path,
+  format = "ascii",
+  georef = "corner",
+  prec = 5,
+  ...
+)
 }
 \arguments{
 \item{in.sgrds}{character vector of SAGA grid files (\code{.sgrd}) to be

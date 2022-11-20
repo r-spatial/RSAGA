@@ -5,8 +5,15 @@
 \title{Analytical hillshading
 Analytical hillshading calculation.}
 \usage{
-rsaga.hillshade(in.dem, out.grid, method = "standard", azimuth = 315,
-  declination = 45, exaggeration = 4, ...)
+rsaga.hillshade(
+  in.dem,
+  out.grid,
+  method = "standard",
+  azimuth = 315,
+  declination = 45,
+  exaggeration = 4,
+  ...
+)
 }
 \arguments{
 \item{in.dem}{Input digital elevation model (DEM) as SAGA grid file (default extension: \code{.sgrd}).}

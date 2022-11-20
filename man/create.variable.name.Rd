@@ -4,8 +4,7 @@
 \alias{create.variable.name}
 \title{Convert file name to variable name}
 \usage{
-create.variable.name(filename, prefix = NULL,
-  fsep = .Platform$file.sep)
+create.variable.name(filename, prefix = NULL, fsep = .Platform$file.sep)
 }
 \arguments{
 \item{filename}{character string}

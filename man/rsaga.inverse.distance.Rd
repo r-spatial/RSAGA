@@ -7,18 +7,46 @@
 \alias{rsaga.triangulation}
 \title{Spatial Interpolation Methods}
 \usage{
-rsaga.inverse.distance(in.shapefile, out.grid, field, power = 1, maxdist,
-  nmax = 100, target, env = rsaga.env(), ...)
+rsaga.inverse.distance(
+  in.shapefile,
+  out.grid,
+  field,
+  power = 1,
+  maxdist,
+  nmax = 100,
+  target,
+  env = rsaga.env(),
+  ...
+)
 
-rsaga.nearest.neighbour(in.shapefile, out.grid, field, target,
-  env = rsaga.env(), ...)
+rsaga.nearest.neighbour(
+  in.shapefile,
+  out.grid,
+  field,
+  target,
+  env = rsaga.env(),
+  ...
+)
 
-rsaga.modified.quadratic.shephard(in.shapefile, out.grid, field,
-  quadratic.neighbors = 13, weighting.neighbors = 19, target,
-  env = rsaga.env(), ...)
+rsaga.modified.quadratic.shephard(
+  in.shapefile,
+  out.grid,
+  field,
+  quadratic.neighbors = 13,
+  weighting.neighbors = 19,
+  target,
+  env = rsaga.env(),
+  ...
+)
 
-rsaga.triangulation(in.shapefile, out.grid, field, target,
-  env = rsaga.env(), ...)
+rsaga.triangulation(
+  in.shapefile,
+  out.grid,
+  field,
+  target,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.shapefile}{Input: point shapefile (default extension: \code{.shp}).}
@@ -52,7 +80,7 @@ These functions use modules from the \code{grid_gridding} SAGA GIS library. They
 \note{
 The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the \code{rsaga.geoprocessor}, if needed. See \code{rsaga.get.usage("grid_gridding","Inverse Distance Weighted")} for details.
 
-See the example section in the help file for \link[shapefiles:shapefiles]{write.shapefile()} in package \code{shapefiles} to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
+See the example section in the help file for \code{\link[shapefiles:shapefiles]{shapefiles::write.shapefile()}} in package \code{shapefiles} to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
 
 Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
 }
@@ -60,7 +88,7 @@ Modified Quadratic Shephard method: based on module 660 in TOMS (see references)
 QSHEP2D: Fortran routines implementing the Quadratic Shepard method for bivariate interpolation of scattered data  (see R. J. Renka, ACM TOMS 14 (1988) pp.149-150). Classes: E2b. Interpolation of scattered, non-gridded  multivariate data.
 }
 \seealso{
-\code{\link[=rsaga.target]{rsaga.target()}}; \link[gstat:krige]{idw()} in package \code{gstat}.
+\code{\link[=rsaga.target]{rsaga.target()}}; \code{\link[gstat:krige]{gstat::idw()}} in package \code{gstat}.
 }
 \author{
 Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)

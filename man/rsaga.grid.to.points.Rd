@@ -5,8 +5,15 @@
 \alias{rsaga.grid.to.points.randomly}
 \title{Convert SAGA grid file to point shapefile}
 \usage{
-rsaga.grid.to.points(in.grids, out.shapefile, in.clip.polygons,
-  exclude.nodata = TRUE, type = "nodes", env = rsaga.env(), ...)
+rsaga.grid.to.points(
+  in.grids,
+  out.shapefile,
+  in.clip.polygons,
+  exclude.nodata = TRUE,
+  type = "nodes",
+  env = rsaga.env(),
+  ...
+)
 
 rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 }
@@ -33,9 +40,9 @@ rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 Convert SAGA grid file to point (or polygon) shapefile - either completely or only a random sample of grid cells.
 }
 \note{
-These functions use modules \code{Grid Values to Shapes} (pre-2.0.6 name: \code{Grid Values to Points}) and \code{Grid Values to Points (randomly)} in SAGA library \code{shapes_grid}.
+These functions use modules \verb{Grid Values to Points} (in some versions also called \verb{Grid Values to Shapes}) and \verb{Grid Values to Points (randomly)} in SAGA library \code{shapes_grid}.
 
-The SAGA 2.0.6+ module \code{Grid Values to Shapes} is more flexible than the earlier versions as it allows to create grid cell polygons instead of center points (see argument \code{type}).
+The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument \code{type}).
 }
 \examples{
 \dontrun{

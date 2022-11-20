@@ -2,10 +2,17 @@
 % Please edit documentation in R/RSAGA-core.R
 \name{rsaga.set.env}
 \alias{rsaga.set.env}
-\title{Internal function that sets the RSAGA Geoprocessing Eviroment manually}
+\title{Internal function that sets the RSAGA Geoprocessing Evironment manually}
 \usage{
-rsaga.set.env(workspace = NULL, cmd = NULL, path = NULL,
-  modules = NULL, version = NA, cores = NULL, parallel = NULL)
+rsaga.set.env(
+  workspace = NULL,
+  cmd = NULL,
+  path = NULL,
+  modules = NULL,
+  version = NA,
+  cores = NULL,
+  parallel = NULL
+)
 }
 \arguments{
 \item{workspace}{path of the working directory for SAGA; defaults to the current directory (\code{"."}).}
@@ -23,5 +30,5 @@ rsaga.set.env(workspace = NULL, cmd = NULL, path = NULL,
 \item{parallel}{optional logical argument (default: \code{FALSE}): if \code{TRUE}, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the \code{cores} argument); currently only some RSAGA functions support parallel processing (e.g., \code{\link[=pick.from.ascii.grid]{pick.from.ascii.grid()}} or \code{\link[=rsaga.get.modules]{rsaga.get.modules()}}). \code{parallel=TRUE} requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated}
 }
 \description{
-Internal function that sets the RSAGA Geoprocessing Eviroment manually
+Internal function that sets the RSAGA Geoprocessing Evironment manually
 }

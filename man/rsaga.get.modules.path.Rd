@@ -4,8 +4,7 @@
 \alias{rsaga.get.modules.path}
 \title{Internal functions that determine OS-specific path in which modules might be located.}
 \usage{
-rsaga.get.modules.path(sysname = Sys.info()["sysname"], saga.path, root,
-  cmd)
+rsaga.get.modules.path(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 }
 \arguments{
 \item{sysname}{character: name of the operating system, determined by default by \code{\link[base:Sys.info]{base::Sys.info()}}: e.g., \code{"Windows"}, \code{"Linux"}, \code{"Darwin"} (for Mac OSX), or \code{"FreeBSD"}}

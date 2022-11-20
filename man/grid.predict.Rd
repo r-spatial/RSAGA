@@ -4,15 +4,23 @@
 \alias{grid.predict}
 \title{Helper function for applying predict methods to stacks of grids.}
 \usage{
-grid.predict(fit, predfun, trafo, control.predict, predict.column,
-  trace = 0, location, ...)
+grid.predict(
+  fit,
+  predfun,
+  trafo,
+  control.predict,
+  predict.column,
+  trace = 0,
+  location,
+  ...
+)
 }
 \arguments{
 \item{fit}{a model object for which prediction is desired}
 
 \item{predfun}{optional prediction function; if missing, the \code{fit}'s \code{\link[=predict]{predict()}} method is called. In some cases it may be convenient to define a wrapper function for the predict method that may be passed as \code{predfun} argument.}
 
-\item{trafo}{an optional \code{function(x)} that takes a \code{data.frame} \code{x} and returns a \code{data.frame} with the same number of rows; this is intended to perform transformations on the input variables, e.g. derive a log-transformed variable from the raw input read from the grids, or more complex variables such as the NDVI etc.; the \code{data.frame} resulting from a call to \code{trafo} (if provided) is passed to \code{predfun}}
+\item{trafo}{an optional \verb{function(x)} that takes a \code{data.frame} \code{x} and returns a \code{data.frame} with the same number of rows; this is intended to perform transformations on the input variables, e.g. derive a log-transformed variable from the raw input read from the grids, or more complex variables such as the NDVI etc.; the \code{data.frame} resulting from a call to \code{trafo} (if provided) is passed to \code{predfun}}
 
 \item{control.predict}{an optional list of arguments to be passed on to \code{predfun}; this may be e.g. \code{type="response"} to obtain probability prediction maps from a logistic regression model}
 
@@ -31,7 +39,7 @@ grid.predict(fit, predfun, trafo, control.predict, predict.column,
 This function can be used to apply the predict method of hopefully any fitted predictive model pixel by pixel to a stack of grids representing the explanatory variables. It is intended to be called primarily by \code{\link[=multi.local.function]{multi.local.function()}} or \code{\link[=multi.focal.function]{multi.focal.function()}}.
 }
 \details{
-\code{grid.predict} is a simple wrapper function. First it binds the arguments in \code{\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link[=multi.local.function]{multi.local.function()}} (or \code{\link[=multi.focal.function]{multi.focal.function()}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link[=predict]{predict()}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
+\code{grid.predict} is a simple wrapper function. First it binds the arguments in \verb{\\dots} together in a \code{data.frame} with the raw predictor variables that have been read from their grids by the caller, \code{\link[=multi.local.function]{multi.local.function()}} (or \code{\link[=multi.focal.function]{multi.focal.function()}}). Then it calls the optional \code{trafo} function to transform or combine predictor variables (e.g. perform log transformations, ratioing, arithmetic operations such as calculating the NDVI). Finally the \code{predfun} (or, typically, the default \code{\link[=predict]{predict()}} method of \code{fit}) is called, handing over the \code{fit}, the predictor \code{data.frame}, and the optional \code{control.predict} arguments.
 }
 \note{
 Though \code{grid.predict} can in principle deal with \code{predict} methods returning factor variables, its usual caller \code{\link[=multi.local.function]{multi.local.function()}} / \code{\link[=multi.focal.function]{multi.focal.function()}} cannot; classification models should be dealt with by setting a \code{type="prob"} (for \code{rpart}) or \code{type="response"} (for logistic regression and logistic additive model) argument, for example (see second Example below).

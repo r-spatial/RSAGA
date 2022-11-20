@@ -4,19 +4,44 @@
 \alias{rsaga.pisr}
 \title{Potential incoming solar radiation}
 \usage{
-rsaga.pisr(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
-  in.latitude.grid = NULL, in.longitude.grid = NULL, out.direct.grid,
-  out.diffuse.grid, out.total.grid = NULL, out.ratio.grid = NULL,
-  out.duration, out.sunrise, out.sunset, local.svf = TRUE, latitude,
-  unit = c("kWh/m2", "kJ/m2", "J/cm2"), solconst = 1367,
-  enable.bending = FALSE, bending.radius = 6366737.96,
-  bending.lat.offset = "user", bending.lat.ref.user = 0,
-  bending.lon.offset = "center", bending.lon.ref.user = 0,
-  method = c("height", "components", "lumped"), hgt.atmosphere = 12000,
-  hgt.water.vapour.pressure = 10, cmp.pressure = 1013,
-  cmp.water.content = 1.68, cmp.dust = 100, lmp.transmittance = 70,
-  time.range = c(0, 24), time.step = 0.5, start.date = list(day = 21,
-  month = 3), end.date = NULL, day.step = 5, env = rsaga.env(), ...)
+rsaga.pisr(
+  in.dem,
+  in.svf.grid = NULL,
+  in.vapour.grid = NULL,
+  in.latitude.grid = NULL,
+  in.longitude.grid = NULL,
+  out.direct.grid,
+  out.diffuse.grid,
+  out.total.grid = NULL,
+  out.ratio.grid = NULL,
+  out.duration,
+  out.sunrise,
+  out.sunset,
+  local.svf = TRUE,
+  latitude,
+  unit = c("kWh/m2", "kJ/m2", "J/cm2"),
+  solconst = 1367,
+  enable.bending = FALSE,
+  bending.radius = 6366737.96,
+  bending.lat.offset = "user",
+  bending.lat.ref.user = 0,
+  bending.lon.offset = "center",
+  bending.lon.ref.user = 0,
+  method = c("height", "components", "lumped"),
+  hgt.atmosphere = 12000,
+  hgt.water.vapour.pressure = 10,
+  cmp.pressure = 1013,
+  cmp.water.content = 1.68,
+  cmp.dust = 100,
+  lmp.transmittance = 70,
+  time.range = c(0, 24),
+  time.step = 0.5,
+  start.date = list(day = 21, month = 3),
+  end.date = NULL,
+  day.step = 5,
+  env = rsaga.env(),
+  ...
+)
 }
 \arguments{
 \item{in.dem}{name of input digital elevation model (DEM) grid in SAGA grid format (default extension: \code{.sgrd})}
