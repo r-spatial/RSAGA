@@ -134,10 +134,10 @@ create.variable.name = function( filename, prefix = NULL, fsep = .Platform$file.
 #'  \item{yllcenter}{y coordinate of the center of the lower left grid cell}
 #' Note: The order of the components, especially of `?llcorner` and `?llcenter`, may change, depending on the order in which they appear in the grid header and on the georeferencing method (center or corner) used for the grid. The `?llcorner` and `?llcenter` attributes differ only by `cellsize/2`.
 #' @author Alexander Brenning
-#' @note `read.sgrd` and `write.sgrd` import/export grids indirectly by creating temporary ASCII grid files (this explains why `write.sgrd` has `prec` and `hdr.prec` arguments). Consider using \link[sf::read_sf]{read_sf()} in package `sf` instead, which is likely more efficient but may require coercion of your gridded data to/from an object supported by `sf`.
+#' @note `read.sgrd` and `write.sgrd` import/export grids indirectly by creating temporary ASCII grid files (this explains why `write.sgrd` has `prec` and `hdr.prec` arguments). Consider using [sf::read_sf()] in package `sf` instead, which is likely more efficient but may require coercion of your gridded data to/from an object supported by `sf`.
 #'
 #' The `read.Rd.grid` and `write.Rd.grid` functions use the `load` and `save` commands to store a grid. The variable name used is `data`, which is either a numeric matrix or a list with components `data` (the grid data matrix) and `header` (the grid header information).
-#' @seealso \link[sf::read_sf]{read_sf()} and \link[sf::write_sf]{write_sf()} in package `sf`, and `readAsciiGrid` and `writeAsciiGrid` in package `maptools`
+#' @seealso [sf::read_sf()] and [sf::write_sf()] in package `sf`, and `readAsciiGrid` and `writeAsciiGrid` in package `maptools`
 #' @keywords file spatial interface
 #' @export
 read.ascii.grid = function( file, return.header = TRUE, print = 0,

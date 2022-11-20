@@ -2586,10 +2586,10 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @author Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)
 #' @note The 'Inverse Distance Weighted' module of SAGA GIS not only support inverse-distance weighted interpolation, but also exponential and other weighting schemes (command line argument WEIGHTING); these are however not accessible through this function, but only through the `rsaga.geoprocessor`, if needed. See `rsaga.get.usage("grid_gridding","Inverse Distance Weighted")` for details.
 #'
-#' See the example section in the help file for \link[shapefiles:shapefiles]{write.shapefile()} in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
+#' See the example section in the help file for [shapefiles::write.shapefile()] in package `shapefiles` to learn how to apply these interpolation functions to a shapefile exported from a data.frame.
 #'
 #' Modified Quadratic Shephard method: based on module 660 in TOMS (see references).
-#' @seealso [rsaga.target()]; \link[gstat:krige]{idw()} in package `gstat`.
+#' @seealso [rsaga.target()]; [gstat::idw()] in package `gstat`.
 #' @keywords spatial interface
 #' @export
 rsaga.inverse.distance = function(in.shapefile, out.grid, field,
