@@ -1642,6 +1642,7 @@ rsaga.solar.radiation = function(in.dem, out.grid, out.duration, latitude,
 #' @param lat.ref.user if `in.latitude` is missing and `lat.offset="user"`, then this numeric value defines the latitudinal reference (details??)
 #' @param lon.offset local time refers to grid's `"left"` edge (code 0), `"center"` (1), `"right"` edge (2), or a  `"user"`-defined reference.
 #' @param lon.ref.user if `in.longitude` is missing and `lon.offset="user"`, then this numeric value defines the reference of the local time (details??)
+#' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment
 #' @details Calculation of incoming solar radiation (insolation). Based on the SADO (System for the Analysis of Discrete Surfaces) routines developed  by Boehner & Trachinow.
 #' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
@@ -1658,7 +1659,8 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
     radius=6366737.96,
     lat.offset="user", lat.ref.user=0,
     lon.offset="center", lon.ref.user=0,
-     ...)
+    env = rsaga.env(),
+    ...)
 {
     if (!rsaga.module.exists(libs = "ta_lighting", module = "Insolation", env = env)) {
       stop("Module 'Insolation' in library 'ta_lighting' not available in this version of SAGA GIS (",
@@ -1722,7 +1724,7 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
     }
     rsaga.geoprocessor(lib = "ta_lighting",
         module = "Insolation", # = 3
-        param = param, check.parameters = FALSE, ...)
+        param = param, check.parameters = FALSE, env = env, ...)
 }
 
 
@@ -2821,7 +2823,7 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' @param split If `TRUE`, multipart polygons become separated polygons
 #'   (default: FALSE).
 #' @param load Deprecated, will be removed in a future release. Ignored
-#'   if `FALSE`, and causes an error if `TRUE`.
+#'   if `FALSE`, and causes an error if `TRUE` (default: NULL).
 #' @param env RSAGA geoprocessing environment created by
 #'   [rsaga.env()].
 #' @return The function saves the output shapefile to the path indicated in
@@ -2881,8 +2883,8 @@ rsaga.intersect.polygons <-
 #'   shapefile.
 #' @param split If `TRUE`, multipart polygons become separated polygons
 #'   (default: FALSE).
-#' @param load If `TRUE`, the resulting output shapefile will be loaded
-#'   into R (default: FALSE).
+#' @param load Deprecated, will be removed in a future release. Ignored
+#'   if `FALSE`, and causes an error if `TRUE`  (default: NULL)
 #' @param env RSAGA geoprocessing environment created by
 #'   [rsaga.env()], required because module(s) depend(s) on SAGA
 #'   version.
