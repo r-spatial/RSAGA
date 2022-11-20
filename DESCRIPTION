@@ -43,7 +43,11 @@ Imports:
   stringr,
   magrittr
 Suggests:
-    sf
+    sf,
+    knitr,
+    testthat,
+    rmarkdown,
+    qpdf
 LazyLoad: yes
 Collate:
     'gridtools.R'
