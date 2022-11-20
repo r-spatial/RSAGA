@@ -51,7 +51,7 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
   return(modules)
 }
 
-#' Internal function that sets the RSAGA Geoprocessing Eviroment manually
+#' Internal function that sets the RSAGA Geoprocessing Evironment manually
 #' @name rsaga.set.env
 #' @param workspace path of the working directory for SAGA; defaults to the current directory (`"."`).
 #' @param cmd name of the SAGA command line program; defaults to `saga_cmd.exe`, its name under Windows
@@ -94,7 +94,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #'
 #' 1) No paths to the SAGA command line program and to the SAGA modules are specified by the user through the arguments `path` and `modules`.
 #' On Windows `rsaga.env` tries to find the SAGA command line program in the following folders
-#' `C:/Progra~1/SAGA-GIS`, `C:/Progra~2/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`.
+#' `C:/Progra~1/SAGA`, `C:/Progra~2/SAGA`, `C:/Progra~1/SAGA-GIS`, `C:/Progra~2/SAGA-GIS`, `C:/SAGA-GIS`, `C:/OSGeo4W64/apps/saga-lts` and `C:/OSGeo4W64/apps/saga`.
 #' If this fails and attempt is being made to find the SAGA command line program with a search on `C:/`
 #' (The drive letter can be changed with the `root` argument).
 #' The subfolder `tools` (SAGA Version < 3.0.0 subfolder `modules`) is checked for the SAGA module libraries.
@@ -130,7 +130,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' # derived from digital elevation model "C:/sagadata/dem.sgrd"
 #'
 #' # Same calculation with different SAGA version:
-#' # (I keep several versions in SAGA-GIS_2.0.x folders:)
+#' # (I keep several versions in SAGA-GIS_x.x.x folders:)
 #' myenv05 = rsaga.env(path = "C:/Progra~1/SAGA-GIS_2.0.5")
 #' rsaga.hillshade("dem","hillshade205",env=myenv05)
 #' }
@@ -204,13 +204,16 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
     # Try to find SAGA command line program in windows default paths
     if (Sys.info()["sysname"] == "Windows") {
       # Windows defaults paths
-      windows.defaults.paths =  c("C:/Progra~1/SAGA-GIS", "C:/Progra~2/SAGA-GIS", "C:/SAGA-GIS",
+      windows.defaults.paths =  c("C:/Progra~1/SAGA", "C:/Progra~2/SAGA",
+                                  "C:/Progra~1/SAGA-GIS", "C:/Progra~2/SAGA-GIS",
+                                  "C:/SAGA-GIS",
                                   "C:/OSGeo4W64/apps/saga", "C:/OSGeo4W64/apps/saga-ltr")
 
       # Check if one path is valid
       for (pa in windows.defaults.paths) {
         if (file.exists(file.path(pa, cmd))) {
           path = pa
+          break
         }
       }
 
@@ -908,14 +911,11 @@ rsaga.geoprocessor = function(
 # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
     if (!is.null(env$version)) {
         if (!is.na(env$version)) {
-            if (!any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
-                       "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
-                       "2.2.0","2.2.1","2.2.2","2.2.3", "2.3.1",
-                       "2.3.2", "3.0.0", "4.0.0", "4.0.1", "4.1.0",
-                       "5.0.0", "6.0.0", "6.1.0", "6.2.0", "6.3.0", "6.4.0", "7.0.0", NULL) == env$version))
-                warning("This RSAGA version has been tested with SAGA GIS versions 2.3.1 - 6.3.0.\n",
+          num_version <- as.numeric(gsub("\\.", "", env$version))
+          if ((num_version < 231) | (num_version > 841))
+            warning("This RSAGA version has been tested with SAGA GIS versions between 2.3.1 and 8.4.1.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
-                    "changes in names and definitions of SAGA module arguments, etc.", sep = "" )
+                    "possible changes in names and definitions of SAGA module arguments, etc.", sep = "" )
         }
     }
 
