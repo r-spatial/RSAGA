@@ -20,7 +20,8 @@ test_that("Error message for wrong parameters in Geoprocessor", {
                 ASPECT = "aspect.sgrd")
 
   expect_error(rsaga.geoprocessor(lib = "ta_morphometry", module = 0,
-                     param = params, check.module.exists=FALSE),
+                     param = params, check.module.exists=FALSE,
+                     env = env),
                regexp = "^.*Wrong paramters used.*$")
 })
 
