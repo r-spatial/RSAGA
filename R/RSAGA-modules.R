@@ -1660,6 +1660,11 @@ rsaga.insolation = function(in.dem, in.vapour, in.latitude, in.longitude,
     lon.offset="center", lon.ref.user=0,
      ...)
 {
+    if (!rsaga.module.exists(libs = "ta_lighting", module = "Insolation", env = env)) {
+      stop("Module 'Insolation' in library 'ta_lighting' not available in this version of SAGA GIS (",
+           env$version, "). Consider using function rsaga.pisr2() instead.")
+    }
+
     in.dem = default.file.extension(in.dem,".sgrd")
     param = list( GRD_DEM=in.dem )
     type = match.arg.ext(type,numeric=TRUE,ignore.case=TRUE,base=0)
@@ -2499,9 +2504,9 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #' @param env RSAGA geoprocessing environment created by [rsaga.env()]; required by `rsaga.grid.to.points` to determine version-dependent SAGA module name and arguments
 #' @param ... Optional arguments to be passed to [rsaga.geoprocessor()]
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-#' @note These functions use modules `Grid Values to Shapes` (pre-2.0.6 name: `Grid Values to Points`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
+#' @note These functions use modules `Grid Values to Points` (in some versions also called `Grid Values to Shapes`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
 #'
-#' The SAGA 2.0.6+ module `Grid Values to Shapes` is more flexible than the earlier versions as it allows to create grid cell polygons instead of center points (see argument `type`).
+#' The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument `type`).
 #' @seealso [rsaga.add.grid.values.to.points()]
 #' @examples
 #' \dontrun{
@@ -2533,10 +2538,9 @@ rsaga.grid.to.points = function(in.grids, out.shapefile,
         param = c(param, POLYGONS = in.clip.polygons)
     if (!(env$version == "2.0.4" | env$version == "2.0.5"))
         param = c(param, TYPE = type)
-    module = "Grid Values to Shapes"
+    module = "Grid Values to Points"
     if (!rsaga.module.exists("shapes_grid",module,env=env))
-    #if (env$version == "2.0.4" | env$version == "2.0.5")
-        module = "Grid Values to Points"
+        module = "Grid Values to Shapes"
     rsaga.geoprocessor(lib = "shapes_grid",
         module = module, # was: = 3
         param, env = env, check.parameters = FALSE, ...)
@@ -2808,81 +2812,51 @@ rsaga.triangulation = function(in.shapefile, out.grid, field,
 #' @description The function `rsaga.intersect.polygons` calculates the
 #'   geometric intersection of two overlayed polygon layers using SAGA module
 #'   "`Intersect`".
-#' @param layer_a A `character`-string representing the path to a polygon
-#'   shapefile or a spatial object of class
-#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.
-#' @param layer_b A `character`-string representing the path to a polygon
-#'   shapefile or a spatial object of class
-#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to intersect layer_a.
-#' @param result A `character`-string indicating where the resulting
+#' @param layer_a A `character` string representing the path to a polygon
+#'   shapefile.
+#' @param layer_b A `character` string representing the path to a polygon
+#'   shapefile with which to intersect layer_a.
+#' @param result A `character` string indicating where the resulting
 #'   shapefile should be stored.
 #' @param split If `TRUE`, multipart polygons become separated polygons
 #'   (default: FALSE).
-#' @param load If `TRUE`, the resulting output shapefile will be loaded
-#'   into R (default: FALSE).
+#' @param load Deprecated, will be removed in a future release. Ignored
+#'   if `FALSE`, and causes an error if `TRUE`.
 #' @param env RSAGA geoprocessing environment created by
-#'   [rsaga.env()], required because module(s) depend(s) on SAGA
-#'   version.
+#'   [rsaga.env()].
 #' @return The function saves the output shapefile to the path indicated in
-#'   function argument `result` and loads the resulting shapefile into R
-#'   when function parameter `load` is set to TRUE.
+#'   function argument `result`.
 #' @details Function `gIntersection` in `rgeos` package can also be used to
 #'   define the intersection between two polygon layers. However,
 #'   [rsaga.intersect.polygons()] will be usually much faster,
 #'   especially when intersecting thousands of polygons.
-#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+#' @author Jannes Muenchow and Alexander Brenning (R interface), Olaf Conrad and Angus Johnson (SAGA
 #'   modules)
 #' @keywords vector operations, polygons
-#' @examples
-#' \dontrun{
-#' library("RSAGA")
-#' library("sp")
-#' library("magrittr")
-#' # construct coordinates of two squares
-#' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
-#'                  ncol = 2, byrow = TRUE)
-#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-#'                             -0.5, -0.5),
-#'                  ncol = 2, byrow = TRUE)
-#' # convert the coordinates into polygons
-#' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1))) %>%
-#'   as(., "SpatialPolygonsDataFrame")
-#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1))) %>%
-#'   as(., "SpatialPolygonsDataFrame")
-#' # intersect the two polygons using SAGA and load the output
-#' dir_tmp <- paste0(tempdir(), "/out.shp")
-#' res <- rsaga.intersect.polygons(layer_a = poly_1,
-#'                                 layer_b = poly_2,
-#'                                 result = dir_tmp,
-#'                                 load = TRUE)
-#' # plot input polygons
-#' plot(poly_1, col = "red", axes = TRUE, xlim = c(-1, 1), ylim = c(-1, 1))
-#' plot(poly_2, col = "blue", add = TRUE)
-#' # plot the intersection
-#' plot(res, col = "yellow", add = TRUE)
-#' }
 #' @export
 #'
 rsaga.intersect.polygons <-
   function(layer_a = NULL, layer_b = NULL, result = NULL,
-           split = FALSE, load = FALSE, env = rsaga.env()) {
+           split = FALSE, load = NULL, env = rsaga.env()) {
     # check if all necessary function arguments were supplied
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
     }
 
-    # define a temporary folder
-    dir_tmp <- tempdir()
     if (class(layer_a) == "SpatialPolygonsDataFrame") {
-      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
-                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
-      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+      stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
     if (class(layer_b) == "SpatialPolygonsDataFrame") {
-      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
-                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
-      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+      stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
+    }
+
+    if (!is.null(load)) {
+      if (load) {
+        stop("argument 'load' is deprecated, and 'load = TRUE' is no longer supported")
+      } else {
+        warning("argument 'load' is deprecated and will cause an error in future versions")
+      }
     }
 
     # execute the 'Intersect'-function
@@ -2892,11 +2866,6 @@ rsaga.intersect.polygons <-
                             RESULT = result,
                             SPLIT = split),
                        env = env, check.parameters = FALSE)
-    # if requested, load the resulting shapefile
-    if (load) {
-      rgdal::readOGR(dsn = dirname(result),
-                     layer = gsub(".shp", "", basename(result)))
-    }
   }
 
 #' @title Spatial union of two polygon layers
@@ -2904,12 +2873,10 @@ rsaga.intersect.polygons <-
 #'   "`Union`" to calculate the geometric union of two polygon layers. This
 #' corresponds to the intersection and the symmetrical difference of the two
 #' layers.
-#' @param layer_a A `character`-string representing the path to a polygon
-#'   shapefile or a spatial object of class
-#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame}.
-#' @param layer_b A `character`-string representing the path to a polygon
-#'   shapefile or a spatial object of class
-#'   \link[sp:SpatialPolygons]{SpatialPolygonsDataFrame} with which to union layer_a.
+#' @param layer_a A `character` string representing the path to a polygon
+#'   shapefile.
+#' @param layer_b A `character` string representing the path to a polygon
+#'   shapefile with which to union layer_a.
 #' @param result `character`, path indicating where to store the output
 #'   shapefile.
 #' @param split If `TRUE`, multipart polygons become separated polygons
@@ -2920,64 +2887,39 @@ rsaga.intersect.polygons <-
 #'   [rsaga.env()], required because module(s) depend(s) on SAGA
 #'   version.
 #' @return The function saves the output shapefile to the path indicated in
-#'   function argument `result` and loads the resulting shapefile into R
-#'   when function parameter `load` is set to TRUE.
+#'   function argument `result`.
 #' @details Function `gUnion()` in `rgeos` package can also be used for joining
 #'   intersecting polygon geometries. However,
 #'   [rsaga.union.polygons()] will be usually much faster,
 #'   especially when joining thousands of polygons.
-#' @author Jannes Muenchow (R interface), Olaf Conrad and Angus Johnson (SAGA
+#' @author Jannes Muenchow and Alexander Brenning (R interface), Olaf Conrad and Angus Johnson (SAGA
 #'   modules)
 #' @keywords vector operations, polygons
-#' @examples
-#' \dontrun{
-#' library("RSAGA")
-#' library("sp")
-#' # construct coordinates of two squares
-#' coords_1 <- matrix(data = c(0, 0, 1, 0, 1, 1, 0, 1, 0, 0),
-#'                  ncol = 2, byrow = TRUE)
-#' coords_2 <- matrix(data = c(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-#'                             -0.5, -0.5),
-#'                  ncol = 2, byrow = TRUE)
-#' # convert the coordinates into polygons
-#' poly_1 <- SpatialPolygons(list(Polygons(list(Polygon(coords_1)), 1)))
-#' poly_1 <- SpatialPolygonsDataFrame(poly_1, data = data.frame(id = 1))
-#' poly_2 <- SpatialPolygons(list(Polygons(list(Polygon(coords_2)), 1)))
-#' poly_2 <- SpatialPolygonsDataFrame(poly_2, data = data.frame(id_2 = 2))
-#' # union the two polygons using SAGA and load the output
-#' dir_tmp <- paste0(tempdir(), "/out.shp")
-#' res <- rsaga.union.polygons(layer_a = poly_1,
-#'                             layer_b = poly_2,
-#'                             result = dir_tmp,
-#'                             load = TRUE)
-#' # output attribute table consists of three elements, i.e. the union of poly_1
-#' # and poly_2
-#' dim(res)
-#' res@data
-#' }
 #' @export
 
 rsaga.union.polygons <-
   function(layer_a = NULL, layer_b = NULL,
-           result = NULL, split = FALSE, load = FALSE,
+           result = NULL, split = FALSE, load = NULL,
            env = rsaga.env()) {
     # check if all necessary function arguments were provided
     if (any(mapply(is.null, list(layer_a, layer_b, result)))) {
       stop("Please specify layer_a, layer_b and a result layer!")
       }
 
-    # define a temporary folder
-    dir_tmp <- tempdir()
-    # if layer_a and layer_b are SpatialObjects, save them as shapefiles
     if (class(layer_a) == "SpatialPolygonsDataFrame") {
-      rgdal::writeOGR(layer_a, dsn = dir_tmp, layer = "layer_a",
-                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
-      layer_a <- paste(dir_tmp, "layer_a.shp", sep = "\\")
+      stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
+
     if (class(layer_b) == "SpatialPolygonsDataFrame") {
-      rgdal::writeOGR(layer_b, dsn = dir_tmp, layer = "layer_b",
-                      driver = "ESRI Shapefile", overwrite_layer = TRUE)
-      layer_b <- paste(dir_tmp, "layer_b.shp", sep = "\\")
+      stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
+    }
+
+    if (!is.null(load)) {
+      if (load) {
+        stop("argument 'load' is deprecated, and 'load = TRUE' is no longer supported")
+      } else {
+        warning("argument 'load' is deprecated and will cause an error in future versions")
+      }
     }
 
   # execute SAGA function "Union"
@@ -2987,11 +2929,5 @@ rsaga.union.polygons <-
                           RESULT = result,
                           SPLIT = split),
                      env = env, check.parameters = FALSE)
-
-  # if requested, load the resulting output shapefile
-  if (load) {
-    rgdal::readOGR(dsn = dirname(result),
-                   layer = gsub(".shp", "", basename(result)))
-    }
 }
 
