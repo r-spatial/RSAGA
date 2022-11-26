@@ -1,5 +1,3 @@
-context("RSAGA-modules")
-
 library(RSAGA)
 
 test_that("Write DEM to disc", {

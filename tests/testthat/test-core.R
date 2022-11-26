@@ -1,4 +1,3 @@
-context("RSAGA-core")
 library(RSAGA)
 
 test_that("Link to saga", {
