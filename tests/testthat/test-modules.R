@@ -1,10 +1,19 @@
 library(RSAGA)
 
+# The following tests are not meant for CRAN.
+# SAGA will normally be located automatically by RSAGA through
+# a rsaga.env() call; however, I am hard-coding the paths of
+# multiple SAGA versions in order to run multiple compatibility
+# tests. Use NULL to let RSAGA try to find a SAGA installation.
+# SAGA_PATH <- NULL
+SAGA_PATH <- "C:/Progra~1/SAGA"
+# SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
+
 test_that("Write DEM to disc", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
 
   data(landslides)
   out_fnm <- file.path(tempdir(), "dem.sgrd")
@@ -19,7 +28,7 @@ test_that("Slope", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "slope.sgrd")
 
   rsaga.slope.asp.curv(file.path(tempdir(), "dem.sgrd"),
@@ -33,7 +42,7 @@ test_that("Fill Sinks", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "fill_sinks.sgrd")
 
   rsaga.fill.sinks(file.path(tempdir(), "dem.sgrd"),
@@ -47,7 +56,7 @@ test_that("Sink Route", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "sink_route.sgrd")
 
   rsaga.sink.route(file.path(tempdir(), "dem.sgrd"),
@@ -61,7 +70,7 @@ test_that("Sink Removal", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "sink_removal.sgrd")
 
   rsaga.sink.removal(file.path(tempdir(), "dem.sgrd"),
@@ -75,7 +84,7 @@ test_that("Close Gaps", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "close_gaps.sgrd")
 
   rsaga.close.gaps(file.path(tempdir(), "dem.sgrd"),
@@ -89,7 +98,7 @@ test_that("Hillshade", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "hillshade.sgrd")
 
   rsaga.hillshade(file.path(tempdir(), "dem.sgrd"),
@@ -103,7 +112,7 @@ test_that("PISR2", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "pisr2.sgrd")
 
   rsaga.pisr2(
@@ -121,7 +130,7 @@ test_that("Topdown Processing", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "carea.sgrd")
 
   rsaga.topdown.processing(
@@ -136,7 +145,7 @@ test_that("Wetness Index", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "wi.sgrd")
 
   rsaga.wetness.index(
@@ -151,7 +160,7 @@ test_that("Grid Calculus", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "calculus.sgrd")
 
   rsaga.grid.calculus(c(file.path(tempdir(), "dem.sgrd"),
@@ -166,7 +175,7 @@ test_that("Contour", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "contour.shp")
 
   rsaga.contour(file.path(tempdir(), "dem.sgrd"),
@@ -180,7 +189,7 @@ test_that("Grid to Points Randomly", {
   testthat::skip_on_travis()
   testthat::skip_on_cran()
 
-  env <- rsaga.env()
+  env <- rsaga.env(path = SAGA_PATH)
   out_fnm <- file.path(tempdir(), "grid_to_points_randomly.shp")
 
   rsaga.grid.to.points.randomly(
