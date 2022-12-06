@@ -2150,7 +2150,7 @@ rsaga.topdown.processing = function(in.dem, in.sinkroute, in.weight, in.mean, in
 #' @param out.cslope output file (optional): catchment slope grid file name
 #' @param out.mod.carea output file (optional): file name of modified catchment area grid
 #' @param suction SAGA GIS 2.1.0+: positive numeric value (optional): the lower this value is the stronger is the suction effect; defaults to a value of 10 (more detailed information is currently not available  in the SAGA GIS documentation
-#' @param area.type character or numeric (optional): type of area: `"absolute"` (or numeric code 0): absolute catchment area; `"square root"` (code 1; the default): square root of catchment area; `"specific"` (code 2): specific catchment area
+#' @param area.type character or numeric (optional): type of area: `"absolute"` (or numeric code 0): absolute catchment area; `"square root"` (code 1; the default e.g. in SAGA 2.3.1): square root of catchment area; `"specific"` (code 2; the default e.g. in SAGA 8.4.1): specific catchment area
 #' @param slope.type character or numeric (optional): type of slope: `"local"` (or numeric code 0): local slope; `"catchment"` (or code 1; the default): catchment slope.
 #' @param slope.min numeric (optional): minimum slope; default: 0
 #' @param slope.offset numeric (optional): offset slope; default: 0.1

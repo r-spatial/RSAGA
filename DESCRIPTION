@@ -2,7 +2,7 @@ Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis
 Version: 1.4.0
-Date: 2022-10-21
+Date: 2022-12-06
 Authors@R: c(
     person("Alexander", "Brenning",
     email = "alexander.brenning@uni-jena.de", 
@@ -56,5 +56,5 @@ Collate:
     'RSAGA-package.R'
     'landslides.R'
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)
