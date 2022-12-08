@@ -27,7 +27,7 @@
 #' are currently supported) and its user-contributed
 #' modules to be available on your computer. These
 #' can be downloaded under GPL from
-#' <http://sourceforge.net/projects/saga-gis/>.
+#' <https://sourceforge.net/projects/saga-gis/>.
 #' Please check the help page for
 #' [rsaga.env()] to make sure that RSAGA
 #' can find your local installation of SAGA. You may

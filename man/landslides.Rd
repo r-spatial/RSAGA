@@ -33,8 +33,7 @@ the natural part of the RBSF study area.}
 
 Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w).
 Available online:
-
-\verb{http://www.tropicalmountainforest.org/data_pre.do?citid=901}
+\url{http://vhrz669.hrz.uni-marburg.de/tmf_respect/data_pre.do?citid=901}
 
 Jordan, E., Ungerechts, L., Caceres, B. Penafiel, A. and Francou, B.
 (2005): Estimation by photogrammetry of the glacier recession on the

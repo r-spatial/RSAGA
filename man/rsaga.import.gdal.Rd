@@ -31,7 +31,7 @@ Warmerdam. GDAL Versions are specific to SAGA versions:
 \item SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev
 \item ...
 \item SAGA 8.4.1: GDAL v3.3.0
-More information is available at \url{http://www.gdal.org/}.
+More information is available at \url{https://www.gdal.org/}.
 }
 
 If \code{in.grid} has more than one band (e.g. RGB GEOTIFF), then output
@@ -43,7 +43,7 @@ Numerous raster formats are currently supported. For SAGA 8.4.1 see e.g.
 \url{https://saga-gis.sourceforge.io/saga_tool_doc/8.4.1/io_gdal_0.html}
 }
 \references{
-GDAL website: \url{http://www.gdal.org/}
+GDAL website: \url{https://www.gdal.org/}
 }
 \seealso{
 \code{read.ascii.grid}, \code{rsaga.esri.to.sgrd}, \code{read.sgrd}, \code{read.Rd.grid}

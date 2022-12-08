@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Terrain Analysis with RSAGA: Landslide Susceptibility Modeling"
 author: "Alexander Brenning, Donovan Bangs and Marc Becker"
-date: "20 November 2022"
+date: "08 December 2022"
 output:
     rmarkdown::html_vignette:
       fig_caption: yes
@@ -17,9 +17,9 @@ library(knitr)
 ```
 
 ## Introduction
-RSAGA is a package providing access to geoprocessing and terrain analysis functions of SAGA-GIS (System for Automated Geospatial Analysis; Conrad _et al._, 2015)^[http://saga-gis.org], and R functions for spatial data manipulation and applying functions to stacks of grids. This coupling supports statistical geocomputing by which terrain analysis may be executed in the familiar R environment. This tutorial provides an introduction to RSAGA, with examples to guide initializing the geoprocessing environment, accessing SAGA and ASCII spatial data, function calls between RSAGA and SAGA, and RSAGA tools to apply model predictions to grids. 
+RSAGA is a package providing access to geoprocessing and terrain analysis functions of SAGA-GIS (System for Automated Geospatial Analysis; Conrad _et al._, 2015)^[https://saga-gis.sourceforge.io/], and R functions for spatial data manipulation and applying functions to stacks of grids. This coupling supports statistical geocomputing by which terrain analysis may be executed in the familiar R environment. This tutorial provides an introduction to RSAGA, with examples to guide initializing the geoprocessing environment, accessing SAGA and ASCII spatial data, function calls between RSAGA and SAGA, and RSAGA tools to apply model predictions to grids. 
 
-This vignette illustrates the use of RSAGA for terrain analysis following an application modeling landslide susceptibility in the tropical Andes (Muenchow _et al._, 2012). The presence or absence of landslide initiation at 1535 sampling points in the natural parts of the perhumid _Reserva Biologica San Francisco_ (RBSF) area are entered as the response to terrain variables in a generalized additive model (GAM). From a provided digital elevation model (DEM; figure 1) (Jordan _et al._, 2005; Ungerechts, L. 2010)^[Available online (http://www.tropicalmountainforest.org/data_pre.do?citid=901) from DFG-FOR816dw]
+This vignette illustrates the use of RSAGA for terrain analysis following an application modeling landslide susceptibility in the tropical Andes (Muenchow _et al._, 2012). The presence or absence of landslide initiation at 1535 sampling points in the natural parts of the perhumid _Reserva Biologica San Francisco_ (RBSF) area are entered as the response to terrain variables in a generalized additive model (GAM). From a provided digital elevation model (DEM; figure 1) (Jordan _et al._, 2005; Ungerechts, L. 2010)^[Available online (<http://vhrz669.hrz.uni-marburg.de/tmf_respect/data_pre.do?citid=901>) from DFG-FOR816dw]
 , RSAGA is used to calculate the relevant terrain indices, transform grid data, and extract values to a data frame for statistical modeling. The GAM is demonstrated using package _gam_ (Hastie, 2015), and model predictions applied to the collection of terrain grids using RSAGA grid tools.
 
 ```{r  out.width = "80%", echo=FALSE, fig.cap="Figure 1: Hillshade RBSF DEM"}
@@ -46,7 +46,7 @@ The function tries to find SAGA in several default paths if no path parameter is
 The object `env` may now be used to direct RSAGA functions to use this specific version of SAGA. Version `8.4.1` will be used for this tutorial by specifying `env = env` in functions that use this SAGA environment.
 
 ## RSAGA Function Calls
-RSAGA interfaces with the command line interpreter of SAGA-GIS. In most cases, `rsaga.*` functions take specified arguments and translate these to a system call that uses SAGA directly. For instance, slope may be calculated from a DEM by the SAGA command line call:
+RSAGA interfaces with the command line interpreter of SAGA GIS. In most cases, `rsaga.*` functions take specified arguments and translate these to a system call that uses SAGA directly. For instance, slope may be calculated from a DEM by the SAGA command line call:
 
 ```
 saga_cmd ta_morphometry "Slope, Aspect, Curvature" -ELEVATION "C:\WORKSPACE\dem.sgrd"
@@ -247,9 +247,9 @@ Grids may be transformed by applying functions through `rsaga.grid.calculus`. Gr
 Through this functionality, SAGA terrain analysis can be coupled with statistical computing, all within R. 
 
 ## A Note on Versions
-As SAGA-GIS is regularly updated, we strive to keep RSAGA functional with as many SAGA versions as practicable. However, the release version of RSAGA on CRAN may not be compatible with all versions of SAGA-GIS. Currently, RSAGA supports SAGA versions 2.3.1 LTS to 7.0.0. SAGA-GIS versions that were released after this package could work as long as no major changes were made to SAGA-GIS. Older version down to 2.0.4 might still work but are not supported by all functions. 
+As SAGA GIS is regularly updated, we strive to keep RSAGA functional with as many SAGA versions as practicable. However, the release version of RSAGA on CRAN may not be compatible with all versions of SAGA GIS. Currently, RSAGA supports SAGA versions 2.3.1 LTS to 8.4.1. SAGA GIS versions that were released after this package could work as long as no major changes were made to SAGA GIS. Older version down to 2.0.4 might still work but are not supported by all functions. 
 
-When a new version of SAGA-GIS is released, RSAGA on CRAN may not be initially compatible with this release. Development and pre-release versions of RSAGA may be downloaded from the project Github page at: <http://github.com/be-marc/RSAGA>
+When a new version of SAGA GIS is released, RSAGA on CRAN may not be initially compatible with this release. Development and pre-release versions of RSAGA may be downloaded from the project Github page at: <http://github.com/r-spatial/RSAGA>
 
 Please be aware that some modules and calculations may change or be deprecated between SAGA versions. Where practical, warnings are issued to alert users to changes in modules. The `rsaga.get.usage` function may be used to access SAGA command-line help to explore any changes between versions.
 
@@ -264,6 +264,6 @@ Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of lands
 
 Quinn, P.F., Beven, K.J., Chevalier, P., & Planchon, O. (1991). The prediction of hillslope flow paths for distributed hydrological modelling using digital terrain models. _Hydrological Processes_, 5: 59-79
 
-Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w). Available online (http://www.tropicalmountainforest.org/data_pre.do?citid=901) from DFG-FOR816d
+Ungerechts, L. (2010): DEM 10m (triangulated from aerial photo - b/w). Available online at <http://vhrz669.hrz.uni-marburg.de/tmf_respect/data_pre.do?citid=901> from DFG-FOR816d
 
 Zevenbergen, L.W., & Thorne, C.R. (1987). Quantitative analysis of land surface topography. _Earth Surface Processes and Landforms_, 12:47-56

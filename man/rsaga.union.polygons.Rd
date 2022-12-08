@@ -53,6 +53,6 @@ especially when joining thousands of polygons.
 Jannes Muenchow and Alexander Brenning (R interface), Olaf Conrad and Angus Johnson (SAGA
 modules)
 }
-\keyword{operations,}
+\keyword{operations}
 \keyword{polygons}
 \keyword{vector}
