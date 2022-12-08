@@ -378,9 +378,10 @@ rsaga.esri.to.sgrd = function( in.grids,
     if (length(in.grids) != length(out.sgrds))
         stop("must have the same number of input and outpute grids")
     res = c()
-    for (i in 1:length(in.grids))
+    for (i in seq_along(in.grids)) try({
         res = c(res, rsaga.geoprocessor("io_grid", "Import ESRI Arc/Info Grid",
             list(FILE=in.grids[i],GRID=out.sgrds[i]), check.parameters = FALSE, ...) )
+    })
     invisible(res)
 }
 
@@ -441,10 +442,11 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
     if (length(prec) != length(in.sgrds))
         stop("must have same number of in-/output grids and 'prec' parameters (or length(prec)==1)")
     res = c()
-    for (i in 1:length(in.sgrds))
+    for (i in seq_along(in.sgrds)) try({
         res = c(res, rsaga.geoprocessor("io_grid", "Export ESRI Arc/Info Grid",
             list( GRID=in.sgrds[i], FILE=out.grids[i], FORMAT=format, GEOREF=georef, PREC=prec[i]), check.parameters = FALSE,
             ...))
+    })
     invisible(res)
 }
 
