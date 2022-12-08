@@ -104,7 +104,7 @@ rsaga.target = function(
 #' + SAGA 2.2.1 - 2.2.3: GDAL v.2.1.0 dev
 #' + ...
 #' + SAGA 8.4.1: GDAL v3.3.0
-#' More information is available at <https://www.gdal.org/>.
+#' More information is available at <https://gdal.org/>.
 #'
 #' If `in.grid` has more than one band (e.g. RGB GEOTIFF), then output
 #' grids with file names of the form \eqn{in.grid{\_}01.sgrd}{in.grid_01.sgrd},
@@ -113,7 +113,7 @@ rsaga.target = function(
 #'
 #' Numerous raster formats are currently supported. For SAGA 8.4.1 see e.g.
 #' <https://saga-gis.sourceforge.io/saga_tool_doc/8.4.1/io_gdal_0.html>
-#' @references GDAL website: <https://www.gdal.org/>
+#' @references GDAL website: <https://gdal.org/>
 #' @author Alexander Brenning (R interface), Olaf Conrad / Andre Ringeler (SAGA module), Frank Warmerdam (GDAL)
 #' @seealso `read.ascii.grid`, `rsaga.esri.to.sgrd`, `read.sgrd`, `read.Rd.grid`
 #' @keywords spatial interface file

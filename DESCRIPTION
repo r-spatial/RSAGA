@@ -26,8 +26,8 @@ Description: Provides access to geocomputing and terrain analysis functions
     SAGA. This package furthermore provides several R functions for handling ASCII
     grids, including a flexible framework for applying local functions (including
     predict methods of fitted models) and focal functions to multiple grids. SAGA
-    GIS is available under GPLv2 / LGPLv2 licence from 
-    <http://sourceforge.net/projects/saga-gis/>.
+    GIS is available under GPL-2 / LGPL-2 licences from 
+    <https://sourceforge.net/projects/saga-gis/>.
 URL: https://github.com/r-spatial/RSAGA
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
