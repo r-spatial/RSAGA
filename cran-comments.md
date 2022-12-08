@@ -1,17 +1,13 @@
 ## Test environments
 
-* local OS X install, R-release
+* local x86_64-w64-mingw32 install, R-4.2.1
 * r-hub Debian, R-devel
-* r-hub Debian, R-release
-* r-hub Fedora, R-devel
 * win-builder, R-devel
-* win-builder, R-release
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 1 note
 
 ## Note
 
-We cannot reproduce the warning on the r-oldrel-windows-ix86+x86_64 system on 
-CRAN. windows-x86_64-oldrel on rhub and local installtion work fine. 
+The NOTE concerns possibly misspelled words in the DESCRIPTION; these are false positives.
