@@ -1168,7 +1168,7 @@ focal.function = function( in.grid, in.factor.grid, out.grid.prefix,
         # check if the function will return a vector with variable names
         # when called without arguments:
         varnames = try(do.call(fun,list()),silent=TRUE)
-        if (missing(varnames) || class(varnames) == "try-error") {
+        if (missing(varnames) || inherits(varnames, "try-error")) {
             if (is.character(fun)) {
                 varnames = gsub(".","",fun,fixed=TRUE)
             } else if (is.function(fun)) {
@@ -1370,7 +1370,7 @@ gapply = function(in.grid,fun,varnames,mw.to.vector=TRUE,mw.na.rm=TRUE,...) {
         # check if the function will return a vector with variable names
         # when called without arguments:
         varnames = try(do.call(fun,list()),silent=TRUE)
-        if (class(varnames) == "try-error") {
+        if (inherits(varnames, "try-error")) {
             if (is.character(fun)) {
                 varnames = gsub(".","",fun,fixed=TRUE)
             } else if (is.function(fun)) {
@@ -1558,7 +1558,7 @@ multi.focal.function = function(
         # check if the function will return a vector with variable names
         # when called without arguments:
         out.varnames = try(do.call(fun,list()),silent=TRUE)
-        if (missing(out.varnames) || class(out.varnames) == "try-error") {
+        if (missing(out.varnames) || inherits(out.varnames, "try-error")) {
             if (is.character(fun)) {
                 out.varnames = gsub(".","",fun,fixed=TRUE)
             } else if (is.function(fun)) {
@@ -1988,7 +1988,7 @@ multi.local.function = function(
         # check if the function will return a vector with variable names
         # when called without arguments:
         out.varnames = try(do.call(fun,list()), silent = TRUE)
-        if (missing(out.varnames) || class(out.varnames) == "try-error") {
+        if (missing(out.varnames) || inherits(out.varnames, "try-error")) {
             if (is.character(fun)) {
                 out.varnames = gsub(".","",fun,fixed=TRUE)
             } else if (is.function(fun)) {

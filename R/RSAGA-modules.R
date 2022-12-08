@@ -2127,7 +2127,7 @@ rsaga.grid.calculus = function(in.grids, out.grid, formula,
     out.grid = default.file.extension(out.grid, ".sgrd")
     in.grids = default.file.extension(in.grids, ".sgrd")
     in.grids = paste(in.grids, collapse = ";")
-    if (any(class(formula) == "formula"))
+    if (inherits(formula, "formula"))
         formula = rev( as.character(formula) )[1]
     formula = gsub(" ", "", formula)
     if (env$version == "2.0.4") {
@@ -2646,11 +2646,11 @@ rsaga.intersect.polygons <-
       stop("Please specify layer_a, layer_b and a result layer!")
     }
 
-    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+    if (inherits(layer_a, "SpatialPolygonsDataFrame")) {
       stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
-    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+    if (inherits(layer_b, "SpatialPolygonsDataFrame")) {
       stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
@@ -2709,11 +2709,11 @@ rsaga.union.polygons <-
       stop("Please specify layer_a, layer_b and a result layer!")
       }
 
-    if (class(layer_a) == "SpatialPolygonsDataFrame") {
+    if (inherits(layer_a, "SpatialPolygonsDataFrame")) {
       stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
-    if (class(layer_b) == "SpatialPolygonsDataFrame") {
+    if (inherits(layer_b, "SpatialPolygonsDataFrame")) {
       stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
