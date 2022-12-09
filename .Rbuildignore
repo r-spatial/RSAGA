@@ -9,3 +9,4 @@ NEWS.*
 ^cran-comments\.md$
 tic.R
 ^revdep$
+^CRAN-SUBMISSION$
