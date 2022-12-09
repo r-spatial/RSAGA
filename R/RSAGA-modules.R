@@ -2646,11 +2646,11 @@ rsaga.intersect.polygons <-
       stop("Please specify layer_a, layer_b and a result layer!")
     }
 
-    if (inherits(layer_a, "SpatialPolygonsDataFrame")) {
+    if (!is.character(layer_a)) {
       stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
-    if (inherits(layer_b, "SpatialPolygonsDataFrame")) {
+    if (!is.character(layer_b)) {
       stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
@@ -2709,11 +2709,11 @@ rsaga.union.polygons <-
       stop("Please specify layer_a, layer_b and a result layer!")
       }
 
-    if (inherits(layer_a, "SpatialPolygonsDataFrame")) {
+    if (!is.character(layer_a)) {
       stop("layer_a must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 
-    if (inherits(layer_b, "SpatialPolygonsDataFrame")) {
+    if (!is.character(layer_b)) {
       stop("layer_b must be the name of a shapefile; SpatialPolygonsDataFrames are no longer supported")
     }
 

@@ -831,9 +831,10 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
         }
         utils::browseURL( paste("file://",fnm,sep=""), ...)
     } else {
-        warning("rsaga.html.help only available for SAGA GIS 2.1.0+.\n",
-                "Redirecting you to the SAGA GIS wiki...")
-        url = "http://sourceforge.net/apps/trac/saga-gis/wiki"
+        warning("rsaga.html.help is only available for some older SAGA GIS versions.\n",
+                "Redirecting you to the SAGA GIS wiki (may not match your SAGA version)...")
+        # url = "https://sourceforge.net/p/saga-gis/wiki/Home/" # main page
+        url <- "https://sourceforge.net/p/saga-gis/wiki/Module%20Descriptions/"
         utils::browseURL(url, ...)
     }
     return()
