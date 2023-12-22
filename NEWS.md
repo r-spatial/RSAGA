@@ -1,3 +1,9 @@
+# RSAGA 1.4.1
+
+## Bug fixes
+
+* Fixed data format in `rsaga.pisr2` arguments passed to `saga_cmd`
+
 # RSAGA 1.4.0
 
 ## General

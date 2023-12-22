@@ -1078,15 +1078,18 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param out.diffuse.grid Output grid: Diffuse insolation
 #' @param out.total.grid Optional output grid: Total insolation, i.e. sum of direct and diffuse incoming solar radiation
 #' @param out.ratio.grid Optional output grid: Direct to diffuse ratio
-#' @param out.duration Optional output grid: Duration of insolation
+#' @param out.duration Optional output grid: Duration of insolation.
 #' @param out.sunrise Optional output grid: time of sunrise; only calculated if time span is set to single day
 #' @param out.sunset Time of sunset; see `out.sunrise`
+#' @param vapour.default SAGA argument `GRD_VAPOUR_DEFAULT`, defaults to 10.0
+#' @param linke.default SAGA argument `GRD_LINKE_DEFAULT`, defaults to 3.0
 #' @param local.svf logical (default: `TRUE`; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in `in.svf.grid`
 #' @param location specified whether to use constant latitude supplied by `latitude` below (`"latitude"` or code `0`; default) or as calculated from the grid system (`"grid"` or code `1`)
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
 #' @param unit unit of insolation output grids: `"kWh/m2"` (default) `"kJ/m2"`, or `"J/cm2"`
 #' @param solconst solar constant, defaults to 1367 W/m2
-#' @param method specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`.
+#' @param shadow specifies how topographic shading is modeled: `"slim"` (or numeric code 0), `"fat"` (or code 1; the default), or `"none"` (code `2`). Quoting SAGA 7.8.2 help: Choose 'slim' to trace grid node's shadow, 'fat' to trace the whole cell's shadow, or ignore shadowing effects. The first is slightly faster but might show some artifacts. (End quote.)
+#' @param method specifies how the atmospheric components should be accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`.
 #' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with `method = "height"`
 #' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with `method = "components"`
 #' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with `method = "components"`
@@ -1094,7 +1097,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param lmp.transmittance transmittance of the atmosphere in percent; usually between 60 (humid areas) and 80 percent (deserts)
 #' @param time.range numeric vector of length 2:  time span (hours of the day) for numerical integration
 #' @param time.step time step in hours for numerical integration
-#' @param start.date list of length three, giving the start date in `day`, `month`, and `year` components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is `list(day=1,month=1,year=2015)`
+#' @param start.date list of length three, giving the start date in `day`, `month`, and `year` components as numbers, i.e. Jan. 1st 2015 is `list(day=1,month=1,year=2015)`
 #' @param end.date see `start.date`
 #' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
@@ -1110,211 +1113,205 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' Hofierka, J., Suri, M. (2002): The solar radiation model for Open source GIS: implementation and applications. International GRASS users conference in Trento, Italy, September 2002
 #' @author Alexander Brenning & Donovan Bangs (R interface), Olaf Conrad (SAGA module)
 #' @note
-#' SAGA_CMD uses zero-based months, but this R function uses the standard one-based months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
-#'
-#' This function uses module Potential Incoming Solar Radiation from SAGA library `ta_lighting` in SAGA version 2.0.6+.
-#' Changes to the module with SAGA 2.2.2+ include adding `year` to the `*.date` arguments to allow calculation across years.
-#' The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
+#' This function uses module Potential Incoming Solar Radiation from SAGA library `ta_lighting` in SAGA versions >2.2.3.
 #' Duration of insolation (`"out.duration"`) is only calculated when the time period is set to a single day.
 #' @seealso [rsaga.pisr()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]; [rsaga.hillshade()]
 #' @keywords spatial interface
 #' @export
-rsaga.pisr2 = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
-                       in.linke.grid = NULL,
-                       out.direct.grid, out.diffuse.grid, out.total.grid = NULL,
-                       out.ratio.grid = NULL, out.duration, out.sunrise, out.sunset,
-                       local.svf = TRUE, location = c("latitude", "grid"), latitude = 53,
-                       unit=c("kWh/m2","kJ/m2","J/cm2"), solconst=1367.0,
-                       method = c("height","components","lumped","hofierka"),
-                       hgt.atmosphere = 12000,
-                       cmp.pressure = 1013, cmp.water.content = 1.68, cmp.dust = 100,
-                       lmp.transmittance = 70,
-                       time.range = c(0,24), time.step = 0.5,
-                       start.date = list(day=31, month=10, year=2015), end.date = NULL, day.step = 5,
-                       env = rsaga.env(), ...)
+rsaga.pisr2 <- function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
+                         in.linke.grid = NULL,
+                         out.direct.grid, out.diffuse.grid, out.total.grid = NULL,
+                         out.ratio.grid = NULL, out.duration, out.sunrise, out.sunset,
+                         local.svf = TRUE,
+                         location = c("latitude", "grid"), latitude = 53,
+                         unit = c("kWh/m2", "kJ/m2", "J/cm2"),
+                         shadow = c("slim", "fat", "none"),
+                         solconst = 1367.0,
+                         method = c("height", "components", "lumped", "hofierka"),
+                         linke.default = 3.0,
+                         vapour.default = 10.0,
+                         hgt.atmosphere = 12000.0,
+                         cmp.pressure = 1013.0, cmp.water.content = 1.68, cmp.dust = 100.0,
+                         lmp.transmittance = 70.0,
+                         time.range = c(0,24), time.step = 0.5,
+                         start.date = list(day=31, month=10, year=2015),
+                         end.date = NULL, day.step = 5,
+                         env = rsaga.env(), ...)
 {
   if (any(c("2.0.4","2.0.5","2.0.6","2.0.7","2.0.8",
             "2.1.0","2.1.1","2.1.2","2.1.3","2.1.4",
-            "2.2.0","2.2.1") == env$version)) {
-        stop("rsaga.pisr2 only for SAGA GIS 2.2.2+;\n",
-             " use rsaga.pisr or rsaga.solar.radiation for older versions of SAGA GIS")
-    }
+            "2.2.0","2.2.1","2.2.2","2.2.3") == env$version)) {
+    stop("This SAGA version is not supported by the current version of rsaga.pisr2")
+  }
 
-    in.dem = default.file.extension(in.dem,".sgrd")
-    if (!is.null(in.svf.grid)) in.svf.grid = default.file.extension(in.svf.grid,".sgrd")
-    if (!is.null(in.vapour.grid)) in.vapour.grid = default.file.extension(in.vapour.grid,".sgrd")
-    if (!is.null(in.linke.grid)) in.linke.grid = default.file.extension(in.linke.grid,".sgrd")
-    if (missing(out.direct.grid)) {
-        out.direct.grid = tempfile()
-        on.exit(unlink(paste(out.direct.grid,".*",sep="")), add = TRUE)
+  # Function for creating date character strings in format expected by SAGA:
+  rsaga.format.date <- function(x) {
+    stopifnot(is.list(x))
+    stopifnot(length(x) == 3)
+    stopifnot(all(names(x %in% c("day","month","year"))))
+    stopifnot( (x$day>=1) & (x$day<=31) )
+    stopifnot( (x$month>=1) & (x$month<=12) )
+    stopifnot(x$year >= 0)
+
+    paste0(
+      formatC(x$month, format = "d", flag = "0", width = 2),
+      "/",
+      formatC(x$day, format = "d", flag = "0", width = 2),
+      "/",
+      formatC(x$year, format = "d", flag = "0", width = 4)
+    )
+  }
+
+  in.dem = default.file.extension(in.dem,".sgrd")
+  if (!is.null(in.svf.grid)) in.svf.grid = default.file.extension(in.svf.grid,".sgrd")
+  if (!is.null(in.vapour.grid)) in.vapour.grid = default.file.extension(in.vapour.grid,".sgrd")
+  if (!is.null(in.linke.grid)) in.linke.grid = default.file.extension(in.linke.grid,".sgrd")
+  if (missing(out.direct.grid)) {
+    out.direct.grid = tempfile()
+    on.exit(unlink(paste(out.direct.grid,".*",sep="")), add = TRUE)
+  } else {
+    out.direct.grid = default.file.extension(out.direct.grid, ".sgrd")
+  }
+  if (missing(out.diffuse.grid)) {
+    out.diffuse.grid = tempfile()
+    on.exit(unlink(paste(out.diffuse.grid,".*",sep="")), add = TRUE)
+  } else {
+    out.diffuse.grid = default.file.extension(out.diffuse.grid, ".sgrd")
+  }
+  if (missing(out.total.grid)) {
+    out.total.grid = tempfile()
+    on.exit(unlink(paste(out.total.grid,".*",sep="")), add = TRUE)
+  } else {
+    out.total.grid = default.file.extension(out.total.grid, ".sgrd")
+  }
+  if (missing(out.ratio.grid)) {
+    out.ratio.grid = tempfile()
+    on.exit(unlink(paste(out.ratio.grid,".*",sep="")), add = TRUE)
+  } else {
+    out.ratio.grid = default.file.extension(out.ratio.grid, ".sgrd")
+  }
+  if (missing(out.duration)) {
+    out.duration = tempfile()
+    on.exit(unlink(paste(out.duration,".*",sep="")), add = TRUE)
+  } else {
+    out.duration = default.file.extension(out.duration, ".sgrd")
+  }
+  if (missing(out.sunrise)) {
+    out.sunrise = tempfile()
+    on.exit(unlink(paste(out.sunrise,".*",sep="")), add = TRUE)
+  } else {
+    out.sunrise = default.file.extension(out.sunrise, ".sgrd")
+  }
+  if (missing(out.sunset)) {
+    out.sunset = tempfile()
+    on.exit(unlink(paste(out.sunset,".*",sep="")), add = TRUE)
+  } else {
+    out.sunset = default.file.extension(out.sunset, ".sgrd")
+  }
+
+  unit = match.arg.ext(unit, numeric = TRUE, ignore.case = TRUE, base = 0)
+  if (length(method) > 1) method <- "lumped"
+  method = match.arg.ext(method, numeric = TRUE, ignore.case = TRUE, base = 0)
+  if (length(shadow) > 1) shadow <- "fat"
+  shadow = match.arg.ext(shadow, numeric = TRUE, ignore.case = TRUE, base = 0)
+  location = match.arg.ext(location, numeric = TRUE, ignore.case = TRUE, base = 0)
+
+  if (!is.null(latitude))
+    stopifnot( (latitude>=-90) & (latitude<=90) )
+  stopifnot( length(time.range)==2 )
+  stopifnot( all(time.range>=0) & all(time.range<=24) & (time.range[1]<time.range[2]) )
+  stopifnot( (time.step>0) & (time.step<=12) )
+  stopifnot( (day.step>0) & (day.step<=100) )
+  stopifnot( is.logical(local.svf) )
+
+  param = list( GRD_DEM=in.dem,
+                GRD_DIRECT = out.direct.grid, GRD_DIFFUS = out.diffuse.grid,
+                GRD_TOTAL = out.total.grid, GRD_RATIO = out.ratio.grid,
+                GRD_DURATION = out.duration,
+                GRD_SUNRISE = out.sunrise,
+                GRD_SUNSET = out.sunset,
+                GRD_LINKE_DEFAULT = linke.default,
+                GRD_VAPOUR_DEFAULT = vapour.default,
+                UNITS = unit,
+                SOLARCONST = as.numeric(solconst),
+                LOCALSVF = local.svf,
+                METHOD = method,
+                HOUR_STEP = time.step )
+
+  if (location == 0) {
+    if (!is.null(latitude)) {
+      stopifnot((latitude >= -90) & (latitude <= 90))
+      param = c(param, LATITUDE = as.numeric(latitude))
+    }
+  } else {
+    param = c(param, LOCATION = as.numeric(location))
+  }
+
+  if (!is.null(in.svf.grid)) param = c( param, GRD_SVF=in.svf.grid )
+  if (!is.null(in.vapour.grid)) param = c( param, GRD_VAPOUR=in.vapour.grid )
+  if (!is.null(in.linke.grid)) param = c( param, GRD_LINKE=in.linke.grid )
+
+  if (method == 0) {
+    param = c(param, ATMOSPHERE = as.numeric(hgt.atmosphere))
+  } else if (method == 1) {
+    param = c(param, PRESSURE = as.numeric(cmp.pressure),
+              WATER = as.numeric(cmp.water.content), DUST = as.numeric(cmp.dust))
+  } else if (method == 2) {
+    stopifnot( (lmp.transmittance>=0) & (lmp.transmittance<=100) )
+    param = c(param, LUMPED = as.numeric(lmp.transmittance))
+  } else if (method == 3) {
+    param = param
+  } else stopifnot( method %in% c(0:3) )
+
+
+  if (is.null(end.date)) { # Just Start Date but no end date
+    param = c( param, PERIOD = 1 ) # single day ... or moment (later)
+  } else
+    param = c( param, PERIOD = 2 )
+
+  start_date <- rsaga.format.date(start.date)
+  param = c( param, DAY = start_date)
+
+  if (is.null(end.date)) {
+    # check if moment:
+    stopifnot(length(time.range) <= 2)
+    if (length(time.range) == 2) {
+      if (time.range[2] == time.range[1])
+        time.range = time.range[1]
+    }
+    if (length(time.range) == 1) {
+      # moment
+      param$PERIOD = 0
+      stopifnot(time.range >= 0 & time.range <= 24)
+      param = c(param, MOMENT = round(time.range,3))
     } else {
-        out.direct.grid = default.file.extension(out.direct.grid, ".sgrd")
+      stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
+      stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
+      stopifnot(time.range[1] < time.range[2])
+      param = c(param, HOUR_RANGE_MIN = time.range[1],
+                HOUR_RANGE_MAX = time.range[2])
     }
-    if (missing(out.diffuse.grid)) {
-        out.diffuse.grid = tempfile()
-        on.exit(unlink(paste(out.diffuse.grid,".*",sep="")), add = TRUE)
-    } else {
-      out.diffuse.grid = default.file.extension(out.diffuse.grid, ".sgrd")
-    }
-    if (missing(out.total.grid)) {
-        out.total.grid = tempfile()
-        on.exit(unlink(paste(out.total.grid,".*",sep="")), add = TRUE)
-    } else {
-      out.total.grid = default.file.extension(out.total.grid, ".sgrd")
-    }
-    if (missing(out.ratio.grid)) {
-        out.ratio.grid = tempfile()
-        on.exit(unlink(paste(out.ratio.grid,".*",sep="")), add = TRUE)
-    } else {
-      out.ratio.grid = default.file.extension(out.ratio.grid, ".sgrd")
-    }
-    if (missing(out.duration)) {
-        out.duration = tempfile()
-        on.exit(unlink(paste(out.duration,".*",sep="")), add = TRUE)
-    } else {
-      out.duration = default.file.extension(out.duration, ".sgrd")
-    }
-    if (missing(out.sunrise)) {
-        out.sunrise = tempfile()
-        on.exit(unlink(paste(out.sunrise,".*",sep="")), add = TRUE)
-    } else {
-      out.sunrise = default.file.extension(out.sunrise, ".sgrd")
-    }
-    if (missing(out.sunset)) {
-        out.sunset = tempfile()
-        on.exit(unlink(paste(out.sunset,".*",sep="")), add = TRUE)
-    } else {
-      out.sunset = default.file.extension(out.sunset, ".sgrd")
-    }
+  } else {
+    # range of days:
+    end_date <- rsaga.format.date(end.date)
 
-    unit = match.arg.ext(unit,numeric=TRUE,ignore.case=TRUE,base=0)
-    method = match.arg.ext(method, numeric = TRUE, ignore.case = TRUE, base = 0)
-    location = match.arg.ext(location, numeric = TRUE, ignore.case = TRUE, base = 0)
+    param = c( param,
+               DAY_STOP = end_date,
+               DAYS_STEP = day.step)
 
-    if (!is.null(latitude))
-        stopifnot( (latitude>=-90) & (latitude<=90) )
-    stopifnot( length(time.range)==2 )
-    stopifnot( all(time.range>=0) & all(time.range<=24) & (time.range[1]<time.range[2]) )
-    stopifnot( (time.step>0) & (time.step<=12) )
-    stopifnot( (day.step>0) & (day.step<=100) )
-    stopifnot( is.logical(local.svf) )
-
-    param = list( GRD_DEM=in.dem,
-                  GRD_DIRECT = out.direct.grid, GRD_DIFFUS = out.diffuse.grid,
-                  GRD_TOTAL = out.total.grid, GRD_RATIO = out.ratio.grid,
-                  GRD_DURATION = out.duration,
-                  GRD_SUNRISE = out.sunrise, GRD_SUNSET = out.sunset,
-                  UNITS = unit, SOLARCONST = as.numeric(solconst), LOCALSVF = local.svf,
-                  METHOD = method,
-                  HOUR_STEP = time.step )
-
-    if (location == 0) {
-        if (!is.null(latitude)) {
-            stopifnot((latitude >= -90) & (latitude <= 90))
-            param = c(param, LATITUDE = as.numeric(latitude))
-        }
-    } else {
-        param = c(param, LOCATION = as.numeric(location))
-    }
-
-    if (!is.null(in.svf.grid)) param = c( param, GRD_SVF=in.svf.grid )
-    if (!is.null(in.vapour.grid)) param = c( param, GRD_VAPOUR=in.vapour.grid )
-    if (!is.null(in.linke.grid)) param = c( param, GRD_LINKE=in.linke.grid )
-
-    if (method == 0) {
-        param = c(param, ATMOSPHERE = as.numeric(hgt.atmosphere))
-    } else if (method == 1) {
-        param = c(param, PRESSURE = as.numeric(cmp.pressure),
-                  WATER = as.numeric(cmp.water.content), DUST = as.numeric(cmp.dust))
-    } else if (method == 2) {
-        stopifnot( (lmp.transmittance>=0) & (lmp.transmittance<=100) )
-        param = c(param, LUMPED = as.numeric(lmp.transmittance))
-    } else if (method == 3) {
-        param = param
-    } else stopifnot( method %in% c(0:3) )
+    if (is.null(time.range)) time.range = c(0,24)
+    stopifnot(length(time.range) == 2)
+    stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
+    stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
+    stopifnot(time.range[1] < time.range[2])
+    param = c(param, HOUR_RANGE_MIN = time.range[1],
+              HOUR_RANGE_MAX = time.range[2])
+  }
 
 
-
-
-    if (is.null(end.date)) { # Just Start Date but no end date
-        param = c( param, PERIOD = 1 ) # single day ... or moment (later)
-    } else param = c( param, PERIOD = 2 )
-    stopifnot(is.list(start.date))
-    stopifnot(length(start.date) == 3)
-    stopifnot(all(names(start.date %in% c("day","month","year"))))
-    stopifnot( (start.date$day>=1) & (start.date$day<=31) )
-    stopifnot( (start.date$month>=1) & (start.date$month<=12) )
-
-    if (any(c("2.2.2","2.2.3") == env$version)){
-      param = c( param, DAY_A = start.date$day ,
-                 MON_A = start.date$month - 1,
-                 YEAR_A = start.date$year )
-    } else {
-      # Add leading zeros too archieve SAGA date format
-      if (nchar(start.date$day) == 1) {
-        start.date$day <- paste0("0", start.date$day)
-      }
-      if (nchar(start.date$month) == 1) {
-        start.date$month <- paste0("0", start.date$month-1)
-      }
-      param = c( param, DAY = paste0(start.date$month, "/", start.date$day, "/", start.date$year))
-    }
-    if (is.null(end.date)) {
-        # check if moment:
-        stopifnot(length(time.range) <= 2)
-        if (length(time.range) == 2) {
-            if (time.range[2] == time.range[1])
-                time.range = time.range[1]
-        }
-        if (length(time.range) == 1) {
-            # moment
-            param$PERIOD = 0
-            stopifnot(time.range >= 0 & time.range <= 24)
-            param = c(param, MOMENT = round(time.range,3))
-        } else {
-            stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
-            stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
-            stopifnot(time.range[1] < time.range[2])
-            param = c(param, HOUR_RANGE_MIN = time.range[1],
-                      HOUR_RANGE_MAX = time.range[2])
-        }
-    } else {
-        # range of days:
-        stopifnot(is.list(end.date))
-        stopifnot(length(end.date) == 3)
-        stopifnot(all(names(end.date %in% c("day","month","year"))))
-        stopifnot( (end.date$day>=1) & (end.date$day<=31) )
-        stopifnot( (end.date$month>=1) & (end.date$month<=12) )
-
-        if (any(c("2.2.2","2.2.3") == env$version)){
-        param = c( param, DAY_B = end.date$day,
-                   MON_B = end.date$month - 1,
-                   YEAR_B = end.date$year,
-                   DAYS_STEP = day.step )
-        } else {
-           # Add leading zeros too archieve SAGA date format
-           if (nchar(end.date$day) == 1) {
-              end.date$day <- paste0("0", end.date$day)
-           }
-           if (nchar(end.date$month) == 1) {
-              end.date$month <- paste0("0", end.date$month-1)
-           }
-         param = c( param, DAY_STOP = paste0(end.date$month, "/", end.date$day, "/", end.date$year))
-        }
-
-        if (is.null(time.range)) time.range = c(0,24)
-        stopifnot(length(time.range) == 2)
-        stopifnot(time.range[1] >= 0 & time.range[1] <= 24)
-        stopifnot(time.range[2] >= 0 & time.range[2] <= 24)
-        stopifnot(time.range[1] < time.range[2])
-        param = c(param, HOUR_RANGE_MIN = time.range[1],
-                  HOUR_RANGE_MAX = time.range[2])
-    }
-
-
-    rsaga.geoprocessor(lib = "ta_lighting",
-                       module = "Potential Incoming Solar Radiation",  # = 2
-                       param = param, env = env, check.parameters = FALSE, ...)
+  rsaga.geoprocessor(lib = "ta_lighting",
+                     module = "Potential Incoming Solar Radiation",  # = 2
+                     param = param, env = env, check.parameters = FALSE, ...)
 }
 
 

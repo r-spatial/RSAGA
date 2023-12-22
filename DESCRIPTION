@@ -1,8 +1,8 @@
 Package: RSAGA
 Type: Package
 Title: SAGA Geoprocessing and Terrain Analysis
-Version: 1.4.0
-Date: 2022-12-06
+Version: 1.4.1
+Date: 2023-12-22
 Authors@R: c(
     person("Alexander", "Brenning",
     email = "alexander.brenning@uni-jena.de", 
