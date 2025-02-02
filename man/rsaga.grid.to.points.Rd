@@ -24,7 +24,7 @@ rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 
 \item{in.clip.polygons}{optional polygon shapefile to be used for clipping/masking an area}
 
-\item{exclude.nodata}{logical (default: \code{TRUE}): skip 'nodata' grid cells?}
+\item{exclude.nodata}{logical (default: \code{TRUE}), in newer SAGA versions numeric (see Note below): skip 'nodata' grid cells?}
 
 \item{type}{character string: \code{"nodes"}: create point shapefile of grid center points; \code{"cells"} (only supported by SAGA GIS 2.0.6+): create polygon shapefile with grid cell boundaries}
 
@@ -40,9 +40,11 @@ rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 Convert SAGA grid file to point (or polygon) shapefile - either completely or only a random sample of grid cells.
 }
 \note{
-These functions use modules \verb{Grid Values to Points} (in some versions also called \verb{Grid Values to Shapes}) and \verb{Grid Values to Points (randomly)} in SAGA library \code{shapes_grid}.
+These functions use modules \verb{Grid Cells to Points/Polygons} (previously called \verb{Grid Values to Points} and in some earlier versions \verb{Grid Values to Shapes}) and \verb{Grid Values to Points (randomly)} in SAGA library \code{shapes_grid}.
 
 The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument \code{type}).
+
+Since somewhere between SAGA 9.0.0 and 9.3.3, the \code{NODATA} argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exluce cell if at least one grid does not provide data. From 9.3.0 up, \code{exclude.nodata=TRUE} is interpreted as (and converted to) \code{1}.
 }
 \examples{
 \dontrun{

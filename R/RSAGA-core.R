@@ -183,9 +183,9 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
       }
       cat("Done")
 
-      # If modules path is emtpy but cmd path is set, try to find modules path
+      # If modules path is empty but cmd path is set, try to find modules path
     } else {
-      cat("Found SAGA command line program. Search for not specified SAGA modules path... \n")
+      cat("Found SAGA command line program. SAGA modules path not specified, looking for it now... \n")
 
       # Search for modules path
       modules = rsaga.get.modules.path(saga.path = path)
@@ -451,12 +451,12 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 
 #' Find SAGA libraries and modules
 #'
-#' These functions list the SAGA libraries (`rsaga.get.libraries`) and modules (`rsaga.get.lib.modules`, `rsaga.get.modules`) available in a SAGA installation, and allow to perform a full-text search among these functions.
+#' These functions list the SAGA libraries (`rsaga.get.libraries`) and modules (`rsaga.get.lib.modules`, `rsaga.get.modules`) available in a SAGA installation, and allow performing a full-text search among these functions.
 #' @name rsaga.get.modules
 #' @param text character string to be searched for in the names of available libraries and/or modules
 #' @param search.libs logical (default `TRUE`); see `search.modules`
 #' @param search.modules logical (default `TRUE`): should `text` be searched for in library and/or module names?
-#' @param ignore.case logical (default `FALSE`): should the text search in library/module names be case sensitive?
+#' @param ignore.case logical (default `FALSE`): should the text search in library/module names be case-sensitive?
 #' @param lib character string with the name of the library in which to look for modules
 #' @param libs character vector with the names of libraries in which to look for modules; if missing, all libraries will be processed
 #' @param module module name or numeric code
@@ -471,9 +471,9 @@ rsaga.get.version = function(env = rsaga.env(version=NA), ...)
 #'
 #' `rsaga.get.lib.modules` returns a `data.frame` with:
 #' \itemize{
-#' \item{name} {the names of all modules in library `lib`,}
-#' \item{code} {their numeric identifiers,}
-#' \item{interactive} {and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
+#'   \item name: the names of all modules in library `lib`
+#'   \item code: their numeric identifiers
+#'   \item interactive: a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode
 #' }
 #'
 #' `rsaga.get.modules` returns a list with, for each SAGA library in `libs`, a `data.frame` with module information as given by `rsaga.get.lib.modules`. If `libs` is missing, all modules in all libraries will be retrieved.

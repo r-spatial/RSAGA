@@ -2,6 +2,7 @@
 % Please edit documentation in R/RSAGA-package.R
 \docType{package}
 \name{RSAGA-package}
+\alias{RSAGA}
 \alias{RSAGA-package}
 \title{RSAGA: SAGA Geoprocessing and Terrain Analysis in R}
 \description{
@@ -29,7 +30,7 @@ functions are provided for conveniently picking
 values at point locations from a grid using kriging
 or nearest neighbour interpolation.
 
-RSAGA requires SAGA GIS (versions 2.3.1 LTS - 8.4.1)
+RSAGA requires SAGA GIS (versions 2.3.1 LTS - 9.7.2)
 are currently supported) and its user-contributed
 modules to be available on your computer. These
 can be downloaded under GPL from
@@ -57,6 +58,13 @@ Landschaftsoekologie, vol. 19), p. 23-32.
 Conrad, O., Bechtel, M., Bock, M., Dietrich, H., Fischer, E., Gerlitz, L., Wichmann,
 V., & Boehner, J. (2015). System for Automated Geoscientific Analyses (SAGA) v. 2.1.4.
 \emph{Geoscientific Model Development}, 8, 1991-2007
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/r-spatial/RSAGA}
+}
+
 }
 \author{
 Alexander Brenning, Donovan Bangs and Marc Becker

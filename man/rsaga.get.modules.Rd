@@ -58,22 +58,22 @@ rsaga.search.modules(
 
 \item{search.modules}{logical (default \code{TRUE}): should \code{text} be searched for in library and/or module names?}
 
-\item{ignore.case}{logical (default \code{FALSE}): should the text search in library/module names be case sensitive?}
+\item{ignore.case}{logical (default \code{FALSE}): should the text search in library/module names be case-sensitive?}
 }
 \value{
 \code{rsaga.get.libraries} returns a character vector with the names of all SAGA libraries available in the folder \code{env$modules}.
 
 \code{rsaga.get.lib.modules} returns a \code{data.frame} with:
 \itemize{
-\item{name} {the names of all modules in library \code{lib},}
-\item{code} {their numeric identifiers,}
-\item{interactive} {and a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode.}
+\item name: the names of all modules in library \code{lib}
+\item code: their numeric identifiers
+\item interactive: a logical variable indicating whether a module can only be executed in interactive (SAGA GUI) mode
 }
 
 \code{rsaga.get.modules} returns a list with, for each SAGA library in \code{libs}, a \code{data.frame} with module information as given by \code{rsaga.get.lib.modules}. If \code{libs} is missing, all modules in all libraries will be retrieved.
 }
 \description{
-These functions list the SAGA libraries (\code{rsaga.get.libraries}) and modules (\code{rsaga.get.lib.modules}, \code{rsaga.get.modules}) available in a SAGA installation, and allow to perform a full-text search among these functions.
+These functions list the SAGA libraries (\code{rsaga.get.libraries}) and modules (\code{rsaga.get.lib.modules}, \code{rsaga.get.modules}) available in a SAGA installation, and allow performing a full-text search among these functions.
 }
 \note{
 For information on the usage of SAGA command line modules, see \code{\link[=rsaga.get.usage]{rsaga.get.usage()}}, or \code{\link[=rsaga.html.help]{rsaga.html.help()}} (in SAGA GIS 2.1.0+), or the RSAGA interface function, if available.

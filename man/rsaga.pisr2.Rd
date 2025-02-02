@@ -20,8 +20,11 @@ rsaga.pisr2(
   location = c("latitude", "grid"),
   latitude = 53,
   unit = c("kWh/m2", "kJ/m2", "J/cm2"),
+  shadow = c("slim", "fat", "none"),
   solconst = 1367,
   method = c("height", "components", "lumped", "hofierka"),
+  linke.default = 3,
+  vapour.default = 10,
   hgt.atmosphere = 12000,
   cmp.pressure = 1013,
   cmp.water.content = 1.68,
@@ -53,7 +56,7 @@ rsaga.pisr2(
 
 \item{out.ratio.grid}{Optional output grid: Direct to diffuse ratio}
 
-\item{out.duration}{Optional output grid: Duration of insolation}
+\item{out.duration}{Optional output grid: Duration of insolation.}
 
 \item{out.sunrise}{Optional output grid: time of sunrise; only calculated if time span is set to single day}
 
@@ -67,9 +70,15 @@ rsaga.pisr2(
 
 \item{unit}{unit of insolation output grids: \code{"kWh/m2"} (default) \code{"kJ/m2"}, or \code{"J/cm2"}}
 
+\item{shadow}{specifies how topographic shading is modeled: \code{"slim"} (or numeric code 0), \code{"fat"} (or code 1; the default), or \code{"none"} (code \code{2}). Quoting SAGA 7.8.2 help: Choose 'slim' to trace grid node's shadow, 'fat' to trace the whole cell's shadow, or ignore shadowing effects. The first is slightly faster but might show some artifacts. (End quote.)}
+
 \item{solconst}{solar constant, defaults to 1367 W/m2}
 
-\item{method}{specifies how the atmospheric components should be  accounted for: either based on the height of atmosphere and vapour pressure (\code{"height"}, or numeric code 0), or air pressure, water and dust content (\code{"components"}, code 1), or lumped atmospheric transmittance (\code{"lumped"}, code \code{2}), or by the method of Hofierka and Suri, 2009 (\code{"hofierka"}, code \code{3}). Default: \code{"lumped"}.}
+\item{method}{specifies how the atmospheric components should be accounted for: either based on the height of atmosphere and vapour pressure (\code{"height"}, or numeric code 0), or air pressure, water and dust content (\code{"components"}, code 1), or lumped atmospheric transmittance (\code{"lumped"}, code \code{2}), or by the method of Hofierka and Suri, 2009 (\code{"hofierka"}, code \code{3}). Default: \code{"lumped"}.}
+
+\item{linke.default}{SAGA argument \code{GRD_LINKE_DEFAULT}, defaults to 3.0}
+
+\item{vapour.default}{SAGA argument \code{GRD_VAPOUR_DEFAULT}, defaults to 10.0}
 
 \item{hgt.atmosphere}{Height of atmosphere (in m); default 12000 m. For use with \code{method = "height"}}
 
@@ -85,7 +94,7 @@ rsaga.pisr2(
 
 \item{time.step}{time step in hours for numerical integration}
 
-\item{start.date}{list of length three, giving the start date in \code{day}, \code{month}, and \code{year} components as numbers; month is one-based (SAGA_CMD uses zero-based numbers internally), i.e. Jan. 1st 2015 is \code{list(day=1,month=1,year=2015)}}
+\item{start.date}{list of length three, giving the start date in \code{day}, \code{month}, and \code{year} components as numbers, i.e. Jan. 1st 2015 is \code{list(day=1,month=1,year=2015)}}
 
 \item{end.date}{see \code{start.date}}
 
@@ -103,12 +112,10 @@ For SAGA versions 2.0.6 to 2.2.1 please see \code{\link[=rsaga.pisr]{rsaga.pisr(
 According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with \code{method = "components"} and \code{method = "lumped"}.
 }
 \note{
-SAGA_CMD uses zero-based months, but this R function uses the standard one-based months (e.g. day 1 is the first day of the month, month 1 is January) and translates to the SAGA system.
-
-This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA version 2.0.6+.
-Changes to the module with SAGA 2.2.2+ include adding \code{year} to the \verb{*.date} arguments to allow calculation across years.
-The method of Hofierka and Suri (2009) is added, which uses the Linke turbidity coefficient.
+This function uses module Potential Incoming Solar Radiation from SAGA library \code{ta_lighting} in SAGA versions >2.2.3.
 Duration of insolation (\code{"out.duration"}) is only calculated when the time period is set to a single day.
+
+The SAGA module in version 8.5.x does not correctly use the date arguments; it is therefore not supported. Several SAGA versions >=8.6.0 and <8.5.0 did, however, produce plausible results and correctly interpreted the date arguments according to output shown when \code{show.output.on.console=TRUE} was used.
 }
 \references{
 Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.

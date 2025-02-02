@@ -4,27 +4,27 @@
 \alias{landslides}
 \alias{dem}
 \alias{study_area}
-\title{Landslide inventory, study area mask and DEM}
+\title{Landslide inventory, study area mask, and DEM}
 \format{
 The \code{landslides} dataset consists of three objects:
 \enumerate{
-\item{\code{landslides}} {A dataframe of 1535 rows and 3 variables
+\item{\code{landslides}}{A dataframe of 1535 rows and 3 variables
 representing landslide initiation points in the
 \emph{Reserva Biologica San Francisco} (RBSF) area of the tropical Andes
 in Southern Ecuador. The variables are:
 \itemize{
-\item{\code{lslpts}} {landslide initiation point (boolean)}
-\item{\code{x} and \code{y}} {Coordinates of coordinate reference system
-UTM zone 17S (EPSG: 32717)}
+\item \code{lslpts}: landslide initiation point (boolean)
+\item \code{x} and \code{y}: Coordinates of coordinate reference system
+UTM zone 17S (EPSG: 32717)
 }
 The landslide inventory was mapped by Stoyan (2000) in the field and by
 the presence of landslide scars in aerial imagery.}
-\item \code{dem} {Digital elevation model given as a .Rd grid, i.e. a list
+\item{\code{dem}}{Digital elevation model given as a .Rd grid, i.e., a list
 consisting of the elements \code{header} (nine properties) and \code{data}
 (grid elevation values in m a.s.l.). The 10 m x 10 m digital elevation model
 was triangulated from aerial imagery as described by Jordan \emph{et al.}
 (2005) and provided as a courtesy of Lars Ungerechts (2010).}
-\item \code{study_area} {An \code{sf}-object representing the outlines of
+\item{\code{study_area}}{An \code{sf}-object representing the outlines of
 the natural part of the RBSF study area.}
 }
 }
@@ -63,8 +63,8 @@ use of the RSAGA package for terrain analysis, geoprocessing, and
 model-building using these data.
 }
 \note{
-Please note that loading \code{landslides} overwrites existing objects named
-\code{dem}, \code{landslides} and \code{study_area}.
+Loading \code{landslides} overwrites existing objects named
+\code{dem}, \code{landslides}, and \code{study_area}.
 }
 \examples{
 \dontrun{

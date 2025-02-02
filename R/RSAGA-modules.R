@@ -1081,15 +1081,15 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param out.duration Optional output grid: Duration of insolation.
 #' @param out.sunrise Optional output grid: time of sunrise; only calculated if time span is set to single day
 #' @param out.sunset Time of sunset; see `out.sunrise`
-#' @param vapour.default SAGA argument `GRD_VAPOUR_DEFAULT`, defaults to 10.0
-#' @param linke.default SAGA argument `GRD_LINKE_DEFAULT`, defaults to 3.0
 #' @param local.svf logical (default: `TRUE`; if TRUE, use sky view factor based on local slope (after Oke, 1988), if no sky view factor grid is provided in `in.svf.grid`
 #' @param location specified whether to use constant latitude supplied by `latitude` below (`"latitude"` or code `0`; default) or as calculated from the grid system (`"grid"` or code `1`)
 #' @param latitude Geographical latitude in degree North (negative values indicate southern hemisphere)
 #' @param unit unit of insolation output grids: `"kWh/m2"` (default) `"kJ/m2"`, or `"J/cm2"`
-#' @param solconst solar constant, defaults to 1367 W/m2
 #' @param shadow specifies how topographic shading is modeled: `"slim"` (or numeric code 0), `"fat"` (or code 1; the default), or `"none"` (code `2`). Quoting SAGA 7.8.2 help: Choose 'slim' to trace grid node's shadow, 'fat' to trace the whole cell's shadow, or ignore shadowing effects. The first is slightly faster but might show some artifacts. (End quote.)
+#' @param solconst solar constant, defaults to 1367 W/m2
 #' @param method specifies how the atmospheric components should be accounted for: either based on the height of atmosphere and vapour pressure (`"height"`, or numeric code 0), or air pressure, water and dust content (`"components"`, code 1), or lumped atmospheric transmittance (`"lumped"`, code `2`), or by the method of Hofierka and Suri, 2009 (`"hofierka"`, code `3`). Default: `"lumped"`.
+#' @param linke.default SAGA argument `GRD_LINKE_DEFAULT`, defaults to 3.0
+#' @param vapour.default SAGA argument `GRD_VAPOUR_DEFAULT`, defaults to 10.0
 #' @param hgt.atmosphere Height of atmosphere (in m); default 12000 m. For use with `method = "height"`
 #' @param cmp.pressure atmospheric pressure in mbar, defaults to 1013 mbar. For use with `method = "components"`
 #' @param cmp.water.content water content of a vertical slice of the atmosphere in cm: between 1.5 and 1.7cm, average 1.68cm (default). For use with `method = "components"`

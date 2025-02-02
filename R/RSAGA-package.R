@@ -52,7 +52,4 @@
 #'  *Geoscientific Model Development*, 8, 1991-2007
 #'
 #' @author Alexander Brenning, Donovan Bangs and Marc Becker
-#' @docType package
-#' @name RSAGA-package
-#' @aliases RSAGA-package
-NULL
+"_PACKAGE"

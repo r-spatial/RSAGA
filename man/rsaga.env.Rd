@@ -37,7 +37,7 @@ rsaga.env(
 \item{lib.prefix}{character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to \code{\link[=rsaga.lib.prefix]{rsaga.lib.prefix()}} tries to determine the correct prefix, e.g. \code{""} on Windows systems and \code{"lib"} on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying \code{""} or \code{"lib"} manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your \code{Sys.info()["sysname"]} and your SAGA GIS version)}
 }
 \value{
-A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}, \code{version}, \code{cores} and \code{parallel} with values as passed to \code{rsaga.env} or default values as described in the Details section.
+A list with components \code{workspace}, \code{cmd}, \code{path}, \code{modules}, \code{version}, \code{numeric_version}, \code{cores} and \code{parallel} with values as passed to \code{rsaga.env} or default values as described in the Details section.
 }
 \description{
 \code{rsaga.env} creates a list with system-dependent information on SAGA path, module path and data (working) directory. This kind of a list is required by most RSAGA geoprocessing functions and is referred to as the 'RSAGA geoprocessing environment.'

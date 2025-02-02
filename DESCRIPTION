@@ -1,54 +1,52 @@
-Package: RSAGA
 Type: Package
+Package: RSAGA
 Title: SAGA Geoprocessing and Terrain Analysis
 Version: 1.4.2
 Date: 2025-02-01
 Authors@R: c(
-    person("Alexander", "Brenning",
-    email = "alexander.brenning@uni-jena.de", 
-    role = c("aut", "cre"),
-    comment = c(ORCID = '0000-0001-6640-679X')),
-    person("Donovan", "Bangs",
-    role = "aut"),
-    person("Marc", "Becker",
-    role = "aut"),
-    person("Patrick", "Schratz",
-    email = "patrick.schratz@gmail.com", 
-    role = c("ctb"),
-    comment = c(ORCID = '0000-0003-0748-6624')),
-    person("Fabian", "Polakowski",
-    role = c("ctb"),
-    email = "fabian.polakowski@gmail.com")
-    )
-Description: Provides access to geocomputing and terrain analysis functions
-    of the geographical information system (GIS) 'SAGA' (System for Automated
-    Geoscientific Analyses) from within R by running the command line version of
-    SAGA. This package furthermore provides several R functions for handling ASCII
-    grids, including a flexible framework for applying local functions (including
-    predict methods of fitted models) and focal functions to multiple grids. SAGA
-    GIS is available under GPL-2 / LGPL-2 licences from 
+    person("Alexander", "Brenning", , "alexander.brenning@uni-jena.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-6640-679X")),
+    person("Donovan", "Bangs", role = "aut"),
+    person("Marc", "Becker", role = "aut"),
+    person("Patrick", "Schratz", , "patrick.schratz@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0003-0748-6624")),
+    person("Fabian", "Polakowski", , "fabian.polakowski@gmail.com", role = "ctb")
+  )
+Description: Provides access to geocomputing and terrain analysis
+    functions of the geographical information system (GIS) 'SAGA' (System
+    for Automated Geoscientific Analyses) from within R by running the
+    command line version of SAGA. This package furthermore provides
+    several R functions for handling ASCII grids, including a flexible
+    framework for applying local functions (including predict methods of
+    fitted models) and focal functions to multiple grids. SAGA GIS is
+    available under GPL-2 / LGPL-2 licences from
     <https://sourceforge.net/projects/saga-gis/>.
-URL: https://github.com/r-spatial/RSAGA
 License: GPL-2 | file LICENSE
-Encoding: UTF-8
-SystemRequirements: SAGA GIS (2.3 LTS - 9.7.2)
+URL: https://github.com/r-spatial/RSAGA
 Depends:
-    R (>= 2.10),
     gstat,
-    shapefiles,
-    plyr
+    plyr,
+    R (>= 2.10),
+    shapefiles
 Imports:
-  stats,
-  utils,
-  stringr,
-  magrittr
+    magrittr,
+    stats,
+    stringr,
+    utils
 Suggests:
-    sf,
-    sp,
+    doSNOW,
+    gam,
     knitr,
-    testthat,
-    rmarkdown
+    rmarkdown,
+    sf,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 LazyLoad: yes
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+SystemRequirements: SAGA GIS (2.3 LTS - 9.7.2)
 Collate:
     'gridtools.R'
     'RSAGA-core.R'
@@ -56,6 +54,3 @@ Collate:
     'RSAGA-utils.R'
     'RSAGA-package.R'
     'landslides.R'
-VignetteBuilder: knitr
-RoxygenNote: 7.2.0
-Roxygen: list(markdown = TRUE)
