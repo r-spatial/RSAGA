@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Terrain Analysis with RSAGA: Landslide Susceptibility Modeling"
 author: "Alexander Brenning, Donovan Bangs and Marc Becker"
-date: "08 December 2022"
+date: "02 February 2025"
 output:
     rmarkdown::html_vignette:
       fig_caption: yes
@@ -247,7 +247,7 @@ Grids may be transformed by applying functions through `rsaga.grid.calculus`. Gr
 Through this functionality, SAGA terrain analysis can be coupled with statistical computing, all within R. 
 
 ## A Note on Versions
-As SAGA GIS is regularly updated, we strive to keep RSAGA functional with as many SAGA versions as practicable. However, the release version of RSAGA on CRAN may not be compatible with all versions of SAGA GIS. Currently, RSAGA supports SAGA versions 2.3.1 LTS to 8.4.1. SAGA GIS versions that were released after this package could work as long as no major changes were made to SAGA GIS. Older version down to 2.0.4 might still work but are not supported by all functions. 
+As SAGA GIS is regularly updated, we strive to keep RSAGA functional with as many SAGA versions as practicable. However, the release version of RSAGA on CRAN may not be compatible with all versions of SAGA GIS. Currently, RSAGA supports SAGA versions 2.3.1 LTS to 9.7.2. SAGA GIS versions that were released after this package could work as long as no major changes were made to SAGA GIS. Older version down to 2.0.4 might still work but are not supported by all functions. 
 
 When a new version of SAGA GIS is released, RSAGA on CRAN may not be initially compatible with this release. Development and pre-release versions of RSAGA may be downloaded from the project Github page at: <https://github.com/r-spatial/RSAGA>
 
