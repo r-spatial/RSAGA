@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Latest RSAGA version with support for SAGA GIS 2.3 LTS - 8.4.1
+Latest RSAGA version with support for SAGA GIS 2.3 LTS - 9.7.2
 
 Provides access to geocomputing and terrain analysis
 functions of the geographical information system (GIS) ['SAGA' (System for
