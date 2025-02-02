@@ -2323,7 +2323,7 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #'
 #' The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument `type`).
 #'
-#' Since SAGA 9.?.?, the `NODATA` argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exluce cell if at least one grid does not provide data. In these versions, `exclude.nodata=TRUE` is interpreted as (and converted to) `1`.
+#' Since somewhere between SAGA 9.0.0 and 9.3.3, the `NODATA` argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exluce cell if at least one grid does not provide data. From 9.3.0 up, `exclude.nodata=TRUE` is interpreted as (and converted to) `1`.
 #' @seealso [rsaga.add.grid.values.to.points()]
 #' @examples
 #' \dontrun{
@@ -2362,7 +2362,7 @@ rsaga.grid.to.points = function(in.grids, out.shapefile,
         stop("SAGA shapes_grid 'Grid Values to Points'/'Grid Cells to Points/Polygons' argument names changed somewhere between version 9.0.0 and 9.3.3. Switch to a more recent SAGA version, or use 'rsaga.geoprocessor' instead of this function.")
       }
     }
-    if (env$numeric_version >= 950)
+    if (env$numeric_version >= 930) # not 100% sure, somewhere between 9.0.0 and 9.3.3
       exclude.nodata <- as.numeric(exclude.nodata)
     param = c(param, NODATA = exclude.nodata)
     if (!missing(in.clip.polygons))
