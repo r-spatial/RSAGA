@@ -1115,6 +1115,8 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @note
 #' This function uses module Potential Incoming Solar Radiation from SAGA library `ta_lighting` in SAGA versions >2.2.3.
 #' Duration of insolation (`"out.duration"`) is only calculated when the time period is set to a single day.
+#'
+#' The SAGA module in version 8.5.x does not correctly use the date arguments; it is therefore not supported. Several SAGA versions >=8.6.0 and <8.5.0 did, however, produce plausible results and correctly interpreted the date arguments according to output shown when `show.output.on.console=TRUE` was used.
 #' @seealso [rsaga.pisr()]; for similar modules in older SAGA versions (pre-2.0.6) see [rsaga.solar.radiation()] and [rsaga.insolation()]; [rsaga.hillshade()]
 #' @keywords spatial interface
 #' @export
@@ -1143,6 +1145,9 @@ rsaga.pisr2 <- function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
             "2.2.0","2.2.1","2.2.2","2.2.3") == env$version)) {
     stop("This SAGA version is not supported by the current version of rsaga.pisr2")
   }
+  if ((env$numeric_version >= 850) & (env$numeric_version < 860)) {
+    stop("rsaga.pisr2 does not spport SAGA version 8.5.x as this version does not correctly read the date arguments.")
+  }
 
   # Function for creating date character strings in format expected by SAGA:
   rsaga.format.date <- function(x) {
@@ -1153,12 +1158,22 @@ rsaga.pisr2 <- function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
     stopifnot( (x$month>=1) & (x$month<=12) )
     stopifnot(x$year >= 0)
 
+    ## Changed this to YYYY-MM-DD format as displayed in
+    ## SAGA help, but format MM/DD/YYYY apparently continues
+    ## to work. - 2025-02-02
+    # paste0(
+    #   formatC(x$month, format = "d", flag = "0", width = 2),
+    #   "/",
+    #   formatC(x$day, format = "d", flag = "0", width = 2),
+    #   "/",
+    #   formatC(x$year, format = "d", flag = "0", width = 4)
+    # )
     paste0(
+      formatC(x$year, format = "d", flag = "0", width = 4),
+      "-",
       formatC(x$month, format = "d", flag = "0", width = 2),
-      "/",
-      formatC(x$day, format = "d", flag = "0", width = 2),
-      "/",
-      formatC(x$year, format = "d", flag = "0", width = 4)
+      "-",
+      formatC(x$day, format = "d", flag = "0", width = 2)
     )
   }
 
@@ -2304,7 +2319,7 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #' @param env RSAGA geoprocessing environment created by [rsaga.env()]; required by `rsaga.grid.to.points` to determine version-dependent SAGA module name and arguments
 #' @param ... Optional arguments to be passed to [rsaga.geoprocessor()]
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
-#' @note These functions use modules `Grid Values to Points` (in some versions also called `Grid Values to Shapes`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
+#' @note These functions use modules `Grid Cells to Points/Polygons` (previously called `Grid Values to Points` and in some earlier versions `Grid Values to Shapes`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
 #'
 #' The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument `type`).
 #' @seealso [rsaga.add.grid.values.to.points()]
@@ -2338,9 +2353,19 @@ rsaga.grid.to.points = function(in.grids, out.shapefile,
         param = c(param, POLYGONS = in.clip.polygons)
     if (!(env$version == "2.0.4" | env$version == "2.0.5"))
         param = c(param, TYPE = type)
-    module = "Grid Values to Points"
-    if (!rsaga.module.exists("shapes_grid",module,env=env))
+
+    # Module name changed to 'Grid Cells to Points/Polygons'
+    # somewhere between SAGA 9.3.3 and SAGA 9.5.0:
+    module <- "Grid Cells to Points/Polygons"
+    check_module <- TRUE
+    if (!is.na(env$numeric_version))
+      check_module <- env$numeric_version < 950
+    if (!rsaga.module.exists("shapes_grid",module,env=env)) {
         module = "Grid Values to Shapes"
+        if (!rsaga.module.exists("shapes_grid",module,env=env))
+            module = "Grid Values to Shapes"
+    }
+
     rsaga.geoprocessor(lib = "shapes_grid",
         module = module, # was: = 3
         param, env = env, check.parameters = FALSE, ...)
@@ -2553,8 +2578,15 @@ rsaga.modified.quadratic.shephard = function(in.shapefile, out.grid, field,
       names(param) = nm
     }
 
+    # Earlier versions had a typo:
+    module <- "Modified Quadratic Shepard"
+    if (!is.na(env$numeric_version)) {
+      if (env$numeric_version < 970)
+        module <- "Modifed Quadratic Shepard"
+    }
+
     rsaga.geoprocessor(lib = "grid_gridding",
-        module = "Modifed Quadratic Shepard",
+        module = module,
         param, env = env, check.parameters = FALSE, ...)
 }
 

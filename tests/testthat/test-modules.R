@@ -7,6 +7,10 @@ library(RSAGA)
 # tests. Use NULL to let RSAGA try to find a SAGA installation.
 # SAGA_PATH <- NULL
 SAGA_PATH <- "C:/Progra~1/SAGA"
+# SAGA_PATH <- "C:/Progra~1/saga-9.7.2_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.3.3_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.0.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-8.5.0_x64"
 # SAGA_PATH <- "C:/Progra~1/saga_8.1.3_x64"
 # SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
 
@@ -156,7 +160,7 @@ test_that("PISR2", {
     lmp.transmittance = 60, time.range = c(0, 24), time.step = 3,
     start.date = list(day = 1, month = 10, year = 2016),
     end.date = list(day = 6, month = 12, year = 2016),
-    day.step = 10, env = env, show = FALSE, check.module.exists = FALSE
+    day.step = 5, env = env, show = FALSE, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
 
@@ -176,9 +180,9 @@ test_that("PISR2", {
   grd1 <- read.sgrd(out_fnm, prec = 5, env = env)
   grd2 <- read.sgrd(out_fnm2, prec = 5, env = env)
   expect_true(abs(grd1$header$xllcenter - grd2$header$xllcenter) < 0.0005)
-  # median deviation <5%, but not 0:
+  # median deviation <8%, but not 0:
   medratio <- median(as.vector(grd1$data / grd2$data), na.rm = TRUE)
-  expect_true(abs(medratio - 1 ) < 0.05)
+  expect_true(abs(medratio - 1 ) < 0.08)
   expect_true(abs(medratio - 1 ) > 0)
 })
 

@@ -1,3 +1,10 @@
+# RSAGA 1.4.2
+
+* Package was updated and (successfully) tested with SAGA GIS 9.7.2, but continues to support earlier versions of SAGA GIS. Tests were also run with several SAGA versions in the 8.5.0 to 9.7.2 range.
+* Changes in module names in recent SAGA versions: grid_gridding "Modified Quadratic Shepard" and shapes_grid "Grid Values to Points"
+* Module "Potential Incoming Solar Radiation" is not working properly in SAGA 8.5.x; `rsaga.pisr2` therefore refuses to call it and generates an error.
+
+
 # RSAGA 1.4.1
 
 ## Bug fixes

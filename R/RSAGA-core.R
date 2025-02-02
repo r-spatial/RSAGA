@@ -110,7 +110,7 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #'
 #' 3) The user specifies only the path to the SAGA command line program. A search for the SAGA modules is performed as described in section 1.
 #'
-#' @return A list with components `workspace`, `cmd`, `path`, `modules`, `version`, `cores` and `parallel` with values as passed to `rsaga.env` or default values as described in the Details section.
+#' @return A list with components `workspace`, `cmd`, `path`, `modules`, `version`, `numeric_version`, `cores` and `parallel` with values as passed to `rsaga.env` or default values as described in the Details section.
 #' @author Alexander Brenning and Marc Becker
 #' @note Note that the default `workspace` is `"."`, not `getwd()`; i.e. the default SAGA workspace folder is not fixed, it changes each time you change the R working directory using `setwd`.
 #' @seealso [rsaga.get.version()]
@@ -301,8 +301,16 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
 
   # Determine SAGA API version, if not specified by caller
   if (missing(version)) {
-    version = rsaga.get.version(env = env)
-    env$version = version
+    version <- rsaga.get.version(env = env)
+  }
+  env$version <- version
+
+  # Determine numeric version, e.g. 900 for '9.0.0'
+  env$numeric_version <- NA
+  if (!is.null(env$version)) {
+    if (!is.na(env$version)) {
+      env$numeric_version <- as.numeric(gsub("\\.", "", env$version))
+    }
   }
 
   # Check cores
@@ -560,6 +568,7 @@ rsaga.get.lib.modules = function(lib, env=rsaga.env(), interactive=FALSE)
         # inserted tolower() for SAGA 2.1.0 RC1:
         rawres = rawres[ tolower(rawres) != "error: module" ]
         rawres = rawres[ tolower(rawres) != "error: tool" ]
+        rawres = rawres[ tolower(rawres) != "[error] select a tool" ]
         rawres = rawres[ tolower(rawres) != "error: select a tool" ]
     }
     if (length(wh) > 0) {
@@ -910,15 +919,14 @@ rsaga.geoprocessor = function(
     argsep = " ", check.parameters = TRUE, ... )
 {
 # Issue warning if using SAGA GIS version that has not been tested with RSAGA:
-    if (!is.null(env$version)) {
-        if (!is.na(env$version)) {
-          num_version <- as.numeric(gsub("\\.", "", env$version))
-          if ((num_version < 231) | (num_version > 841))
-            warning("This RSAGA version has been tested with SAGA GIS versions between 2.3.1 and 8.4.1.\n",
+  if (!is.null(env$numeric_version)) {
+    if (!is.na(env$numeric_version)) {
+      if ((env$numeric_version < 231) | (env$numeric_version > 972))
+            warning("This RSAGA version has been tested with SAGA GIS versions between 2.3.1 and 9.7.2.\n",
                     "You seem to be using SAGA GIS ", env$version, ", which may cause problems due to\n",
                     "possible changes in names and definitions of SAGA module arguments, etc.", sep = "" )
-        }
     }
+  }
 
     # Number of cores for multicore processing:
     if (!missing(cores)) env$cores = cores
@@ -1097,6 +1105,7 @@ rsaga.geoprocessor = function(
         options(warn = oldwarn)
     }
     if (intern) {
+      res <- iconv(res, from = "ISO-8859-1", to = "UTF-8")
         if (reduce.intern) {
             remove = grep("\r",res,fixed=TRUE)
             if (length(remove) > 0)

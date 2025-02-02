@@ -7,8 +7,17 @@ library(RSAGA)
 # tests. Use NULL to let RSAGA try to find a SAGA installation.
 # SAGA_PATH <- NULL
 SAGA_PATH <- "C:/Progra~1/SAGA"
-# SAGA_PATH <- "C:/Progra~1/saga_8.1.3_x64"
-# SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.7.2_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.7.0_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.6.0_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.5.0_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.3.3_x64"
+SAGA_PATH <- "C:/Progra~1/saga-9.0.0_x64"
+SAGA_PATH <- "C:/Progra~1/saga-8.5.0_x64"
+SAGA_PATH <- "C:/Progra~1/saga_8.1.3_x64"
+SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
+
+# env <- rsaga.env(path = SAGA_PATH)
 
 test_that("Link to saga", {
   testthat::skip_on_cran()
@@ -31,9 +40,13 @@ required_modules <- list(
   ta_hydrology = c("Flow Accumulation (Top-Down)", "SAGA Wetness Index"),
   grid_calculus = c("Grid Calculator"),
   shapes_grid = c("Contour Lines from Grid", "Add Grid Values to Points",
-                  "Grid Values to Points", "Grid Values to Points (randomly)"),
+                  # "Grid Values to Points",
+                  "Grid Cells to Points/Polygons",
+                  "Grid Values to Points (randomly)"),
   grid_gridding = c("Inverse Distance Weighted", "Nearest Neighbour",
-                    "Modifed Quadratic Shepard", "Triangulation"),
+                    # "Modifed Quadratic Shepard",
+                    "Modified Quadratic Shepard",
+                    "Triangulation"),
   shapes_polygons = c("Intersect", "Union")
 )
 
