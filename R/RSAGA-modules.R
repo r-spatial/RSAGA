@@ -2347,7 +2347,19 @@ rsaga.grid.to.points = function(in.grids, out.shapefile,
     param = list(GRIDS = in.grids)
     if (env$version == "2.0.4" | env$version == "2.0.5") {
         param = c(param, POINTS = out.shapefile)
-    } else param = c(param, SHAPES = out.shapefile)
+    } else {
+      if (env$numeric_version >= 933) {
+        if (type == 0) { # nodes, i.e. points
+          param = c(param, POINTS = out.shapefile)
+        } else { # cells, i.e. polygons
+          param = c(param, CELLS = out.shapefile)
+        }
+      } else if (env$numeric_version <= 900) {
+        param = c(param, SHAPES = out.shapefile)
+      } else {
+        stop("SAGA shapes_grid 'Grid Values to Points'/'Grid Cells to Points/Polygons' argument names changed somewhere between version 9.0.0 and 9.3.3. Switch to a more recent SAGA version, or use 'rsaga.geoprocessor' instead of this function.")
+      }
+    }
     param = c(param, NODATA = exclude.nodata)
     if (!missing(in.clip.polygons))
         param = c(param, POLYGONS = in.clip.polygons)

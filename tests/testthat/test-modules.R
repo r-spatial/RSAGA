@@ -274,3 +274,23 @@ test_that("Grid to Points Randomly", {
   # need to be tolerant here because actual number of sampled points is random:
   expect_true(nrow(shp) > 0.8*(dem$header$ncols * dem$header$nrows)/50)
 })
+
+test_that("Grid to Points", {
+  testthat::skip_on_travis()
+  testthat::skip_on_cran()
+
+  env <- rsaga.env(path = SAGA_PATH)
+  out_fnm <- file.path(tempdir(), "grid_to_points.shp")
+
+  rsaga.grid.to.points(
+    in.grid = file.path(tempdir(), "dem.sgrd"),
+    out.shapefile = out_fnm,
+    env = env, check.module.exists = FALSE
+  )
+  expect_true(file.exists(out_fnm))
+
+  shp <- sf::read_sf(out_fnm)
+  expect_equal(as.character(sf::st_geometry_type(shp)[1]), "POINT")
+  # need to be tolerant here because actual number of sampled points is random:
+  expect_true(nrow(shp) == (dem$header$ncols * dem$header$nrows))
+})

@@ -7,15 +7,15 @@ library(RSAGA)
 # tests. Use NULL to let RSAGA try to find a SAGA installation.
 # SAGA_PATH <- NULL
 SAGA_PATH <- "C:/Progra~1/SAGA"
-SAGA_PATH <- "C:/Progra~1/saga-9.7.2_x64"
-SAGA_PATH <- "C:/Progra~1/saga-9.7.0_x64"
-SAGA_PATH <- "C:/Progra~1/saga-9.6.0_x64"
-SAGA_PATH <- "C:/Progra~1/saga-9.5.0_x64"
-SAGA_PATH <- "C:/Progra~1/saga-9.3.3_x64"
-SAGA_PATH <- "C:/Progra~1/saga-9.0.0_x64"
-SAGA_PATH <- "C:/Progra~1/saga-8.5.0_x64"
-SAGA_PATH <- "C:/Progra~1/saga_8.1.3_x64"
-SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.7.2_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.7.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.6.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.5.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.3.3_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-9.0.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga-8.5.0_x64"
+# SAGA_PATH <- "C:/Progra~1/saga_8.1.3_x64"
+# SAGA_PATH <- "C:/Progra~1/saga_2.3.1_x64"
 
 # env <- rsaga.env(path = SAGA_PATH)
 
