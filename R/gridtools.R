@@ -382,7 +382,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' @param env list: RSAGA geoprocessing environment created by [rsaga.env()]
 #' @param show.output.on.console a logical (default: `FALSE`), indicates whether to capture the output of the command and show it on the R console (see [system()], [rsaga.geoprocessor()]).
 #' @param nsplit split the data.frame `data` in `nsplit` disjoint subsets in order to increase efficiency by using [plyr::ddply()] in package \pkg{plyr}. The default seems to perform well in many situations.
-#' @param parallel logical (default: `FALSE`): enable parallel processing; requires additional packages such as \pkg{doSNOW} or \pkg{doMC}. See example below and [plyr::ddply()]
+#' @param parallel logical (default: `FALSE`): enable parallel processing; requires additional packages such as (formerly) `doSNOW` or \pkg{doMC}. See example below and [plyr::ddply()]
 #' @param ... arguments to be passed to `pick.from.points`, and to `internal.pick.from.ascii.grid` in the case of `pick.from.ascii.grid`
 #' @details `pick.from.points` interpolates the variables defined by `pick` in the `src` data.frame to the locations provided by the `data` data.frame. Only nearest neighbour and ordinary kriging interpolation are currently available. This function is intended for 'data-rich' situations in which not much thought needs to be put into a geostatistical analysis of the spatial structure of a variable. In particular, this function is supposed to provide a simple, 'quick-and-dirty' interface for situations where the `src` data points are very densely distributed compared to the `data` locations.
 #'
@@ -390,7 +390,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #'
 #' `pick.from.ascii.grid` retrieves data values from an ASCII raster file using either nearest neighbour or ordinary kriging interpolation. The latter may not be possible for large raster data sets because the entire grid needs to be read into an R matrix. Split-apply-combine strategies are used to improve efficiency and allow for parallelization.
 #'
-#' The optional parallelization of `pick.from.ascii.grid` computation requires the use of a *parallel backend* package such as \pkg{doSNOW} or \pkg{doMC}, and the parallel backend needs to be registered before calling this function with `parallel=TRUE`. The example section provides an example using \pkg{doSNOW} on Windows. I have seen 25-40% reduction in processing time by parallelization in some examples that I ran on a dual core Windows computer.
+#' The optional parallelization of `pick.from.ascii.grid` computation requires the use of a *parallel backend* package such as (formerly) `doSNOW` or \pkg{doMC}, and the parallel backend needs to be registered before calling this function with `parallel=TRUE`. The example section provides an example using \pkg{doSNOW} on Windows. I have seen 25-40% reduction in processing time by parallelization in some examples that I ran on a dual core Windows computer.
 #'
 #' `pick.from.ascii.grids` performs multiple `pick.from.ascii.grid` calls. File `path` and `prefix` arguments may be specific to each `file` (i.e. each may be a character vector), but all interpolation settings will be the same for each `file`, limiting the flexibility a bit compared to individual `pick.from.ascii.grid` calls by the user. `pick.from.ascii.grids` currently processes the files sequentially (i.e. parallelization is limited to the `pick.from.ascii.grid` calls within this function).
 #'
@@ -417,12 +417,13 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #' # assume that 'dem' is an ASCII grid and d a data.frame with variables x and y
 #' pick.from.ascii.grid(d, "dem")
 #' # parallel processing on Windows using the doSNOW package:
-#' require(doSNOW)
-#' registerDoSNOW(cl <- makeCluster(2, type = "SOCK")) # DualCore processor
-#' pick.from.ascii.grid(d, "dem", parallel = TRUE)
+#' # ---outdated - doSNOW has been superseded---
+#' ## require(doSNOW)
+#' ## registerDoSNOW(cl <- makeCluster(2, type = "SOCK")) # DualCore processor
+#' ## pick.from.ascii.grid(d, "dem", parallel = TRUE)
 #' # produces two (ignorable) warning messages when using doSNOW
 #' # typically 25-40% faster than the above on my DualCore notebook
-#' stopCluster(cl)
+#' ## stopCluster(cl)
 #' }
 #'
 #' \dontrun{

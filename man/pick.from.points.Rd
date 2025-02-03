@@ -131,7 +131,7 @@ pick.from.saga.grid(
 
 \item{prefix}{an optional prefix to be added to the \code{varname}}
 
-\item{parallel}{logical (default: \code{FALSE}): enable parallel processing; requires additional packages such as \pkg{doSNOW} or \pkg{doMC}. See example below and \code{\link[plyr:ddply]{plyr::ddply()}}}
+\item{parallel}{logical (default: \code{FALSE}): enable parallel processing; requires additional packages such as (formerly) \code{doSNOW} or \pkg{doMC}. See example below and \code{\link[plyr:ddply]{plyr::ddply()}}}
 
 \item{nsplit}{split the data.frame \code{data} in \code{nsplit} disjoint subsets in order to increase efficiency by using \code{\link[plyr:ddply]{plyr::ddply()}} in package \pkg{plyr}. The default seems to perform well in many situations.}
 
@@ -168,7 +168,7 @@ These functions pick (i.e. interpolate without worrying too much about theory) v
 
 \code{pick.from.ascii.grid} retrieves data values from an ASCII raster file using either nearest neighbour or ordinary kriging interpolation. The latter may not be possible for large raster data sets because the entire grid needs to be read into an R matrix. Split-apply-combine strategies are used to improve efficiency and allow for parallelization.
 
-The optional parallelization of \code{pick.from.ascii.grid} computation requires the use of a \emph{parallel backend} package such as \pkg{doSNOW} or \pkg{doMC}, and the parallel backend needs to be registered before calling this function with \code{parallel=TRUE}. The example section provides an example using \pkg{doSNOW} on Windows. I have seen 25-40\% reduction in processing time by parallelization in some examples that I ran on a dual core Windows computer.
+The optional parallelization of \code{pick.from.ascii.grid} computation requires the use of a \emph{parallel backend} package such as (formerly) \code{doSNOW} or \pkg{doMC}, and the parallel backend needs to be registered before calling this function with \code{parallel=TRUE}. The example section provides an example using \pkg{doSNOW} on Windows. I have seen 25-40\% reduction in processing time by parallelization in some examples that I ran on a dual core Windows computer.
 
 \code{pick.from.ascii.grids} performs multiple \code{pick.from.ascii.grid} calls. File \code{path} and \code{prefix} arguments may be specific to each \code{file} (i.e. each may be a character vector), but all interpolation settings will be the same for each \code{file}, limiting the flexibility a bit compared to individual \code{pick.from.ascii.grid} calls by the user. \code{pick.from.ascii.grids} currently processes the files sequentially (i.e. parallelization is limited to the \code{pick.from.ascii.grid} calls within this function).
 
@@ -188,12 +188,13 @@ The nearest neighbour interpolation currently randomly breaks ties if \code{pick
 # assume that 'dem' is an ASCII grid and d a data.frame with variables x and y
 pick.from.ascii.grid(d, "dem")
 # parallel processing on Windows using the doSNOW package:
-require(doSNOW)
-registerDoSNOW(cl <- makeCluster(2, type = "SOCK")) # DualCore processor
-pick.from.ascii.grid(d, "dem", parallel = TRUE)
+# ---outdated - doSNOW has been superseded---
+## require(doSNOW)
+## registerDoSNOW(cl <- makeCluster(2, type = "SOCK")) # DualCore processor
+## pick.from.ascii.grid(d, "dem", parallel = TRUE)
 # produces two (ignorable) warning messages when using doSNOW
 # typically 25-40\% faster than the above on my DualCore notebook
-stopCluster(cl)
+## stopCluster(cl)
 }
 
 \dontrun{
