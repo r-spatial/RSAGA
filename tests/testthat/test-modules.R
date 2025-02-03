@@ -43,7 +43,6 @@ test_that("Read grid from disc", {
   maxdiff <- max(as.vector(grd$data - dem$data), na.rm = TRUE)
   expect_true(maxdiff <= 0.0051)
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
-  try(unlink(fnm))
 })
 
 test_that("Slope", {
