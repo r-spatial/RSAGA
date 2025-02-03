@@ -117,7 +117,7 @@ pick.from.saga.grid(
 
 \item{Y.name}{name of the variable containing the y coordinates}
 
-\item{cbind}{logical: shoud the new variables be added to the input data.frame (\code{cbind=TRUE}, the default), or should they be returned as a separate vector or data.frame? \code{cbind=FALSE}}
+\item{cbind}{logical: should the new variables be added to the input data.frame (\code{cbind=TRUE}, the default), or should they be returned as a separate vector or data.frame? \code{cbind=FALSE}}
 
 \item{shapefile}{point shapefile}
 

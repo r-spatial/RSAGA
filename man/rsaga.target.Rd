@@ -37,6 +37,9 @@ and either \code{x/yllcorner} or \code{x/yllcenter}.}
 
 \item{env}{A SAGA geoprocessing environment, see \code{\link[=rsaga.env]{rsaga.env()}}.)}
 }
+\value{
+a list containing information such as the bounding box of a target grid
+}
 \description{
 Define the resolution and extent of a target grid for interpolation by SAGA
 modules based on (1) user-provided x/y coordinates, (2) an existing SAGA grid

@@ -36,6 +36,9 @@ rsaga.grid.to.points.randomly(in.grid, out.shapefile, freq, ...)
 
 \item{freq}{integer >=1: sampling frequency: on average 1 out of 'freq' grid cells are selected}
 }
+\value{
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+}
 \description{
 Convert SAGA grid file to point (or polygon) shapefile - either completely or only a random sample of grid cells.
 }
@@ -44,7 +47,7 @@ These functions use modules \verb{Grid Cells to Points/Polygons} (previously cal
 
 The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument \code{type}).
 
-Since somewhere between SAGA 9.0.0 and 9.3.3, the \code{NODATA} argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exluce cell if at least one grid does not provide data. From 9.3.0 up, \code{exclude.nodata=TRUE} is interpreted as (and converted to) \code{1}.
+Since somewhere between SAGA 9.0.0 and 9.3.3, the \code{NODATA} argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exclude cell if at least one grid does not provide data. From 9.3.0 up, \code{exclude.nodata=TRUE} is interpreted as (and converted to) \code{1}.
 }
 \examples{
 \dontrun{

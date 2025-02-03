@@ -31,7 +31,7 @@ rsaga.linear.combination(
 
 \item{coef}{numeric: coefficient vector to be used for the linear combination of the \code{in.grids}. If \code{coef} as one more element than \code{in.grids}, the first one will be interpreted as an intercept.}
 
-\item{cf.digits}{integer: number of digits used when converting the \code{coef}ficients to character strings (trailing zeros will be removed)}
+\item{cf.digits}{integer: number of digits used when converting the coefficients \code{coef} to character strings (trailing zeros will be removed)}
 
 \item{remove.zeros}{logical: if \code{TRUE}, terms (grids) with coefficient (numerically) equal to zero (after rounding to \code{cf.digits} digits) will be removed from the formula}
 

@@ -17,6 +17,9 @@ it defaults to \code{.sgrd}}
 
 \item{...}{additional arguments to be passed to \code{rsaga.geoprocessor}}
 }
+\value{
+the result of the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}} call
+}
 \description{
 These functions provide simple interfaces for reading and writing grids
 from/to ASCII grids and Rd files. Grids are stored in matrices, their headers

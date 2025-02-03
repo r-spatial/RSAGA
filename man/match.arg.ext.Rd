@@ -27,7 +27,7 @@ match.arg.ext(
 \item{ignore.case}{logical specifying if the matching should be case sensitive}
 }
 \value{
-If \code{numeric} is false and \code{arg} is a character string, the function returns the unabbreviated version of the unique partial match of \code{arg} if there is one; otherwise, an error is signalled if \code{several.ok} is false, as per default. When \code{several.ok} is true and there is more than one match, all unabbreviated versions of matches are returned.
+If \code{numeric} is false and \code{arg} is a character string, the function returns the unabbreviated version of the unique partial match of \code{arg} if there is one; otherwise, an error is produced if \code{several.ok} is false, as per default. When \code{several.ok} is true and there is more than one match, all unabbreviated versions of matches are returned.
 
 If \code{numeric} is false but \code{arg} is numeric, \code{match.arg.ext} returns name of the match corresponding to this index, counting from \code{base}; i.e. \code{arg=base} corresponds to \code{choices[1]}.
 

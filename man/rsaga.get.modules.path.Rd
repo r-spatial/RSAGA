@@ -15,6 +15,9 @@ rsaga.get.modules.path(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 
 \item{cmd}{name of the SAGA command line program}
 }
+\value{
+character string: identified path with SAGA modules; stops with an error if not found
+}
 \description{
 Internal functions that determine OS-specific path in which modules might be located.
 }

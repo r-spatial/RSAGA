@@ -9,11 +9,14 @@ centervalue(x)
 \arguments{
 \item{x}{a square matrix}
 }
+\value{
+value of the matrix entry in the middle of the matrix
+}
 \description{
 Pick the value in the center of a square matrix. Auxiliary function to be used by functions called by \code{\link[=focal.function]{focal.function()}}.
 }
 \details{
-See for example the code of \code{\link[=resid.median]{resid.median()}}.
+See for example the code of \code{\link[=resid.median]{resid.median()}}. Intended for use with square moving window matrices with an odd number of columns and rows.
 }
 \examples{
 ( m <- matrix( round(runif(9,1,10)), ncol=3 ) )

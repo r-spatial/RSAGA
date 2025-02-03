@@ -104,6 +104,9 @@ rsaga.pisr2(
 
 \item{...}{optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}}
 }
+\value{
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+}
 \description{
 This function calculates the potential incoming solar radiation in an area using different atmospheric models; This function reflects changes to the module with SAGA 2.2.2+.
 For SAGA versions 2.0.6 to 2.2.1 please see \code{\link[=rsaga.pisr]{rsaga.pisr()}}.

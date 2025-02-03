@@ -6,6 +6,7 @@
 #' @param saga.path character: path with SAGA GIS binaries, as determined (e.g.) by `rsaga.default.path`
 #' @param root root path to SAGA GIS installation
 #' @param cmd name of the SAGA command line program
+#' @return character string: identified path with SAGA modules; stops with an error if not found
 #' @export
 rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, root, cmd)
 {
@@ -59,10 +60,9 @@ rsaga.get.modules.path = function(sysname = Sys.info()["sysname"], saga.path, ro
 #' @param modules path in which to find SAGA libraries; see Details
 #' @param version optional character string: SAGA GIS (API) version, e.g. `"2.0.8"`; if missing, a call to [rsaga.get.version()] is used to determine version number of SAGA API
 #' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
-#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behavior of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @return a list containing the above information
 #' @export
-#'
-
 rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NULL,
                          version = NA, cores = NULL, parallel = NULL) {
   env = list(workspace = workspace, cmd = cmd, path = path, modules = modules,
@@ -81,8 +81,8 @@ rsaga.set.env = function(workspace = NULL, cmd = NULL, path = NULL, modules = NU
 #' @param modules path in which to find SAGA libraries; see Details
 #' @param version optional character string: SAGA GIS (API) version, e.g. `"2.0.8"`; if missing, a call to [rsaga.get.version()] is used to determine version number of SAGA API
 #' @param cores optional numeric argument, or `NA`: number of cores used by SAGA GIS; supported only by SAGA GIS 2.1.0 (and higher), ignored otherwise (with a warning). Multicore-enabled SAGA GIS modules such as the one used by [rsaga.pisr()] seem to run in multicore mode by default when this argument is not specified, therefore `cores` should only be specified to use a smaller number of cores than available on a machine.
-#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behaviour of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
-#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performce a search for the SAGA command line program (s. `search`).  If left empty, on Windoes `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
+#' @param parallel optional logical argument (default: `FALSE`): if `TRUE`, run RSAGA functions that are capable of parallel processing in parallel mode; note that this is completely independent of the behavior of SAGA GIS (which can be controlled using the `cores` argument); currently only some RSAGA functions support parallel processing (e.g., [pick.from.ascii.grid()] or [rsaga.get.modules()]). `parallel=TRUE` requires that a parallel backend such as \pkg{doSNOW} or \pkg{doMC} is available and has been started prior to calling any parallelized RSAGA function, otherwise warnings may be generated
+#' @param root optional root path to SAGA GIS installation. It is used if RSAGA performs a search for the SAGA command line program (s. `search`).  If left empty, on Windows `C:/` is used, on Linux `/usr` and on Mac OS  `/usr/local/Cellar`.
 #' @param lib.prefix character string: a possible (platform-dependent) prefix for SAGA GIS library names; if missing (recommended), a call to [rsaga.lib.prefix()] tries to determine the correct prefix, e.g. `""` on Windows systems and `"lib"` on non-Windows systems with SAGA GIS pre-2.1.0. Try specifying `""` or `"lib"` manually if this causes problems, and contact the package maintainer if the detection mechanism fails on your system (indicate your `Sys.info()["sysname"]` and your SAGA GIS version)
 #'
 #' @details IMPORTANT: Unlike R functions such as [options()],  which changes and saves settings somewhere in a global variable, [rsaga.env()] does not actually 'save' any settings, it simply creates a list that can (and has to) be passed to other `rsaga.*` functions. See example below.
@@ -334,7 +334,7 @@ rsaga.env = function(path = NULL, modules = NULL, workspace = ".",
 #'
 #' @name rsaga.lib.prefix
 #' @param env list, setting up a SAGA geoprocessing environment as created by [rsaga.env()].
-#' @details Some non-Windows versions of `saga_cmd` require library names with a `"lib"` prefix, e.g. `libio_grid` instead of `io_grid`. This function, which is called by [rsaga.env()] tries to guess this behaviour based on the operating system and SAGA GIS version.
+#' @details Some non-Windows versions of `saga_cmd` require library names with a `"lib"` prefix, e.g. `libio_grid` instead of `io_grid`. This function, which is called by [rsaga.env()] tries to guess this behavior based on the operating system and SAGA GIS version.
 #' @return A character string, either `""` or `"lib"`.
 #' @seealso [rsaga.env()]
 #' @examples
@@ -766,6 +766,7 @@ rsaga.get.usage = function(lib, module, env=rsaga.env(), show=TRUE)
 #' @param use.program.folder logical; if `TRUE` (the default), attempt to write SAGA GIS documentation to a `"help"` subfolder of `env$path`; the `"help"` folder is created if it doesn't exist. If `FALSE`, create SAGA GIS documentation files in this R session's temporary folder as obtained using `tempdir()`
 #' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
 #' @param ... additional arguments to [browseURL()]
+#' @return Returns nothing
 #' @details Requires SAGA GIS 2.1.0(+), with earlier versions use [rsaga.get.usage()].
 #' @examples
 #' \dontrun{
@@ -883,7 +884,7 @@ rsaga.html.help = function(lib, module=NULL, use.program.folder = TRUE, env=rsag
 #'
 #' If `intern=FALSE`, a numerical error/success code is returned, where a value of `0` corresponds to success and a non-zero value indicates an error. Note however that the function always returns a success value of `0` if `wait=FALSE`, i.e. if it does not wait for SAGA to finish.
 #'
-#' If `intern=TRUE` (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be cancelled out by setting `reduce.intern=TRUE`.
+#' If `intern=TRUE` (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be removed by setting `reduce.intern=TRUE`.
 #'
 #' @references Brenning, A., 2008. Statistical geocomputing combining R and
 #'  SAGA: The example of landslide susceptibility analysis with
@@ -1241,6 +1242,7 @@ rsaga.esri.wrapper = function(fun, in.esri=TRUE, out.esri=TRUE,
 #' @param out.grid name of a SAGA GIS grid file; file extension can be omitted
 #' @param overwrite logical; if `TRUE` (the default), overwrite `out.grid` if it already exists; if `FALSE` and the `out.grid` already exists, copying will be skipped without causing an error.
 #' @param env a SAGA geoprocessing environment as created by [rsaga.env()]
+#' @return a vector containing the results of the multiple [file.copy()] calls
 #' @note SAGA grid files consist of three (or more) individual files with file extensions `.mgrd`, `.sgrd` and `.sdat`. The files with these three file extensions are copied, any additional files (e.g. a history file) are ignored.
 #' @keywords spatial interface
 #' @export

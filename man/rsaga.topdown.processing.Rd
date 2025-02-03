@@ -110,7 +110,7 @@ Bauer, J., Rohdenburg, H., Bork, H.-R. (1985): Ein Digitales Reliefmodell als Vo
 
 Deterministic Infinity:
 
-Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Resources Research, 33(2): 309-319.
 
 Multiple Flow Direction:
 
@@ -120,7 +120,7 @@ Quinn, P.F., Beven, K.J., Chevallier, P., Planchon, O. (1991): The prediction of
 
 Multiple Triangular Flow Direction:
 
-Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
+Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Resources Research, 43, W04501.
 
 Multiple Flow Direction Based on Maximum Downslope Gradient:
 

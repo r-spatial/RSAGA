@@ -23,6 +23,9 @@ rsaga.html.help(
 
 \item{...}{additional arguments to \code{\link[=browseURL]{browseURL()}}}
 }
+\value{
+Returns nothing
+}
 \description{
 This function opens SAGA's HTML documentation for the specified library or module. Works with SAGA GIS 2.1.0(+), for earlier versions a web page with the SAGA GIS wiki is displayed.
 }

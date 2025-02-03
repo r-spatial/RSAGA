@@ -6,3 +6,5 @@ RSAGA.Rproj
 Thumbs.db
 convert_to_ascii_news.sh
 revdep
+/doc/
+/Meta/

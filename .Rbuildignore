@@ -11,3 +11,5 @@ tic.R
 ^revdep$
 ^CRAN-SUBMISSION$
 ^dev$
+^doc$
+^Meta$

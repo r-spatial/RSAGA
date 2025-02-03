@@ -64,7 +64,7 @@ The type of object returned depends on the \code{intern} argument passed to \cod
 
 If \code{intern=FALSE}, a numerical error/success code is returned, where a value of \code{0} corresponds to success and a non-zero value indicates an error. Note however that the function always returns a success value of \code{0} if \code{wait=FALSE}, i.e. if it does not wait for SAGA to finish.
 
-If \code{intern=TRUE} (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be cancelled out by setting \code{reduce.intern=TRUE}.
+If \code{intern=TRUE} (default), the console output of SAGA is returned as a character vector. This character vector lists the input file names and modules arguments, and gives a more or less detailed report of the function's progress. Redundant information can be removed by setting \code{reduce.intern=TRUE}.
 }
 \description{
 This function is the workhorse of the R--SAGA interface: It calls the SAGA command line tool to run SAGA modules and pass arguments.

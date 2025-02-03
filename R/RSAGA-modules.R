@@ -20,6 +20,7 @@
 #'   must at least have components `ncols`, `nrows`, `cellsize`,
 #'   and either `x/yllcorner` or `x/yllcenter`.
 #' @param env A SAGA geoprocessing environment, see [rsaga.env()].)
+#' @return a list containing information such as the bounding box of a target grid
 #' @note This function is to be used with RSAGA functions
 #'   [rsaga.inverse.distance()], [rsaga.nearest.neighbour()]
 #'   and [rsaga.modified.quadratic.shephard()]. Note that these are
@@ -97,6 +98,7 @@ rsaga.target = function(
 #'   it defaults to `.sgrd`
 #' @param env RSAGA geoprocessing environment created by [rsaga.env()]
 #' @param ... additional arguments to be passed to `rsaga.geoprocessor`
+#' @return the result of the [rsaga.geoprocessor()] call
 #' @details The GDAL Raster Import module of SAGA imports grid data from various
 #'   file formats using the Geospatial Data Abstraction Library (GDAL) by Frank
 #'   Warmerdam. GDAL Versions are specific to SAGA versions:
@@ -302,7 +304,7 @@ rsaga.sgrd.to.esri = function( in.sgrds, out.grids, out.path,
 #'
 #' Maximum Triangle Slope:
 #'
-#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Resources Research, 33(2): 309-319.
 #'
 #' Least Squares or Best Fit Plane:
 #'
@@ -870,6 +872,7 @@ rsaga.hillshade = function(in.dem, out.grid,
 #' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
 #' @references
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
@@ -1102,6 +1105,7 @@ rsaga.pisr = function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @details According to SAGA GIS 2.0.7 documentation, "Most options should do well, but TAPES-G based diffuse irradiance calculation ("Atmospheric Effects" methods 2 and 3) needs further revision!" I.e. be careful with `method = "components"` and `method = "lumped"`.
 #' @references
 #' Boehner, J., Antonic, O. (2009): Land surface parameters specific to topo-climatology. In: Hengl, T. and Reuter, H. I. (eds.): Geomorphometry - Concepts, Software, Applications. Elsevier.
@@ -1351,6 +1355,7 @@ rsaga.pisr2 <- function(in.dem, in.svf.grid = NULL, in.vapour.grid = NULL,
 #' @param day.step if `days` indicates a range of days, this specifies the time step (number of days) for calculating the incoming solar radiation
 #' @param env RSAGA geoprocessing environment obtained with [rsaga.env()]; this argument is required for version control (see Note)
 #' @param ... optional arguments to be passed to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @references Wilson, J.P., Gallant, J.C. (eds.), 2000: Terrain analysis - principles and applications. New York, John Wiley & Sons.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module)
 #' @note This module ceased to exist under SAGA GIS 2.0.6+, which has a similar (but more flexible) module Potential Solar Radiation that is interfaced by [rsaga.pisr()].
@@ -1684,7 +1689,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #'
 #' Deterministic Infinity:
 #'
-#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Resources Research, 33(2): 309-319.
 #'
 #' Multiple Flow Direction:
 #'
@@ -1694,7 +1699,7 @@ rsaga.filter.gauss = function(in.grid, out.grid, sigma,
 #'
 #' Multiple Triangular Flow Direction:
 #'
-#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
+#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Resources Research, 43, W04501.
 #'
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA module), Thomas Grabs (MTFD algorithm)
 #' @note This function uses module `Parallel Processing` (version 2.0.7+: `Catchment Area (Parallel)` from SAGA library `ta_hydrology`.
@@ -1818,7 +1823,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #'
 #' Deterministic Infinity:
 #'
-#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+#' Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Resources Research, 33(2): 309-319.
 #'
 #' Multiple Flow Direction:
 #'
@@ -1828,7 +1833,7 @@ rsaga.parallel.processing = function(in.dem, in.sinkroute, in.weight,
 #'
 #' Multiple Triangular Flow Direction:
 #'
-#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Ressources Research, 43, W04501.
+#' Seibert, J., McGlynn, B. (2007): A new triangular multiple flow direction algorithm for computing upslope areas from gridded digital elevation models. Water Resources Research, 43, W04501.
 #'
 #' Multiple Flow Direction Based on Maximum Downslope Gradient:
 #'
@@ -2085,7 +2090,7 @@ rsaga.wetness.index = function( in.dem,
 #' @param out.grid output: grid file resulting from the cell-by-cell application of 'formula' to the grids. Existing files will be overwritten!
 #' @param formula character string of formula specifying the arithmetic operation to be performed on the `in.grids` (see Details); if this is a formula, only the right hand side will be used.
 #' @param coef numeric: coefficient vector to be used for the linear combination of the `in.grids`. If `coef` as one more element than `in.grids`, the first one will be interpreted as an intercept.
-#' @param cf.digits integer: number of digits used when converting the `coef`ficients to character strings (trailing zeros will be removed)
+#' @param cf.digits integer: number of digits used when converting the coefficients `coef` to character strings (trailing zeros will be removed)
 #' @param remove.zeros logical: if `TRUE`, terms (grids) with coefficient (numerically) equal to zero (after rounding to `cf.digits` digits) will be removed from the formula
 #' @param remove.ones logical: if `TRUE` (the default), factors equal to 1 (after rounding to `cf.digits` digits) will be removed from the formula
 #' @param env RSAGA geoprocessing environment, generated by a call to [rsaga.env()]
@@ -2280,6 +2285,7 @@ rsaga.contour = function(in.grid,out.shapefile,zstep,zmin,zmax,vertex="xy",env=r
 #' @param out.shapefile Output point shapefile (default extension: `.shp`).
 #' @param method interpolation method to be used; choices: nearest neighbour interpolation (default), bilinear interpolation, inverse distance weighting, bicubic spline interpolation, B-splines.
 #' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @details Retrieves information from the selected grids at the positions of the points of the selected points layer and adds it to the resulting layer.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
 #' @note This function uses module `Add Grid Values to Points` in SAGA GIS library `shapes_grid`.
@@ -2318,12 +2324,13 @@ rsaga.add.grid.values.to.points = function(in.shapefile,
 #' @param freq integer >=1: sampling frequency: on average 1 out of 'freq' grid cells are selected
 #' @param env RSAGA geoprocessing environment created by [rsaga.env()]; required by `rsaga.grid.to.points` to determine version-dependent SAGA module name and arguments
 #' @param ... Optional arguments to be passed to [rsaga.geoprocessor()]
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @author Alexander Brenning (R interface), Olaf Conrad (SAGA modules)
 #' @note These functions use modules `Grid Cells to Points/Polygons` (previously called `Grid Values to Points` and in some earlier versions `Grid Values to Shapes`) and `Grid Values to Points (randomly)` in SAGA library `shapes_grid`.
 #'
 #' The SAGA 2.0.6+ version of this module is more flexible as it allows to create grid cell polygons instead of center points (see argument `type`).
 #'
-#' Since somewhere between SAGA 9.0.0 and 9.3.3, the `NODATA` argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exluce cell if at least one grid does not provide data. From 9.3.0 up, `exclude.nodata=TRUE` is interpreted as (and converted to) `1`.
+#' Since somewhere between SAGA 9.0.0 and 9.3.3, the `NODATA` argument is numeric with values of 0: include all cells, 1: include cell if at least one grid provides data, and 2: exclude cell if at least one grid does not provide data. From 9.3.0 up, `exclude.nodata=TRUE` is interpreted as (and converted to) `1`.
 #' @seealso [rsaga.add.grid.values.to.points()]
 #' @examples
 #' \dontrun{
@@ -2419,6 +2426,7 @@ rsaga.grid.to.points.randomly = function(in.grid,
 #' @param target required argument of type list: parameters identifying the target area, e.g. the x/y extent and cellsize, or name of a reference grid; see [rsaga.target()].
 #' @param env RSAGA geoprocessing environment created by [rsaga.env()], required because module(s) depend(s) on SAGA version
 #' @param ... Optional arguments to be passed to [rsaga.geoprocessor()], including the `env` RSAGA geoprocessing environment.
+#' @return The type of object returned depends on the `intern` argument passed to the [rsaga.geoprocessor()]. For `intern=FALSE` it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
 #' @details These functions use modules from the `grid_gridding` SAGA GIS library. They do not support SAGA GIS 2.0.4, which differs in some argument names and parameterizations. Target grid parameterization by grid file name currently doesn't work with SAGA GIS 2.1.0  Release Candidate 1 (see also [rsaga.target()]); stay tuned for future updates and fixes.
 #' @references QSHEP2D: Fortran routines implementing the Quadratic Shepard method for bivariate interpolation of scattered data  (see R. J. Renka, ACM TOMS 14 (1988) pp.149-150). Classes: E2b. Interpolation of scattered, non-gridded  multivariate data.
 #' @author Alexander Brenning (R interface), Andre Ringeler and Olaf Conrad (SAGA modules)

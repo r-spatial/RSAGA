@@ -13,12 +13,16 @@ create.variable.name(filename, prefix = NULL, fsep = .Platform$file.sep)
 
 \item{fsep}{character used to separate path components}
 }
+\value{
+character string: a variable name, see example below
+}
 \description{
 Convert a file name into a variable name
 }
 \examples{
 \dontrun{
 create.variable.name("C:/my-path/my-file-name.Rd",prefix="res")
+# Result: "res.my.file.name"
 }
 }
 \keyword{utilities}

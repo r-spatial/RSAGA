@@ -55,7 +55,7 @@
 
 ## General
 
-* We integrated RSAGA into the r-spatial.org community. If you find any bugs please report them at our new development repository (https://github.com/r-spatial/RSAGA).
+* We integrated RSAGA into the r-spatial.org community. If you find any bugs please report them at our new development repository (<https://github.com/r-spatial/RSAGA>).
 * RSAGA supports SAGA GIS 6.3.0
 * RSAGA locates the SAGA command line program and the SAGA module libraries on Unix systems also with the PATH and SAGA_MLB environment variable
 
@@ -67,7 +67,7 @@
 
 ## General
 
-* RSAGA 1.0.0 is now available on CRAN. It is a major update that adds support for SAGA GIS 2.3.1 LTS - 6.2.0. Older SAGA GIS versions might still work but are not supported anymore. Please report bugs to (https://github.com/r-spatial/RSAGA).
+* RSAGA 1.0.0 is now available on CRAN. It is a major update that adds support for SAGA GIS 2.3.1 LTS - 6.2.0. Older SAGA GIS versions might still work but are not supported anymore. Please report bugs to (<https://github.com/r-spatial/RSAGA>).
 * RSAGA supports now SAGA GIS versions up to 6.2.0
 
 ## Misc
@@ -96,7 +96,7 @@
 
 * RSAGA 0.94-3 is now available on CRAN. Included in this release are updates to support SAGA GIS version 2.2.0
 
-* An [introductory vignette](https://cran.r-project.org/web/packages/RSAGA/vignettes/RSAGA-landslides.pdf) and associated data file `landslides` are now included with RSAGA. The vignette demonstrates how to initialize and run RSAGA, perform terrain analysis, and execute RSAGA grid functions using an example of generalized additive modeling for landslide susceptibility modeling with the included dataset.
+* An introductory vignette and associated data file `landslides` are now included with RSAGA. The vignette demonstrates how to initialize and run RSAGA, perform terrain analysis, and execute RSAGA grid functions using an example of generalized additive modeling for landslide susceptibility modeling with the included dataset.
 
 # RSAGA 0.94-1 
 

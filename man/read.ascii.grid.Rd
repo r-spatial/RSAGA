@@ -99,7 +99,7 @@ write.Rd.grid(data, file, header = NULL, write.header = TRUE, compress = TRUE)
 \value{
 The \verb{read.*} functions return either a list with components \code{data} (the grid data matrix) and \code{header} (the grid header  information, see below), if \code{return.header=TRUE}, or otherwise  just the grid data matrix \code{return.header=FALSE}.
 
-The grid data matrix is a numeric matrix whose first column corrensponds to the first (i.e. northernmost) row of the grid. Columns run from left = West to right = East.
+The grid data matrix is a numeric matrix whose first column corresponds to the first (i.e. northernmost) row of the grid. Columns run from left = West to right = East.
 
 The header information returned by the \code{read.ascii.grid[.header]} functions (if \code{return.header=TRUE}) is a list with the following components:
 \item{ncols}{Number of grid columns.}

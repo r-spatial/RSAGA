@@ -57,8 +57,8 @@ This is accomplished in RSAGA by running the geoprocessor function:
 
 ```{r, results = "hide", eval = FALSE}
 rsaga.geoprocessor(lib = "ta_morphometry", module = "Slope, Aspect, Curvature",
-                   param = list(ELEVATION = paste(getwd(),"/dem.sgrd", sep = ""), 
-                                SLOPE = paste(getwd(),"/slope.sgrd", sep = "")),
+                   param = list(ELEVATION = file.path(getwd(), "dem.sgrd"), 
+                                SLOPE = file.path(getwd(), "slope.sgrd")),
                    env = env)
 ```
 
@@ -113,6 +113,8 @@ In most cases RSAGA will access SAGA `.sgrd` format grids and ASCII grids. For t
 
 ```{r}
 data(landslides)
+data(dem)
+data(study_area)
 ```
 
 To use the provided DEM with SAGA through RSAGA, it can be converted to the `.sgrd` format:

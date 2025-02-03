@@ -115,7 +115,7 @@ Travis, M.R., Elsner, G.H., Iverson, W.D., Johnson, C.G. (1975): VIEWIT: computa
 
 Maximum Triangle Slope:
 
-Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Ressources Research, 33(2): 309-319.
+Tarboton, D.G. (1997): A new method for the determination of flow directions and upslope areas in grid digital elevation models. Water Resources Research, 33(2): 309-319.
 
 Least Squares or Best Fit Plane:
 

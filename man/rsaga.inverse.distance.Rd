@@ -71,6 +71,9 @@ rsaga.triangulation(
 
 \item{weighting.neighbors}{integer >=3; default 19.}
 }
+\value{
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+}
 \description{
 Spatial interpolation of point data using inverse distance to a power (inverse distance weighting, IDW), nearest neighbors, or modified quadratic shephard.
 }

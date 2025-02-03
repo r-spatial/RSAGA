@@ -15,6 +15,9 @@ rsaga.copy.sgrd(in.grid, out.grid, overwrite = TRUE, env = rsaga.env())
 
 \item{env}{a SAGA geoprocessing environment as created by \code{\link[=rsaga.env]{rsaga.env()}}}
 }
+\value{
+a vector containing the results of the multiple \code{\link[=file.copy]{file.copy()}} calls
+}
 \description{
 Creates a copy of a SAGA grid file, optionally overwriting the target file if it already exists. Intended mainly for internal use by RSAGA functions, currently in particular \code{\link[=rsaga.inverse.distance]{rsaga.inverse.distance()}}.
 }

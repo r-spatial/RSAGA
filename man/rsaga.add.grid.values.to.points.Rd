@@ -23,6 +23,9 @@ rsaga.add.grid.values.to.points(
 
 \item{...}{Optional arguments to be passed to \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}, including the \code{env} RSAGA geoprocessing environment.}
 }
+\value{
+The type of object returned depends on the \code{intern} argument passed to the \code{\link[=rsaga.geoprocessor]{rsaga.geoprocessor()}}. For \code{intern=FALSE} it is a numerical error code (0: success), or otherwise (default) a character vector with the module's console output.
+}
 \description{
 Pick values from SAGA grids and attach them as a new variables to a point shapefile.
 }

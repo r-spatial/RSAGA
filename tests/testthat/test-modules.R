@@ -27,6 +27,7 @@ test_that("Write DEM to disc", {
     env = env, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("Read grid from disc", {
@@ -43,6 +44,7 @@ test_that("Read grid from disc", {
   maxdiff <- max(as.vector(grd$data - dem$data), na.rm = TRUE)
   expect_true(maxdiff <= 0.0051)
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
+  try(unlink(fnm))
 })
 
 test_that("Slope", {
@@ -57,6 +59,7 @@ test_that("Slope", {
     method = "poly2zevenbergen", env = env, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("Fill Sinks", {
@@ -77,6 +80,8 @@ test_that("Fill Sinks", {
   meddiff <- median(as.vector(grd$data - dem$data), na.rm = TRUE)
   expect_true(meddiff <= 0.000001)
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
+
+  try(unlink(out_fnm))
 })
 
 test_that("Sink Route", {
@@ -91,6 +96,7 @@ test_that("Sink Route", {
     env = env, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("Sink Removal", {
@@ -110,6 +116,7 @@ test_that("Sink Removal", {
   meddiff <- median(as.vector(grd$data - dem$data), na.rm = TRUE)
   expect_true(meddiff <= 0.000001)
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
+  try(unlink(out_fnm))
 })
 
 test_that("Close Gaps", {
@@ -130,6 +137,7 @@ test_that("Close Gaps", {
   expect_true(meddiff <= 0.000001)
   expect_equal(sum(is.na(as.vector(grd$data))), 0)
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
+  try(unlink(out_fnm))
 })
 
 test_that("Hillshade", {
@@ -144,6 +152,7 @@ test_that("Hillshade", {
     exaggeration = 10, env = env, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("PISR2", {
@@ -184,6 +193,9 @@ test_that("PISR2", {
   medratio <- median(as.vector(grd1$data / grd2$data), na.rm = TRUE)
   expect_true(abs(medratio - 1 ) < 0.08)
   expect_true(abs(medratio - 1 ) > 0)
+
+  try(unlink(out_fnm))
+  try(unlink(out_fnm2))
 })
 
 test_that("Topdown Processing", {
@@ -199,6 +211,7 @@ test_that("Topdown Processing", {
     check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("Wetness Index", {
@@ -214,6 +227,7 @@ test_that("Wetness Index", {
     check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
+  try(unlink(out_fnm))
 })
 
 test_that("Grid Calculus", {
@@ -236,6 +250,7 @@ test_that("Grid Calculus", {
   expect_equal(sum(is.na(as.vector(grd$data))),
                sum(is.na(as.vector(dem$data))))
   expect_true(abs(dem$header$xllcenter - grd$header$xllcenter) < 0.005)
+  try(unlink(out_fnm))
 })
 
 test_that("Contour", {
@@ -253,6 +268,7 @@ test_that("Contour", {
 
   shp <- sf::read_sf(out_fnm)
   expect_equal(as.character(sf::st_geometry_type(shp)[1]), "LINESTRING")
+  try(unlink(out_fnm))
 })
 
 test_that("Grid to Points Randomly", {
@@ -273,6 +289,7 @@ test_that("Grid to Points Randomly", {
   expect_equal(as.character(sf::st_geometry_type(shp)[1]), "POINT")
   # need to be tolerant here because actual number of sampled points is random:
   expect_true(nrow(shp) > 0.8*(dem$header$ncols * dem$header$nrows)/50)
+  try(unlink(out_fnm))
 })
 
 test_that("Grid to Points", {
@@ -295,4 +312,7 @@ test_that("Grid to Points", {
   # DEM contains ~0.4% nodata values:
   expect_true(nrow(shp) != (dem$header$ncols * dem$header$nrows))
   expect_true(nrow(shp) > 0.995*(dem$header$ncols * dem$header$nrows))
+  try(unlink(out_fnm))
 })
+
+try(unlink(file.path(tempdir(), "dem.sgrd")))
