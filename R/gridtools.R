@@ -413,7 +413,7 @@ write.Rd.grid = function(data, file, header=NULL, write.header=TRUE,
 #'
 #' The nearest neighbour interpolation currently randomly breaks ties if `pick.from.points` is used, and in a deterministic fashion (rounding towards greater grid indices, i.e. toward south and east) in the grid functions.
 #'
-#' @seealso  [grid.to.xyz()], %[vgm()], [krige()], [read.ascii.grid()], [write.ascii.grid()]
+#' @seealso  [grid.to.xyz()], [gstat::vgm()], [gstat::krige()], [read.ascii.grid()], [write.ascii.grid()]
 #' @examples
 #' \dontrun{
 #' # assume that 'dem' is an ASCII grid and d a data.frame with variables x and y

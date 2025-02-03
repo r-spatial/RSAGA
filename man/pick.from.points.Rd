@@ -216,7 +216,7 @@ plot(meuse.kr$elev,meuse.nn$elev)
 Brenning, A. (2008): Statistical geocomputing combining R and SAGA:  The example of landslide susceptibility analysis with generalized additive models. In: J. Boehner, T. Blaschke, L. Montanarella (eds.), SAGA - Seconds Out (= Hamburger Beitraege zur Physischen Geographie und Landschaftsoekologie, 19), 23-32.
 }
 \seealso{
-\code{\link[=grid.to.xyz]{grid.to.xyz()}}, \%\code{\link[=vgm]{vgm()}}, \code{\link[=krige]{krige()}}, \code{\link[=read.ascii.grid]{read.ascii.grid()}}, \code{\link[=write.ascii.grid]{write.ascii.grid()}}
+\code{\link[=grid.to.xyz]{grid.to.xyz()}}, \code{\link[gstat:vgm]{gstat::vgm()}}, \code{\link[gstat:krige]{gstat::krige()}}, \code{\link[=read.ascii.grid]{read.ascii.grid()}}, \code{\link[=write.ascii.grid]{write.ascii.grid()}}
 }
 \author{
 Alexander Brenning
