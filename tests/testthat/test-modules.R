@@ -27,7 +27,6 @@ test_that("Write DEM to disc", {
     env = env, check.module.exists = FALSE
   )
   expect_true(file.exists(out_fnm))
-  try(unlink(out_fnm))
 })
 
 test_that("Read grid from disc", {
