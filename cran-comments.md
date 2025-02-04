@@ -1,15 +1,7 @@
-## Test environments
-
-* local x86_64-w64-mingw32 install, R-4.2.1
-* r-hub Debian, R-devel
-* win-builder, R-devel
-
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-## Note
-
-The win-builder NOTE concerns possibly misspelled words in the DESCRIPTION; these are false positives.
-
-On Fedora (and only on Fedora), there's also a note concerning the referencing of package `sp` in an unspecified Rd file. Adding `sp` to the Suggests did not solve this. I am also unaware of any possible references to `sp` in the help files. I therefore believe that this is a false positive.
+* This is a new release.
+* The NOTE is due to worldclockapi not being available: 'unable to verify current time'
+* The `attachment::att_amend_desc()` call removes `tibble` from `Suggests`, but then `devtools::check(args = c("--no-manual", "--as-cran"))` fails with an error because `sf` uses `tibble` in the package's test code. It therefore seems necessary to keep `tibble` in the `Suggests` list. This is what I did, and so the CRAN checks run without an error.
